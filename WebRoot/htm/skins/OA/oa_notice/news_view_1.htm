@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /> 
+
+    <title></title> 
+    <link rel="stylesheet" type="text/css" href="newFrame/Styles/admin-all.css" />
+    <link rel="stylesheet" type="text/css" href="newFrame/Styles/base.css"/>
+	<link rel="stylesheet" type="text/css" href="css/index.css" />
+    <script type="text/javascript" src="newFrame/Scripts/jquery-1.7.2.js"></script>
+    <link rel="stylesheet" type="text/css" href="newFrame/Styles/ui-lightness/jquery-ui-1.8.22.custom.css" />
+    <link rel="stylesheet" type="text/css" href="newFrame/Styles/formui.css"/>
+ 	<script language="javascript" src="/js/setday.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script type="text/javascript" src="js/changeto.js"></script>
+	<SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
+	<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+	<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+	<script language="JavaScript1.2" src="/js/DHTMLcoloredLinks.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+ </head>
+
+<script language="javascript">
+
+ function shouName(){
+	
+	var recordId='{recordId}';
+	//alert(recordId);
+			getInfoBySqlNo(35,recordId,'names');
+ 			document.all('Readnames').innerHTML=document.all('names').value;
+ 		//alert(document.all('Readnames').innerHTML);onclick='javascript:isnotRed("{recordId}");'
+	}
+function isnotRed(){
+	   var userId='{$USERID}';
+	   var recordId='{recordId}';
+		//alert(userId+'|'+recordId);
+	  ajax_pro_noInfo('40',userId+'|'+recordId);
+    }
+</script>
+<BODY onload="isnotRed('{recordId}');shouName();"  >
+<form name="form1" action="" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+
+<input type="hidden" name="listUrl" value="{listUrl}">
+<input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+<input type="hidden" name="viewScope" value="全矿查看">
+
+<input type="hidden" name="listUrl" value="{listUrl}">
+<input type="hidden" name="isTextarea" value="">
+<input type="hidden" name="names" value="names">
+     <div class="path"><img src="images/index/path_ico.gif" /> {$TABLEKEYWORD1} &gt; {$TABLEKEYWORD2}</div>
+	
+  <div class="a_box">
+            
+    <table border="0" cellspacing="0" cellpadding="0" class="add_table">
+
+            <tr>
+                <td class="t_r" width="10%">标题</td>
+                <td class="t_l b_cf_noRed" width="20%">&nbsp;{Title}</td>
+                <td class="t_r" width="10%">附件1</td>
+                <td class="t_l b_cf_noRed" width="20%">&nbsp;{fildone}</td>
+                <td class="t_r" width="10%">附件2</td>
+                <td class="t_l b_cf_noRed" width="20%">&nbsp;{fildtwo}</td>
+			</tr>
+            <tr>
+                <td class="t_r" width="10%">专业类型</td>
+                <td class="t_l b_cf_noRed" width="20%">&nbsp;{NEWS_TYPE}</td>
+                <td class="t_r"  width="10%">是否置顶显示：</td>
+                <td class="t_l b_cf_noRed" colspan="3" width="50%">&nbsp;{isTop}</td>
+			</tr>
+            <tr>
+                <td class="t_r" width="10%">公告内容：</td>
+					<TD class="t_l b_cf_noRed" colspan="5" width="80%">&nbsp;{content}</TD>
+                </td>
+            </tr>
+            <tr>
+                <td class="t_r" width="10%">查看已阅读此公告的用户：</td>
+					<TD class="t_l b_cf_noRed" colspan="5"  width="80%"><div id='Readnames' name='Readnames'></TD>
+                </td>
+            </tr>
+
+
+    </table>
+
+
+		<tr>
+			<td align="center">
+              <input type="button" name="back" class="btn" onClick="javascript:window.close();"
+				value="关 闭">
+				</td>
+		</tr>
+
+   
+</form>
+</body>
+</html>
+

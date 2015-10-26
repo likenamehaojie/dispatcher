@@ -1,0 +1,227 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>系统设置-用户管理</title>
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+	 <!--table-->
+<script type="text/javascript" src="js/table/jquery.js"></script>
+<script type="text/javascript" src="js/table/jquery.tableui.js"></script>
+
+	<!--多选搜索 1 begin-->
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery-ui.css" />
+	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
+	<!--多选搜索 1 end-->
+
+	<!--日期控件 begin-->
+	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+	<!--日期控件 end-->
+	
+	<script src="/js/ajax/superValidator.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/map.js"></script>
+	<script src="/js/ajax/mainSub.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+
+	 <!--记忆搜索条件  第一步：引用cookie -->
+	<script src="/js/cookie.js"></script>
+
+</head>
+
+  <script>
+$(document).ready(function(){
+	//初始化row数据
+	iniList();
+	//如果操作列没有权限  隐藏操作列
+	hideLastCol('actor_table');
+
+   	//初始化上下左右
+	//iniFocus();
+	LoadOrder("{OrderKey}","{OrderBy}");
+
+	//记忆搜索条件  第六步：取cookie 解析cookie
+	iniCookie('{tableName}','{ITNO}','{$USERID}');
+	//初始化多选菜单
+	iniMultOptions('{tableName}','{ITNO}','{$USERID}');
+});
+
+
+
+var map=new Map();
+//初始化row数据
+function iniList(){
+	//功能描述：使用JavaScript动态添加HTML的元素 
+	//行号与列号 
+
+	{row}
+	var tmp=setHTML_forParent("{realFileName}");
+	var ReportMan_str='{ReportMan}'.replace(/<[^>].*?>/g,'');
+    var ReportTime_str='{ReportTime}'.replace(/<[^>].*?>/g,'');
+	var ReportContent_str='{ReportContent}'.replace(/<[^>].*?>/g,'');
+    var AcceptMan_str='{AcceptMan}'.replace(/<[^>].*?>/g,'');
+
+
+	map.clear();
+	if('{sNo}'==""){
+		map.put("recordId",'&nbsp;<input type="checkbox" name="id" value="">');
+	}else{
+		map.put("recordId",'&nbsp;{id}');
+	}
+	map.put("xuhao:SYS_HIDDEN",'{sNo}');
+
+ 	//汇报人
+    map.put("ReportMan:SYS_FIELDS",'<span id="ReportMan_sysEdit_spanId#no#"><input type=\"text\" name=\"ReportMan#no#\" value="'+ReportMan_str+'"  size=\"13\"  check=\"2"\ tip=\"汇报人不能为空\" valFun=\"setEmptyCheck\"></span><span id="ReportMan_sysView_spanId#no#">{ReportMan}</span>');
+	
+	//汇报时间
+	map.put("ReportTime:SYS_FIELDS",'<span id="ReportTime_sysEdit_spanId#no#"><input type=\"text\" name=\"ReportTime#no#\" value="'+ReportTime_str+'" onclick=\"WdatePicker()\" size=\"16\"  check=\"2"\ tip=\"汇报时间不能为空\" valFun=\"setEmptyCheck\" ></span><span id="ReportTime_sysView_spanId#no#">{ReportTime}</span>');
+	
+	//汇报内容
+    map.put("ReportContent:SYS_FIELDS",'<span id="ReportContent_sysEdit_spanId#no#"><TEXTAREA type=\"text\" name=\"ReportContent#no#\"   size=\"13\"  check=\"2"\ tip=\"汇报内容不能为空\" valFun=\"setEmptyCheck\" >'+ReportContent_str+'</TEXTAREA></span><span id="ReportContent_sysView_spanId#no#">{ReportContentstring}</span>');
+	
+    //接收人
+	map.put("AcceptMan:SYS_FIELDS",'<span id="AcceptMan_sysEdit_spanId#no#"><input type=\"text\" name=\"AcceptMan#no#\" value="'+AcceptMan_str+'"  size=\"13\"  check=\"2"\ tip=\"接收人不能为空\" valFun=\"setEmptyCheck\"></span><span id="AcceptMan_sysView_spanId#no#">{AcceptMan}</span>');
+
+	//备注
+	map.put("remark:SYS_FIELDS",'<span id="remark_sysEdit_spanId#no#"><TEXTAREA type=\"text\" name=\"remark#no#\"   size=\"13\"  >{remark}</TEXTAREA></span><span id="remarkstring_sysView_spanId#no#">{remarkstring}</span>');
+
+
+	
+
+	// map中的按钮数组     '{editshow_show}'判断是否可以双击
+	var btnArray=['{editshow}','{saveshow}','{delshow}']; 
+	map.put("operate",OperateForRealValue(btnArray),'{editshow_show}');
+
+	if('{sNo}'==""&&('{editshow}'=='block'||'{addshow_show}'=='block')){
+		AddRow(map,'blank');
+	}else{
+		AddRow(map,'data');
+	}
+	
+	
+	{row}
+	
+}
+//查询方法
+function re_setCondition(){
+		document.getElementsByName("$TABLEKEYWORD")[0].value="{$TABLEKEYWORD}";
+		setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');
+}
+
+</script>
+
+  <form name="form1" action="" method="post">
+    <input type="hidden" name="tableName" value="{tableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" name="actorCount" value="{actorCount}">
+
+	<input type="hidden" name="OrderBy" value="{OrderBy}">	
+	<input type="hidden" name="OrderKey" value="{OrderKey}">
+	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+	<input type="hidden" name="j" value="">
+	<!-- 业务字段 -->
+	<input type="hidden" name="ZERO_TYPE" value="{$TABLEKEYWORD2}">
+
+    <!--表单搜索-->
+	<input type="hidden" name="field1" value="ReportMan|汇报人|TXT|50|">
+	<input type="hidden" name="field2" value="ReportTime|汇报时间|DAT|50|">
+	<input type="hidden" name="field3" value="ReportContent|汇报内容|TXT|50|">
+	<input type="hidden" name="field4" value="AcceptMan|接收人|TXT|50|">
+  <div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 列表页面</div>
+  </div>
+		<!--多选搜索 4 begin-->
+		<div class="line_list_mulitSelect" style="display:none">
+			<select name="selSetCon" multiple="multiple">
+				<option value="1">汇报人</option>
+				<option value="2">汇报时间</option>
+				<option value="3">汇报内容</option>
+				<option value="4">接收人</option>
+			</select>
+		</div>
+		
+		<!--多选搜索 4 end-->
+	
+	 <div class="line_list_left">
+		 <ul id="ul_search">
+			<li id="li_search1">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="1">&nbsp;汇报人&nbsp;：
+				<input name="ReportMan" onkeyup="checkChange(this,'1')" class="input_txt" />
+			</li>
+			
+
+			<li id="li_search2">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="2">&nbsp;汇报时间&nbsp;：
+				<input name="ReportTime_start" style="width:70px;" onchange="checkChange(this,'2')"  class="input_txt" onclick="WdatePicker()"/>至<input name="ReportTime_end" style="width:70px;" onchange="checkChange(this,'2')" class="input_txt" onclick="WdatePicker()"/>
+
+				
+			</li>
+			<li id="li_search3">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="3">&nbsp;汇报内容&nbsp;：
+				<input name="ReportContent" onkeyup="checkChange(this,'3')" class="input_txt"/>
+			</li>
+			<li id="li_search4">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="4">&nbsp;接收人&nbsp;：
+				<input name="AcceptMan" onkeyup="checkChange(this,'4')" class="input_txt"/>
+			</li>
+
+			<li id="li_search_btn">
+				&nbsp;
+				<input type="button"  value="查询" class="btn" onClick="re_setCondition();"/>
+				<input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','429',' 专题汇报材料表');"/>
+			</li>
+		</ul>
+	</div>
+
+	 <div class="line_list">
+
+		    <li id="YC" >{delmanyshow}</li>
+		   <li  id="YC1">{addshow}</li>
+
+        </div>
+  <div class="a_box">
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+      <tr>
+		 <th width="2%"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
+		<th style="cursor:hand;" onClick="orderByInfo_new('ReportMan','{OrderKey}','{OrderBy}')" width="10%">汇报人<span id="YearAndMouthOrder" class="orderNo"></span></th> 
+		<th width="10%">汇报时间</td>
+		<th width="30%">汇报内容</td>
+		<th width="10%">接收人</td>
+		<th width="30%">备注</td>
+		<th id="oprear_th" width="10%">操作</th>
+      </tr>
+    </thead>
+  </table>
+
+   <table width="100%">
+	<tr>
+     {page}
+    </tr>
+   
+  </table>
+  </div>
+
+</form>
+</body>
+</html>

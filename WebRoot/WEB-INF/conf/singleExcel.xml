@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!--  说明:
+1,excelName 链接名字，excelTitle excel标题，titleCoordinate 标题所在坐标，beginCoordinate 开始x，开始y
+2,tableName 导入的表名，fields 可以批量导入的字段，excelFields 在excel定义的字段，defaultFields 默认值（d|123,e|$SHORTNAME），conditionFields 导入验证条件（a|1,b|2,d|$WORKGROUP），mrFields 必填列，dateFields日期列，intFields 数字列，doubleFields double类型列
+3.导入后，可以调用的存储过程
+-->
+<singleExcels>
+  
+
+		<!-- 导入科室隐患表  wk 2015/8/4 begin -->
+	<singleExcel excelName = "wf_htrecord_info" excelTitle="隐患整改通知单" titleCoordinate="0,0" beginCoordinate="0,3" >
+		<table tableName="wf_htrecord_info_$COMMUNITYID" fields="check_date,check_class,checktype,check_main_branch,check_branch,check_man,acc_man,route,ht_branch,address,ht_content,measure,ht_typesub,ht_level,alter_time,duty_officer,alter_status" excelFields="" defaultFields="number|EXEC PROC_Number_sub ''-''-'@ComMId',next_step|1" conditionFields=""   mrFields="0,1,2,3,4,5,8,9,10,12,13,14" dateFields="0,14" intFields="" doubleFields="" filterOPTFields="check_class|1,checkType|2,check_main_branch|3,check_branch|4,ht_branch|8,ht_typesub|12,ht_level|13" >
+		</table>
+		<FilterValueList>
+			<filterValue field="check_class"><![CDATA[select value,name from field_option where field='check_class' and table_name='DThtrecord_main' ]]></filterValue>
+			<filterValue field="checkType"><![CDATA[select value,name from field_option where field='checkType' and table_name='DThtrecord_main' ]]></filterValue>
+			<filterValue field="check_main_branch"><![CDATA[select '上级单位' as value,'上级单位' as name UNION select '$SHORTNAME' as value,'$SHORTNAME' as name]]></filterValue>
+			<filterValue field="check_branch"><![CDATA[exec proc_DTHtrecord_mainForCheckBranchByMain_excel '$COMMUNITYID']]></filterValue>
+			<filterValue field="ht_branch"><![CDATA[select branch_name,branch_name from branch where branch_name not in ('子公司领导') and cid='$COMMUNITYID' and del=0]]></filterValue>
+			<filterValue field="ht_typesub"><![CDATA[select value,name from field_option where field='ht_typesub' and table_name='DThtrecord_sub']]></filterValue>
+			<filterValue field="ht_level"><![CDATA[select value,name from field_option where field='ht_level' and table_name='DThtrecord_sub']]></filterValue>
+		</FilterValueList>
+		
+	</singleExcel>
+    <!-- 导入科室隐患表wk 2015/8/4  end --> 
+	
+	
+			<!-- 带班表  wk 2015/10/19 begin -->
+	<singleExcel excelName = "DTDuty_dbb_ks" excelTitle="带班表" titleCoordinate="0,0" beginCoordinate="0,4" >
+		<table tableName="DTDuty_dbb_ks" fields="yearAndMonth,AzdbA,AzdbB,AfdbA,MzdbA,MzdbB,MfdbA,EzdbA,EzdbB,EfdbA,remark" excelFields="" defaultFields="" conditionFields="COMMUNITYID|$COMMUNITYID,yearAndMonth|1"   mrFields="0" dateFields="0" intFields="" doubleFields="" filterOPTFields="" >
+		</table>
+		
+	</singleExcel>
+    <!-- 带班表wk 2015/10/19  end --> 
+
+	<!-- 班子成员基本信息维护  wk 2015/10/19 begin -->
+	<singleExcel excelName = "DTParam_kldInfo" excelTitle="班子成员基本信息维护表" titleCoordinate="0,0" beginCoordinate="0,2" >
+		<table tableName="DTParam_kldInfo" fields="name,post,workTcontent,call" excelFields="" defaultFields="" conditionFields="COMMUNITYID|$COMMUNITYID,name|1"   mrFields="0" dateFields="" intFields="" doubleFields="" filterOPTFields="" >
+		</table>
+		
+	</singleExcel>
+    <!-- 班子成员基本信息维护 2015/10/19  end --> 
+
+	<!-- 科室成员基本信息维护导入  wk 2015/10/20 begin -->
+	<singleExcel excelName = "DTParam_ksInfo" excelTitle="科室成员基本信息维护表" titleCoordinate="0,0" beginCoordinate="0,2" >
+		<table tableName="DTParam_ksInfo" fields="manBranch,name,age,workTime,education,post,call" excelFields="" defaultFields="" conditionFields="COMMUNITYID|$COMMUNITYID,name|2"   mrFields="1" dateFields="" intFields="" doubleFields="" filterOPTFields="" >
+		</table>
+		
+	</singleExcel>
+    <!-- 科室成员基本信息维护 2015/10/20  end --> 
+
+		<!-- 事故影响记录导入  wk 2015/10/21 begin -->
+	<singleExcel excelName = "DTAcc_record" excelTitle="事故影响记录表" titleCoordinate="0,0" beginCoordinate="0,2" >
+		<table tableName="DTAcc_record" fields="AccidentCharacter,AccidentType,AccidentSite,startTime,endTime,RBranch,AccidentDescription,remark" excelFields="" defaultFields="" conditionFields="COMMUNITYID|$COMMUNITYID,name|2"   mrFields="" dateFields="3,4" intFields="" doubleFields="" filterOPTFields="" >
+		</table>
+	</singleExcel>
+    <!-- 事故影响记录导入 2015/10/21  end --> 
+
+
+</singleExcels>

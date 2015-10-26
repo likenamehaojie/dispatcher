@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+     <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+</head>
+<script>
+function excl()
+{
+	window.open("/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTDuty_zbb_main&recordId={recordId}&ITNO=1_excel&$TABLEKEYWORD={$TABLEKEYWORD}&xiazaiwenjian=y");
+
+}
+
+</script>
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp;  {$TABLEKEYWORD2} &gt; 查看页面</div>
+     <div style = "clear:both;"></div>
+<div class='toolbar'>
+<table width="100%" class="tabtap" style="border-collapse:collapse;" cellspacing="0" cellpadding="0">
+  <tbody>
+
+  <tr>
+  
+     <td class="tad">&nbsp;年月&nbsp;:</td>
+    <td> {yearAndMonth}</td>
+         <td class="tad">&nbsp;单位&nbsp;:</td>
+    <td> {Company}</td>
+  </tr>
+  <tr>
+           <td class="tad">&nbsp;发布日期&nbsp;:</td>
+    <td> {fDate}</td>
+           <td class="tad">&nbsp;备注&nbsp;:</td>
+    <td> {remark}</td>
+ 
+
+   </tr>
+  <tr>
+            <td class="tad">&nbsp;发布部门&nbsp;:</td>
+    <td>{ReBranch}</td>
+         
+</tbody></table>
+
+
+</div>
+
+
+  <div>
+  <table border="0"width="100%" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+    <tr  >
+    	<th  align="center">序号</th>
+    	<th   align="center" >填写日期</th>
+	    <th   align="center" >主值班</th>
+    	<th align="center" >副值班(矿领导)</th>
+		<th align="center" >副值班(科室人员)</th>
+		
+      </tr>
+    </thead>
+    <tbody>
+	{row}
+	<script>
+	//添加一行新数据获取option值
+		var UNIT;
+		if('{flag}'==1){
+			UNIT='{UNIT}';
+			
+		}
+		unit_id_optstr='{unit_id}';
+	
+		
+		
+		
+		   //procedure_in_month,avg_procedure_in_day,target_procedure_in_month,leap_in_month,valid_leap_in_month,avg_leap_in_day,unit_id
+		   </script>
+		   
+	<tr id="{flag}">
+    <td id="xuhao{flag}" align="center">{flag}</td>
+    <td align="center">{tDate}</select>
+	<td align="center">{zzb}</td>
+	<td align="center">{kldfzb}</td>
+	<td align="center">{ksfzb}</td>
+
+  </tr>
+
+{row}
+       
+    </tbody>
+  </table>
+</div>
+  <table width="98%">
+    <tr>
+      <td colspan="4" align="center">
+          <input type="submit" value="关闭" class="btn" onclick="javascript:window.close();" />
+		  <input type="button"  value="导出excel" class="btn" onClick="excl();"/>
+      </td>
+    </tr>
+  </table>
+
+</form>
+</body>
+</html>

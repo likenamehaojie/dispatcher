@@ -1,0 +1,8 @@
+[PropertyInfo]
+config,javax.servlet.ServletConfig,false,false, , ,false,<default>
+servletConfig,javax.servlet.ServletConfig,false,false, , ,true,<default>
+[IconNames]
+
+
+
+

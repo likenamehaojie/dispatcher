@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /> 
+<title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]</title>
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+ <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+
+<SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+
+</head>
+
+<SCRIPT type=text/javascript> 
+	$(document).ready(function(){
+    setEmptyCheck("description:VALUE:description_sub:NAME");
+  });
+
+
+</SCRIPT>
+
+<form name="form1" action="/generictableservlet?action=saveAddRecord" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+<input type="hidden" name="curPage" value="{curPage}">
+<input type="hidden" name="formFlag" value="2">
+
+
+<input type="hidden" name="listUrl" value="{listUrl}">
+<input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>参数设置</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2}  &gt; 录入页面</div>
+  <div style = "clear:both;"></div>
+  <div  class="a_box">
+    <table  class="view_table" >
+      <tr>
+        <td class="tad" width="40%" align="center">描述(description)：</td>
+        <td class="t_l b_cf" width="60%"><input  type="text" name="description" size="20" tip="[描述]不能为空" check="2" class="input_txt" value="{$TABLEKEYWORD1}" readonly>&nbsp;*</td>
+      </tr>
+     <tr>
+        <td class="tad" align="center">参数类型(description_sub)：</td>
+        <td class="t_l b_cf"><input type="text" name="description_sub" size="20" tip="[参数类型]不能为空" check="2" class="input_txt">&nbsp;*</td>
+      </tr>
+      <tr>
+        <td class="tad" align="center">参数值(value)：</td>
+        <td class="t_l b_cf"><input type="text" name="VALUE" size="20" tip="[参数值]不能为空" check="2" class="input_txt">&nbsp;*</td>
+      </tr>
+	   <tr>
+        <td class="tad" align="center">参数名称(name)：</td>
+        <td class="t_l b_cf"><input type="text" name="NAME" size="20" tip="[参数名称]不能为空" check="2" class="input_txt">&nbsp;*</td>
+      </tr>
+      <tr class="tad" align="center">
+         <td colspan="2" align="center"><input type="submit" value="保 存" class="btn" onclick="return true;" />
+           <input type="button" value="关闭" class="btn m_l15" onclick="window.close()"/>
+      </tr>
+    </table>
+	</div>
+</form>
+</body>
+</html>

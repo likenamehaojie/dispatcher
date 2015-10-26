@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+<title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]-修改页面</title>
+<link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+
+<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="css/index_htrecordAdd.css" />
+<script src="js/layer/layer.min.js"></script>
+</head>
+
+
+<script>
+
+function getDataByDate(){
+	layer.load('数据加载中,请稍等...',-1); //风格二
+	var year=document.getElementsByName("year")[0].value;
+	if(year=="")return
+	//showMessage();
+    window.location="/report.mv?flag=${flag}&ITNO=${ITNO}&action=getReport&dateformat=${dateformat}&dayInMonth="+year+"&tablekeyword=${tablekeyword}";
+    //window.close();
+}
+
+
+
+function getExcel(){
+	window.location="/report.mv?ITNO=1&action=exportAllReport&exportName=${exportName}&uuids=${uuids}&exportModel=allInOne";
+}
+</script>
+
+
+<body>
+<div id="top">
+   <div class="haer"><span id="tans"><strong>${TABLEKEYWORD1}</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; ${TABLEKEYWORD2} &gt;${TABLEKEYWORD3}</div>
+</div>
+
+
+<form name="form1" action="" method="post">
+
+	
+   <table border="0" cellspacing="0" cellpadding="0"  width="100%">
+    <tr>
+      <td>
+		<div class="line_list_center">
+          <li><b>年月：<input name="year" type="text" value="${dayinmonth}" class="input_txt" style="width:70px"  onClick="WdatePicker({dateFmt:'${dateformat}',onpicked:function(){getDataByDate()}})"/>&nbsp;&nbsp;&nbsp;&nbsp;</b>
+		 <input type="button"  value="导出excel" class="btn" onClick="getExcel()"/></li>
+        </div>
+	   </td>
+    </tr>
+  </table>
+		${allinone}
+	
+  </div>
+</form>
+</body>
+</html>

@@ -1,0 +1,113 @@
+@charset "utf-8";
+*{margin:0;padding:0;list-style-type:none;}
+html, body{height:100%;}
+body{TEXT-ALIGN: center; background:#f6f6f6; overflow:hidden;}
+/* LAYOUT
+-------------------------------------------------------------*/
+
+.clear{clear:left;}
+
+/* CONTENT
+-------------------------------------------------------------*/
+.panel{width:300px;margin:40px auto 0 auto;font:normal bold 12px/1.5 'Helvetica Neue', 'Arial', sans-serif;}
+.panel li{height:25px;overflow:hidden;margin:5px;float:left;}
+
+.tag{background:url(../../images/login/tag.png) no-repeat 0 0;color:#3f3f3f;display:none;height:25px;line-height:1;padding:0 5px 0 8px;position:relative;text-decoration:none;}
+.tag:hover{cursor:pointer;}
+.tag:active{top:1px;}
+.tag span{display:block;float:left;}
+.tag_name{background:url(../../images/login/tag.png) no-repeat 100% -25px;height:19px;padding:6px 10px 0 0;position:relative;text-shadow:0 1px 1px #fff;z-index:10;}
+.tag_count{background:url(../../images/login/tag.png) no-repeat 100% -50px;color:#fff;height:19px;padding:5px 10px 0;position:absolute;right:0;text-shadow:0 -1px 0 #c54a0c;top:1px;z-index:5;}
+
+#center{  
+   width:100%; 
+   height:584px;  
+   position:absolute;  
+   top:50%;  
+   margin:-300px 0 0 0px; 
+
+}
+#pagebody {
+ width:100%; 
+ background:#2c5998 url(../../images/login/lgno.png) center no-repeat;
+ height:406px;
+ overflow:hidden; 
+
+	
+}
+.logon_all{
+ height:100%;
+ color: #000000; 
+ font-size:12px;
+ font-family:Geneva, Arial, Helvetica, sans-serif;
+ text-align:center;  
+ padding-top:40px;
+ width:100%;bottom:0px; 
+    
+}
+.logon_all a{color:#0033FF;cursor:pointer;}
+.logon_all a:hover{ color: #666666;cursor:pointer;}
+
+.logon_al{
+ width:100%;
+ margin:auto;
+ margin-bottom:30px;
+ text-align:center;
+}	
+.logon_allyd{
+ margin:auto;
+ margin-top:15px; 
+ height:250px; padding-top:95px; 
+ width:674px; padding-left:20px; 
+
+ }
+
+.loginbin {
+   width:348px; 
+   float:right; 
+   padding-top:20px; 
+   
+}
+
+.loginru {
+	float: right;
+    width:320px; 
+	color:#000000; 
+	height:110px; 
+	margin-top:0px; 
+	margin-left:0px; 
+}
+
+input:-webkit-autofill { 
+-webkit-box-shadow: 0 0 0px 1000px #fff inset; 
+}
+.button{ background:url(../../images/login/logonbin.jpg) no-repeat; width:286px; height:54px; border:none; padding-lefe:100px; color:#FFFFFF; font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif; font-size:20px;  }
+
+#inpu{ margin-left:28px; margin-top:5px;}
+#inoua{ margin-left:30px; margin-top:14px;}
+#loginName {
+	width:220px;
+	height:43px;
+	line-height:43px; 
+	border:none;
+    padding-left:8px;
+    font-size:14px;
+	vertical-align:middle;
+	outline:none;
+    color:#666666;
+    background:none;
+  
+	 
+}
+#loginPass {
+	width:218px;
+	height:43px; 
+	border:none;
+    line-height:43px;
+    padding-left:8px;
+    font-size:14px;
+	vertical-align:middle;
+	outline:none;
+    color:#666666;
+    background:none;
+} 

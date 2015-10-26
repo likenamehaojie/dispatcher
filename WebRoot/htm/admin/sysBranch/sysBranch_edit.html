@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+<title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]-修改页面</title>
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+<LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+<link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+<script type="text/javascript" src="js/changeto.js"></script>
+
+
+<SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajaxGetOptions.js" type="text/javascript"></SCRIPT>
+
+</head>
+
+
+<SCRIPT type=text/javascript> 
+	$(document).ready(function(){
+		setEmptyCheck("branch_name:bType");
+		setCombineUnique("branch_name");
+
+		//初始化二级设置的值。
+		var bType=$("select[name=bType]").val();
+		setBType_sub(bType);
+		$("select[name=bType_sub]").val("{bType_sub}");
+	});
+	function setBType_sub(val){
+		if(val!=""){
+			$("select[name=bType_sub]").empty();
+			$("select[name=bType_sub]").append("<option value=''>请选择</option>"+getOnlyOPtionListBySqlNo_upId(185,val));
+		}
+	}
+</SCRIPT>
+
+
+<body>
+<form name="form1" action="/generictableservlet?action=saveEditRecord" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+<input type="hidden" name="formFlag" value="2">
+<input type="hidden" name="recordId" value="{recordId}">
+<input type="hidden" name="id" value="{recordId}">
+
+<input type="hidden" name="listUrl" value="{listUrl}">
+<input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1}</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2}&gt; 编辑页面</div>
+  <div style = "clear:both;"></div>
+    
+	<div class="a_box">
+        <table border="0" cellspacing="0" cellpadding="0" class="view_table">
+          <tr>
+			<td class="tad">部门名称：</td>
+			<td class="t_l b_cf"><input name="branch_name" type="text" class="input_name" value="{branch_name}" style="height:20px" tip="部门名称不能为空,且唯一" check="2"/>&nbsp;*</td>
+			<td class="tad">部门类别：</td>
+			<td class="t_l b_cf"><select name="bType" tip="部门类别不能为空" class="select" check="2" onchange="setBType_sub(this.value)"><option value="">--请选择--</option>{bType}</select>&nbsp;<select name="bType_sub" class="select"></select>&nbsp;*</td>
+		  </tr>
+
+		  <tr>                  
+			<td class="tad">所属单位：</td>
+			<td class="t_l b_cf" colspan="3"><select name="cid" class="select"><option value='{$COMMUNITYID}'>{$SHORTNAME}</option></select></td>
+		  </tr>
+
+		  <tr class="tad">                  
+			<td colspan="4" align="center">
+				<input type="submit" name="save" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="return true" value="保 存">
+				&nbsp;&nbsp;&nbsp;
+				<input type="button" name="back" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="javascript:window.close();return false;"
+				value="关 闭">
+			</td>
+		      </tr>
+    </table>
+  </div>
+</form>
+</body>
+</html>

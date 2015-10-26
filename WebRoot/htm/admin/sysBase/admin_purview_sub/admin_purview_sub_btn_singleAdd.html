@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+
+<script type="text/javascript" src="js/zTree/jquery-1.4.4.min.js"></script>
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+
+<SCRIPT src="/js/ajaxGetOptions.js" type="text/javascript"></SCRIPT>
+
+<title>基础设置 &gt; 按钮CDNO设置 &gt; Btn添加页面</title>
+</head>
+<script>
+
+
+$(document).ready(function(){
+	setEmptyCheck("btnName:btnValue:btnStr");
+
+	$("input[name=identify_id]").val(window.opener.document.getElementsByName("curentIdentify")[0].value);
+
+});
+
+</SCRIPT>
+
+<body> 
+<form name="form1" action="/generictableservlet?action=saveAddRecord&ITNO=1_sys_btn&recordId={recordId}" method="post">
+<input type="hidden" name="formFlag" value="2">
+<input type="hidden" name="identify_id" value="">
+<div class="path"> <img src="images/index/path_ico.gif" />基础设置 &gt; 按钮CDNO设置 &gt; Btn添加页面</div>
+  <div class="a_box">
+    <table border="0" cellspacing="0" cellpadding="0" class="view_table">
+      <tr>
+        <td class="t_r" width="20%">按钮名称：</td>
+        <td class="t_l b_cf" width="80%"><input name="btnName" type="text" value="" class="input_txt" tip="按钮名称不能为空" check="2"/></td>
+      </tr>
+      <tr>
+        <td class="t_r">按钮控制属性：</td>
+        <td class="t_l b_cf"><input name="btnValue" type="text" value="" class="input_txt" tip="按钮控制属性不能为空" check="2"/></td>
+      </tr>
+       <tr>
+        <td class="t_r">按钮html脚本：</td>
+        <td class="t_l b_cf"><input name="btnStr" type="text"  class="input_txt" tip="按钮html脚本不能为空" check="2" style="width:500px"/></td>
+      </tr>
+	   <tr>
+        <td class="t_r">选择继承按钮：</td>
+        <td class="t_l b_cf">
+			<select name="extendBtnId">
+				<option value="0">---请选择---</option>
+				<script>
+					document.write(getOnlyOPtionListBySqlNo_upId(261,window.opener.document.getElementsByName("curentIdentify")[0].value));
+				</script>
+			</select>
+		</td>
+      </tr>
+	  <tr>
+        <td class="t_r">权限管理：</td>
+        <td class="t_l b_cf">{isCommon}&nbsp;&nbsp;温馨提示：选择客户时，角色管理中会显示该按钮；选择开发者时，角色管理中不显示该按钮。</td>
+      </tr>
+     
+      <tr>
+          <td colspan="2"  align="center"><input type="submit" value="保 存" class="btn" />
+          <input type="button" value="关 闭" class="btn m_l15" onclick="window.close()"/></td>
+      </tr>
+    </table>
+	</div>
+</form>
+</body>
+</html>

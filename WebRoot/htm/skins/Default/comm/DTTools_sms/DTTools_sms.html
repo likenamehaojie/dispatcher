@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+<title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]</title>
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+<LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+<link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+
+
+<SCRIPT src="/js/layer/jquery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajaxGetOptions.js" type="text/javascript"></SCRIPT>
+<script type="text/javascript" src="/js/ajaxMod.js"></script>
+<script type="text/javascript" src="/js/checkout.js"></script>
+
+<script src="/js/ListOrder.js"></script>
+<script src="/js/getOneObject.js"></script>
+<script src="/js/titleInfo.js"></script>
+
+
+<style>
+.left_td{text-align:left}
+.right_td{text-align:right}
+html { overflow-x: hidden; overflow-y: auto; }
+table tbody td{text-align:left}
+.td_center{text-align:center}
+
+</style>
+</head>
+
+
+<SCRIPT type=text/javascript> 
+
+	$(document).ready(function(){
+
+		
+
+		//根据cdno 判断选中哪个 标签
+		//alert('{CDNO}'.substring('{CDNO}'.length-1,'{CDNO}'.length))
+
+		var cdnoNum='{CDNO}'.substring('{CDNO}'.length-1,'{CDNO}'.length);
+		document.getElementById("sys_a_id" + cdnoNum).className = "active";
+
+		$("#ope_ulId"+cdnoNum).show();//批量操作按钮的显示隐藏
+		$("[id^=ope"+cdnoNum+"_spanId]").show();//列操作按钮
+		
+		if(cdnoNum==3){
+			$("#sendType_tdId").html("<a style='cursor:hand;' onClick=orderByInfo_new('receiverNames','{OrderKey}','{OrderBy}')>收信人<span id='receiverNamesOrder' class='orderNo' ></span></a>");
+			$("[id^=receiverNames_spanId]").show();
+		}else{
+			$("#sendType_tdId").html("<a style='cursor:hand;' onClick=orderByInfo_new('senderName','{OrderKey}','{OrderBy}')>发信人<span id='senderNameOrder' class='orderNo' ></span></a>");
+			$("[id^=senderName_spanId]").show();
+		}
+
+		//初始化排序
+		LoadOrder("{OrderKey}","{OrderBy}");
+	
+	});
+
+	
+	function setSysNav(ITNO){
+		window.location="/generictableservlet?action=recordList&ITNO="+ITNO+"&$TABLEKEYWORD=$1_smsTool";
+	}
+
+
+
+
+	//清空联系人
+	function clearContact(){
+		$("input[name=receiverIds]").val('');
+		$("textarea[name=receiverNames]").val('');
+		$("input[name=noReaderIds]").val('');
+		$("input[name=noReaderNames]").val('');
+	}
+	
+</SCRIPT>
+
+
+<body>
+<form name="form1" action="/generictableservlet?action=saveAddRecord" method="post">
+	<input type="hidden" name="ITNO" value="{ITNO}">
+
+	<input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+
+	<!-- 排序必备字段 -->
+	<input type="hidden" name="OrderBy" value="{OrderBy}">	
+	<input type="hidden" name="OrderKey" value="{OrderKey}">
+	<!-- 排序必备字段 -->
+
+
+	<input type="hidden" name="sysComm" value="{$COMMUNITYID}"><!-- 子弹出页面用到这个值 -->
+
+	<input type="hidden" name="receiverIds" value=""><!-- 收信人员列表 -->
+
+	<input type="hidden" name="noReaderIds" value=""><!-- 未读信人员列表 -->
+	<input type="hidden" name="noReaderNames" value="">
+
+	<input type="hidden" name="senderId" value="{$USERID}"><!-- 发送人员 -->
+	<input type="hidden" name="senderName" value="{$REALNAME}">
+
+
+	<input type="hidden" name="field.validateValue" value="smsType|短信分类|OPT|100|1|yn|">
+    <input type="hidden" name="field.validateValue" value="receiverNames|收信人|TXT|600|1|yn|">
+    <input type="hidden" name="field.validateValue" value="content|短信内容|TXT|300|1|yn|">
+
+	<input type="hidden" name="field1" value="smsType|标题|TXT|50|">
+	<input type="hidden" name="field2" value="content|类别|OPT|50|">
+	<input type="hidden" name="field3" value="senderName|发文单位|TXT|50|">
+	<input type="hidden" name="field4" value="receiverNames|附件|TXT|50|">
+
+
+
+ <div class="path"> <img src="images/index/path_ico.gif" />{$TABLEKEYWORD1} &gt; {$TABLEKEYWORD2}</div>	
+    <div class="a_box_big">
+        <table border="0" cellspacing="0" cellpadding="0" class="view_table">
+		  <tr>
+			<td class="t_r" width="10%">短信分类：</td>
+			<td class="t_l b_cf" width="20%">
+				<select name="smsType">
+					<option value="">---请选择---</option>
+					{filterOptions1}
+				</select>&nbsp;*
+			</td>
+			
+		  </tr>
+          <tr>
+			<td class="t_r" width="10%">收信人：</td>
+			<td class="t_l b_cf" width="20%"><textarea name="receiverNames" cols="80" rows="4" readonly onclick='window.open("/loadAdminServlet.do?action=getUserList&listUrl=sms","newwindow","width=850,height=400,location=yes,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no");'></textarea>&nbsp;*&nbsp;&nbsp;<a href="#" onclick="clearContact()"><span style="color:red">清空联系人</span></a></td>
+			
+		  </tr>
+		   <tr>
+			<td class="t_r">内容：</td>
+			<td class="t_l b_cf"><textarea name="content" cols="100" rows="8"></textarea>&nbsp;*</td>
+			
+		  </tr>
+		   <tr>
+		
+			<td class="t_l b_cf" colspan="2" style="text-align:center"><input type="submit" name="save_add" class="btn" onClick="return validate()" value="发 送"></td>
+			
+		  </tr>
+		 
+	
+    </table>
+	<div class="dblEdit_line_list" >
+		<div id="navMenu">
+			<div id="navMenu1">
+			<a id="sys_a_id1" href="javascript:setSysNav('1_sms1')" class=""><span>未读信</span></a>
+			<a id="sys_a_id2" href="javascript:setSysNav('1_sms2')" class=""><span>已读信</span></a>
+			<a id="sys_a_id3" href="javascript:setSysNav('1_sms3')" class=""><span>已发送</span></a>
+			</div>
+		</div>
+		<ul id="ope_ulId1" style="display:none">
+		    <li><input type="button" name="setDel" class="btn" onClick="batUpdateRecordNoPost('删除','329')" value="批量删除">&nbsp;&nbsp;&nbsp;</li>
+		    <li><input type="button" name="setRead" class="btn" onClick="batUpdateRecordNoPost('设置已读','328')" value="批量已读">&nbsp;&nbsp;&nbsp;</li>
+		</ul>
+		<ul id="ope_ulId2" style="display:none">
+		    <li><input type="button" name="setDel" class="btn" onClick="batUpdateRecordNoPost('删除','329')" value="批量删除">&nbsp;&nbsp;&nbsp;</li>
+		  
+		</ul>
+		<ul id="ope_ulId3" style="display:none">
+			<li><input type="button" name="setDel" class="btn" onClick="batUpdateRecordNoPost('删除','330')" value="批量删除">&nbsp;&nbsp;&nbsp;</li>
+		</ul>
+</div>
+
+
+	<table border="0" cellspacing="0" cellpadding="0" class="dblEdit_table_list"  id="actor_table">
+    <thead>
+      <tr>
+		<th width="3%"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th> 
+		<th width="10%" style="cursor:hand;" onClick="orderByInfo_new('smsType','{OrderKey}','{OrderBy}')">短信分类<span id="smsTypeOrder" class="orderNo" ></span></th> 
+		<th width="50%">内容</th> 
+		<th width="10%" id="sendType_tdId"></th> 
+		<th width="10%" style="cursor:hand;" onClick="orderByInfo_new('date_created','{OrderKey}','{OrderBy}')">发信时间<span id="date_createdOrder" class="orderNo" ></span></th> 
+		<th width="8%">操作</th> 
+      </tr>
+    </thead>
+	 <tbody>
+	 {row}
+      <tr id="tr_Id{sNo}">
+		<td style="text-align:center;">{id}&nbsp;</td> 
+		<td style="text-align:center">{smsType}&nbsp;</td> 
+        <td style="text-align:center" title="{content}">{shortContent}&nbsp;</td> 
+		<td style="text-align:center">
+			<span id="senderName_spanId{recordId}" style="display:none">{senderName}</span>
+			<span id="receiverNames_spanId{recordId}" style="display:none" title="未读人员：&nbsp;&nbsp;{noReaderNames}<br><br>收信人：&nbsp;&nbsp;{receiverNames}">{shortReceiverNames}</span>
+		</td> 
+		<td style="text-align:center">{date_created}&nbsp;</td> 
+        <td style="text-align:center;" id="operateTdId{sNo}">
+			<span id="ope1_spanId{sNo}" style="display:none"><img src="images/zTree/treeEdit.gif" width="16" height="16" /><a href="#"   onClick="singleBatUpdateRecordNoPost('设置已读','{recordId}','328')">设置已读</a>&nbsp;<img src="images/zTree/treeDel.gif" width="16" height="16" /><a href="#" onClick="singleBatUpdateRecordNoPost('删除','{recordId}','329')">删除</a></span>
+			<span id="ope2_spanId{sNo}" style="display:none"><img src="images/zTree/treeDel.gif" width="16" height="16" /><a href="#" onClick="singleBatUpdateRecordNoPost('删除','{recordId}','329')">删除</a></span>
+			<span id="ope3_spanId{sNo}" style="display:none"><img src="images/zTree/treeDel.gif" width="16" height="16" /><a href="#" onClick="singleBatUpdateRecordNoPost('删除','{recordId}','330')">删除</a></span></td> 
+      </tr>
+	  <script>
+		if('{sNo}'=='')$("#operateTdId{sNo}").html('&nbsp;');
+	  </script>
+	   {row}
+		
+    </tbody>
+	
+  </table>
+	 <table width="100%">
+	{page}
+    
+  </table>
+
+
+  </div>
+</form>
+</body>
+</html>

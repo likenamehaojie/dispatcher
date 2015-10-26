@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+  <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+  <script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+  <script src="/js/ajax1.js"></script>
+  <script src="/js/ajaxCheckUnique.js"></script>
+  <SCRIPT src="/js/checkout.js"></SCRIPT>
+ <SCRIPT src="/js/checkout_subTable.js"></SCRIPT>
+  <script src="/js/ajaxGetOptions.js"></script>
+  <script src="/js/jQuery.js"></script>
+  <script src="/js/expandJs/jQuery.setAvg-min.js"></script>
+  
+  <script type="text/javascript" src="/js/baiduAutoComplete.js" charset="utf-8"></script>
+  <script src="/js/map.js"></script>
+  <script src="/js/mainSub.js"></script>
+  <script src="/js/ajaxMod.js"></script>
+ 
+  <script src="/js/ajaxSearchInfo.js"></script>
+
+
+  <SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+
+</head>
+<script type="text/javascript">
+//添加条件行 
+function AddRow(maxLength){ 
+	var map=new Map();
+
+	//调度人员
+	map.put("Dispatch",'<input  class=\"input_txt\"  type=\"text\" id="Dispatch#no#"  name=\"Dispatch#no#\" value=\"\" />');	
+	//步骤
+	map.put("Step",'<input   class=\"input_txt\"  type=\"text\" id="Step#no#" name=\"Step#no#\" value=\"\" />');	
+
+	//步骤内容
+	map.put("StepContent",'<textarea   type=\"text\"  name=\"StepContent#no#\" rows="2" cols="50" value=\"\" /></textarea>');	
+	                 
+	//操作<a  href=\"javascript:AddRow_MR()\">添加</a><br/><a href=\"javascript:DelCurrentRow(#no#);\">删除</a>
+	map.put("operate",' <div style =\'width:60%;margin:0 auto\'><li><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l" >添加 &nbsp;</span></a></li>   <li><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l" style="line-height:32px">删除</span></a></li></div>'); 
+	for(var i=1;i<=maxLength;i++){  
+		AddRow_sys(map);
+	}
+	map.clear();
+} 
+
+$(document).ready(function(){
+	//添加三行空白记录
+	AddRow(1);
+
+
+	var yearAndMonth=new Date().format("yyyy年MM月");
+	document.getElementsByName("yearAndMonth")[0].value=yearAndMonth;
+ });
+
+  function AddRow_MR(){
+	
+	AddRow(1);
+	$("#procedure_in_month"+sys_j).setAvg({setId:"avg_procedure_in_day"+sys_j});
+	
+	var alls = "procedure_in_month"+sys_j;
+	var avgs = "avg_procedure_in_day"+sys_j;
+	$("#shijitianshu").setAvg({setId:alls,pjIds:avgs});
+	
+	$("td[id^=COMPANY_td]").css('display','none')
+}
+
+
+
+</script>
+
+   <form name="form1" action="/genericmultableservlet?action=saveAddRecord" method="post">
+    <input type="hidden" name="mulId" value="{mulId}">
+	<input type="hidden" name="tableName" value="{mainTableName}">
+    <input type="hidden" name="mainTableName" value="{mainTableName}">
+    <input type="hidden" name="subTableName" value="{subTableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+	
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" id="actorCount" name="actorCount" value="{actorCount}">
+    <input type="hidden" name="flag" value="1">
+    <input type="hidden" name="FINISH" value="">    
+	<input type="hidden" name="realFileName" value="">
+
+ 
+
+    <input type="hidden" name="field.validateValue" value="Bigtitle|大标题|OPT|100|1|yn|">	
+   <input type="hidden" name="field.validateValue" value="Smalltitle|小标题|TXT|100|1|yn|">
+
+
+   <input type="hidden" name="field.validateValue_sub" value="Dispatch|调度人员|TXT|100|1|yn|">
+   <input type="hidden" name="field.validateValue_sub" value="Step|步骤|TXT|100|1|yn|">
+   <input type="hidden" name="field.validateValue_sub" value="StepContent|步骤内容|TXT|100|1|yn|">
+
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 录入页面</div>
+
+  <div style = "clear:both;"></div>
+  
+
+<div class='toolbar'>
+<table width="100%" class="tabtap" style="border-collapse:collapse;" cellspacing="0" cellpadding="0">
+  <tbody>
+
+  <tr>
+  
+        <td class="tad"><img src="images/form/mi.GIF">&nbsp;大标题&nbsp;:</td>
+		<td><select name="Bigtitle" onchange="checkChange(this,'2')"><option>--------请选择--------</option>{Bigtitle}</select></td>
+        <td class="tad"><img src="images/form/mi.GIF">&nbsp;小标题&nbsp;:</td>
+		<td><textarea   type="text"  name="Smalltitle" rows="2" cols="50" value="" /></textarea></td>
+  </tr>
+</tbody></table>
+
+
+</div>
+  
+
+<div >
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+    <tr  >
+    	<th align="center" >序号</th>
+	    <th align="center" >调度人员</th>
+    	<th align="center" >步骤</th>
+		<th align="center" >步骤内容</th>
+    	<th align="center" width="10%">操作</th>
+    </tr>
+
+    </thead>
+
+  </div>
+  
+
+
+<div class="path">
+  
+  <table width="98%">
+    <tr>
+      <td id='wxts_tdId' align="left">
+          <span class="font4">&nbsp 温馨提示：</span>
+          <br>
+          &nbsp 1.点击操作下的"添加"可增加录入的条数。
+          <br>
+          &nbsp 2.点击操作下的"删除"可删除错误或多余的记录。
+          <br>
+          &nbsp 3.点击"保存"按钮前，请把空白或错误的记录删除掉。
+          <br>
+          &nbsp 4.副值班(科室人员)若为多人可用"，"(逗号)隔开。
+          <br>
+      </td>
+    </tr>
+  
+   </table>
+
+
+
+  <table width="98%">
+    <tr>
+      <td colspan="4" align="center">
+        <input type="submit" value="保存" class="btn" onclick="return check_subTable()" />
+        <input type="button" value="返回" class="btn m_l15" onclick="window.history.go(-1)"/>
+      </td>
+    </tr>
+  </table>
+
+</form>
+</body>
+</html>

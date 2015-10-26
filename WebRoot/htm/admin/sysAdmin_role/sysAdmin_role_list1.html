@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+<title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]</title>
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<script type="text/javascript" src="js/changeto.js"></script>
+
+<script src="/js/ListOrder.js"></script> 
+<script src="/js/search.js"></script>
+<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+<script src="/js/getOneObject.js"></script>
+<script src="/js/loadingInfo.js"></script>
+
+</head>
+
+<script>
+	
+document.onkeydown=function(e){   
+    e = e ? e : event;  
+    if(e.keyCode == 13){   
+        setCondition();
+    }   
+}  
+
+function setCondition(){//单表高级搜索
+	var cV=checkValue_sql();
+	
+	if(cV!=''){
+		document.all("searchByMoreFieldName").value=" and "+cV;
+		showMessage();
+		searchInfo();
+	}
+}
+//	修改
+function reSingleEditRecord(recordId){
+	document.form1.action="/adminpurview.do?action=modifyRolePage";
+	document.all("role_id").value=recordId;
+	document.form1.submit();
+}
+//	删除
+function reSingleDelRecord(currentId){
+	if(currentId!=0){
+		uncheckAll('id');
+		var roomids = document.getElementsByName('id');
+		for ( var j = 0; j < roomids.length; j++) {
+			if (roomids.item(j).value == currentId) {
+				roomids.item(j).checked = true;
+			}
+		}
+	}
+	var cp=document.getElementById("url").value;
+	var recordId=getObject();
+		if(recordId<1){
+		return false;
+	}else{
+		if(confirm('确认删除吗？')){document.form1.action="/adminpurview.do?action=delRole";
+			document.form1.submit();
+		}else{
+		  return false;
+		}
+	}
+}
+//	复制新增
+function reSingleEditRecordForInsert(recordId){
+	document.form1.action="/adminpurview.do?action=modifyRolePageForInsert";
+	document.all("role_id").value=recordId;
+	document.form1.submit();
+}
+</script>
+
+<body>
+<form name="form1" action="" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+<input type="hidden"  name="keyWords" value="{$TABLEKEYWORD}">
+<input type="hidden" name="curPage" value="{curPage}">
+
+
+<input type="hidden"  name="OrderBy" value="{OrderBy}">	
+<input type="hidden"  name="OrderKey" value="{OrderKey}">
+<input type="hidden"  name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+
+
+<input type="hidden" name="clickValue" value="N1">
+<input type="hidden" name="firstUrl" value="null">
+<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+
+
+<input type="hidden" name="field1" value="role_name|角色名称|TXT|50|"><div class="main">
+<input type="hidden" name="field2" value="cShortName|所属单位|OPT|50|"><div class="main">
+
+<input type="hidden" name="role_id" value="1">
+
+<div class="path"> <img src="images/index/path_ico.gif" />{$TABLEKEYWORD1} &gt;{$TABLEKEYWORD2} &gt; 列表页面</div>
+  <div class="s_box">
+    <table border="0" cellspacing="0" cellpadding="0" class="search_table">		
+	  <tr>
+         <td class="t_r"><input type="checkbox" name="f_id" value="1" >角色名称：</td>
+		 <td class="t_l"><input name="role_name" onkeyup="checkChange(this,'1')" class="input_txt"/></td>
+		 <td class="t_r"><input type="checkbox" name="f_id" value="2" >所属单位：</td>
+		 <td class="t_l"><select name="cShortName" onchange="checkChange(this,'2')" class="select">{filterOptions1}</select></td>
+		 <td><input type="button" value="查 询" class="btn" onFocus="this.blur()" onMouseOver="this.className='btn'" onMouseOut="this.className='btn'" name="btnSearch" onClick="setCondition();"></td>
+	  </tr>
+    </table>
+  </div>
+  <table border="0" cellspacing="0" cellpadding="0"  width="100%">
+    <tr>
+      <td><div class="line_list">
+		   <li><a href="#" onclick="delRecord();"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l">删除</span></a></li>
+		   <li><a href="#" onclick="addRecord();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l">添加</span></a></li>
+        </div></td>
+    </tr>
+  </table>
+<table border="0" cellspacing="0" cellpadding="0" class="table_list">
+     <thead>
+	    <tr>
+		  <th><input type="checkbox" name="roleCheck" value="" onClick="selectAllRole(form1);"></th>
+          <th style="cursor:hand;" onClick="orderByInfo_new('role_name','{OrderKey}','{OrderBy}')">角色名称<span id="role_nameOrder" class="STYLE1">↑</span></th> 
+          <th>所属单位</th>
+          <th>备注</th>
+          <th style="cursor:hand;" onClick="orderByInfo_new('date_created','{OrderKey}','{OrderBy}')">创建时间<span id="date_createdOrder" class="STYLE1">↑</span></th> 
+		  <th>基本操作</th>
+		</tr>
+      </thead>
+		  {row}
+          <tr>
+			<td>{id}&nbsp;</td>
+            <td>{role_name}&nbsp;</td>
+            <td>{cShortName}&nbsp;</td>
+		    <td>{about}&nbsp;</td>
+            <td>{date_created}&nbsp;</td>
+			<td><img src="images/edt.gif" width="16" height="16" /><a href="#" onClick="reSingleEditRecord('{recordId}')">编辑</a>&nbsp; &nbsp;<img src="images/del.gif" width="16" height="16" /><a href="#" onClick="reSingleDelRecord('{recordId}')">删除</a>&nbsp; &nbsp;<img src="images/22.gif" width="14" height="14" /><a href="#" onClick="reSingleEditRecordForInsert('{recordId}')">复制新增</a></td>
+          </tr>
+
+    {row}
+    </tbody>
+  </table>
+  <div class="page"><table><tr>{page}</tr></table>
+  </div>
+
+</form>
+</body>
+</html>
+<script language="javascript">
+ LoadOrder("{OrderKey}","{OrderBy}");
+</script>

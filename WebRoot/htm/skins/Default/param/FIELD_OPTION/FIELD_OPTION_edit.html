@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /> 
+<title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]</title>
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+
+<SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+
+</head>
+
+<SCRIPT type=text/javascript> 
+	$(document).ready(function(){
+    setEmptyCheck("description:VALUE:NAME:FIELD:TABLE_NAME");
+  });
+
+function checkRadioFocus(obj){
+}
+
+</SCRIPT>
+
+<form name="form1" action="/generictableservlet?action=saveEditRecord" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+<input type="hidden" name="curPage" value="{curPage}">
+<input type="hidden" name="recordId" value="{recordId}">
+
+
+<input type="hidden" name="listUrl" value="{listUrl}">
+<input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+
+<div class="path"> <img src="images/index/path_ico.gif" />{$TABLEKEYWORD1} &gt;{$TABLEKEYWORD2} &gt; 修改页面</div>
+  <div class="a_box">
+    <table border="0" cellspacing="0" cellpadding="0" class="add_table">
+      <tr>
+        <td class="t_r" width="20%">描述：</td>
+        <td class="t_l b_cf" width="80%"><input type="text" name="description" value="{description}" size="20" tip="[描述]不能为空" check="2" class="input_txt">&nbsp;*</td>
+      </tr>
+      <tr>
+        <td class="t_r">是否可见：</td>
+        <td class="t_l b_cf">{updatable}</td>
+      </tr>
+      <tr>
+        <td class="t_r">参数值(value)：</td>
+        <td class="t_l b_cf"><input type="text" name="VALUE" value="{VALUE}" size="20" tip="[参数值]不能为空" check="2" class="input_txt">&nbsp;*</td>
+      </tr>
+	  <tr id="planScoreTdId">
+        <td class="t_r">参数名称(name)：</td>
+        <td class="t_l b_cf"><input type="text" name="NAME" value="{NAME}" size="20" tip="[参数名称]不能为空" check="2" class="input_txt">&nbsp;*</td>
+      </tr>
+      <tr>
+        <td class="t_r">字段名称：</td>
+        <td class="t_l b_cf"><input type="text" name="FIELD" value="{FIELD}" size="20" tip="[字段名称]不能为空" check="2" class="input_txt">&nbsp;*</td>
+      </tr>
+      <tr>
+        <td class="t_r">表名称：</td>
+        <td class="t_l b_cf"><input type="text" name="TABLE_NAME" value="{TABLE_NAME}" size="20" tip="[表名称]不能为空" check="2" class="input_txt">&nbsp;*</td>
+      </tr>
+     
+      <tr>
+         <td colspan="2"><input type="submit" value="保 存" class="btn" onclick="return true;" />
+          <input type="button" value="返 回" class="btn m_l15" onclick="history.back()"/></td>
+      </tr>
+    </table>
+	</div>
+</form>
+</body>
+</html>

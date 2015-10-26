@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+<title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]-添加页面</title>
+ <link rel="stylesheet" type="text/css" href="css/index.css" />
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+    <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+
+<script type="text/javascript" src="js/changeto.js"></script>
+
+<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+
+<SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+</head>
+
+
+<SCRIPT type=text/javascript> 
+	$(document).ready(function(){
+		setEmptyCheck("admin_name:realname:admin_pwd:admin_pwdOK:commId:businessId:branch_realId:admrole_id");
+		setUnique("admin_name");
+		//setCombineUnique("branch_name:cid");
+	});
+
+	function reValidate(){
+		var admin_pwd=document.all("admin_pwd").value;
+		var admin_pwdOK=document.all("admin_pwdOK").value;
+		if(admin_pwd!=admin_pwdOK){
+			alert("两次密码输入不一致，请重新输入");
+			return false;
+		}
+		return true;
+	}
+</SCRIPT>
+
+
+<body>
+<form name="form1" action="/generictableservlet?action=saveAddRecord&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+
+<input type="hidden" name="formFlag" value="2">
+
+<input type="hidden" name="listUrl" value="{listUrl}">
+<input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1}</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2}&gt; 录入页面</div>
+   <div style = "clear:both;"></div>
+   
+	<div class="a_box">
+        <table border="0" cellspacing="0" cellpadding="0" class="view_table">
+          <tr>
+			<td class="tad">用户名称：</td>
+			<td class="t_l b_cf"><input name="admin_name" type="text"  class="input_txt" value="" tip="用户名不能为空,且唯一" check="2"/>&nbsp;*</td>
+			<td class="tad">真实姓名：</td>
+			<td class="t_l b_cf" ><input name="realname" type="text" class="input_txt"  value="" tip="真实姓名不能为空" check="2"/>&nbsp;*</td>
+		  </tr>
+		  <tr>
+			<td class="tad">密码：</td>
+			<td class="t_l b_cf"><input name="admin_pwd" type="password"  class="input_txt" value="" tip="密码不能为空" check="2"/>&nbsp;*</td>	
+			<td class="tad">确认密码：</td>
+			<td class="t_l b_cf" ><input name="admin_pwdOK" type="password" class="input_txt"  value="" tip="确认密码不能为空" check="2"/>&nbsp;*</td>
+		  </tr>
+		  <tr>
+			<td class="tad">联系电话：</td>
+			<td class="t_l b_cf"><input name="mobile" type="text"  class="input_txt" value="" /></td>
+			<td class="tad">电子邮件：</td>
+			<td class="t_l b_cf" ><input name="email" type="text" class="input_txt"  value="" /></td>
+		  </tr>
+		  <tr>
+			<td class="tad">家庭住址：</td>
+			<td class="t_l b_cf"  colspan="3"><input name="address" type="text" class="input_txt" size="50" value="" /></td>
+		  </tr>
+		  <tr>
+			<td class="tad">所属单位：</td>
+			<td class="t_l b_cf"><select name="commId" class="select"><option value='{$COMMUNITYID}'>{$SHORTNAME}</option></select>&nbsp;*</td>			
+			<td class="tad">所属职务：</td>
+			<td class="t_l b_cf" ><select name="businessId" tip="所属职务不能为空" check="2" class="select"><option value="">--请选择--</option>{businessId}</select>&nbsp;*</td>
+		  </tr>
+		  <tr>
+			<td class="tad">所属部门：</td>
+			<td class="t_l b_cf"><select name="branch_realId" tip="所属部门不能为空" check="2" class="select"><option value="">--请选择--</option>{branch_realId}</select>&nbsp;*</td>
+			
+			<td class="tad">所属角色：</td>
+			<td class="t_l b_cf"><select name="admrole_id" tip="所属角色不能为空" check="2" class="select"><option value="">--请选择--</option>{admrole_id}</select>&nbsp;*</td>
+		  </tr>
+		  <tr>
+			<td class="tad">备注：</td>
+			<td class="t_l b_cf" colspan="3"><textarea name="about" rows="3"  cols="80" class="textarea_txt"></textarea>
+			</td>
+			</tr>
+		  <tr class="tad">               
+			<td class="STYLE_submit" colspan="4" align="center"> 
+				<input type="submit" name="save" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="return true" value="保 存">
+				&nbsp;&nbsp;&nbsp;
+				<input type="button" name="back" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="window.close();"
+				value="关 闭">	
+			</td>
+		      </tr>
+    </table>
+  </div>
+</form>
+</body>
+</html>

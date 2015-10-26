@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /> 
+<title>[私有文件公开]</title>
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+
+<link rel="stylesheet" href="css/zTree/zTreeStyle/zTreeStyle.css" type="text/css">
+<link rel="stylesheet" href="css/zTree/demo_DTExam_basis.css" type="text/css">
+
+
+<SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/getOneObject.js" type="text/javascript"></SCRIPT>
+
+<script src="/js/ajaxGetOptions.js"></script>
+<script type="text/javascript" src="js/zTree/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="js/zTree/jquery.ztree.core-3.5.js"></script>
+<script type="text/javascript" src="js/zTree/jquery.ztree.excheck-3.5.js"></script>
+<script type="text/javascript" src="js/ajaxMod.js"></script>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+</head>
+<script>
+	<!--
+		var setting = {
+			check: {
+				enable: true,
+				chkboxType: {"Y":"", "N":""}
+			},
+			view: {
+				dblClickExpand: false
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				beforeClick: beforeClick,
+				onCheck: onCheck
+			}
+		};
+
+		
+		var zNodes=eval('['+getInfoBySqlNo_noHidden(241,'{$COMMUNITYID}')+']');
+
+		function beforeClick(treeId, treeNode) {
+
+			
+			
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			zTree.checkNode(treeNode, !treeNode.checked, null, true);
+			return false;
+		}
+
+		
+		
+	
+		function onCheck(e, treeId, treeNode) {
+		
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+			nodes = zTree.getCheckedNodes(true),
+
+			
+			v = "";
+			
+			for (var i=0, l=nodes.length; i<l; i++) {
+				v += nodes[i].name + ",";
+			}
+			if (v.length > 0 ) v = v.substring(0, v.length-1);
+			var cityObj = $("#citySel");
+			cityObj.attr("value", v);
+			w = "";
+			for (var i=0, l=nodes.length; i<l; i++) {
+				w += nodes[i].id + ",";
+			}
+			if (w.length > 0 ) w = w.substring(0, w.length-1);
+			var cityObj = $("[name=citySel_real]");
+			cityObj.attr("value", w);
+			
+
+		}
+
+		
+		var onBodyDownId="";
+		function showMenu() {
+			var cityObj = $("#citySel");
+			var cityOffset = $("#citySel").offset();
+			$("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+
+			$("body").bind("mousedown", onBodyDown);
+			onBodyDownId="";
+			
+			
+		}
+		
+		function hideMenu() {
+			$("#menuContent").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDown);
+		}
+		
+		function onBodyDown(event) {
+			if(onBodyDownId=="examName"){
+				if (!(event.target.id == "menuBtn_examName" || event.target.id == "citySel_examName" || event.target.id == "menuContent_examName" || $(event.target).parents("#menuContent_examName").length>0)) {
+					hideMenu_examName();
+				}
+			}else{
+				if (!(event.target.id == "menuBtn" || event.target.id == "citySel" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+					hideMenu();
+				}
+			}
+		}
+
+		$(document).ready(function(){
+
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+			
+			//获取已发布的节点
+			var Json=eval(getJsonBySqlNo(15,'{$TABLEKEYWORD3}'));
+			var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+
+			var Root_Node=treeObj.getNodeByParam("id",0,null);
+			treeObj.setChkDisabled(Root_Node, true);
+
+			var name=""
+			var cId=""
+		
+			
+			for (var i=0;i<Json.length ;i++ )
+			{
+				//已发布默认勾选
+			
+				var nodes=treeObj.getNodeByParam("id",Json[i].fileTypeId,null);
+				treeObj.checkNode(nodes, true, true);
+				name+=nodes.name+","
+				cId+=nodes.id+","
+				
+			}
+			name=name.substring(0, name.length-1);
+			cId=cId.substring(0, cId.length-1)
+			$("#citySel").val(name)
+			$("[name=citySel_real]").val(cId)
+		});
+		
+	function setSave(){
+		var zTree_id=$("[name=citySel_real]").val();
+		var manage_id='{$TABLEKEYWORD3}';
+		if(zTree_id==""){
+			alert("请先选择需要公开的位置")
+		}else{
+			ajax_pro(243,zTree_id+'|'+manage_id);	
+		}
+		
+			
+	}
+		
+</SCRIPT>
+
+
+
+<form  name="form1" action="" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+<input type="hidden" name="listUrl" value="{listUrl}">
+<input type="hidden" name="conScole" value="0">
+<input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+
+<input type="hidden" name="citySel_real" value="">
+
+
+<div class="path"> <img src="images/index/path_ico.gif" />私有文件公开 &gt; 列表页面</div>
+<div class="path"> <img src="images/index/path_ico.gif" />所在位置：{$TABLEKEYWORD1}|{$TABLEKEYWORD2}</div>
+
+  <div class="a_box">
+    <table border="0" cellspacing="0" cellpadding="0" class="view_table">
+        <td class="t_r">公共文件区目录：</td>
+        
+        <td class="t_l b_cf"><li class="title"><span class="highlight_red">点击下列文本框或选择按钮 进行选择</span></li></td>
+      </tr>	 
+	  <tr id="treeeNode_trId">
+			<td class="t_r">&nbsp;</td>
+			<td class="t_l b_cf">
+						<textarea id="citySel" name="citySel"  type="text" rows="3" readonly value="" cols="180" style="width:220px;" onclick="showMenu();" /></textarea>
+					&nbsp;<a id="menuBtn" href="#" onclick="showMenu(); return false;">选择</a>&nbsp;*</td>
+			<div id="menuContent" class="menuContent" style="display:none; position: absolute;">
+				<ul id="treeDemo" class="ztree" style="margin-top:0; width:180px; height: 300px;"></ul>
+			</div>		
+      </tr>
+      <tr align="center">
+         <td colspan="2"><input type="button" value="保 存" class="btn" onclick="setSave()" />
+          <input type="button" value="关 闭" class="btn m_l15" onclick="window.close();"/></td>
+      </tr>
+    </table>
+	</div>
+</form>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /> 
+<title>[上级考核结果应用]</title>
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+
+<link rel="stylesheet" href="css/zTree/zTreeStyle/zTreeStyle.css" type="text/css">
+<link rel="stylesheet" href="css/zTree/demo_DTExam_basis.css" type="text/css">
+
+
+<SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/getOneObject.js" type="text/javascript"></SCRIPT>
+
+<script src="/js/ajaxGetOptions.js"></script>
+<script type="text/javascript" src="js/zTree/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="js/zTree/jquery.ztree.core-3.5.js"></script>
+<script type="text/javascript" src="js/zTree/jquery.ztree.excheck-3.5.js"></script>
+<script type="text/javascript" src="js/ajaxMod.js"></script>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+</head>
+<script>
+	<!--
+		var setting_examName = {
+			check: {
+				enable: true,
+				chkStyle: "radio",
+				radioType: "all"
+
+			},
+			view: {
+				dblClickExpand: false
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				beforeClick: beforeClick_examName,
+				onCheck: onCheck_examName
+			}
+		};
+
+
+		//var zNodes_examName=eval('['+getInfoBySqlNo_noHidden(84,0+'|0|'+5)+']');
+		var zNodes_examName=eval('['+getInfoBySqlNo_noHidden(207,0+'|0|'+5)+']');
+
+
+		function beforeClick_examName(treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo_examName");
+			zTree.checkNode(treeNode, !treeNode.checked, null, true);
+			return false;
+		}
+		
+	
+
+		function onCheck_examName(e, treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo_examName"),
+			nodes = zTree.getCheckedNodes(true),
+			v = "";
+			for (var i=0, l=nodes.length; i<l; i++) {
+				v += nodes[i].name + ",";
+			}
+			if (v.length > 0 ) v = v.substring(0, v.length-1);
+			var cityObj = $("#citySel_examName");
+			cityObj.attr("value", v);
+			w = "";
+			for (var i=0, l=nodes.length; i<l; i++) {
+				w += nodes[i].id + ",";
+			}
+			if (w.length > 0 ) w = w.substring(0, w.length-1);
+			var cityObj = $("[name=citySel_real_examName]");
+			cityObj.attr("value", w);
+
+			//初始化 该单位下面的系统
+			setresultType();
+			//默认只设置总分选中
+			$("input:checkbox[name='examName_type']").attr("checked",false);
+			$("input:checkbox[name='examName_type']:first").attr("checked",true);
+			//隐藏计算类型
+			$("#calType_trId").hide();
+		}
+		var onBodyDownId="";
+		function showMenu_examName() {
+			var cityObj = $("#citySel_examName");
+			var cityOffset = $("#citySel_examName").offset();
+			$("#menuContent_examName").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+
+			$("body").bind("mousedown", onBodyDown);
+			onBodyDownId="examName";
+		}
+		
+		function hideMenu_examName() {
+			$("#menuContent_examName").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDown);
+		}
+		function onBodyDown(event) {
+			if(onBodyDownId=="examName"){
+				if (!(event.target.id == "menuBtn_examName" || event.target.id == "citySel_examName" || event.target.id == "menuContent_examName" || $(event.target).parents("#menuContent_examName").length>0)) {
+					hideMenu_examName();
+				}
+			}else{
+				if (!(event.target.id == "menuBtn" || event.target.id == "citySel" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+					hideMenu();
+				}
+			}
+		}
+
+		$(document).ready(function(){
+			//初始化 考核分类（专业系统）
+			$("select[name='typeName'] option[value='{DTSJ_examName_typeId}']").attr("selected",true);
+			$("#examObj_tdId").html(getInfoBySqlNo_noHidden(175,'{DTSJ_examObj_id}'));
+
+			$.fn.zTree.init($("#treeDemo_examName"), setting_examName, zNodes_examName);
+			var resultTypeValue="examItem";
+
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo_examName");
+			zTree.checkNode(zTree.getNodeByParam("id", '{DTSJ_finalExamResult_id}', null));
+
+			setDisplay();
+			//获取考核单位
+			setresultType(); 
+			$("input:checkbox[name='examName_type']:first").attr("checked",false);
+			var DTSJ_finalExamResult_typeId='{DTSJ_finalExamResult_typeId}';
+			// alert(DTSJ_finalExamResult_typeId);
+			if(DTSJ_finalExamResult_typeId=="")DTSJ_finalExamResult_typeId="总分";
+			$('input[name="examName_type"]').each(function(){
+				if((','+DTSJ_finalExamResult_typeId+',').indexOf(','+$(this).val()+',')>-1){
+					$(this).attr("checked",true);
+				}
+			}); 
+			$("#calType_trId").show();
+			if(DTSJ_finalExamResult_typeId=="总分"){
+				$("#calType_trId").hide();
+			}
+			$("select[name='calType'] option[value='{calType}']").attr("selected",true);
+		});
+		function setDisplay(){
+			if($('input[name="conScole"]:checked').val()=="当前考核对象"){
+			$('#treeeNode_trId').hide();
+				//$('#treeeNode_trId').hide();
+			}else{
+			$('#treeeNode_trId').show();
+			}
+		}
+		function setSave(){
+			var typeName=$("select[name=typeName]").val();//考核分类
+			var qtObjId=$("input[name=citySel_real_examName]").val();//考核名称
+			//var resultType=$('input:radio[name=resultType]:checked').val();//应用结果类型  考核结果，考核子项
+
+			//循环读取应用类型
+			var itemVal =[]; 
+			$('input[name="examName_type"]:checked').each(function(){ 
+				itemVal.push($(this).val()); 
+			});
+			//获取计算类型的值
+			var calType=$("select[name=calType]").val();
+			//当应用类型为总分的时候，设置应用类型为空，计算类型为空
+			if(itemVal[0]=="总分"){
+				itemVal[0]="空";
+				calType="空";
+			}
+			var percentage=$("input[name=percentage]").val();//比重
+			var examObj=$("input[name=citySel_real]").val();//被考核对象
+
+			//alert(citySel)
+			if (qtObjId=='')
+			{
+				alert('请选择上级单位考核的单位')
+				return false;
+			}
+			else if(percentage=='')
+			{
+				alert('比重不能为空')
+				return false;
+			}
+			else if (isNaN(percentage)) 
+			{
+				alert('比重只能为数字或小数')
+				return false;
+			}
+			else if (examObj=='')
+			{
+				alert('被考核单位不能为空')
+				return false;
+			}
+			else
+			{
+				var valMsg=getInfoBySqlNo_noHidden(217,"{DTSJ_examObj_id}|"+typeName+"|"+percentage+"|edit|{recordId}");
+				if(valMsg!=""){
+					alert(valMsg);
+					return false;
+				}
+				ajax_pro_bat(95,typeName+'|'+qtObjId+'|'+calType+'|'+itemVal+'|'+percentage+'|{recordId}');		
+				var condition="1=1";	
+				condition=condition+" and DTSJ_examObj_id={$TABLEKEYWORD3} and del='0'";
+				window.opener.searchInfoForTableId_noExcel('$2','DTSJ_examObj_qtZF_searchList',condition,'id','desc','1','aaa222');
+				window.close();
+			//return true;
+		//	alert(branchName1+"-------"+branchName2+"-------"+branchName3+"-------"+baseScore+"-------"+examName+"-------"+examUnit);
+			}
+		}
+		//控制计算类型
+		function controlCalType(curObj){
+			//当选中总分的时候  移除其他选中
+			if(curObj.checked && curObj.value=="总分"){//当选中其他选项的时候，勾掉总分选项
+				$("#calType_trId").hide();
+				$("input:checkbox[name='examName_type']").each(function(){
+					if($(this).val()!="总分"){
+						$(this).attr("checked",false);
+						return;
+					}
+				});
+			}else if(curObj.checked && curObj.value!="总分"){//当选中其他选项的时候，勾掉总分选项
+				$("#calType_trId").show();
+				$("input:checkbox[name='examName_type']").each(function(){
+					if($(this).val()=="总分"){
+						$(this).attr("checked",false);
+						return;
+					}
+				});
+			}else if(!curObj.checked && curObj.value=="总分"){//不允许勾掉总分
+				curObj.checked=true;
+			}else if(!curObj.checked && curObj.value!="总分"){//勾掉全部其他选项的时候  选中总分 隐藏平均值
+				var isFlag=true;
+				$("input:checkbox[name='examName_type']:checked").each(function(){
+					isFlag=false;
+					return;
+				});
+				if(isFlag){
+					$("input:checkbox[name='examName_type']:first").attr("checked",'checked');
+					$("#calType_trId").hide();
+				}
+			}
+			
+		}
+		//根据应用单位  控制下面的系统
+		function setresultType(){
+			var citySel_real_examName=$("input[name=citySel_real_examName]").val();
+			if(citySel_real_examName!=""){
+				$("#examName_spanId").html(getJsonRadioBySqlNo(13,citySel_real_examName,"examName_type","checkbox",5,'controlCalType'));
+			}
+		}
+</SCRIPT>
+
+
+
+<form  name="form1" action="" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+<input type="hidden" name="listUrl" value="{listUrl}">
+<input type="hidden" name="conScole" value="0">
+<input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+<input type="hidden" name="citySel_real_examName" value="{DTSJ_finalExamResult_id}">
+
+<div class="path"> <img src="images/index/path_ico.gif" />上级考核结果应用 &gt; 修改页面</div>
+<div class="path"> <img src="images/index/path_ico.gif" />所在位置：{$TABLEKEYWORD4}</div>
+
+    <table border="0" cellspacing="0" cellpadding="0" class="add_table">
+	 <tr>
+        <td class="t_r" width="20%">考核系统：</td>
+        <td class="t_l b_cf" width="80%">
+		<select name="typeName">
+			<script>
+					document.write(getOnlyOPtionListBySqlNo_upId(230,'{$TABLEKEYWORD3}'));
+			</script>
+		</select>
+		</td>
+      </tr>
+	  <tr>
+        <td class="t_r" width="20%">上级单位对</td>
+		  <td class="t_l" width="80%">
+			<input id="citySel_examName" name="citySel_examName"  type="text" rows="3" readonly value="{examObj}" style="width:150px;" onclick="showMenu_examName();" />的考核
+			<div id="menuContent_examName" class="menuContent" style="display:none; position: absolute;">
+				<ul id="treeDemo_examName" class="ztree" style="margin-top:0; width:150px; height: 300px;"></ul>
+		</td>
+      </tr>
+	    <tr>
+        <td class="t_r">应用类型：</td>
+        <td class="t_l b_cf" width="80%"><input name="examName_type" type="checkbox" realText="总分" value="总分" checked onclick="controlCalType(this)"/>总分&nbsp;
+			<span id="examName_spanId"></span>
+		</td>
+      </tr>
+	    <tr style="display:none" id="calType_trId">
+        <td class="t_r">计算类型：</td>
+        <td class="t_l b_cf" width="80%">
+			<select name="calType">
+				<script>
+					document.write(getOnlyOPtionListBySqlNo_upId(211,'双基考核基础数据维护|计算类型'));
+				</script>
+			</select>
+		</td>
+      </tr>
+	 
+	
+      <tr>
+        <td class="t_r">比重：</td>
+        <td class="t_l b_cf" width="80%"><input class="input_txt" type="text" name="percentage" tip="[比重]不能为空" value="{percentage}"  check="2" style="width:40px;"><font color='black'>%</font>&nbsp;*</td>
+      </tr>
+      <tr>
+        <td class="t_r">被考核单位：</td>
+        <td class="t_l b_cf" style='display:none'><input name="conScole" type="radio" onclick="setDisplay()" value="请选择考核对象" checked/><font color='black'>请选择被考核单位</font></td>
+        <td class="t_l b_cf" id="examObj_tdId"></td>
+      </tr>	 
+      <tr>
+         <td colspan="2"><center><input type="button" value="保 存" class="btn" onclick="setSave()" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="关 闭" class="btn m_l15" onclick="window.close();"/></center></td>
+      </tr>
+    </table>
+</form>
+</body>
+</html>

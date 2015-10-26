@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+     <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+</head>
+<div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp;  {$TABLEKEYWORD2} &gt; 修改页面</div>
+     <div style = "clear:both;"></div>
+<div class='toolbar'>
+<table width="100%" class="tabtap" style="border-collapse:collapse;" cellspacing="0" cellpadding="0">
+  <tbody>
+
+  <tr>
+  
+     <td class="tad"><img src="images/form/mi.GIF">&nbsp;年月&nbsp;:</td>
+    <td> {yearandmonth}</td>
+         <td class="tad"><img src="images/form/mi.GIF">&nbsp;煤炭产量(吨)&nbsp;:</td>
+    <td> {mtcl}</td>
+  </tr>
+  <tr>
+           <td class="tad"><img src="images/form/mi.GIF">&nbsp;灰份(%)&nbsp;:</td>
+    <td> {hf}</td>
+           <td class="tad"><img src="images/form/mi.GIF">&nbsp;水份(%)&nbsp;:</td>
+    <td> {sf}</td>
+ 
+
+   </tr>
+  <tr>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;块煤率(%)&nbsp;:</td>
+    <td>{kml}</td>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;平均日产(吨)&nbsp;:</td>
+    <td> {pjrc}</td>
+  
+  </tr>
+  <tr>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;掘进总进尺(米)&nbsp;:</td>
+    <td> 
+    {jjzjc}</td>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;平均日进(米)&nbsp;:</td>
+    <td> {pjrj}</td>
+  
+  </tr>
+  <tr>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;其中：开拓进尺(米)&nbsp;:</td>
+    <td> {ktjc}</td>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;开拓日进尺(米)&nbsp;:</td>
+    <td> {ktrjc}</td>
+  
+  </tr>
+  <tr>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;底板抽放巷进尺计划(米)&nbsp;:</td>
+    <td> {dbcfhjcjh}</td>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;底板抽放巷日进尺(米)&nbsp;:</td>
+    <td> {dbcfhrjc}</td>
+  
+  </tr>
+  <tr>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;瓦斯抽放钻孔进尺(米)&nbsp;:</td>
+    <td> {wscfzkjc}</td>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;瓦斯抽放量(方)&nbsp;:</td>
+    <td>{wscfl}</td>
+  
+  </tr>
+  <tr>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;底板钻孔进尺(米)&nbsp;:</td>
+    <td> {dbzkjc}</td>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;注浆量(吨)&nbsp;:</td>
+    <td>{zjl}</td>
+  
+  </tr>
+  <tr>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;实际天数&nbsp;:</td>
+    <td> {shijitianshu}</td>
+
+  
+  </tr>
+</tbody></table>
+
+
+</div>
+
+
+  <div>
+  <table border="0"width="100%" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+    <tr  >
+    	<th rowspan="2" align="center">序号</th>
+    	<th  rowspan="2" align="center" >单 位</th>
+    	<th align="center" colspan="3">考核产量/计划</th>
+    	
+    <th align="center" rowspan="2">月目标产量(吨)</th>
+    
+    </tr>
+      <tr>
+		<th align="center">月(产量(吨)/进尺(米))</th>
+		<th align="center">平均日(产量(吨)/进尺(米))</th>
+		
+	
+		<th align="center">有效进尺(米)</th>
+	
+		
+      </tr>
+    </thead>
+    <tbody>
+	{row}
+	<script>
+	//添加一行新数据获取option值
+		var UNIT;
+		if('{flag}'==1){
+			UNIT='{UNIT}';
+			
+		}
+		unit_id_optstr='{unit_id}';
+	
+		
+		
+		
+		   //procedure_in_month,avg_procedure_in_day,target_procedure_in_month,leap_in_month,valid_leap_in_month,avg_leap_in_day,unit_id
+		   </script>
+		   
+	<tr id="{flag}">
+    <td id="xuhao{flag}" align="center">{flag}</td>
+    <td align="center">{branch_name}</select>
+	<td align="center">{procedure_in_month}</td>
+	<td align="center">{avg_procedure_in_day}</td>
+	<td align="center">{valid_leap_in_month}</td>
+	<td align="center">{target_procedure_in_month}</td>
+	
+	<td style="display:none"><input name="FINISH{flag}" type="text" value="{FINISH}" size="5"/></td>
+	<td style="display:none"><input name="REMARK_F{flag}" type="text" value="{REMARK_F}" size="5"/></td>
+	<td style="display:none"><input name="COMPANY{flag}" type="text" value="{COMPANY}" size="5"/></td>
+	<td style="display:none"><input name="communityName{flag}" type="text" value="{communityName}" size="5"/></td>
+	<td style="display:none"><input name="communityId{flag}" type="text" value="{communityId}" size="5"/></td>
+  </tr>
+
+{row}
+       
+    </tbody>
+  </table>
+</div>
+  <table width="98%">
+    <tr>
+      <td colspan="4" align="center">
+          <input type="submit" value="关闭" class="btn" onclick="javascript:window.close();" />
+      </td>
+    </tr>
+  </table>
+
+</form>
+</body>
+</html>

@@ -1,0 +1,238 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>调度档案管理>早调会会议纪要>列表页面>已结束</title>
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+    <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+	 <!--table-->
+
+
+	<!--多选搜索 1 begin-->
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery-ui.css" />
+	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
+	<!--多选搜索 1 end-->
+
+
+	<!--日期控件 begin-->
+	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+	<!--日期控件 end-->
+	
+	<script src="/js/ajax/superValidator.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/map.js"></script>
+	<script src="/js/ajax/mainSub.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+
+	 <!--记忆搜索条件  第一步：引用cookie -->
+	<script src="/js/cookie.js"></script>
+
+	<!--提示信息框架 layer begin -->
+	<script src="js/layer/layer.min.js"></script>
+	<!--提示信息框架 layer begin -->
+
+
+
+</head>
+
+
+  <script>
+$(document).ready(function(){
+	
+	
+	
+
+	//如果操作列没有权限  隐藏操作列
+	hideLastCol('actor_table');
+
+	//初始化上下左右
+	//iniFocus();
+	LoadOrder("{OrderKey}","{OrderBy}");
+
+	//记忆搜索条件  第六步：取cookie 解析cookie
+	iniCookie('{tableName}','{ITNO}','{$USERID}');
+
+	
+});
+
+
+
+
+
+function clearNoNum(obj){
+
+		//先把非数字的都替换掉，除了数字和.
+		obj.value = obj.value.replace(/[^\d.]/g,"");
+		//必须保证第一个为数字而不是.
+		obj.value = obj.value.replace(/^\./g,"");
+		//保证只有出现一个.而没有多个.
+		obj.value = obj.value.replace(/\.{2,}/g,".");
+		//保证.只出现一次，而不能出现两次以上
+		obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+
+		 //如果第一位是负号，则允许添加   如果不允许添加负号 可以把这块注释掉
+	
+	}
+
+
+
+//
+var ckbZrBranchStr=getJsonRadioBySqlNo(46,'','zrBranch','checkbox','5','');
+
+function layer_div(num){
+	 
+	 $.layer({
+			type: 1,
+			title: false,
+			area: ['auto', 'auto'],
+			shift: '', //从左动画弹出
+			page: {
+			html: '<div style="width:420px; height:150px; padding:20px; border:1px solid #ccc; background-color:#eee;"><h3 align="center" width="100%">责任单位</h3><br><p width="100%" align="center">'+ckbZrBranchStr+'</p><br><p width="100%" align="center"><input type="button" value="确定" class="btn" onclick="queding('+num+')"></p></div>'
+			}
+		});
+
+	var oldValue=";"+$("TEXTAREA[name=ResponsibilityId"+num).val();
+	$("input[name=zrBranch]").each(function(){
+		if(oldValue.indexOf(";"+$(this).val()+";")>-1){
+			$(this).attr("checked",true);
+		}
+		
+	})
+}
+
+function queding(num){
+	
+
+	var zrBranchIds='';
+	var zrBranchNames='';
+	$("input[name=zrBranch]").each(function(){
+		if($(this).is(':checked')){
+			//val+=$(this).val+',';
+			zrBranchIds+=$(this).attr("value")+';';
+			zrBranchNames+=$(this).attr("realText")+';';
+		}
+		
+	})
+
+	$("TEXTAREA[name=ResponsibilityId"+num).val(zrBranchIds);
+	$("#operate_zrBranch_spanId"+num).html(zrBranchNames);
+	$("TEXTAREA[name=ResponsibilityName"+num+"]").val(zrBranchNames);
+
+	
+	
+
+}
+function openWfPage(id){
+				
+	window.open('/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTBank_meeting_task1&recordId='+id+'&ITNO=1&listurl=1&$TABLEKEYWORD={$TABLEKEYWORD}')
+
+	
+ 
+}
+
+
+</script>
+<body >
+  <form name="form1" action="" method="post">
+    <input type="hidden" name="tableName" value="DTBank_meeting_task">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" name="actorCount" value="{actorCount}">
+	<input type="hidden" name="worry_type" value="{$TABLEKEYWORD2}">
+
+	<input type="hidden" name="OrderBy" value="{OrderBy}">	
+	<input type="hidden" name="OrderKey" value="{OrderKey}">
+	
+	<input type="hidden" name="clickValue" value="N1">
+	<input type="hidden" name="firstUrl" value="null">
+	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+
+	<input type="hidden" name="step" value="">
+    <input type="hidden" name="recordId" value="">
+	 <input type="hidden" name="templateId" value="DTBank_meeting_task">
+
+
+
+
+	<input type="hidden" name="j" value="">
+
+  <div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1}</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp;{$TABLEKEYWORD2}>列表页面>已结束</div>
+  </div>
+	<br><br>
+
+	<div class="line_list">
+		 <li class="pian">
+                 <div id="navMenu">
+                            <a id="stair1" href="/generictableservlet?action=recordList&ITNO=431_task&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|{$TABLEKEYWORD3}"
+                            title="待处理" class="">
+                                <span>
+                                    待处理
+                                </span>
+                            </a>
+                            <a id="stair2" href="/generictableservlet?action=recordList&ITNO=431_ycl&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|{$TABLEKEYWORD3}"
+                            title="已处理" class="">
+                                <span>
+                                    已处理
+                                </span>
+                            </a>
+                            <a id="stair3" href="/generictableservlet?action=recordList&ITNO=431_yjs&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|{$TABLEKEYWORD3}"
+                            title="已结束" class="active">
+                                <span>
+                                    已结束
+                                </span>
+                            </a>
+                        </div>
+			</li>
+		   
+    </div>
+		
+<div class="a_box">	
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+      <tr>
+	    <th width="1%"><input type="checkbox" name="roleCheck" value="" onClick="selectAllRole(form1);"></th>
+          
+            <th width="5%">矿领导</th> 
+			<th width="3%">安排工作内容</th>
+			<th width="3%">责任单位</th> 
+			<th width="3%">状态</th> 
+      </tr>
+    </thead>
+		{row}
+		<tr>
+			<td >{id}&nbsp;</td>
+			<td ><a href="javascript:openWfPage({recordId})">{Leader_str}</a></td>
+			<td >{ArrangeWork}&nbsp;</td>
+			<td >{ResponsibilityName}&nbsp;</td>
+			<td >{wf_status}&nbsp;</td>
+		</tr>
+	{row}
+  </table>
+
+   <table width="100%">
+	<tr>
+     {page}
+    </tr>
+   
+  </table>
+
+  </div>
+</form>
+</body>
+</html>

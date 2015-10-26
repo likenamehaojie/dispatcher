@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /> 
+<title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]</title>
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+ <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+
+<SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+<SCRIPT language="javascript" src="/js/upload/upload.js"></SCRIPT>
+
+</head>
+
+<SCRIPT type=text/javascript> 
+	$(document).ready(function(){
+
+		setEmptyCheck("fileName:file1");
+	
+	});
+
+function getFileName(path){//alert(path);
+	var pos1 = path.lastIndexOf('/');
+	var pos2 = path.lastIndexOf('\\');
+	var pos  = Math.max(pos1, pos2);
+	var ftype="";
+	if( pos>=0 ){
+	  path=path.substring(pos+1);
+	  ftype=path.substring(path.lastIndexOf("."));
+      path=path.substring(0,path.lastIndexOf("."));
+	}else{
+	  ftype=path.substring(path.lastIndexOf("."));
+	}
+    if(ftype.indexOf(".doc")>=0||ftype.indexOf(".docx")>=0||ftype.indexOf(".xls")>=0||ftype.indexOf(".xlsx")>=0){
+          getURL();
+	}else{
+	  alert("您导入的文件不是【WORD或EXCEL】文件，请重新浏览选择正确的word或excel文件，谢谢！");
+	  //document.form1.reset();
+      document.all("file1").outerHTML=document.all("file1").outerHTML;
+	}
+}
+
+function checkFileType() {
+  if(document.all("file1").value!=''){
+     getFileName(document.all("file1").value);
+
+  }
+}
+</SCRIPT>
+
+<form name="form1" action="/generictableservlet?action=saveAddRecord&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}&formFlag=2" method="post" >
+<input type="hidden" name="tableName" value="DTFile_manage">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+
+<input type="hidden" name="listUrl" value="{listUrl}">
+<input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+<input type="hidden" name="fileTypeId" value="{$TABLEKEYWORD3}">
+<input type="hidden" name="manage_type" value="公共文件区">
+<input type="hidden" name="realFileName" value="">
+
+<div class="path"> <img src="images/index/path_ico.gif" />所在文件夹：{$TABLEKEYWORD4}</div>
+
+  <div class="a_box">
+    <table border="0" cellspacing="0" cellpadding="0" class="view_table">
+      <tr>
+        <td class="tad" width="20%">文件名称：</td>
+        <td class="t_l b_cf" width="80%"><input class="input_txt" type="text" name="fileName" size="30" tip="[文件名称]不能为空" check="2">&nbsp;*</td>
+      </tr>
+       <tr>
+			<td class="tad" width="20%">上传附件：</td>
+			<td id="fileTdId" class="t_l b_cf" width="30%" colspan="3">
+			<input type="file" name="file1" onChange="checkFileType()" >*</td>
+			
+	  </tr>
+      <tr>
+        <td class="tad">文件备注：</td>
+        <td class="t_l b_cf"><textarea class="textarea_txt" name="remark"  rows="5" cols="55"></textarea></td>
+      </tr>
+	
+     
+      <tr class="tad">
+         <td  colspan="2" align="center"><input type="submit" value="保 存" class="btn" onclick="return true;" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="关 闭" class="btn m_l15" onclick="window.close();"/></td>
+      </tr>
+    </table>
+	</div>
+</form>
+</body>
+</html>

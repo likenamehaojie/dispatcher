@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+	<!--多选搜索 1 begin-->
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery-ui.css" />
+	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
+	<!--多选搜索 1 end-->
+
+	<!--日期控件 begin-->
+	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+	<!--日期控件 end-->
+	
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+
+	 <!--记忆搜索条件  第一步：引用cookie -->
+	<script src="/js/cookie.js"></script>
+
+</head>
+
+<script>
+	
+$(document).ready(function(){
+	
+	//iniFocus();
+	LoadOrder("{OrderKey}","{OrderBy}");
+
+	//记忆搜索条件  第六步：取cookie 解析cookie
+	iniCookie('{tableName}','{ITNO}','{$USERID}');
+	//初始化多选菜单
+	iniMultOptions('{tableName}','{ITNO}','{$USERID}');
+});
+
+
+function  winOpen(url){
+	window.open(url ,"FullScreen","scrollbars=yes,width=800,height=300");
+} 
+function  winOpenWH(url,width,height){
+	window.open(url ,"FullScreen","scrollbars=yes,width="+width+",height="+height);
+} 
+//判断部门下面是否有用户
+function isExistsUser(delDes,recordId,sNo){
+	var isExistsUser=getInfoBySqlNo_noHidden(346,recordId);
+	if(isExistsUser!=0){
+		alert("请先删除该部门下的所有用户，才能删除该部门");
+		return;
+	}
+	singleBatUpdateRecordNoPost(delDes,recordId,sNo);
+	//'删除','{recordId}',196
+}
+//alert(getOnlyOPtionListBySqlNo_upId(182,'0'));
+</script>
+
+<body>
+<form name="form1" action="" method="post">
+    <input type="hidden" name="tableName" value="{tableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" name="actorCount" value="{actorCount}">
+
+	<input type="hidden" name="OrderBy" value="{OrderBy}">	
+	<input type="hidden" name="OrderKey" value="{OrderKey}">
+
+	<input type="hidden" name="clickValue" value="N1">
+	<input type="hidden" name="firstUrl" value="null">
+	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+
+
+	<input type="hidden" name="field1" value="branch_name|部门名称|TXT|50|">
+
+  <div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 列表页面</div>
+  </div
+		<!--多选搜索 4 begin-->
+		<div class="line_list_mulitSelect" style="display:none">
+			<select name="selSetCon" multiple="multiple">
+				<option value="1">部门名称</option>
+			</select>
+		</div>
+		<!--多选搜索 4 end-->
+
+  <div class="line_list_left">
+		 <ul id="ul_search">
+			<li id="li_search1">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="1">&nbsp;部门名称：
+				<input name="branch_name" onchange="checkChange(this,'1')" class="input_txt"/>
+			</li>
+			
+		
+			<li id="li_search_btn">
+				&nbsp;
+				<input type="button"  value="查询" class="btn" onClick="setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');"/>
+			</li>
+		</ul>
+	</div>
+	 <div class="line_list">
+		   <li><a href="#" onclick="winOpenWH('/generictableservlet?action=addRecord&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}',1200,500);"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l">添加</span></a></li>
+		   
+		   <li>&nbsp;&nbsp;</li>
+		   <li><a href="/gettablerecordinfoservlet?action=viewDocInfo&templateId=branchSortSet&ITNO=1&$TABLEKEYWORD=系统设置|部门排序" target="_blank"
+><span class="f_l">部门排序</span></a></li>
+		   <li>&nbsp;&nbsp;</li>
+		   <li><a href="#" onclick="winOpenWH('/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTParam_branchType_view&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}',800,600);"><span class="f_l">部门类别设置</span></a></li>
+        </div>
+<div class="a_box">	
+<table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+      <tr>
+	    <th width="3%"><input type="checkbox"  name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
+		<th style="cursor:hand;" onClick="orderByInfo_new('branch_name','{OrderKey}','{OrderBy}')">部门名称<span id="branch_nameOrder" class="orderNo"></span></th> 
+        <th style="cursor:hand;" onClick="orderByInfo_new('branchType','{OrderKey}','{OrderBy}')">部门类别<span id="branchTypeOrder" class="orderNo"></span></th> 
+	    <th style="cursor:hand;">所属单位</th> 
+		<th style="cursor:hand;" onClick="orderByInfo_new('cdate','{OrderKey}','{OrderBy}')">创建时间<span id="cdateOrder" class="orderNo"></span></th> 
+        <th>操作</th>
+      </tr>
+    </thead>
+	<tbody>
+		{row}
+		<TR style="BACKGROUND-COLOR: #fafbfd" align=middle bgColor=#fafbfd onmouseout="this.style.backgroundColor='#FAFBFD'" onmouseover= "this.style.backgroundColor='#EEF1F8'">
+		<td style="text-align:center">{id}</td>
+		<td style="text-align:center">{branch_name}&nbsp;</td>	
+		<td style="text-align:center">{branchType}&nbsp;&nbsp;{branchType_sub}&nbsp;</td>
+		<td style="text-align:center">{cShortName}&nbsp;</td>
+		<td style="text-align:center">{cdate}&nbsp;</td>
+		<td id="operate_tdId1"><img src="images/zTree/treeEdit.gif" width="16" height="16" /><a href="#" onClick="winOpen('/generictableservlet?action=editRecord&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}&recordId={recordId}&cp={curPage}&$TABLEKEYWORD={$TABLEKEYWORD}')">编辑</a>&nbsp; &nbsp;<img src="images/zTree/treeDel.gif" width="16" height="16" /><a href="#" onClick="isExistsUser('删除','{recordId}',196)">删除</a></td>
+		</tr>
+		{row}
+	</tbody>
+	
+  </table>
+
+  </table>
+  <table width="98%">
+	<tr>
+     {page}
+    </tr>
+  
+  </table>
+</div>
+
+</form>
+</body>
+</html>

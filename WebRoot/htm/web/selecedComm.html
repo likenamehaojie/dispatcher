@@ -1,0 +1,129 @@
+<LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="/js/baiduAutoComplete.js" charset="utf-8"></script>
+<script src="/js/hanziToPy/hanziToPy.js"></script>
+<script src="/js/hanziToPy/hanziToPinYin.js"></script>
+
+
+<style>
+.button{ 
+ width:199px; 
+ height:38px; 
+ background:#0d95d3; 
+ border:1px solid #9ad3ed; 
+ outline: none; 
+ font-size:16px; 
+ color:#FFFFFF;  
+ }
+#wxts_tdId{color:#c50018;font-size:12px;}
+</style>
+
+<table width="100%">
+	<tr>
+		<td align="center"><input name="selectedComm" id="selectedComm" style="height:50px;font-size:30px" type="text" value="" size="20"></td>
+	</tr>
+	
+	<tr>
+		<td align="center"><button style="cursor:pointer;" type="button" class="button" onclick="setOK()"><strong>确  &nbsp;&nbsp;&nbsp;  定 </strong></button></td>
+	</tr>
+	<tr>
+		<td id="wxts_tdId" align="left">
+		<br>
+		<br>
+          <span class="font3">&nbsp; 温馨提示：</span>
+		  <br>
+          &nbsp; 例如查找 “河南能源”，可以使用以下三种方式：
+		  <br>
+		  <br>
+          &nbsp; 1.直接输入汉字：“河”；
+		  <br>
+          &nbsp; 2.或直接输入汉字拼音首字母：“hnny”；
+		  <br>
+          &nbsp; 3.或直接输入汉字全拼：“henan”；
+		  <br>
+		  <br>
+          &nbsp; 经过以上任一步骤，系统都会给出结果提示。
+      </td>
+	</tr>
+</table>
+<script type="text/javascript">
+document.getElementsByName("selectedComm")[0].focus();
+var commId=window.parent.document.getElementsByName("communityId")[0].value;
+var commName=window.parent.document.getElementsByName("communityShortName")[0].value;
+
+ var options = {
+	getData: function(word){
+		//var abcStr=getInfoBySqlNo_noHidden(113,word).split(",");
+		
+		var abcStr=commName.split(",");
+		abcStr=setFilter(abcStr,'','',word);
+		
+		//var abcStr=document.all("abc").value.split(",");
+		var abcStrLength=abcStr.length;
+		
+		
+		var suggestionData;
+		if(abcStrLength==0){
+			suggestionData = ["暂无匹配数据"];	
+		}else if(abcStrLength>=1){
+			suggestionData = abcStr;	
+		}
+		suggestionData.unshift(word);
+		this.setData(word, suggestionData);
+	}
+};	
+//过滤不合法的单位
+function setFilter(zwArray,pinyinArray,pyArray,word){
+	for(var i=0;i<10000;i++){
+		if(zwArray[i]){
+			if(zwArray[i].indexOf(word)!=0 && validatePy(zwArray[i],word) && validatePinYin(zwArray[i],word)){
+				zwArray.splice(i,1);
+				i--;
+			}
+		}else{
+			break;
+		}
+	}
+	return zwArray;
+}
+//验证拼音首字母
+function validatePy(hanzi,word){
+	word=word.toUpperCase();
+	var pyArray=makePy(hanzi);
+	for(var i=0;i<pyArray.length;i++){
+		if(pyArray[i].indexOf(word)==0){
+			return false;
+		}
+	}
+	return true;
+}
+//验证拼音
+function validatePinYin(hanzi,word){
+	word=word.toUpperCase();
+	var pinyin=codefans_net_CC2PY(hanzi);
+	pinyin=pinyin.toUpperCase();
+	if(pinyin.indexOf(word)==0){
+		return false;
+	}
+	
+	return true;
+}
+//所选单位是否正确
+function contains(curArray,word){
+	for(var i=0;i<curArray.length;i++){
+		if(curArray[i]==word){
+			window.parent.document.getElementById("selectedComm_spanId").innerHTML=word;
+			window.parent.document.getElementsByName("loginCommId")[0].value=commId.split(",")[i];
+			window.parent.layer.close(window.parent.selectedCommPage);
+			return;
+		}
+	}
+	alert("请重新选择单位");
+}
+//确定单位
+function setOK(){
+	var selectedCommName=document.getElementsByName("selectedComm")[0].value;
+	contains(commName.split(","),selectedCommName);
+
+}
+baidu.ui.suggestion.create(baidu.g("selectedComm"), options);
+</script>

@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+     <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+ <script type="text/javascript" src="js/jQuery.js"></script>
+<SCRIPT> 
+	$(document).ready(function(){
+		var  PeriodNumber=window.opener.document.getElementById("PeriodNumber").value;
+		$("#PeriodNumber").html(PeriodNumber)
+	})
+
+</SCRIPT> 
+</head>
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp;  {$TABLEKEYWORD2} &gt; 发送页面>详情内容</div>
+     <div style = "clear:both;"></div>
+<div class='toolbar'>
+<table width="100%" class="tabtap" style="border-collapse:collapse;" cellspacing="0" cellpadding="0">
+  <tbody>
+
+  <tr>
+  
+         <td class="tad"><img src="images/form/mi.GIF">&nbsp;矿领导&nbsp;:</td>
+    <td> {Leader_str}</td>
+	  <td class="tad"><img src="images/form/mi.GIF">&nbsp;安排工作内容&nbsp;:</td>
+    <td> {ArrangeWork}</td>
+  </tr>
+  <tr>
+         
+           <td class="tad"><img src="images/form/mi.GIF">&nbsp;责任单位&nbsp;:</td>
+    <td> {ResponsibilityName}</td>
+	   <td class="tad"><img src="images/form/mi.GIF">&nbsp;状态&nbsp;:</td>
+    <td>{wf_status}</td>
+
+ 
+
+   </tr>
+
+ 
+</tbody></table>
+
+
+</div>
+
+
+ <form name="form1" action="/wfservlet?action=processSave&tableName={tableName}&recordId={recordId}&step={step}" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+<input type="hidden" name="listUrl" value="{listUrl}">
+<input type="hidden" name="operate" value="{operate}">
+<input type="hidden" name="ht_community" value="{ht_community}">
+<input type="hidden" name="ht_branch" value="{ht_branch}">
+<input type="hidden" name="callback_community" value="">
+<input type="hidden" name="returnBranchType" value="安监科">
+<input type="hidden" name="ispassType" value="">
+<input type="hidden" name="next_branch" value="{next_branch}">
+<input type="hidden" name="next_user" id="next_user" value="">
+<input type="hidden" name="PeriodNumber" value="">
+
+
+<input type="hidden" name="ResponsibilityId"  value="{ResponsibilityId}">
+<input type="hidden" name="workGroupName" value="{workGroupName}">
+	<br>
+        <table border="0" cellspacing="0" cellpadding="0" class="add_table"  >
+			<script >
+			if(document.getElementById("tr")){
+				$("#tr").hide();
+			}
+			</script>
+					  		<tr>
+          <td class="tad"width ='10%' ><img src="images/form/mi.GIF">流程信息：</td>
+          <td class="t_l b_cf_noRed"  bgColor="white">
+           <table border="0" width="80%" cellspacing="0" cellpadding="0" class="table_list" id="liuchengInfo">
+            <thead>
+            <tr align="center" height="30">
+            <th width="5%" >&nbsp;步骤</th>
+            <th width="15%"><b>&nbsp;操作人：</b></th>
+            <th width="10%"><b>&nbsp;处理时间：</b></th>
+            <th width="15%"><b>&nbsp;审批意见：</b></th>
+			<th width="15%"><b>&nbsp;流程状态：</b></th>
+            </tr>
+            </thead>
+            <tbody>
+			{wf}
+            <tr align="center">
+            <td >&nbsp;{sNo}</td>
+            <td >&nbsp;{realName}</td>
+            <td >&nbsp;{create_time}</td>
+            <td id="content_view_td{sNo}">&nbsp;{content}</td>
+			<td id="content_operate_td{sNo}" style="display:none" ><textarea  id='content_{sNo}'>{content}</textarea></td>
+			<td >&nbsp;{processStatus}</td>
+			
+            </tr>
+			<script>	
+				if('{sNo}'==''){
+					document.getElementById("operate_tdId{sNo}").innerHTML="&nbsp;";
+				}
+			</script>
+			 {wf}
+            </tbody>
+          </table>
+		  </tr>
+	<table width="100%" class="tabtap" style="border-collapse:collapse;" cellspacing="0" cellpadding="0">
+	<tbody>
+	</tbody>
+	</table>
+
+	<table width="98%">
+    <tr>
+      <td colspan="4" align="center">
+				
+				<input type="button" name="back" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="window.close();"
+				value="关 闭">	
+      </td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

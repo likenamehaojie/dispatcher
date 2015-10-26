@@ -1,0 +1,421 @@
+.clearfix {
+	*zoom: 1;
+}
+
+.clearfix:before,.clearfix:after {
+	display: table;
+	content: "";
+}
+
+.clearfix:after {
+	clear: both;
+}
+
+.hide-text {
+	overflow: hidden;
+	text-indent: 100%;
+	white-space: nowrap;
+}
+
+.input-block-level {
+	display: block;
+	width: 100%;
+	min-height: 28px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.pull-right {
+	float: right;
+}
+
+.pull-left {
+	float: left;
+}
+
+.hide {
+	display: none;
+}
+
+.show {
+	display: block;
+}
+
+.invisible {
+	visibility: hidden;
+}
+
+.ks-inline-block {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+.ks-ext-mask {
+	background-color:rgb(51, 51, 51);
+	opacity: .5;
+	filter: Alpha(opacity=50);
+}
+
+.ks-clear {
+	*zoom: 1;
+}
+
+.ks-clear:before,.ks-clear:after {
+	display: table;
+	content: "";
+}
+
+.ks-clear:after {
+	clear: both;
+}
+
+.ks-hidden {
+	display: none;
+}
+
+html {
+	*overflow: hidden;
+}
+
+body {
+position:fixed!important; position:absolute; 
+!important; bottom:auto; 
+top: expression(eval(document.compatMode && document.compatMode=='CSS1Compat') ? 
+documentElement.scrollTop+(documentElement.clientHeight - this.clientHeight):document.
+body.scrollTop+(document.body.clientHeight - this.clientHeight));
+	overflow: hidden;
+	width:100%;
+	background-color: white;
+}
+
+iframe {
+	border: none;
+	padding: none;
+}
+
+.header,.dl-main-nav {
+	background: url('../img/main-nav-bg.png') repeat-x 0 0 #204077;
+}
+
+.header {
+	background-color:#;  
+	height:65px;
+	width:100%;
+	overflow:hidden;	
+background:#092348 url(../../images/main/top.jpg)  repeat-x; 
+
+	
+}
+.topall{ 
+ background:url(../../images/main/top1.png) left no-repeat; 
+ padding:0px 0px 0px 10px; 
+ float:left;
+ }
+ .topala{ 
+ background:url(../../images/main/top3.png) left no-repeat; 
+ padding:0px 0px 0px 10px; 
+ float:left;
+ }
+ .topalb{ 
+ background:url(../../images/main/top.png) left no-repeat; 
+ padding:0px 0px 0px 10px; 
+ float:left;
+ }
+
+.dl-title {width:100%;height:66px;
+	float:right; 
+	color:#c1d5ec;
+	font-family:"Microsoft YaHei";
+	margin-left:12px;
+	font-size:18px;
+	line-height:36px;
+
+}
+
+.top-right{ width:450px; margin-top:2px; float:left; }
+.top-left{ width:220px; margin-top:0px; float:right; font-size:12px; color:#FFFFFF;}
+.dl-title a { padding-left:20px; margin-left:18px; text-decoration:none;
+	color: #60edfa;
+}
+.dl-title a:hover { text-decoration:none;
+	color: #FF6633;
+}
+
+.topall{ 
+ background:url(../../images/main/top1.png) left no-repeat; 
+ padding:0px 0px 0px 10px; 
+ float:left;
+ }
+ .topala{ 
+ background:url(../../images/main/top3.png) left no-repeat; 
+ padding:0px 0px 0px 10px; 
+ float:left;
+ }
+ .topalb{ 
+ background:url(../../images/main/top.png) left no-repeat; 
+ padding:0px 0px 0px 10px; 
+ float:left;
+ }
+
+
+.content {
+	width: 100%;
+}
+
+.dl-main-nav {
+	height: 32px;
+	background-position: center -30px;
+	overflow: hidden;
+	position: relative;	
+	background:url(../../images/main/topa.jpg)  repeat-x; 
+
+}
+
+.dl-main-nav .nav-list {
+	border-bottom: 1px solid #FFF;
+	overflow: hidden; float:right; margin-right:20px;
+	border-width: 0;
+}
+
+.nav-item {
+	overflow: hidden;
+	font-size: 14px;
+	color: white;
+	position: relative;
+	padding:2px 0 0 8px;
+	cursor: pointer;
+}
+
+.nav-list .nav-item {
+	float: left; font-weight:100;
+	
+}
+
+.nav-item-inner,.dl4-hide-list .dl-hover {
+	background: url('../img/icon1.png') no-repeat 0 0 transparent;
+}
+
+.nav-list .dl-hover {
+	background-position: 0x -50px;
+}
+
+.dl4-hide-list .dl-hover {
+	background-position: 8px -40px;
+}
+
+.nav-item-inner {
+    font-weight:bold;
+	padding: 0px 20px 0 20px;
+	height: 32px; line-height:32px;
+	border: 1px solid transparent;
+	_border: none;
+}
+a{ text-decoration:none; }
+
+
+.nav-item-mask {
+	display:none;
+	width:128px;
+	height:25px;
+	position:absolute;
+	background-color:white;
+	top:8px;
+	opacity:.15;
+	filter:alpha(opacity=15);
+	-webkit-border-radius:2px;
+	-moz-border-radius:2px;
+	border-radius:2px;
+	border:1px solid #333;
+}
+.dl-hide-list {
+	position:absolute;
+	width:160px;
+	overflow:hidden;
+	z-index:10;
+	border:1px solid #C3C3D6;
+	border-top:none;
+	padding:10px 0 0;
+	background-color:#E8E9EE;
+}
+.dl-hide-list .nav-item {
+	float:none;
+	padding:0;
+	width:158px;
+	border:1px solid white;
+	border-width:0 1px;
+}
+.dl-hide-list .dl-item-inner {
+	background-color:#E8E9EE;
+	font-size:12px;
+	color:#666;
+	height:23px;
+	margin:0 5px;
+}
+.dl-hide-list .nav-item:last-child {
+	-webkit-border-radius:0 0 2px 2px;
+	-moz-border-radius:0 0 2px 4px;
+	border-radius:0 0 2px 2px;
+	padding-bottom:10px;
+	border-bottom:1px solid white;
+}
+.dl-hide-list .dl-last {
+	padding-top:6px;
+	background-color:transparent;
+}
+.dl-hide-list .dl-last {
+	display:none;
+}
+.nav-item-inner img{margin-top:2px;
+}
+
+
+.dl-hide-list .nav-item-inner {
+	background-color:#E8E9EE;
+	font-size:12px;
+	color:#666;
+	height:30px;
+	margin:0 5px;
+}
+.dl-hide-list .nav-item:hover .nav-item-inner {
+	background-color:#e0e6fc;
+	border:1px solid #a9b9f5;
+	border-radius:2px;
+}
+.nav-list .dl-hover .nav-item-mask,.nav-list .dl-last .nav-item-mask {
+	
+}
+.nav-list .dl-selected .nav-item-inner {
+  -webkit-border-radius:2px 2px 0 0;
+	-moz-border-radius:2px 2px 0 0;
+	border-radius:2px 2px 0 0;
+	border:1px solid #FFF;
+	background-color:#E8E9EE;
+	color:#43478e;
+	font-weight:bold;
+	height:32px; line-height:32px;
+}
+.nav-list .dl-selected .nav-item-mask {
+	display:none;
+}
+
+
+.dl-inform {
+	width:135px;
+	float:right;
+	padding-top:10px;
+	cursor:pointer;
+	display:none;
+}
+.dl-hide-current {
+	margin-left:5px;
+}
+.dl-selected .dl-hide-current {
+	background-image:url('../../Images/main/icon2.png');
+}
+.dl-tab-content {
+	width:100%;
+	height:100%;
+}
+.dl-tab-item {
+	width:100%;
+}
+.dl-tab-item-inner {
+	width:100%;
+	height:430px;
+}
+.dl-second-nav,.dl-second-tree,.dl-inner-tab {
+	height:100%;
+}
+.dl-second-tree {
+	width:180px;
+	float:left;
+}
+.dl-second-nav {
+	float:left;
+	width:180px;
+	position:relative;
+	padding-top:0px;
+	background-color:#E8E9EE;
+}
+.dl-inner-tab .dl-tab-nav {
+	background-color:#E8E9EE;
+}
+.dl-second-nav .menu-container {
+	background-color:transparent;
+}
+.dl-collapse .dl-second-nav {
+	width:1px;
+}
+.dl-collapse .dl-second-tree {
+	width:0px;
+}
+.dl-collapse .menu-container {
+	display:none;
+}
+.dl-inner-tab {
+	margin-left:180px;
+}
+.dl-collapse .dl-inner-tab {
+	margin-left:10px;
+}
+.dl-second-slib-con {
+	position: absolute;
+	top: 0;
+	right: -6px;
+	height: 100%;
+	width:7px;
+	overflow: hidden;
+}
+.dl-second-slib {
+	position:absolute;
+	height:100%;
+	width:6px;
+	cursor:pointer;
+	top:22px;
+	border-left: 1px solid #C3C3D6;
+	border-radius: 2px;
+	background:url('../../Images/main/left-slib.gif') no-repeat 0 center transparent;
+}
+.dl-collapse .dl-second-slib {
+	background-position:-6px center;
+}
+.dl-inner-tab .bui-nav-tab { padding-bottom:5px;
+	
+}
+.dl-inner-tab .bui-nav-tab {
+	background:#e8e9ee;
+}
+
+.dl-inner-tab .tab-content-container {
+	background-color:#fff;
+}
+
+
+
+
+.tab li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;}
+
+#tabtabie{clear: both; /*因为使用了float:left效果 去除div的环绕*/
+    border-top: 1px solid #a9b9f5;
+	width:100%; 
+    position: relative;
+    top:1px;}
+#tab{list-style:none;margin:0;padding:0;height:25px; 
+overflow:hidden; _zoom:1; padding-left:0px;background:url(../../images/main/tob.png) bottom repeat-x ;}
+.tisn{margin:1px;padding:0;height:25px; 
+padding-left:0px;background:url(../../images/main/tob.png) bottom repeat-x ;}
+#NOTICE{list-style:none;overflow:hidden; _zoom:1; }
+#NOTICE li{ float:left; text-align:center; height:24px; line-height:24px; 
+padding:0 10px; letter-spacing:1px; text-transform:uppercase; border-right:1px #b6c1c1 solid;border-top:1px #b6c1c1 solid}
+#NOTICE li a {display: block;padding: 0 20px;border: 1px solid #fff;outline: none;}
+
+table tr {
+    height: 32px;
+    border-bottom: 1px #CCCCCC dashed;
+}
+ul, li {
+    list-style: none;
+}

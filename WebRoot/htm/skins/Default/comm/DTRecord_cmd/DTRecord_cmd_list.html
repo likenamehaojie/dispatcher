@@ -1,0 +1,343 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>系统设置-用户管理</title>
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+	 <!--table-->
+
+
+	<!--多选搜索 1 begin-->
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery-ui.css" />
+	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
+	  <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+	<!--多选搜索 1 end-->
+
+
+	<!--日期控件 begin-->
+	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+	<!--日期控件 end-->
+	
+	<script src="/js/ajax/superValidator.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/map.js"></script>
+	<script src="/js/ajax/mainSub.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+
+	 <!--记忆搜索条件  第一步：引用cookie -->
+	<script src="/js/cookie.js"></script>
+
+</head>
+
+
+  <script>
+$(document).ready(function(){
+	
+	
+	if('{operate_show}'=="none"){
+		$("#wxts_tdId").css('display','none');
+		document.getElementsByName("dblclick")[0].value="true";
+	}
+	if ('{$TABLEKEYWORD2}'=="采煤工作面")
+		{
+			$("#CONFERENCE_PROFESSIONAL,#line_list").css('display','none');
+		}
+	
+	//改变未上报 已上报样式 隐藏已上报页面 添加 上报 批量删除 操作  
+	if ('{$TABLEKEYWORD3}'=="已上报"){
+	   document.getElementById("stair2").className="active";
+	   $('#YC,#YC1,#YC2,#YC3,#YC4,#TS,#wxts_tdId').css('display','none');
+	   document.getElementsByName("dblclick")[0].value="true";
+	
+	   
+		
+	} 
+	else{
+	   document.getElementById("stair1").className="active";
+	} 
+	
+	$("a[id^=sys_a_id]").each(function(){
+		if($(this).attr("realvalue")=='{$TABLEKEYWORD4}')$(this).attr("class","active");
+	
+	})
+	
+	//初始化row数据
+	iniList();
+	//如果操作列没有权限  隐藏操作列
+	hideLastCol('actor_table');
+
+	//初始化上下左右
+	//iniFocus();
+	LoadOrder("{OrderKey}","{OrderBy}");
+
+	//记忆搜索条件  第六步：取cookie 解析cookie
+	iniCookie('{tableName}','{ITNO}','{$USERID}');
+	//初始化多选菜单
+	iniMultOptions('{tableName}','{ITNO}','{$USERID}');
+
+
+	
+});
+
+
+var map=new Map();
+//初始化row数据
+function iniList(){
+	//功能描述：使用JavaScript动态添加HTML的元素 
+	//行号与列号 
+
+	{row}
+	
+	var BirthDate_Str='{BirthDate}'.replace(/<[^>].*?>/g,'');
+
+	var branchName_Str='{branchName}'.replace(/<[^>].*?>/g,'');
+
+	var workPlace_Str='{workPlace_str}'.replace(/<[^>].*?>/g,'');
+
+	var Shift_Str='{Shift}'.replace(/<[^>].*?>/g,'');
+	
+	map.clear();
+	if('{sNo}'==""){
+		map.put("recordId",'&nbsp;<input type="checkbox" name="id" value="">');
+	}else{
+		map.put("recordId",'&nbsp;{id}');
+	}
+	map.put("xuhao:SYS_HIDDEN",'{sNo}');
+
+	
+	
+
+	//区队
+	map.put("branchName:SYS_FIELDS",'<span id="branchName_sysEdit_spanId#no#"><select name=\"branchName#no#\" realValue=\"{branchName}\"  check=\"2"\ valFun=\"setEmptyCheck\">{filterOptions1}</select></span><span id="branchName_sysView_spanId#no#">'+branchName_Str+'</span>');
+
+    //作业地点
+	map.put("workPlace:SYS_FIELDS",'<span id="workPlace_sysEdit_spanId#no#"><select name=\"workPlace#no#\" realValue=\"'+workPlace_Str+'\"  check=\"2"\ valFun=\"setEmptyCheck\"><option value="" >请选择</option>{filterOptions4}</select></span><span id="workPlace_sysView_spanId#no#">'+workPlace_Str+'</span>');
+	//日期
+	map.put("BirthDate:SYS_FIELDS",'<span id="BirthDate_sysEdit_spanId#no#"><input type=\"text\" id="time#no#" name=\"BirthDate#no#\" value=\"{BirthDate}\"  size=\"8\" check=\"2"\ tip=\"区队不能为空\" valFun=\"setEmptyCheck\" onclick=WdatePicker()></span><span id="BirthDate_sysView_spanId#no#">'+BirthDate_Str+'</span>');	
+	//班次
+	map.put("Shift:SYS_FIELDS",'<span id="Shift_sysEdit_spanId#no#"><select name=\"Shift#no#\" realValue=\"{Shift}\"  check=\"2"\ valFun=\"setEmptyCheck\">{filterOptions2}</select></span><span id="Shift_sysView_spanId#no#">'+Shift_Str+'</span>');
+
+    //出勤人数
+	map.put("Attendance:SYS_FIELDS",'<span id="Attendance_sysEdit_spanId#no#"><input type=\"text\" name=\"Attendance#no#\" value=\"{Attendance}\" size=\"8\"   check=\"2"\ tip=\"出勤人数不能为空\" valFun=\"setEmptyCheck\"  onkeyup=\"clearNoNum(this)\"></span><span id="Attendance_sysView_spanId#no#">{Attendance}</span>');
+	//计划割煤刀数
+	map.put("PlanDigital:SYS_FIELDS",'<span id="PlanDigital_sysEdit_spanId#no#"><input type=\"text\" name=\"PlanDigital#no#\" value=\"{PlanDigital}\" size=\"8\" check=\"2"\ tip=\"计划割煤刀数不能为空\" valFun=\"setEmptyCheck\"onkeyup=\"clearNoNum(this)\"></span><span id="PlanDigital_sysView_spanId#no#">{PlanDigital}</span>');
+	//实际割煤刀数
+	map.put("ActualDigital:SYS_FIELDS",'<span id="ActualDigital_sysEdit_spanId#no#"><input type=\"text\" name=\"ActualDigital#no#\" value=\"{ActualDigital}\" size=\"8\" check=\"2"\ tip=\"实际割煤刀数不能为空\" valFun=\"setEmptyCheck\"onkeyup=\"clearNoNum(this)\"></span><span id="ActualDigital_sysView_spanId#no#">{ActualDigital}</span>');
+	//上巷推进度
+	map.put("SAdvance:SYS_FIELDS",'<span id="SAdvance_sysEdit_spanId#no#"><input type=\"text\" name=\"SAdvance#no#\" value=\"{SAdvance}\" size=\"8\" check=\"2"\ tip=\"上巷推进度不能为空\" valFun=\"setEmptyCheck\"></span><span id="SAdvance_sysView_spanId#no#">{SAdvance}</span>');
+	//下巷推进度
+	map.put("Xdvance:SYS_FIELDS",'<span id="Xdvance_sysEdit_spanId#no#"><input type=\"text\" name=\"Xdvance#no#\" value=\"{Xdvance}\" size=\"8\" check=\"2"\ tip=\"下巷推进度不能为空\" valFun=\"setEmptyCheck\"></span><span id="Xdvance_sysView_spanId#no#">{Xdvance}</span>');
+	//当日产量
+	map.put("Dayproduction:SYS_FIELDS",'<span id="Dayproduction_sysEdit_spanId#no#"><input type=\"text\" name=\"Dayproduction#no#\" value=\"{Dayproduction}\" size=\"8\" check=\"2"\ tip=\"当日产量不能为空\" valFun=\"setEmptyCheck\"></span><span id="Dayproduction_sysView_spanId#no#">{Dayproduction}</span>');
+	//是否重点工程
+	//map.put("iskeyproject:SYS_FIELDS",'<span id="iskeyproject_sysEdit_spanId#no#"><select name=\"iskeyproject#no#\" realValue=\"{iskeyproject}\"  check=\"2"\ valFun=\"setEmptyCheck\"><option value="" >请选择</option>{filterOptions3}</select></span><span id="iskeyproject_sysView_spanId#no#">{iskeyproject}</span>');
+	//其他工作量及生产等信息
+	map.put("Other:SYS_FIELDS",'<span id="Other_sysEdit_spanId#no#"><textarea name=\"Other#no#\" value=\"{Other}\" size=\"8\" check=\"2"\ tip=\"其他工作量及生产等信息不能为空\" valFun=\"setEmptyCheck\"></textarea></span><span id="Other_sysView_spanId#no#">{Other}</span>');
+	
+	//map.put("Other:SYS_FIELDS",'<span id="Other_sysEdit_spanId#no#"><input type=\"text\" name=\"Other#no#\" value=\"{Other}\" size=\"8\" check=\"2"\ tip=\"名称不能为空\" valFun=\"setEmptyCheck\"></span><span id="Other_sysView_spanId#no#">{Other}</span>');
+	
+	// map中的按钮数组     '{editshow_show}'判断是否可以双击
+	var btnArray=['{editshow}','{saveshow}','{delshow}']; 
+	map.put("operate",OperateForRealValue(btnArray),'{editshow_show}');
+	//map.put("operate",'<a href=\"javascript:dblEdit(#no#)\">编辑&nbsp;<a href=\"javascript:ajax_save(#no#);\">保存</a>&nbsp;&nbsp;<a href=\"javascript:DelCurrentRow(#no#,1,1);\">删除</a>');
+	
+	
+
+
+
+	if('{sNo}'==""){
+
+		AddRow(map,'blank');
+	}else{
+		
+		AddRow(map,'data');
+	}
+	
+	{row}
+
+
+
+function dat(){
+	var type=$('#select1 option:selected').val();
+	if(type!='2'){
+		document.getElementById("li_id_1").style.display="none"; 
+	}
+	else{
+		//初始化上报时间
+		iniUploadDate();
+		document.getElementById("li_id_1").style.display="block";
+		}
+	}
+	
+	
+
+
+
+}
+
+
+
+function clearNoNum(obj){
+
+		//先把非数字的都替换掉，除了数字和.
+		obj.value = obj.value.replace(/[^\d.]/g,"");
+		//必须保证第一个为数字而不是.
+		obj.value = obj.value.replace(/^\./g,"");
+		//保证只有出现一个.而没有多个.
+		obj.value = obj.value.replace(/\.{2,}/g,".");
+		//保证.只出现一次，而不能出现两次以上
+		obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+
+		 //如果第一位是负号，则允许添加   如果不允许添加负号 可以把这块注释掉
+	
+	}
+
+
+</script>
+<body >
+  <form name="form1" action="" method="post">
+    <input type="hidden" name="tableName" value="{tableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" name="actorCount" value="{actorCount}">
+	<input type="hidden" name="worry_type" value="{$TABLEKEYWORD2}">
+
+	<input type="hidden" name="OrderBy" value="{OrderBy}">	
+	<input type="hidden" name="OrderKey" value="{OrderKey}">
+	
+	<input type="hidden" name="clickValue" value="N1">
+	<input type="hidden" name="firstUrl" value="null">
+	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+	<input name="dblclick" type="hidden" value="" /><!--已上报禁止双击编辑-->
+
+	<input type="hidden" name="field1" value="BirthDate|日期|DAT|50|">
+    <input type="hidden" name="field2" value="workPlace|作业地点|TXT|50|">
+    <input type="hidden" name="field3" value="branchName|区队|TXT|50|">
+    <input type="hidden" name="field4" value="Shift|班次|TXT|50|">
+
+
+	<input type="hidden" name="j" value="">
+
+  <div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1}</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp;{$TABLEKEYWORD2}>列表页面</div>
+  </div>
+  <!--多选搜索 4 begin-->
+		<div class="line_list_mulitSelect" style="display:none">
+			<select name="selSetCon" multiple="multiple">
+				<option value="1">日期：</option>
+				<option value="2">作业地点：</option>
+				<option value="3">区队：</option>
+				<option value="4">班次：</option>
+				
+			</select>
+		</div>
+		<!--多选搜索 4 end-->
+		<div class="line_list_left">
+		 <ul id="ul_search">
+
+		    <li id="li_search1">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="1">&nbsp;日期&nbsp;：
+				<input name="BirthDate_start" style="width:70px;" onchange="checkChange(this,'1')"  class="input_txt" onclick="WdatePicker()"/>至<input name="BirthDate_end" style="width:70px;" onchange="checkChange(this,'1')" class="input_txt" onclick="WdatePicker()"/>
+			</li>
+
+			<li id="li_search2">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="2">&nbsp;作业地点:<select name="workPlace" onchange="checkChange(this,'2')">{filterOptions4}</select>
+			</li>
+			<li id="li_search3">
+				&nbsp;
+				<!--<input type="checkbox" name="f_id" value="3" >区队&nbsp;：
+				<input name="branchName" onkeyup="checkChange(this,'3')" value="" class="input_txt"/>
+				<select name="branchName" ><option value="">--请选择--</option>{branchName}</select>-->
+				<input type="checkbox" name="f_id" value="3">&nbsp;区队：<select name="branchName" onchange="checkChange(this,'3')">{filterOptions1}</select>
+			</li>
+			
+			<li id="li_search4">
+				&nbsp;
+				<!--<input type="checkbox" name="f_id" value="4" >班次&nbsp;：
+				<input name="Shift" onkeyup="checkChange(this,'4')" value="" class="input_txt"/>-->
+				<input type="checkbox" name="f_id" value="4">&nbsp;班次：<select name="Shift" onchange="checkChange(this,'4')">{filterOptions2}</select>
+			</li>
+		   <li id="li_search_btn">
+				&nbsp;
+				<input type="button"  value="查询" class="btn" onClick="setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');"/>
+				<input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','365',' 采煤工作面');"/>
+		  </li>
+		  </ul>
+	   </div>
+	   <div class="line_list" style="display:{operate_show}">
+	   <li>{delmanyshow}</li>
+	   <li>{addshow}</li>
+		  <li class="pian">
+                 <div id="navMenu">
+                            <a id="stair1" href="/generictableservlet?action=recordList&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|未上报|{$TABLEKEYWORD4}|{$TABLEKEYWORD5}" class="">
+                                <span>
+                                    未上报
+                                </span>
+                            </a>
+                            <a id="stair2" href="/generictableservlet?action=recordList&ITNO={ITNO}_upload&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|已上报|{$TABLEKEYWORD4}|{$TABLEKEYWORD5}" class="">
+                                <span>
+                                    已上报
+                                </span>
+                            </a>
+                        </div>
+			
+		
+           </li>
+
+		   <li  id="YC2"><input type="button"  value="上报" class="btn" onClick="isUpload()"/>&nbsp;<!--<input type="button"  value="一键保存" class="btn" onClick="ajax_batchSave()"/>--></li>
+		   <li id="li_id_1" style="display:none"><input id="time_start" type="text"  style="width:70px;" onclick="WdatePicker()"  class="input_txt" readonly="readonly" />至<input id="time_end"style="width:70px;" type="text" class="input_txt" onclick="WdatePicker()" readonly="readonly"/>&nbsp;&nbsp;&nbsp;</li>
+		   <li  id="YC3"><span class="f_l">请选择上报方式：</span><select id="select1" onchange="dat()"><option value="1">按勾选上报</option><option value="2">按时间上报</option></select>&nbsp;</li>
+
+        </div>
+	
+<div class="a_box">	
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+      <tr>
+	    <th width="1%"><input type="checkbox" name="roleCheck" value="" onClick="selectAllRole(form1);"></th>
+            <th width="3%" style="cursor:hand;"  onClick="orderByInfo_new('branchName','{OrderKey}','{OrderBy}')">区队<span id="timeOrder" class="orderNo"></th> 
+            <th width="5%">作业地点</th> 
+			<th width="3%">日期</th>
+			<th width="3%">班次</th> 
+			<th width="2%">出勤人数</th> 
+			<th width="2%">计划割煤刀数</th> 
+			<th width="2%">实际割煤刀数</th> 
+			<th width="3%">上巷推进度</th> 
+			<th width="3%">下巷推进度</th> 
+			<th width="3%">当日产量</th> 
+			<!--<th width="3%">是否重点工程</th>--> 
+			<th width="3%">其他工作量及生产等信息</th> 
+			<th width="3%" id="YC">基本操作</th>
+      </tr>
+    </thead>
+	
+  </table>
+
+ 
+   <table width="100%">
+	<tr>
+     {page}
+    </tr>
+   
+  </table>
+  </div>
+</form>
+</body>
+</html>

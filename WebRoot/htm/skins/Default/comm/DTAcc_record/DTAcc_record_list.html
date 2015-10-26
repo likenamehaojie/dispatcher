@@ -1,0 +1,274 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>系统设置-用户管理</title>
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+	 <!--table-->
+<script type="text/javascript" src="js/table/jquery.js"></script>
+<script type="text/javascript" src="js/table/jquery.tableui.js"></script>
+
+	<!--多选搜索 1 begin-->
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery-ui.css" />
+	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
+	<!--多选搜索 1 end-->
+
+	<!--日期控件 begin-->
+	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+	<!--日期控件 end-->
+	
+	<script src="/js/ajax/superValidator.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/map.js"></script>
+	<script src="/js/ajax/mainSub.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+
+	 <!--记忆搜索条件  第一步：引用cookie -->
+	<script src="/js/cookie.js"></script>
+
+</head>
+
+  <script>
+$(document).ready(function(){
+	//初始化row数据
+	iniList();
+	//如果操作列没有权限  隐藏操作列
+	hideLastCol('actor_table');
+
+   	//初始化上下左右
+	//iniFocus();
+	LoadOrder("{OrderKey}","{OrderBy}");
+
+	//记忆搜索条件  第六步：取cookie 解析cookie
+	iniCookie('{tableName}','{ITNO}','{$USERID}');
+	//初始化多选菜单
+	iniMultOptions('{tableName}','{ITNO}','{$USERID}');
+});
+
+
+
+
+var map=new Map();
+//初始化row数据
+function iniList(){
+	//功能描述：使用JavaScript动态添加HTML的元素 
+	//行号与列号 
+
+	{row}
+     
+	var AccidentCharacter_Str='{AccidentCharacter}'.replace(/<[^>].*?>/g,'');
+
+	var RBranch_Str='{RBranch}'.replace(/<[^>].*?>/g,'');	
+	map.clear();
+	if('{sNo}'==""){
+		map.put("recordId",'&nbsp;<input type="checkbox" name="id" value="">');
+	}else{
+		map.put("recordId",'&nbsp;{id}');
+	}
+	map.put("xuhao:SYS_HIDDEN",'{sNo}');
+
+	//事故性质
+	map.put("AccidentCharacter:SYS_FIELDS",'<span id="AccidentCharacter_sysEdit_spanId#no#"><select type=\"text\" name=\"AccidentCharacter#no#\"  realValue="'+AccidentCharacter_Str+'"   check=\"2"\  valFun=\"setEmptyCheck\" ><option value="" >请选择</option>{filterOptions1}</select></span><span id="AccidentCharacter_sysView_spanId#no#"></span>');
+	
+
+    //事故类型
+	map.put("AccidentType:SYS_FIELDS",'<span id="AccidentType_sysEdit_spanId#no#"><select type=\"text\" realValue="{AccidentType}" name=\"AccidentType#no#\"    check=\"2"\  valFun=\"setEmptyCheck\"><option value="" >请选择</option>{filterOptions2}</select></span><span id="AccidentType_sysView_spanId#no#"></span>');
+
+	
+	//事故地点
+	map.put("AccidentSite:SYS_FIELDS",'<span id="AccidentSite_sysEdit_spanId#no#"><input type=\"text\" value="{AccidentSite}" name=\"AccidentSite#no#\"   size=\"13\" /></span><span id="AccidentSite_sysView_spanId#no#">{AccidentSite}</span>');
+    
+	//发生时间
+	map.put("startTime:SYS_FIELDS",'<span id="startTime_sysEdit_spanId#no#"><input type=\"text\" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd HH:mm\',onpicked:function(){calMinus(#no#,1)}})" name=\"startTime#no#\" value="{startTime}" ></span><span id="startTime_sysView_spanId#no#">{startTime}</span>');
+
+	//结束时间
+	map.put("endTime:SYS_FIELDS",'<span id="endTime_sysEdit_spanId#no#"><input type=\"text\" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd HH:mm\',onpicked:function(){calMinus(#no#,2)}})" name=\"endTime#no#\" value="{endTime}" ></span><span id="endTime_sysView_spanId#no#">{endTime}</span>');
+
+	//影响时长
+	map.put("timeLength:SYS_FIELDS",'<span id="timeLength_sysEdit_spanId#no#"><input type=\"text\" name=\"timeLength#no#\" value="{timeLength}" size=\"13\" readonly></span><span id="timeLength_sysView_spanId#no#">{timeLength}</span>');
+
+	//责任单位
+	map.put("RBranch:SYS_FIELDS",'<span id="RBranch_sysEdit_spanId#no#"><input type=\"text\" name=\"RBranch#no#\" value="'+RBranch_Str+'" size=\"13\" check=\"2"\ tip=\"[责任单位]不能为空\" valFun=\"setEmptyCheck\" ></span><span id="RBranch_sysView_spanId#no#">{RBranch}</span>');
+
+	//事故描述
+	map.put("AccidentDescription:SYS_FIELDS",'<span id="AccidentDescription_sysEdit_spanId#no#"><TEXTAREA type=\"text\" name=\"AccidentDescription#no#\" >{AccidentDescription}</TEXTAREA></span><span id="AccidentDescription_sysView_spanId#no#">{AccidentDescriptionString}</span>');
+	
+	//备注
+	map.put("remark:SYS_FIELDS",'<span id="remark_sysEdit_spanId#no#"><TEXTAREA type=\"text\" name=\"remark#no#\"   size=\"13\"  >{remark}</TEXTAREA></span><span id="remark_sysView_spanId#no#">{remarkstring}</span>');
+
+    
+
+	// map中的按钮数组     '{editshow_show}'判断是否可以双击
+	var btnArray=['{editshow}','{saveshow}','{delshow}']; 
+	map.put("operate",OperateForRealValue(btnArray),'{editshow_show}');
+
+	if('{sNo}'==""&&('{editshow}'=='block'||'{addshow_show}'=='block')){
+		AddRow(map,'blank');
+	}else{
+		AddRow(map,'data');
+	}
+	
+	
+	{row}
+	
+}
+ //计算时间的分钟差
+ function calMinus(no,nameType){
+	var minutes = 1000*60;//分钟
+	var hours = minutes*60;//小时
+	var days = hours*24;//天
+	
+	//获取两个时间的值
+	var d1=$("input[name=startTime"+no+"]").val();
+	var d2=$("input[name=endTime"+no+"]").val();
+
+
+	if(d1=="" || d2==""){
+		return;
+	}else if(d1>=d2){
+		alert("结束时间必须大于开始时间");
+		if(nameType==1)
+			$("input[name=startTime"+no+"]").val('');
+		else
+			$("input[name=endTime"+no+"]").val('');
+		return;
+	}
+	//格式化两个时间的值
+	d1=new Date(d1);
+	d2=new Date(d2);
+
+	//获取两个时间的毫秒
+	d1=d1.getTime();
+	d2=d2.getTime();
+
+	//转化为分钟
+	d1=d1/minutes;
+	d2=d2/minutes;
+	
+
+	$("input[name=timeLength"+no+"]").val(d2-d1);
+ }
+  
+ function excelIport(){ //excel导入
+   var certificate=document.getElementsByName('certificate')[0].value;
+	if (certificate==''){
+		alert('请添加EXCEL附件');
+	}else{       
+		document.form1.action="/excelImportSingleDoServlet?action=excelImport&excelName=DTAcc_record&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}";
+		document.form1.encoding="multipart/form-data";
+		document.form1.submit();
+	     }
+}
+
+</script>
+
+  <form name="form1" action="" method="post">
+    <input type="hidden" name="tableName" value="{tableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" name="actorCount" value="{actorCount}">
+	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+	<input type="hidden" name="OrderBy" value="{OrderBy}">	
+	<input type="hidden" name="OrderKey" value="{OrderKey}">
+	<input type="hidden" name="j" value="">
+
+	<input type="hidden" name="field1" value="AccidentCharacter|事故性质|OPT|50|">
+	<input type="hidden" name="field2" value="RBranch|责任单位|TXT|50|">
+	<input type="hidden" name="field3" value="AccidentType|事故类型|TXT|50|">
+  <div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 列表页面</div>
+  </div>
+
+  <div class="line_list_mulitSelect" style="display:none">
+			<select name="selSetCon" multiple="multiple">
+				<option value="1">事故性质：</option>
+				<option value="2">责任单位：</option>
+				<option value="3">事故类型：</option>
+				
+			</select>
+		</div>
+	 	<!--多选搜索 4 end-->
+	 <div class="line_list_left">
+		 <ul id="ul_search">
+
+		    <li id="li_search1">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="1">&nbsp;事故性质&nbsp;：
+				<select name="AccidentCharacter" onchange="checkChange(this,'1')"><option value="" >请选择</option>{filterOptions1}</select>
+			</li>
+
+			<li id="li_search3">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="3">&nbsp;事故类型&nbsp;：
+				<select  name="AccidentType" onchange="checkChange(this,'3')"  ><option value="" >请选择</option>{filterOptions2}</select>
+			</li>
+			<li id="li_search2">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="2">&nbsp;责任单位&nbsp;：
+				<input name="RBranch" onchange="checkChange(this,'2')"/>
+			</li>
+			<li id="li_search_btn">
+				&nbsp;
+				<input type="button"  value="查询" class="btn" onClick="setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');"/>
+				<input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','401',' 事故影响记录表');"/>
+		  </li>
+	   </ul>
+   </div>
+	 <div class="line_list">
+
+		    <li id="YC" >{delmanyshow}</li>
+		   <li  id="YC1">{addshow}</li>
+           <li id="sendMany_liId" class="pian" style="margin-left:60%" >EXCEL导入:&nbsp;&nbsp;<input type="file" style="width:100px;" name="certificate" size="20">
+		   <input type="button" style="width:50px;" name="excel" class="btn" onClick="excelIport()" value="导入">
+		   <input type="submit" style="width:70px;" name="getTem" class="btn" value="下载模版" onClick="window.open('/downloadAppServlet?&amp;ITNO={ITNO}&amp;docName=htm\\excelTemplateDown&amp;fName=事故影响记录表.xls','_blank','left=160,width=700,height=630,toolbar=no, menubar=no,resizable=yes,scrollbars=yes')" >
+		   <font color="red"></font>
+		   </li>
+     </div>
+
+  <div class="a_box">
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+      <tr>
+		 <th width="2%"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
+		<th >事故性质</th> 
+		<th >事故类型</td>
+		<th >事故地点</td>
+		<th width="10%">发生时间</td>
+		<th width="10%">结束时间</td>
+		<th >影响时长/min</td>
+		<th >责任单位</td>
+		<th >事故描述</td>
+		<th width="15%">备注</td>
+		<th id="oprear_th" width="12%">操作</th>
+      </tr>
+    </thead>
+  </table>
+
+   <table width="100%">
+	<tr>
+     {page}
+    </tr>
+   
+  </table>
+</div>
+
+</form>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+</head>
+  <form name="form1" action="" method="post">
+
+  <table border="1" style=" font:font-family:'微软雅黑';" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+	  <td colspan="4" align="center"  class=vwTitleName2><h3>科室成员基本信息维护表</h3></td>
+      <tr>	
+	   	<th    style="font-size:20px">部门</th> 
+		<th    style="font-size:20px">姓名</th> 
+		<th    style="font-size:20px">年龄</td>
+		<th    style="font-size:20px">工龄</td>
+		<th    style="font-size:20px">文化程度</td>
+	    <th    style="font-size:20px">职务</td>
+		<th    style="font-size:20px">联系方式</td>
+      </tr>
+    </thead>
+	{row}
+	<TR align=middle>
+	 <td >{manBranch}&nbsp;</td>
+	 <td >{name}&nbsp;</td>
+	 <td >{age}&nbsp;</td>
+	 <td >{workTime}&nbsp;</td>
+	 <td >{education}&nbsp;</td>
+	 <td >{post}&nbsp;</td>
+	 <td >{call}&nbsp;</td>
+	</tr>
+	{row}
+  </table>
+</form>
+</body>
+
+</html>

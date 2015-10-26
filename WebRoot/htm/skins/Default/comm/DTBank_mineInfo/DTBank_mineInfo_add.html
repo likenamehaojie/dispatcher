@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+<title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]-保存页面</title>
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+	<!--日期控件 begin-->
+	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+	<!--日期控件 end-->
+	
+	<script src="/js/ajax/superValidator.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/map.js"></script>
+	<script src="/js/ajax/mainSub.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+
+<script type="text/javascript" src="js/changeto.js"></script>
+
+<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+
+<SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+<SCRIPT language="javascript" src="/js/upload/upload.js"></SCRIPT>
+
+
+<script charset="utf-8" src="kindeditor-4.1.10/kindeditor.js"></script>
+<script charset="utf-8" src="kindeditor-4.1.10/lang/zh_CN.js"></script>
+<script src="/js/mainSub.js"></script>
+
+
+	<script type="text/javascript" src="js/titleInfo.js"></script>
+
+<script>
+	KindEditor.ready(function(K) {
+		window.editor = K.create('#Contents');
+});
+
+</script>
+</head>
+
+
+<body>
+<form name="form1" action="/generictableservlet?action=saveAddRecordPar" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+<input type="hidden" name="listUrl" value="">
+<input type="hidden" name="realFileName" value="{realFileName}">
+<input type="hidden" name="dispatching_unit" value="{$WORKGROUP}">
+<input name="ZERO_TYPE" type="hidden" value="{$TABLEKEYWORD2}" />
+<div id="top">
+   <div class="haer"><span id="tans"><strong>矿井基本信息</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp;{$TABLEKEYWORD1}&gt;{$TABLEKEYWORD2} &gt;列表页面</div>
+  </div>
+    <div class="a_box">
+        <table border="0" cellspacing="0" cellpadding="0" class="view_table">
+          <tr>
+
+			<td class="tad" >标题：</td>
+			<td class="t_l b_cf"  colspan="3"><input name="title" readOnly="true" type="text" class="input_txt" value="矿井基本信息" style="width:500px;" tip="事故地点不能为空"check="2"/>&nbsp;*</td>
+			
+		  </tr>
+		<tr>
+			<td class="tad" width="20%">公告内容：</td>
+			<td class="t_l b_cf" colspan="3"><textarea id="Contents" name="Contents" style="width:900px;height:300px;"></textarea></td>
+		 </tr>
+		  
+    </table>
+  </div>
+  <div>
+	<table width="100%">
+		<tr>                  
+			<td colspan="8" align="center">
+				<input type="submit" name="save" class="btn" onMouseOver="this.className='btn'" onMouseOut="this.className='btn'" onClick="return true" value="保 存">
+				&nbsp;&nbsp;&nbsp;&nbsp;
+			</td>
+		      </tr>
+	</table>
+  </div>
+</form>
+</body>
+</html>

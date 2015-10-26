@@ -1,0 +1,457 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+<title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]-添加页面</title>
+ <link rel="stylesheet" type="text/css" href="css/index.css" />
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+    <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+
+<script type="text/javascript" src="js/changeto.js"></script>
+
+
+<SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajaxGetOptions.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajaxMod.js" type="text/javascript"></SCRIPT>
+
+</head>
+
+
+<SCRIPT type=text/javascript> 
+	$(document).ready(function(){
+		setEmptyCheck("branch_name:bType");
+		//setCombineUnique("branch_name:cid");
+
+		//默认选中第一个
+		$("select[id=selectLeft] option[index='0']").attr("selected",true);
+		setBType_sub($("select[id=selectLeft]").val());
+	});
+
+	function setBType_sub(val){
+		if(val!=""){
+			$("select[id=selectRight]").empty();
+			$("select[id=selectRight]").append(""+getOnlyOPtionListBySqlNo_upId(185,val));
+			$('#selectRight option:first').attr("selected",true);
+		}
+	}
+	function saveLeft(){
+		var selectLeftVal="";
+		var selectLeftText="";
+		for(var i=0;i<selectLeft.options.length;i++){
+			selectLeftVal=selectLeftVal+selectLeft.options[i].value+",";
+			selectLeftText=selectLeftText+selectLeft.options[i].text+",";
+		}
+		selectLeftVal=selectLeftVal.substring(0,selectLeftVal.length-1);
+		selectLeftText=selectLeftText.substring(0,selectLeftText.length-1);
+		ajax_pro_updateRecords(190,selectLeftVal+'|'+selectLeftText);
+	}
+	function saveRight(){
+		
+		var selectRightVal="";
+		var selectRightText="";
+		for(var i=0;i<selectRight.options.length;i++){
+			selectRightVal=selectRightVal+selectRight.options[i].value+",";
+			selectRightText=selectRightText+selectRight.options[i].text+",";
+		}
+		selectRightVal=selectRightVal.substring(0,selectRightVal.length-1);
+		selectRightText=selectRightText.substring(0,selectRightText.length-1);
+		var parentValue=selectLeft.value;
+		if(parentValue.indexOf('new')>-1){
+			alert("请先保存一级菜单，再添加二级菜单");
+			return;
+		}
+		ajax_pro_updateRecords(191,parentValue+'|'+selectRightVal+'|'+selectRightText);
+	}
+
+	//新增或者修改 部门类别
+	var leftI=1;
+	var rightI=1;
+	function setSave(bType,oType){
+		var val=$("input[name=input_"+bType+"]").val();
+		if(val==""){
+			alert("请输入部门类别");
+			return;
+		}
+		if(bType=="left" && oType=="add"){
+			$("select[id=selectLeft]").append("<option value='new_"+leftI+"'>"+val+"</option>");
+			leftI=leftI+1;
+			$('#selectLeft option:last').attr("selected",true);
+			$("select[id=selectRight]").empty();
+		}else if(bType=="left" && oType=="edit"){
+			var optObj=$("select[id=selectLeft]").find("option:selected");
+			var optVal=optObj.val();
+			var selectIndex=$("#selectLeft").get(0).selectedIndex;
+			$(optObj).remove();
+			if(selectIndex==0){
+				$("#selectLeft").prepend("<option value='"+optVal+"'>"+val+"</option>");
+				$("#selectLeft option").filter(':eq(0)').attr("selected",true);
+			}else{
+				$("#selectLeft option").filter(':eq('+(selectIndex-1)+')').after("<option value='"+optVal+"'>"+val+"</option>");
+				$("#selectLeft option").filter(':eq('+(selectIndex)+')').attr("selected",true);
+			}
+		}else if(bType=="right" && oType=="add"){
+
+			$("select[id=selectRight]").append("<option value='new_"+rightI+"'>"+val+"</option>");
+			rightI=rightI+1;
+			$('#selectRight option:last').attr("selected",true);
+		}else if(bType=="right" && oType=="edit"){
+			var optObj=$("select[id=selectRight]").find("option:selected");
+			var optVal=optObj.val();
+			var selectIndex=$("#selectRight").get(0).selectedIndex;
+			$(optObj).remove();
+			if(selectIndex==0){
+				$("#selectRight").prepend("<option value='"+optVal+"'>"+val+"</option>");
+				$("#selectRight option").filter(':eq(0)').attr("selected",true);
+			}else{
+				$("#selectRight option").filter(':eq('+(selectIndex-1)+')').after("<option value='"+optVal+"'>"+val+"</option>");
+				$("#selectRight option").filter(':eq('+(selectIndex)+')').attr("selected",true);
+			}
+		}
+	}
+</SCRIPT>
+
+
+<body>
+<form name="form1" action="/generictableservlet?action=saveAddRecord&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+<input type="hidden" name="formFlag" value="2">
+
+<input type="hidden" name="listUrl" value="{listUrl}">
+<input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+<div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1}</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2}&gt; 部门类别设置页面</div>
+  <div style = "clear:both;"></div>
+    <div class="a_box">
+        <table border="0" cellspacing="0" cellpadding="0" class="view_table">
+          <tr>
+			<td class="tad"> <div><b>部门类别设置（一级）</b></div>
+                             <select id="selectLeft" style="width:150px" size="10" onclick="setBType_sub(this.value)">                                 
+								{row}
+									<option value="{id}">{typeName}</option>
+								{row}                             
+                             </select>
+			</td>
+			<td class="t_l b_cf">
+							 <input value=" 顶部 " type="button" id="moveTop_left" /><br />
+							 &nbsp;<br>
+                             <input value=" 上移 " type="button" id="moveUp_left"><br />
+							 &nbsp;<br>
+                             <input value=" 下移 " type="button" id="moveDown_left"><br />
+							 &nbsp;<br>
+                             <input value=" 底部 " type="button" id="moveBottom_left" /><br />
+							 &nbsp;<br>
+							<!--
+							<input value="移除当前" type="button" id="remove_left" /><br />
+							 &nbsp;<br>
+							 -->
+			</td>
+
+			<td class="tad"> <div><b>部门类别设置（二级）</b></div>
+                             <select id="selectRight" style="width:150px" size="10">                                 
+								                            
+                             </select>
+			</td>
+			<td class="t_l b_cf">
+							 <input value=" 顶部 " type="button" id="moveTop_right" /><br />
+							 &nbsp;<br>
+                             <input value=" 上移 " type="button" id="moveUp_right"><br />
+							 &nbsp;<br>
+                             <input value=" 下移 " type="button" id="moveDown_right"><br />
+							 &nbsp;<br>
+                             <input value=" 底部 " type="button" id="moveBottom_right" /><br />
+							 &nbsp;<br>
+							  <input value="移除当前" type="button" id="remove_right" /><br />
+							 &nbsp;<br>
+			</td>
+			
+		  </tr>
+			 <tr>
+			<td class="tad"> <!--<input name="input_left" type="text"> -->
+                            
+			</td>
+			<td class="t_l b_cf">
+			<!--
+							 <input value=" 添加 " onclick="setSave('left','add')" type="button"><br />
+                             <input value=" 修改 " onclick="setSave('left','edit')" type="button"><br /> -->
+							
+			</td>
+
+			<td class="tad"> <input name="input_right" type="text">
+                            
+			</td>
+			<td class="t_l b_cf">
+							 <input value=" 添加 " onclick="setSave('right','add')" type="button"><br />
+                             <input value=" 修改 " onclick="setSave('right','edit')" type="button"><br />
+							
+			</td>
+		  </tr>
+		   <tr class="tad">                  
+			<td colspan="2" align="center">
+				<input type="button" name="save" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="saveLeft();" value="保 存">
+				&nbsp;&nbsp;&nbsp;
+				<input type="button" name="back" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="javascript:window.close();return false;"
+				value="关 闭">
+			</td>
+			<td colspan="2" align="center">
+				<input type="button" name="save" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="saveRight();" value="保 存">
+				&nbsp;&nbsp;&nbsp;
+				<input type="button" name="back" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="javascript:window.close();return false;"
+				value="关 闭">
+			</td>
+		   </tr>
+		
+    </table>
+  </div>
+</form>
+</body>
+</html>
+<script type="text/javascript"> 
+ 
+var selectLeft = document.getElementById("selectLeft");
+var selectRight = document.getElementById("selectRight");
+ 
+var moveTop_left = document.getElementById("moveTop_left");
+var moveUp_left = document.getElementById("moveUp_left");
+var moveDown_left = document.getElementById("moveDown_left");
+var moveBottom_left = document.getElementById("moveBottom_left");
+ 
+ 
+var moveTop_right = document.getElementById("moveTop_right");
+var moveUp_right = document.getElementById("moveUp_right");
+var moveDown_right = document.getElementById("moveDown_right");
+var moveBottom_right = document.getElementById("moveBottom_right");
+//var remove_left = document.getElementById("remove_left");
+var remove_right = document.getElementById("remove_right");
+
+ 
+ 
+//这个函数检验传入的值是否在有边出现过！
+function hasOption(selectObj,str){
+    for(var i=0;i<selectObj.options.length;i++){
+        if(selectObj.options[i].value==str){
+        return false;
+        }
+    }
+    return true;
+}
+ 
+function mTop_left(){   
+ 
+    var i = selectLeft.options.selectedIndex;
+    if(i > 0){   
+        Temp_Text=selectLeft.options[i].text;   
+        Temp_ID=selectLeft.options[i].value;   
+        for(j=i;j>0;j--){   
+            selectLeft.options[j].text=selectLeft.options[j-1].text;   
+            selectLeft.options[j].value=selectLeft.options[j-1].value;   
+        }   
+        selectLeft.options[0].value=Temp_ID;   
+        selectLeft.options[0].text=Temp_Text;       
+        selectLeft.selectedIndex=0;   
+    }   
+}   
+    
+function mUp_left(){   
+    var i = selectLeft.options.selectedIndex;   
+    var j = i-1   
+    if(i>0){   
+        Temp_Text = selectLeft.options[j].text;   
+        Temp_ID = selectLeft.options[j].value;   
+    
+        selectLeft.options[j].text = selectLeft.options[i].text;   
+        selectLeft.options[j].value = selectLeft.options[i].value;   
+    
+        selectLeft.options[i].text = Temp_Text;   
+        selectLeft.options[i].value = Temp_ID;   
+    
+        selectLeft.selectedIndex=j;   
+    }   
+}   
+    
+function mDown_left(){   
+    var i = selectLeft.options.selectedIndex;
+    if (i != selectLeft.length-1){   
+        var j = i+1;   
+        if(i < selectLeft.length){   
+            Temp_Text = selectLeft.options[j].text;   
+            Temp_ID = selectLeft.options[j].value;   
+    
+            selectLeft.options[j].text = selectLeft.options[i].text;   
+            selectLeft.options[j].value = selectLeft.options[i].value;   
+    
+            selectLeft.options[i].text = Temp_Text;   
+            selectLeft.options[i].value = Temp_ID;   
+    
+            selectLeft.selectedIndex=j;   
+        }   
+    }   
+	
+}   
+    
+function mBottom_left(){   
+    var i = selectLeft.selectedIndex;   
+    var j = selectLeft.length-1   
+    if(i < j){   
+        Temp_Text = selectLeft.options[i].text;   
+        Temp_ID = selectLeft.options[i].value;   
+        for(var k=i+1;k<=j;k++){   
+            selectLeft.options[k-1].text=selectLeft.options[k].text;   
+            selectLeft.options[k-1].value=selectLeft.options[k].value;   
+        }   
+    
+        selectLeft.options[j].text=Temp_Text;   
+        selectLeft.options[j].value=Temp_ID;   
+    
+        selectLeft.selectedIndex=j;   
+    }   
+}   
+ 
+ 
+ 
+ 
+function mTop_right(){   
+
+ 
+    var i = selectRight.options.selectedIndex;
+    if(i > 0){   
+        Temp_Text=selectRight.options[i].text;   
+        Temp_ID=selectRight.options[i].value;   
+        for(j=i;j>0;j--){   
+            selectRight.options[j].text=selectRight.options[j-1].text;   
+            selectRight.options[j].value=selectRight.options[j-1].value;   
+        }   
+        selectRight.options[0].value=Temp_ID;   
+        selectRight.options[0].text=Temp_Text;       
+        selectRight.selectedIndex=0;   
+    }   
+}   
+    
+function mUp_right(){   
+	alert('123');
+    var i = selectRight.options.selectedIndex;   
+    var j = i-1   
+    if(i>0){   
+        Temp_Text = selectRight.options[j].text;   
+        Temp_ID = selectRight.options[j].value;   
+    
+        selectRight.options[j].text = selectRight.options[i].text;   
+        selectRight.options[j].value = selectRight.options[i].value;   
+    
+        selectRight.options[i].text = Temp_Text;   
+        selectRight.options[i].value = Temp_ID;   
+    
+        selectRight.selectedIndex=j;   
+    }   
+}   
+    
+function mDown_right(){   
+    var i = selectRight.options.selectedIndex;
+    if (i != selectRight.length-1){   
+        var j = i+1;   
+        if(i < selectRight.length){   
+            Temp_Text = selectRight.options[j].text;   
+            Temp_ID = selectRight.options[j].value;   
+    
+            selectRight.options[j].text = selectRight.options[i].text;   
+            selectRight.options[j].value = selectRight.options[i].value;   
+    
+            selectRight.options[i].text = Temp_Text;   
+            selectRight.options[i].value = Temp_ID;   
+    
+            selectRight.selectedIndex=j;   
+        }   
+    }   
+	
+}   
+    
+function mBottom_right(){   
+    var i = selectRight.selectedIndex;   
+    var j = selectRight.length-1   
+    if(i < j){   
+        Temp_Text = selectRight.options[i].text;   
+        Temp_ID = selectRight.options[i].value;   
+        for(var k=i+1;k<=j;k++){   
+            selectRight.options[k-1].text=selectRight.options[k].text;   
+            selectRight.options[k-1].value=selectRight.options[k].value;   
+        }   
+    
+        selectRight.options[j].text=Temp_Text;   
+        selectRight.options[j].value=Temp_ID;   
+    
+        selectRight.selectedIndex=j;   
+    }   
+}   
+/*
+function rm_left(){   
+    var i = selectLeft.selectedIndex; 
+	var curValue=selectLeft.options[i].value
+	if(curValue.indexOf("new")==-1){
+		var isExists=getInfoBySqlNo_noHidden(188,curValue+'|1');
+		if(isExists=='true'){
+			alert("该类别下有关联部门，请先删除部门");
+			return;
+		}
+	}
+
+	if(selectLeft.options.length>1 && i>=0)
+	$(selectLeft.options[i]).remove();
+	if(i==0)
+		$(selectLeft.options[i]).attr("selected",true);
+	else
+		$(selectLeft.options[i-1]).attr("selected",true);
+}   
+*/
+function rm_right_test(){
+
+	alert("333");
+}
+
+
+function rm_right(){  
+	
+    var i = selectRight.selectedIndex;
+	var curValue=selectRight.options[i].value
+	if(curValue.indexOf("new")==-1){
+		var isExists=getInfoBySqlNo_noHidden(188,curValue+'|2');
+		if(isExists=='true'){
+			alert("该类别下有关联部门，请先删除部门");
+			return;
+		}
+	}
+	if(selectRight.options.length>1 && i>=0){
+		$(selectRight.options[i]).remove();
+		if(i==0)
+			$(selectRight.options[i]).attr("selected",true);
+		else
+			$(selectRight.options[i-1]).attr("selected",true);
+	}
+}   
+ 
+moveTop_left.onclick = mTop_left;
+moveUp_left.onclick = mUp_left;
+moveDown_left.onclick = mDown_left;
+moveBottom_left.onclick = mBottom_left;
+ 
+moveTop_right.onclick = mTop_right;
+moveUp_right.onclick = mUp_right;
+moveDown_right.onclick = mDown_right;
+moveBottom_right.onclick = mBottom_right;
+//remove_left.onclick = rm_left;
+remove_right.onclick = rm_right;
+
+//alert(document.getElementById("selectright").options.length);
+</script>

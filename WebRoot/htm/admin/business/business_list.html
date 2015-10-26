@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+	
+	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
+
+	<script src="/js/ajax/superValidator.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/map.js"></script>
+	<script src="/js/ajax/mainSub.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+
+	 <!--记忆搜索条件  第一步：引用cookie -->
+	<script src="/js/cookie.js"></script>
+
+
+</head>
+
+
+  <script>
+$(document).ready(function(){
+	
+	if('{addshow1_show}'=='none'&&'{editshow_show}'=='none'&&'{delmany1_show}'=='none')$("#YC").css('display','none');
+
+	//初始化row数据
+	iniList();
+	//初始化上下左右
+	//iniFocus();
+	LoadOrder("{OrderKey}","{OrderBy}");
+});
+
+
+var map=new Map();
+//初始化row数据
+function iniList(){
+	//功能描述：使用JavaScript动态添加HTML的元素 
+	//行号与列号 
+
+	
+	{row}
+	map.clear();
+
+	var cid='{$COMMUNITYID}'
+	var business_name='{business_name}'.replace(/<[^>].*?>/g,'');
+	
+	var cdate=new Date().format("yyyy-MM-dd");
+	
+	if('{sNo}'==""){
+		map.put("recordId",'&nbsp;<input type="checkbox" name="id" value="">');
+	}else{
+		map.put("recordId",'&nbsp;{id}');
+	}
+	map.put("xuhao:SYS_HIDDEN",'{sNo}');
+
+
+	
+	
+	//职务名称
+	map.put("business_name:SYS_FIELDS",'<span id="business_name_sysEdit_spanId#no#"><input type=\"text\" name=\"business_name#no#\" value=\"'+business_name+'\" size=\"13\"  check=\"2"\ tip=\"职务名称不能为空且不能重复\"  valFun=\"setUnique\"></span><span id="business_name_sysView_spanId#no#">'+business_name+'</span>');
+
+
+	//单位
+	map.put("cName:SYS_FIELDS",'<span id="cName_sysEdit_spanId#no#"><input type=\"text\" name=\"cName#no#\" value=\"{cName}\" defaultValue=\"{$SHORTNAME}\" size=\"13\" readonly></span><span id="cName_sysView_spanId#no#">{cName}</span>');
+
+	//创建时间
+	map.put("cdate:SYS_FIELDS:SYS_DATE",'<span id="cdate_sysEdit_spanId#no#"><input type=\"text\" name=\"cdate#no#\" value=\"{cdate}\" defaultValue=\"'+cdate+'\" size=\"13\" readonly></span><span id="cdate_sysView_spanId#no#">{cdate}</span>');
+
+	//cid
+	map.put("cid:SYS_FIELDS:SYS_HIDDEN:SYS_HIDDEN",'<span id="cid_sysEdit_spanId#no#"><input type=\"text\" name=\"cid#no#\" value=\"{cid}\" defaultValue=\"{$COMMUNITYID}\" size=\"13\" ></span>');
+
+
+
+	
+	if('{addshow1_show}'!="none"||'{editshow_show}'!="none"||'{delmany1_show}'!="none"){
+		map.put("operate",OperateForCdno('{addshow1_show}','{editshow_show}','{delmany1_show}'));
+	}
+	
+	
+	if('{sNo}'==""){
+		AddRow(map,'blank');
+	}else{
+		AddRow(map,'data');
+	}
+		
+	{row}
+	
+}
+
+
+</script>
+
+  <form name="form1" action="" method="post">
+    <input type="hidden" name="tableName" value="{tableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" name="actorCount" value="{actorCount}">
+
+	<input type="hidden" name="OrderBy" value="{OrderBy}">	
+	<input type="hidden" name="OrderKey" value="{OrderKey}">
+
+	<input type="hidden" name="clickValue" value="N1">
+	<input type="hidden" name="firstUrl" value="null">
+	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+
+	<input name="dblclick" type="hidden" value="" /><!--已上报禁止双击编辑-->	
+	<input type="hidden" name="field1" value="business_name|职务名称|TXT|50|">
+
+
+ <div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1}</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2}&gt; 列表页面</div>
+  </div>
+		<!--多选搜索 4 begin-->
+
+		<div class="line_list_mulitSelect" style="display:none">
+			<select name="selSetCon" multiple="multiple">
+				<option value="1">职务名称</option>
+			</select>
+		</div>
+
+		
+		<!--多选搜索 4 end-->
+	 <div class="line_list_left">
+		 <ul id="ul_search">
+			<li id="li_search1">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="1">&nbsp;职务名称：
+				<input name="business_name" onkeyup="checkChange(this,'1')" class="input_txt" >
+			</li>
+			
+			<li id="li_search_btn">
+				&nbsp;
+				<input type="button"  value="查询" class="btn" onClick="setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');"/>
+			</li>
+		</ul>
+	</div>
+	 <div class="line_list">
+		<!--   <li>{delmany1}</li> -->
+
+		   <li>{addshow1}</li>
+		   <li>&nbsp;&nbsp;</li>
+		   <li><a href="/gettablerecordinfoservlet?action=viewDocInfo&templateId=businessSortSet&ITNO=1&$TABLEKEYWORD=系统设置|职务排序" target="_blank"
+><span class="f_l">职务排序</span></a></li>
+        </div>
+<div class="a_box">	
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+      <tr>
+	    <th width="3%"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
+		 <th style="cursor:hand;" onClick="orderByInfo_new('business_name','{OrderKey}','{OrderBy}')">职务名称<span id="business_nameOrder" class="orderNo"></span></th>
+        <th style="cursor:hand;" onClick="orderByInfo_new('cName','{OrderKey}','{OrderBy}')">单位<span id="cNameOrder" class="orderNo"></span></th>
+		<th style="cursor:hand;" onClick="orderByInfo_new('cDate','{OrderKey}','{OrderBy}')">创建时间<span id="cDateOrder" class="orderNo"></span></th>	
+        <th id="YC">操作</th> 
+      </tr>
+    </thead>
+	
+  </table>
+
+  <table width="98%">
+	<tr>
+     {page}
+    </tr>
+    <tr>
+      <td id="wxts_tdId" align="left">
+          <span class="font3">&nbsp; 温馨提示：</span>
+          <br>
+          &nbsp; 1.点击操作下的"添加"可增加录入的条数。
+		  <br>
+          &nbsp; 2.录入的内容需要修改时，请点击编辑按钮或双击该内容框。
+          <br>
+          &nbsp; 3.点击操作下的"删除"可删除错误或多余的记录。
+          <br>
+          &nbsp; 4.点击"保存"按钮前，请把空白或错误的记录删除掉。
+          <br>
+      </td>
+    </tr>
+  </table>
+</div>
+
+</form>
+</body>
+</html>

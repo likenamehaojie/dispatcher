@@ -1,0 +1,43 @@
+
+				<!--start-->
+				<table cellpadding="0" cellspacing="1" width="100%" class="table_list">
+					<thead>
+					<tr>
+
+						<th>序号</th>
+						<th>文件名称</th>
+						<th>相关附件</th>
+						<th width="20%">备注</th>
+						<th>创建时间</th>
+						<th style="display:none">在线预览</th>
+						<th colspan="2">是否公开</th>
+						<th id="CZ">操作</th>
+					</tr>
+					</thead>
+					 <tbody>
+					{row}
+					<tr id="fileName{sNo}">
+					<td style="display:none">{id}&nbsp;</td>
+						<td>{sNo}</td>
+						<td>{fileName}</td>
+						<td><a href="/downloadServlet?filepath={filePath}&CDNO=$2&tableName=DTFile_manage">{filePathName}</a></td>
+						<td>{remark}&nbsp;</td>
+						<td>{date_created}&nbsp;</td>
+						<td style="display:none"><a href="javascript:beginConvertDoc2Swf('DTFile_manage','{filePath}','{converted}','{recordId}');">在线预览</a></td>
+					    <td id="delClick{sNo}">{del}</td>
+					    <td id="delClick{sNo}"><a href="#" onClick="publicFiletwo()">点击公开</a></td>
+						<td id="btOpterate{sNo}"><img src="images/zTree/treeEdit.gif" width="16" height="16" /><a href="#" onClick="window.open('/generictableservlet?action=editRecord&ITNO={ITNO}&recordId={recordId}&curPage={curPage}&$TABLEKEYWORD=文件管理|文件发布','','left=160,width=700,height=630,toolbar=no, menubar=no,resizable=yes,scrollbars=yes')">编辑</a>&nbsp; &nbsp;<img src="images/zTree/treeDel.gif" width="16" height="16" /><a href="#" onClick="listdel('1','{recordId}')">删除</a></td>
+					</tr>
+					{row}
+					</tbody>	
+					<tr>
+						<td colspan="6">
+							<table align="center" cellpadding="0" cellspacing="0" width="100%" style="border:0px" id="pageContent">
+								<tr>	
+									{page}
+								</tr>
+							</table>
+						</td>
+					</tr>				
+				</table>
+			<!-- end -->

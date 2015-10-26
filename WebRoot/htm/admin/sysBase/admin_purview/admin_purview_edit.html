@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<script type="text/javascript" src="js/jQuery.js"></script>
+<script type="text/javascript" src="js/ajaxMod.js"></script>
+<script type="text/javascript" src="js/ajaxGetOptions.js"></script>
+
+
+<title>节点设置-添加页面</title>
+</head>
+<script>
+		String.prototype.replaceAll = function(s1,s2) { 
+			return this.replace(new RegExp(s1,"gm"),s2); 
+		}
+
+		$(document).ready(function(){
+			$("input[name='sequence']").eq('{sequence}'-1).attr("checked",true);
+			//writeRole();
+		});
+
+		$(document).keydown(function(event){
+			if(event.keyCode==17){
+				$("input[name=isCtrl]").val("true");
+			}
+		}); 
+		$(document).keyup(function(event){ 
+			if(event.keyCode==17){
+				$("input[name=isCtrl]").val("false");
+			}
+		}); 
+
+		
+		function setUrl(url){
+			$("[name=url]").val(url);
+		}
+
+		function setCkbRole(obj){
+			var isCtrl=$("input[name=isCtrl]").val();
+			if(isCtrl=="true"){
+				$("input[name^=ckbRole_]").attr("checked",$(obj).is(":checked"));
+				//ckbRole_101
+			}
+		}
+		function setCkbBtn(obj){
+			var isCtrl=$("input[name=isCtrl]").val();
+			if(isCtrl=="true"){
+				$("input[name^=ckbBtn_][value="+obj.value+"]").attr("checked",$(obj).is(":checked"));
+				//ckbRole_101
+			}
+		
+		}
+		function setRdoComb(obj){
+			var isCtrl=$("input[name=isCtrl]").val();
+			if(isCtrl=="true"){
+				$("input[name^=rdoComb_][value="+obj.value+"]").attr("checked",$(obj).is(":checked"));
+				//ckbRole_101
+			}
+		}
+		function setListUrl(obj){
+			var isCtrl=$("input[name=isCtrl]").val();
+			if(isCtrl=="true"){
+				$("input[name^=listUrl_]").val(obj.value);
+				//ckbRole_101
+			}
+		}
+		function setSave(){
+			
+			//var pur_name=$("input[name=pur_name]").val();
+			//var url=$("input[name=url]").val();
+			//var tableName=$("input[name=tableName]").val();
+			//var sequence=$("input[name=sequence]").val();
+			//////var iparent=$("input[name=iparent]").val();
+			//var image=$("input[name=image]").val();
+			//var remark=$("input[name=remark]").val();
+			//var hotKey=$("input[name=hotKey]").val();
+			//var community_id=$("input[name=community_id]").val();
+
+			var mrFieldsArray=['pur_name','url','iparent','community_id'];
+			var fieldsDesArray=['节点名称(pur_name)','链接(URL)','父节点(iparent)','社区ID(community_id)'];
+	
+			var varMsg="";
+			$(mrFieldsArray).each(function(i){
+				var fieldVal=$("[name="+mrFieldsArray[i]+"]").val();
+				if(fieldVal==""){
+					varMsg=varMsg+'【'+fieldsDesArray[i]+"】 不能为空！\n";
+					
+				}
+			});		
+			if(varMsg!=""){
+				alert(varMsg);
+			}else{
+
+				var fieldsArray=['pur_name','url','tableName','sequence','identify','iparent','image','remark','hotKey','community_id'];
+				var fieldValStr="";
+				$(fieldsArray).each(function(i){
+					var fieldVal=$("[name="+fieldsArray[i]+"]").val();
+					//if(fieldsArray[i]=="url")fieldVal=fieldVal.replace('/','%2F').replace('?','%3F').replaceAll('&','%26').replace('|','竖杠').replace('|','竖杠').replace('|','竖杠').replace('|','竖杠').replace('|','竖杠').replace('|','竖杠').replace('|','竖杠');
+					if(fieldsArray[i]=="sequence")fieldVal=$("input[name='sequence']:checked").val();
+					if(fieldVal=="")fieldVal="空";
+					fieldValStr=fieldValStr+fieldVal+'|';
+				});
+				fieldValStr=fieldValStr.substring(0,fieldValStr.length-1);
+				
+				var roleHtml="";
+				var reloadName="";
+
+				$("input[name^=ckbRole_]:checked").each(function(i){
+					reloadName=reloadName+$(this).val()+"-{identify}|";
+					roleHtml=roleHtml+$(this).val()+";";
+					//var btnHtml="";
+					//$("input[name=ckbBtn_"+$(this).val()+"]:checked").each(function(j){
+					//	btnHtml=btnHtml+$(this).val()+",";
+					//});
+				//	if(btnHtml=="")btnHtml="空,";
+				//	roleHtml=roleHtml+btnHtml;
+				//	roleHtml=roleHtml.substring(0,roleHtml.length-1);
+				//	roleHtml=roleHtml+";";
+
+					var combHtml="";
+					combHtml=$("input[name=rdoComb_"+$(this).val()+"]:checked").val();
+				
+					if(!combHtml)combHtml="空";
+					
+					//var listUrl=$("input[name=rdoComb_"+$(this).val()+"]:checked").attr("listUrlValue");
+					//if(listUrl=="")listUrl="空"
+					roleHtml=roleHtml+combHtml+"-";
+					//roleHtml=roleHtml+combHtml+";"+listUrl+"-";
+				});
+				if(roleHtml.length>0){
+					reloadName=reloadName.substring(0,reloadName.length-1);
+					roleHtml=roleHtml.substring(0,roleHtml.length-1);
+				}
+				
+				var allRoleHtml="";
+				var allReloadName="";
+				$("input[name^=ckbRole_]").each(function(i){
+					allReloadName=allReloadName+$(this).val()+"-{identify}|";
+					allRoleHtml=allRoleHtml+$(this).val()+",";
+				});
+				if(allReloadName.length>0){
+					allReloadName=allReloadName.substring(0,allReloadName.length-1);
+					allRoleHtml=allRoleHtml.substring(0,allRoleHtml.length-1);
+				}
+
+				//保存数据库的admin_purview信息
+				ajaxPost_pro_noInfo(248,fieldValStr);
+
+				//新增或删除角色权限信息员
+				if(roleHtml=='')roleHtml='空';
+			
+				if(allRoleHtml.length>0)ajax_pro_noInfo(254,'{identify}|'+roleHtml+'|'+allRoleHtml);
+				
+				//删除所有 ROLEID-ITNO
+				if(allReloadName.length>0)ajax_deleteIdentifyByRoleId(allReloadName);
+				
+				//重载 勾选的 ROLEID-ITNO
+				if(reloadName.length>0)ajax_updateIdentify(reloadName);
+				alert("保存成功");
+				window.opener.location.reload();
+
+				window.close();
+			
+			}
+			
+		}
+	</SCRIPT>
+
+<body> 
+<input name="identify" type="hidden" value="{identify}">
+<input name="isCtrl" type="hidden" value="false">
+
+<div class="path"> <img src="images/index/path_ico.gif" />节点设置 &gt; 添加页面</div>
+  <div class="a_box">
+    <table border="0" cellspacing="0" cellpadding="0" class="view_table">
+      <tr>
+        <td class="t_r" width="25%">节点名称(pur_name)：</td>
+        <td class="t_l b_cf" width="70%" colspan="3"><input name="pur_name" type="text" value="{pur_name}" style="width:200px" class="input_txt"/></td>
+      </tr>
+      <tr>
+        <td class="t_r">链接(URL)：</td>
+        <td class="t_l b_cf" colspan="3"><textarea name="url" style="width:600px;height:50px" class="input_txt">{url}</textarea></td>
+      </tr>
+	   <tr>
+        <td class="t_r"></td>
+        <td class="t_l b_cf" colspan="3">
+			<input name="urlType" type="radio" onClick="setUrl(this.value)" value="/generictableservlet?action=recordList&ITNO=ITNO-Value&$TABLEKEYWORD=空"/>table列表&nbsp;
+			<input name="urlType" type="radio" onclick="setUrl(this.value)"  value="/wfservlet?action=recordList&ITNO=ITNO-Value&$TABLEKEYWORD=空"/>wf流程列表&nbsp;
+			<input name="urlType" type="radio" onclick="setUrl(this.value)" value="/gettablerecordinfoservlet?action=viewDocInfo&templateId=空&ITNO=ITNO-Value&$KEYWORD=空&$TABLEKEYWORD=空"/>viewTableRecord&nbsp;
+			<input name="urlType" type="radio" onclick="setUrl(this.value)" value="/genericchart.do?action=chart&chartName=空&ITNO=ITNO-Value&$TABLEKEYWORD=空"/>amchart图表&nbsp;
+
+		</td>
+      </tr>
+      <tr>
+        <td class="t_r">表名(tableName)：</td>
+        <td class="t_l b_cf" colspan="3"><input name="tableName" type="text" value="{realTableName}" style="width:200px" class="input_txt"/></td>
+      </tr>
+	   <tr>
+        <td class="t_r">排序(sequence)：</td>
+        <td class="t_l b_cf" colspan="3">
+			<input name="sequence" type="radio" value="1" checked/>1&nbsp;
+			<input name="sequence" type="radio" value="2"/>2&nbsp;
+			<input name="sequence" type="radio" value="3"/>3&nbsp;
+			<input name="sequence" type="radio" value="4"/>4&nbsp;
+			<input name="sequence" type="radio" value="5"/>5&nbsp;
+			<input name="sequence" type="radio" value="6"/>6&nbsp;
+			<input name="sequence" type="radio" value="7"/>7&nbsp;
+			<input name="sequence" type="radio" value="8"/>8&nbsp;
+			<input name="sequence" type="radio" value="9"/>9&nbsp;
+			<input name="sequence" type="radio" value="10"/>10&nbsp;
+			<input name="sequence" type="radio" value="11"/>11&nbsp;
+			<input name="sequence" type="radio" value="12"/>12&nbsp;
+			<input name="sequence" type="radio" value="13"/>13&nbsp;
+			<input name="sequence" type="radio" value="14"/>14&nbsp;
+			<input name="sequence" type="radio" value="15"/>15&nbsp;
+
+			</td>
+      </tr>
+	  <tr>
+        <td class="t_r">父节点(iparent)：</td>
+        <td class="t_l b_cf" colspan="3"><input name="iparent" type="text" value="{iparent}" style="width:30px" class="input_txt"/></td>
+      </tr>
+	   <tr>
+        <td class="t_r">图片(image)：</td>
+        <td class="t_l b_cf"><input name="image" type="text" value="{image}" style="width:200px" class="input_txt"/></td>
+    
+        <td class="t_r">备注(remark)：</td>
+        <td class="t_l b_cf"><input name="remark" type="text" value="{remark}" style="width:200px" class="input_txt"  tip="备注(remark)不能为空" check="2"/></td>
+      </tr>
+	   <tr>
+        <td class="t_r">hotKey(hotKey)：</td>
+        <td class="t_l b_cf"><input name="hotKey" type="text" value="{hotKey}" style="width:200px" value="0" class="input_txt"/></td>
+        <td class="t_r" width="20%">社区ID(community_id)：</td>
+        <td class="t_l b_cf"><input name="community_id" type="text" value="{community_id}" style="width:200px" class="input_txt"/></td>
+	 </tr>
+	 <tr>
+        <td class="t_r" >角色列表：</td>
+        <td class="t_l b_cf" colspan="3">
+			单位名称：<input name="cShortName" type="text" value="" style="width:200px" class="input_txt"/>
+			角色名称：<input name="role_name" type="text" value="" style="width:200px" class="input_txt"/>
+			 <input type="button" value="搜 索" class="btn m_l15" onclick="setCon()"/>
+		</td>
+      </tr>
+	  <script>
+		//var jsonStr=eval(getJsonBySqlNo(20,"'and role_name=''超级管理员-大公司'''|{identify}"));
+		var conStr="'and communityId={$COMMUNITYID}";
+		function setCon(){
+			conStr="'and 1=1";
+			
+			var cShortName=$("input[name=cShortName]").val();
+			var role_name=$("input[name=role_name]").val();
+
+			if(cShortName.length>0){
+				conStr=conStr+" and cShortName like ''%25"+cShortName+"%25''";
+			}//alert($(".view_table tr").eq(9).length > 0);
+
+			if(role_name.length>0){
+				conStr=conStr+" and role_name like ''%25"+role_name+"%25''";
+			}
+			
+			while($(".view_table tr").eq(9).length > 0){
+				  $(".view_table tr").eq(9).remove();  
+			}
+			writeRole();
+		}
+		function writeRole(){
+			var jsonStr=eval(getJsonBySqlNo(20,conStr+"'|{identify}"));
+			var htmlStr="";
+
+
+			for(var i=0;i<jsonStr.length;i++){
+				htmlStr=htmlStr+'<tr>';
+				htmlStr=htmlStr+'<td class="t_l b_cf" style="padding-left:70px">'+jsonStr[i].roleStr+'</td>';
+				htmlStr=htmlStr+'<td class="t_l b_cf" colspan="3">';
+				htmlStr=htmlStr+'&nbsp;&nbsp;'+jsonStr[i].combStr+'&nbsp;&nbsp;';
+				htmlStr=htmlStr+'</td>';
+				htmlStr=htmlStr+'</tr>';
+			}
+			htmlStr=htmlStr+'<tr>';
+			htmlStr=htmlStr+'<td colspan="4" align="center"><input type="button" value="保 存" class="btn" onclick="setSave()" />';
+			htmlStr=htmlStr+'<input type="button" value="关 闭" class="btn m_l15" onclick="window.close()"/></td>';
+			htmlStr=htmlStr+'</tr>';
+
+			$(".view_table").append(htmlStr);
+		}
+		writeRole();
+		
+	  </script>
+	  
+<!--
+	{row}
+	   <tr>
+        <td class="t_r"></td>
+        <td class="t_l b_cf" colspan="3">
+			{roleStr}&nbsp;&nbsp;&nbsp;&nbsp;{btnStr}&nbsp;&nbsp;{cdnoStr}&nbsp;&nbsp;listUrl：<input name="listUrl_{roleId}" type="text" size="5" value="{realListUrl}" >
+		</td>
+      </tr>
+	{row}
+	--> 
+    
+    
+    </table>
+	</div>
+</body>
+</html>

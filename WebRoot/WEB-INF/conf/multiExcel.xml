@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!--  说明:
+1,excelName	链接名字
+2.excelTitle	excel的名称,如果有值的会校验excel,如果为空，则忽略校验
+3.titleCoordinate	excelTitle所在坐标 x,y
+4.beginCoordinate	批量导入的开始左边 x,y
+5.paramUrl	url传入参数，必须有$,中间用逗号隔开，不限制个数
+6.excelMainfields	c|1|1|yn例子   c 对应数据库字段，1|1代表excel坐标，yn 为必填
+7.mainTableName	导入主表的名称
+8.mainFields	导入主表的字段	a|$a,b|$b,c,d,e|$WORKGROUP例子，主表导入信息有三种来源 1.paramUrl 需指定	2.excelMainfields	3.系统字段 需指定
+9.conditionMainFields	根据所配字段 进行条件校验，然后删除主从表信息
+-->
+<multiExcels>
+	<multiExcel excelName = "TestImport" excelTitle="你好TestImport" titleCoordinate="0,0" beginCoordinate="1,3" paramUrl="$a,$b">
+		<excelFields excelMainfields="c|1|1|yn,d|3|1|yn"></excelFields>
+		<mainTable mainTableName="ExcelTest_main" mainFields="a|$a,b|$b,c,d,e|$WORKGROUP" conditionMainFields="a|$a,b|$b,c ,d,e|$WORKGROUP">
+		</mainTable>
+
+		<subTable subTableName="ExcelTest_sub" subFields="a,b,c" mrFields="1,2" dateFields="" intFields="" doubleFields="" >
+		</subTable>	
+	</multiExcel>
+
+	<!-- 导入值班表  wk 2015/10/16 begin -->
+	<multiExcel excelName = "DTDuty_zbb_main_sub" excelTitle="值班表" titleCoordinate="0,0" beginCoordinate="0,7" paramUrl="">
+		<excelFields excelMainfields="yearAndMonth|1|2|yy,fDate|1|3|yy,remark|1|4|yy">
+		</excelFields>
+
+		<mainTable mainTableName="DTDuty_zbb_main" mainFields="yearAndMonth,Company|$SHORTNAME,fDate,ReBranch|$WORKGROUP,remark" conditionMainFields="communityid|$COMMUNITYID,yearAndMonth">
+		</mainTable>
+
+		<subTable subTableName="DTDuty_zbb_sub" subFields="tDate,zzb,kldfzb,ksfzb" mrFields="1,2,3" dateFields="0" intFields="" doubleFields="" >
+		</subTable>	
+	</multiExcel>
+     <!-- 导入值班表wk 2015/10/16  end -->
+
+</multiExcels>

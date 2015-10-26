@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+  <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+  <script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+  <script src="/js/ajax1.js"></script>
+  <script src="/js/ajaxCheckUnique.js"></script>
+  <SCRIPT src="/js/checkout.js"></SCRIPT>
+ <SCRIPT src="/js/checkout_subTable.js"></SCRIPT>
+  <script src="/js/ajaxGetOptions.js"></script>
+  <script src="/js/jQuery.js"></script>
+  <script src="/js/expandJs/jQuery.setAvg-min.js"></script>
+  
+  <script type="text/javascript" src="/js/baiduAutoComplete.js" charset="utf-8"></script>
+  <script src="/js/map.js"></script>
+  <script src="/js/mainSub.js"></script>
+  <script src="/js/ajaxMod.js"></script>
+ 
+  <script src="/js/ajaxSearchInfo.js"></script>
+
+
+  <SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+  <script>
+	function begin_HS(id){
+	//alert(id)
+	window.open('/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTWorry_bank_record_huizhi&recordId='+id+'&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}');
+}
+
+
+	function save_bc(){
+	var id=''
+	var Replycontent=''
+		$("td[id^='id_td']").each(function(index){
+			id+=$(this).html()+',';
+			Replycontent+=document.getElementsByName("Replycontent")[index].value+','
+			
+		
+		})
+	var submitFlag=true;
+	if(submitFlag){
+		submitFlag=false;
+		ajax_pro(392,Replycontent+'|'+id);
+		window.location='/generictableservlet?action=recordList&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}';
+	}
+	
+	/*
+	var Replycontent= document.getElementsByName("Replycontent")[0].value;
+	*/
+}
+</script>
+
+</head>
+<script type="text/javascript"></script>
+
+   <form name="form1" action="" method="post">
+    <input type="hidden" name="mulId" value="DTWorry_bank_main_sub">
+	<input type="hidden" name="tableName" value="{mainTableName}">
+    <input type="hidden" name="mainTableName" value="{mainTableName}">
+    <input type="hidden" name="subTableName" value="{subTableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+	
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" id="actorCount" name="actorCount" value="{actorCount}">
+    <input type="hidden" name="flag" value="1">
+    <input type="hidden" name="FINISH" value="">    
+	<input type="hidden" name="realFileName" value="">
+	<input type="hidden" name="record_id" value="{id}">
+
+ 
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 详情页面</div>
+
+  <div style = "clear:both;"></div>
+  
+
+<div class='toolbar'>
+<table width="100%" class="tabtap" style="border-collapse:collapse;" cellspacing="0" cellpadding="0">
+  <tbody>
+
+  <tr>
+  
+        <td class="tad"><img src="images/form/mi.GIF">&nbsp;大标题&nbsp;:</td>
+		<td>{Bigtitle}</td>
+        <td class="tad"><img src="images/form/mi.GIF">&nbsp;小标题&nbsp;:</td>
+		<td>{Smalltitle}</td>
+  </tr>
+	<tr>
+		<td class="tad"><img src="images/form/mi.GIF">&nbsp;当前步骤&nbsp;:</td>
+		<td>{Currentstep}</td>
+	</tr>
+</tbody></table>
+
+
+</div>
+  
+
+<div >
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+	 <tr  >
+	   <th align="center" width="15%" >操作人员</th>
+		<th align="center" width="15%" >步骤</th>
+		<th align="center" width="30%" >步骤内容</th>
+		<th align="center" width="15%" >回执信息</th>
+    </tr>
+	{row}
+	<tr>
+	 <td style="display:none" id="id_td{sNo}">{sub_id}</td>
+	 <td >{Dispatch}&nbsp;</td>
+	 <td >{Step}&nbsp;</td>
+	 <td >{StepContent}&nbsp;</td>
+	 <td ><a href="javascript:void(0)" onclick="begin_HS('{recordId}');">回执信息</a></td>
+	</tr>
+	 {row}
+    </thead>
+
+  </div>
+
+<div class="path">
+  
+  <table width="98%">
+    <tr>
+      <td id='wxts_tdId' align="left">
+          <span class="font4">&nbsp 温馨提示：</span>
+          <br>
+          &nbsp 1.点击操作下的"添加"可增加录入的条数。
+          <br>
+          &nbsp 2.点击操作下的"删除"可删除错误或多余的记录。
+          <br>
+          &nbsp 3.点击"保存"按钮前，请把空白或错误的记录删除掉。
+          <br>
+          &nbsp 4.副值班(科室人员)若为多人可用"，"(逗号)隔开。
+          <br>
+      </td>
+    </tr>
+  
+   </table>
+
+
+
+  <table width="98%">
+    <tr>
+      <td colspan="4" align="center">
+        <input type="button" value="保存" class="btn" onclick="save_bc()" />
+        <input type="button" value="返回" class="btn m_l15" onclick="window.close();"/>
+      </td>
+    </tr>
+  </table>
+
+</form>
+</body>
+</html>

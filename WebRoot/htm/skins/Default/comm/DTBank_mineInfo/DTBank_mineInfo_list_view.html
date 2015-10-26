@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+
+	<!--多选搜索 1 begin-->
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery-ui.css" />
+	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
+	<script type="text/javascript" src="js/table/jquery.tableui.js"></script>
+	
+	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
+	<!--多选搜索 1 end-->
+
+	<!--日期控件 begin-->
+	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+	<!--日期控件 end-->
+	
+	<script src="/js/ajax/superValidator.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/map.js"></script>
+	<script src="/js/ajax/mainSub.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+
+	
+
+	 <!--记忆搜索条件  第一步：引用cookie -->
+	<script src="/js/cookie.js"></script>
+
+	<script type="text/javascript" src="js/titleInfo.js"></script>
+
+<script>
+	$(document).ready(function(){
+		var filterOptions='{filterOptions1}';
+		if(filterOptions==''){
+		$("#edit_td").html('<input type="button" name="edit" class="btn" onClick="add_DTBank_mineInfo()" value="添加">')
+		}
+		
+
+	})
+	function add_DTBank_mineInfo(){
+		 document.form1.action="/generictableservlet?action=addRecord";
+		 document.form1.submit()
+			
+	}
+	function ready(id){
+		document.form1.action='/generictableservlet?action=editRecord&recordId='+id
+		document.form1.submit()
+	}
+
+</script>
+
+
+</head>
+<body>
+<form name="form1" action="" method="post">
+  <input type="hidden" name="tableName" value="{tableName}">
+  <input type="hidden" name="CDNO" value="{CDNO}">
+  <input type="hidden" name="ITNO" value="{ITNO}">
+  <input type="hidden" name="curPage" value="{curPage}">
+  <input name="curTreeId" id="curTreeId" type="hidden" value=""/>
+<div id="top">
+   <div class="haer"><span id="tans"><strong>矿井基本信息</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp;{$TABLEKEYWORD1}&gt;{$TABLEKEYWORD2} &gt;列表页面</div>
+  </div>
+<table cellspacing="0" cellpadding="0" width="100%" height="100%" style="margin:0 auto;border:0px;">			
+	{row}
+	<tr>
+		<td  align="center"><h1 >矿井基本信息</h1></td>
+		
+		<td id="edit_td"><input type="button" name="edit" class="btn" onClick="ready({recordId})" value="编辑"><td>
+	</tr>
+	<tr>
+		<td  style="padding-left:75px">{Contents}</td>
+	</tr>
+	{row}
+ </table>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+
+	<!--多选搜索 1 begin-->
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery-ui.css" />
+	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
+	<!--多选搜索 1 end-->
+
+	<!--日期控件 begin-->
+	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+	<!--日期控件 end-->
+	
+	<script src="/js/ajax/superValidator.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/map.js"></script>
+	<script src="/js/ajax/mainSub.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+
+	 <!--记忆搜索条件  第一步：引用cookie -->
+	<script src="/js/cookie.js"></script>
+</head>
+
+<script>
+	$(document).ready(function(){
+	//初始化上下左右
+	//iniFocus();
+	LoadOrder("{OrderKey}","{OrderBy}");
+
+	//记忆搜索条件  第六步：取cookie 解析cookie
+	iniCookie('{tableName}','{ITNO}','{$USERID}');
+	//初始化多选菜单
+	iniMultOptions('{tableName}','{ITNO}','{$USERID}');
+});
+
+function  add(){
+	
+	 var xpwidth=window.screen.width-400;
+	 var xpheight=window.screen.height-300;
+	 var iTop = (window.screen.availHeight-30-xpheight)/2;       //获得窗口的垂直位置;
+	 var iLeft = (window.screen.availWidth-10-xpwidth)/2;           //获得窗口的水平位置;
+	 window.open("/generictableservlet?action=addRecord&ITNO={ITNO}&tableName={tableName}&CDNO=$2&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}" ,"","type=fullWindow,scrollbars=yes,top="+iTop+",left="+iLeft+",width="+xpwidth+",height="+xpheight)
+
+} 
+function  edit(recordId){
+	 var xpwidth=window.screen.width-400;
+	 var xpheight=window.screen.height-300;
+	 var iTop = (window.screen.availHeight-30-xpheight)/2;       //获得窗口的垂直位置;
+	 var iLeft = (window.screen.availWidth-10-xpwidth)/2;           //获得窗口的水平位置;
+	window.open("/generictableservlet?action=editRecord&recordId="+recordId+"&curPage={curPage}&tableName={tableName}&CDNO=$2&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}" ,"","type=fullWindow,scrollbars=yes,top="+iTop+",left="+iLeft+",width="+xpwidth+",height="+xpheight)
+} 
+
+
+</script>
+
+<body>
+<form name="form1" action="" method="post">
+    <input type="hidden" name="tableName" value="{tableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" name="actorCount" value="{actorCount}">
+
+	<input type="hidden" name="OrderBy" value="{OrderBy}">	
+	<input type="hidden" name="OrderKey" value="{OrderKey}">
+
+	<input type="hidden" name="clickValue" value="N1">
+	<input type="hidden" name="firstUrl" value="null">
+	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+
+
+
+<input type="hidden" name="field1" value="admin_name|用户名|TXT|50|">
+<input type="hidden" name="field2" value="business_name|用户职务|TXT|50|">
+<input type="hidden" name="field3" value="role_name|所属角色|TXT|50|">
+<input type="hidden" name="field4" value="branch_name|所属部门|TXT|50|">
+<input type="hidden" name="field5" value="realname|真实姓名|TXT|50|">
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1}</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2}&gt; 录入页面</div>
+  </div>
+		<!--多选搜索 4 begin-->
+		<div class="line_list_mulitSelect" style="display:none">
+			<select name="selSetCon" multiple="multiple">
+				<option value="1">用户名：</option>
+				<option value="2">用户职务：</option>
+				<option value="3">所属角色：</option>
+				<option value="4">所属部门：</option>
+				<option value="5">真实姓名：</option>
+				
+			</select>
+		</div>
+		<!--多选搜索 4 end-->
+
+
+		<div class="line_list_left">
+		 <ul id="ul_search">
+
+		    <li id="li_search1">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="1">&nbsp;用&nbsp;户&nbsp;名&nbsp;：
+				<input name="admin_name" onkeyup="checkChange(this,'1')" value="" class="input_txt"/>
+			</li>
+
+			<li id="li_search2">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="2" >用户职务：
+				<input name="business_name" onkeyup="checkChange(this,'2')" value="" class="input_txt"/>
+			</li>
+			<li id="li_search3">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="3" >所属角色：
+				<input name="role_name" onkeyup="checkChange(this,'3')" value="" class="input_txt"/>
+			</li>
+			
+			<li id="li_search4">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="4" >所属部门：
+				<input name="branch_name" onkeyup="checkChange(this,'4')" value="" class="input_txt"/>
+			</li>
+		
+			<li id="li_search5">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="5" >真实姓名：
+				<input name="realname" onkeyup="checkChange(this,'5')" value="" class="input_txt"/>
+			</li>
+			<li id="li_search_btn">
+				&nbsp;
+				<input type="button"  value="查询" class="btn" onClick="setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');"/>
+				<input type="button"  value="导出excel" class="btn" onClick="exportExcel('{tableName}','{CDNO}','26_excel&$TABLEKEYWORD={$TABLEKEYWORD}','用户列表');"/>
+			</li>
+		</ul>
+	</div>
+
+	<div class="line_list">
+		   <li><a href="#" onclick="delRecord();"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l">删除</span></a></li>
+		   <li><a href="#" onclick="add();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l">添加</span></a></li>
+		   <li>&nbsp;&nbsp;</li>
+		   <li><a href="/gettablerecordinfoservlet?action=viewDocInfo&templateId=adminSortSet&ITNO=1&$TABLEKEYWORD=系统设置|用户排序" target="_blank"><span class="f_l">用户排序</span></a></li>
+        </div>
+  
+	 
+<div class="a_box">	
+<table border="0" cellspacing="0" cellpadding="0" class="table_list">
+     <thead>
+			<th><input type="checkbox" name="roleCheck" value="" onClick="selectAllRole(form1);"></th>
+
+			<th style="cursor:hand;" onClick="orderByInfo_new('admin_name','{OrderKey}','{OrderBy}')">用户名<span id="admin_nameOrder" class="orderNo"></span></th> 
+
+			<th style="cursor:hand;" onClick="orderByInfo_new('business_name','{OrderKey}','{OrderBy}')">用户职务<span id="business_nameOrder" class="orderNo"></span></th>
+
+			<th style="cursor:hand;" onClick="orderByInfo_new('role_name','{OrderKey}','{OrderBy}')">所属角色<span id="role_nameOrder" class="orderNo"></span></th>
+
+			<th style="cursor:hand;" onClick="orderByInfo_new('branch_name','{OrderKey}','{OrderBy}')">所属部门<span id="branch_nameOrder" class="orderNo"></span></th> 
+
+			<th style="cursor:hand;" onClick="orderByInfo_new('cShortName','{OrderKey}','{OrderBy}')">所属单位<span id="cShortNameOrder" class="orderNo"></span></th> 
+    
+			<th>真实姓名</th>
+			<th>联系电话</th>
+			<th>基本操作</th>
+
+          </tr>
+		   {row}
+          <TR style="BACKGROUND-COLOR: #fafbfd" id=1 align=middle bgColor=#fafbfd  	onmouseout={this.style.backgroundColor='#FAFBFD';}; onmouseover= {this.style.backgroundColor='#EEF1F8';};>
+
+			<td style="text-align:center">{id}</td>
+			<td style="text-align:center"><a href="/adminpurview.do?action=viewUserPurview&user_id={recordId}&ITNO={ITNO}">{admin_name}&nbsp;</a></td>	
+			<td style="text-align:center">{business_name}&nbsp;</td>
+			<td style="text-align:center">{role_name}&nbsp;</td>
+			<td style="text-align:center">{branch_name}&nbsp;</td>
+			<td style="text-align:center">{cShortName}&nbsp;</td>
+			<td style="text-align:center">{realname}&nbsp;</td>
+			<td style="text-align:center">{mobile}&nbsp;</td>
+			<td id="operate_tdId{sNo}"><img src="images/zTree/treeEdit.gif" width="16" height="16" /><a href="#" onClick="edit('{recordId}')">编辑</a>&nbsp; &nbsp;<img src="images/zTree/treeDel.gif" width="16" height="16" /><a href="#" onClick="singleDelRecord('1','{recordId}')">删除</a></td>
+	 
+	 
+	</tr>
+	<script language="javascript">
+		
+
+		if('{sNo}'==''){
+			document.getElementById("operate_tdId{sNo}").innerHTML="&nbsp;";
+		}
+	</script>
+	{row}
+  </table>
+
+  <table width="98%">
+	<tr>
+     {page}
+    </tr>
+   
+  </table>
+  </div>
+
+</form>
+</body>
+</html>

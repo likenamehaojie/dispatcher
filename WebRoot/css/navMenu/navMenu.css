@@ -1,0 +1,150 @@
+*{margin:0px;padding:0px;}
+
+A.A1:link { COLOR: #003366; TEXT-DECORATION: underline;}
+A.A1:visited { COLOR: #003366; TEXT-DECORATION: underline}
+A.A1:active  { COLOR: #124164; TEXT-DECORATION: underline}
+A.A1:hover   { COLOR: #124164; TEXT-DECORATION: underline}
+
+img{border:0px;}
+
+#navPanel{
+	width: 100%;
+	height: 28px !important;
+	height: 30px;
+	padding-top:2px;
+	font-size:10pt;
+	background: #D6E4EF url('/images/navMenu/menu_top_bg.png') left -30px repeat-x;
+}
+.line_lisxin{
+background:#FFFFFF;border: 1px solid #D5DADE;
+margin: 10px auto 0;overflow: hidden;
+padding-top: 2px;
+margin-top: 6px;
+width:98%;
+padding-right: 10px;
+padding-bottom:2px;
+font-size: 12px;
+text-align: left;}
+#navMenu{
+	float: left;
+	white-space: nowrap;
+	padding: 0px 20px;
+	height: 28px;
+    line-height:28px;
+	overflow:hidden;
+}
+#navMenu a
+{
+   float:left;
+	overflow:hidden;
+	color:#000000;
+	text-decoration: none;
+   padding-left:5px;
+   background: url('/images/navMenu/menu_top_line.png') no-repeat top right;
+	height: 30px;
+}
+#navMenu a span{
+   float:left;
+   cursor:pointer;
+	padding: 0px 5px 6px 5px;
+}
+#navMenu a.active, #navMenu a:hover
+{
+	color:#FFFFFF;
+   font-weight:bold;
+   background: url('/images/navMenu/menu_top_hover_l.png') no-repeat top left;
+}
+#navMenu a.active span, #navMenu a:hover span
+{
+	height: 28px;
+   background: url('/images/navMenu/menu_top_hover_r.png') no-repeat top right;
+}
+#navMenu a span span.close, #navMenu a span span.over{
+   height:16px;
+   width:16px;
+   float:right;
+   margin-left:10px;
+   cursor:pointer;
+	padding: 0px;
+	background:url('/images/navMenu/close_square.png') no-repeat center center;
+}
+
+#navMenu a.active span span.close, #navMenu a:hover span span.close{
+   height:16px;
+   background:url('/images/navMenu/close_square_over.png') no-repeat center center;
+}
+
+.mutiwork #navMenu a{
+   _width:110px;   
+}
+*+html .mutiwork #navMenu a{
+   width:105px;
+}
+*+html #navMenu a span span.close{
+   margin-left:0px;      
+}
+.mutiwork #navMenu a span span.close{
+   _margin-left:10px;   
+}
+
+
+#navMenu1{
+	float: left;
+	white-space: nowrap;
+	padding: 0px 20px;
+	height: 28px;
+	overflow:hidden;
+}
+#navMenu1 a
+{
+   float:left;
+	overflow:hidden;
+	color:#000000;
+	text-decoration: none;
+   padding-left:5px;
+   background: url('/images/navMenu/menu_top_line.png') no-repeat top right;
+	height: 30px;
+}
+#navMenu1 a span{
+   float:left;
+   cursor:pointer;
+	padding: 0px 5px 6px 5px;
+}
+#navMenu1 a.active, #navMenu1 a:hover
+{
+	color:#FFFFFF;
+   font-weight:bold;
+   background: url('/images/navMenu/menu_top_hover_l.png') no-repeat top left;
+}
+#navMenu1 a.active span, #navMenu1 a:hover span
+{
+	height: 28px;
+   background: url('/images/navMenu/menu_top_hover_r.png') no-repeat top right;
+}
+#navMenu1 a span span.close, #navMenu1 a span span.over{
+   height:16px;
+   width:16px;
+   float:right;
+   margin-left:10px;
+   cursor:pointer;
+	padding: 0px;
+	background:url('/images/navMenu/close_square.png') no-repeat center center;
+}
+
+#navMenu1 a.active span span.close, #navMenu1 a:hover span span.close{
+   height:16px;
+   background:url('/images/navMenu/close_square_over.png') no-repeat center center;
+}
+
+.mutiwork #navMenu1 a{
+   _width:110px;   
+}
+*+html .mutiwork #navMenu1 a{
+   width:105px;
+}
+*+html #navMenu1 a span span.close{
+   margin-left:0px;      
+}
+.mutiwork #navMenu1 a span span.close{
+   _margin-left:10px;   
+}

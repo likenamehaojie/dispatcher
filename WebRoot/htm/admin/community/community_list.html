@@ -1,0 +1,539 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title> 
+
+<link rel="stylesheet" type="text/css" href="css/index_role.css" />
+<script type="text/javascript" src="js/main/jquery-1.8.1.min.js"></script>
+<!--
+<script src="js/layer/layer.min.js"></script>
+-->
+<script src="/js/ajaxGetOptions.js"></script>
+<script src="/js/ajaxMod.js"></script>
+<script src="/js/loadingInfo.js"></script>
+<script src="/js/ajax1.js"></script>
+
+
+<link rel="stylesheet" href="css/zTree/demo_COMMUNITY.css" type="text/css">
+<link rel="stylesheet" href="css/zTree/zTreeStyle/zTreeStyle.css" type="text/css">
+
+<style type="text/css">
+.ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
+#pageContent td{
+border:0px;
+}
+</style>
+
+<script type="text/javascript" src="js/zTree/jquery.ztree.core-3.5.js"></script>
+<script type="text/javascript" src="js/zTree/jquery.ztree.excheck-3.5.js"></script>
+<script type="text/javascript" src="js/zTree/jquery.ztree.exedit-3.5.js"></script>
+
+
+<SCRIPT type="text/javascript">
+//var curLoadingLayer;
+var curNode;
+		<!--
+		var setting = {
+			view: {
+				removeHoverDom: removeHoverDom,
+				selectedMulti: false
+			},
+			edit: {
+				drag: {
+					autoExpandTrigger: true,
+					prev: dropPrev,
+					inner: dropInner,
+					next: dropNext
+				},
+				enable: true,
+				showRenameBtn: false,
+				showRemoveBtn: showRemoveBtn
+			},
+			data: {
+				keep: {
+					parent: true,
+					leaf: true
+				},
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				onClick: zTreeOnClick,
+				beforeDrag: beforeDrag,
+				onRemove: onRemove,
+				beforeRemove: beforeRemove,
+
+				beforeDrag: beforeDrag,
+				onDrop: onDrop
+			}
+		};
+
+		var zNodes=eval('['+getInfoBySqlNo_noHidden(105,'公司菜单|community|community_id|community_iparent|cShortName|del=0 and community_id in (select community_id from dbo.GET_CHILD_community({$COMMUNITYID}))')+']');
+		var log, className = "dark";
+
+		
+		function beforeRemove(treeId, treeNode) {
+			className = (className === "dark" ? "":"dark");
+			showLog("[ "+getTime()+" beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			zTree.selectNode(treeNode);
+            if(confirm("确认要删除该单位吗？"))
+			  return confirm("请谨慎操作：确认删除 -- " + treeNode.name + "吗？（该操作会删除此单位下属的所有单位,以及该单位的所有数据都会丢失，该操作不可逆转，请谨慎。）");
+			else
+			  return false;
+
+
+		}
+		//var curChildIds=getJsonBySqlNo(5,'');//获取该公司下面的子节点
+		function showRemoveBtn(treeId, treeNode) {
+			
+			if(treeNode.pId=='{$COMMUNITYID}')return true;
+		//	curChildIdsJSON=eval(curChildIds);
+			//for(var i=0; i<curChildIdsJSON.length; i++){
+		//		if(curChildIdsJSON[i].commId==treeNode.id){
+		//			return true;
+		//		}
+				
+		//	}  
+			return false;
+		}
+		function onRemove(e, treeId, treeNode) {
+			var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+			treeObj.selectNode(treeNode,true);
+			editTreeNode("del");
+			showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+		}
+		function showLog(str) {
+			if (!log) log = $("#log");
+			log.append("<li class='"+className+"'>"+str+"</li>");
+			if(log.children("li").length > 8) {
+				log.get(0).removeChild(log.children("li")[0]);
+			}
+		}
+		function getTime() {
+			var now= new Date(),
+			h=now.getHours(),
+			m=now.getMinutes(),
+			s=now.getSeconds(),
+			ms=now.getMilliseconds();
+			return (h+":"+m+":"+s+ " " +ms);
+		}
+
+		var newCount = 1;
+		
+		function removeHoverDom(treeId, treeNode) {
+			$("#addBtn_"+treeNode.tId).unbind().remove();
+		};
+		
+		$(document).ready(function(){
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+			//$("#selectAll").bind("click", selectAll);
+			//searchList();
+			//getCheckBoxListBySqlNo(60,8,'branchName3','branchName3_tdId');
+		 //   document.getElementById("table_id").style.display="none";
+			
+			/*var isNew  =getInfoBySqlNo_noHidden(82,'')
+			if (isNew==1)
+			{
+				 if(confirm("您之前有未保存的修改，是否要恢复？")) {}
+				 else{
+					ajax_pro_noInfo(83,'')
+					window.location.reload();
+					}
+			}*/
+		  	
+			if('{$COMMUNITYTYPE}'==1){
+				$("#cType_spanId3").hide();
+				$("#cType_spanId4").hide();
+				$("input[name=cType_add][value=2]").attr("checked",'checked');
+				$("#addSpanTip_Id").html("子公司");
+				//当是河南能源的时候 隐藏meiye、huagong类型
+				$("#tradeTypeEdit_trId").hide();
+			}else if('{$COMMUNITYTYPE}'==2){
+				$("#cType_spanId2").hide();
+				$("#addSpanTip_Id").html("区域公司或矿（厂）");
+			}else if('{$COMMUNITYTYPE}'==3){
+				$("#cType_spanId2").hide();
+				$("#cType_spanId3").hide();
+				$("#addSpanTip_Id").html("矿（厂）");
+			}
+
+			
+			var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+			var defaultNode = treeObj.getNodeByParam("id",'{$COMMUNITYID}');
+			treeObj.selectNode(defaultNode,true);
+
+
+			//初始化公司类别 meiye、huagong
+			$("#tradeTypeAdd_tdId").html(getJsonRadioBySqlNo(7,'','tradeTypeAdd','radio',10));
+			$("#tradeTypeEdit_tdId").html(getJsonRadioBySqlNo(7,'','tradeTypeEdit','radio',10));
+
+			//设置meiye、huaogng  第一个radio选中
+			$("input[name=tradeTypeAdd]:eq(0)").attr("checked",'checked'); 
+			$("input[name=tradeTypeEdit]:eq(0)").attr("checked",'checked'); 
+
+			//页面加载时 初始化修改选项的值
+			$("input[name=cName_edit]").val(defaultNode.cName);
+			$("input[name=cShortName_edit]").val(defaultNode.name);
+			$("input[name=tradeTypeEdit][value="+defaultNode.tradeType+"]").attr("checked",'checked');
+			
+		});
+
+		function zTreeOnClick(event, treeId, treeNode) {
+			//curChildIdsJSON=eval(curChildIds);
+			curNode=treeNode;
+			$("input[name=curTreeId]").val(treeNode.id);
+			//getAutoInfoByField('main','DTExam_basis_ajk_temporary','curTreeId','');
+			$("input[name=cName_edit]").val(treeNode.cName);
+			$("input[name=cShortName_edit]").val(treeNode.name);
+
+			var isChild=false;
+			if(treeNode.pId=='{$COMMUNITYID}')isChild=true;
+			//for(var i=0; i<curChildIdsJSON.length; i++){
+			//	if(curChildIdsJSON[i].commId==treeNode.id){
+		//			isChild=true;
+			//	}
+		//	}  
+
+			if(isChild){//直属子单位   可以修改   
+				$("input[name=btnEdit]").removeAttr("disabled");
+				$("input[name=btnEdit]").attr("class","btn");
+			}else{//非子单位   不可以修改   
+				$("input[name=btnEdit]").attr("disabled",true);
+				$("input[name=btnEdit]").attr("class","btn_disabled");
+			}
+
+			if(treeNode.id!="{$COMMUNITYID}"){//不是当前单位  不可以添加
+				$("input[name=btnAdd]").attr("disabled",true);
+				$("input[name=btnAdd]").attr("class","btn_disabled");
+			}else{//当前单位的时候，可以添加   可以修改
+				$("input[name=btnAdd]").removeAttr("disabled");
+				$("input[name=btnEdit]").removeAttr("disabled");
+
+				$("input[name=btnAdd]").attr("class","btn");
+				$("input[name=btnEdit]").attr("class","btn");
+			}
+
+			//当是河南能源的时候 隐藏meiye、huaogng类型 反之显示
+			if(treeNode.id==1){
+				$("#tradeTypeEdit_trId").hide();
+			}else{
+				$("#tradeTypeEdit_trId").show();
+
+				//根据选中节点初始化节点的值
+				$("input[name=tradeTypeEdit][value="+treeNode.tradeType+"]").attr("checked",'checked');
+			}
+		};
+		function editTreeNode(oType){
+			var cName=$("input[name=cName_"+oType+"]").val();
+			var cShortName=$("input[name=cShortName_"+oType+"]").val();
+
+			//默认修改时的值（矿级别、矿类型）
+			var cType="空";
+			var tradeType=$('input[name="tradeTypeEdit"]:checked').val();
+			//当是添加时的值（矿级别、矿类型）
+			if(oType=="add"){
+				cType=$('input[name="cType_'+oType+'"]:checked').val();
+				tradeType=$('input[name="tradeTypeAdd"]:checked').val();
+			}
+			if(oType!="del" && cName.length==0){
+				alert("单位名称不能为空");
+				return;
+			}else if(oType!="del" && cShortName.length==0){
+				alert("单位简称不能为空");
+				return;
+			}
+			
+			
+			var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+			var treeNode = treeObj.getSelectedNodes()[0];
+			
+			if(oType=="add"){
+				//layer.msg('数据保存中,请稍等...'); //风格二
+				
+				
+				var isExists=getInfoBySqlNo_noHidden(343,cShortName);
+				if(isExists==1){
+					alert("【"+cShortName+"】单位简称不能重复添加");
+					return;
+				}
+				
+				if(!treeNode){alert("请选择一个单位");return;}
+					
+					//exec PROC_community_ForEdit
+					//alert();
+
+				$("input[name=btnAdd]").val("保存中...");
+				$("input[name=btnAdd]").attr("class","btn_disabled");
+				$("input[name=btnAdd]").attr("disabled",true);
+			
+				if(confirm("确定要新增单位【"+cShortName+"】吗？")){
+					var currenntId=getInfoBySqlNo_noHidden(107,'add|-1|'+treeNode.id+'|'+cName+'|'+cShortName+'|'+cType+'|'+tradeType+'|添加成功');
+					//alert(currenntId);
+					//更新角色权限  保证可以即时登录
+					if(currenntId!="")ajax_updateRoleByCommId(currenntId,cType);
+
+				//	curChildIds=curChildIds.substring(0,curChildIds.length-1)+",{commId:"+currenntId+"}]";
+					if (cType==4){
+						treeObj.addNodes(treeNode, {id:currenntId, commId:currenntId, pId:treeNode.id,name:cShortName, cName:cName,cType:cType,tradeType:tradeType});
+					}else{
+						treeObj.addNodes(treeNode, {id:currenntId, commId:currenntId, pId:treeNode.id,name:cShortName, cName:cName,cType:cType,tradeType:tradeType,isParent:true});
+					}
+					treeObj.updateNode(treeObj.getNodeByParam("id",currenntId));
+					//layer.close(1);
+					alert("添加成功");
+					//var newNode = treeObj.getNodeByParam("id",currenntId);
+					//treeObj.selectNode(newNode,true);
+					$("input[name=btnAdd]").val("保存");
+					$("input[name=btnAdd]").attr("class","btn");
+					$("input[name=btnAdd]").attr("disabled",false);
+					
+				}else{
+					$("input[name=btnAdd]").val("保存");
+					$("input[name=btnAdd]").attr("class","btn");
+					$("input[name=btnAdd]").attr("disabled",false);
+				}
+			}else if(oType=="edit"){
+				if(!treeNode){alert("请选择一个单位");return;}
+
+				var isExists=getInfoBySqlNo_noHidden(344,cShortName+'|'+treeNode.id);
+				if(isExists==1){
+					alert("【"+cShortName+"】单位简称已存在");
+					return;
+				}
+
+				//exec PROC_community_ForEdit
+				ajax_pro(107,'edit|'+treeNode.id+'|空|'+cName+'|'+cShortName+'|'+cType+'|'+tradeType+'|修改成功');
+				//更新树节点属性
+				treeNode.cName=cName;
+				treeNode.name=cShortName;
+				treeNode.cType=cType;
+				treeNode.tradeType=tradeType;
+				var newNode = treeObj.getNodeByParam("id",treeNode.id);
+				$("#"+newNode.tId+"_span").html(cShortName);
+			}else if(oType=="del"){
+				//删除角色权限  
+				if(treeNode.id!="")ajax_deleteRoleByCommId(treeNode.id);
+				ajax_pro_wait(107,'del|'+treeNode.id+'|空|空|空|空|空|删除成功');
+
+			//	$("input[name=curTreeId_edit]").val("");
+				$("input[name=cName_edit]").val("");
+				$("input[name=cShortName_edit]").val("");
+				//重新选回父节点
+				var newNode = treeObj.getNodeByParam("id",'{$COMMUNITYID}');
+
+				treeObj.selectNode(newNode,true);
+
+			}
+		}
+
+	
+
+		function dropPrev(treeId, nodes, targetNode) {
+			var pNode = targetNode.getParentNode();
+			if (pNode && pNode.dropInner === false) {
+				return false;
+			} else {
+				for (var i=0,l=curDragNodes.length; i<l; i++) {
+					var curPNode = curDragNodes[i].getParentNode();
+					if (curPNode && curPNode !== targetNode.getParentNode() && curPNode.childOuter === false) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+		function dropInner(treeId, nodes, targetNode) {
+			if (targetNode && targetNode.dropInner === false) {
+				return false;
+			} else {
+				for (var i=0,l=curDragNodes.length; i<l; i++) {
+					if (!targetNode && curDragNodes[i].dropRoot === false) {
+						return false;
+					} else if (curDragNodes[i].parentTId && curDragNodes[i].getParentNode() !== targetNode && curDragNodes[i].getParentNode().childOuter === false) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+		function dropNext(treeId, nodes, targetNode) {
+			var pNode = targetNode.getParentNode();
+			if (pNode && pNode.dropInner === false) {
+				return false;
+			} else {
+				for (var i=0,l=curDragNodes.length; i<l; i++) {
+					var curPNode = curDragNodes[i].getParentNode();
+					if (curPNode && curPNode !== targetNode.getParentNode() && curPNode.childOuter === false) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+			var curDragNodes, autoExpandNode;
+		function beforeDrag(treeId, treeNodes) {
+			//alert(treeNodes[0].cType);
+			if('{$COMMUNITYID}'!=treeNodes[0].pId)return false;
+			className = (className === "dark" ? "":"dark");
+			showLog("[ "+getTime()+" beforeDrag ]&nbsp;&nbsp;&nbsp;&nbsp; drag: " + treeNodes.length + " nodes." );
+			for (var i=0,l=treeNodes.length; i<l; i++) {
+				if (treeNodes[i].drag === false) {
+					curDragNodes = null;
+					return false;
+				} else if (treeNodes[i].parentTId && treeNodes[i].getParentNode().childDrag === false) {
+					curDragNodes = null;
+					return false;
+				}
+			}
+			curDragNodes = treeNodes;
+			return true;
+		}
+		function beforeDragOpen(treeId, treeNode) {
+			autoExpandNode = treeNode;
+			return true;
+		}
+		function beforeDrop(treeId, treeNodes, targetNode, moveType, isCopy) {
+			className = (className === "dark" ? "":"dark");
+			showLog("[ "+getTime()+" beforeDrop ]&nbsp;&nbsp;&nbsp;&nbsp; moveType:" + moveType);
+			showLog("target: " + (targetNode ? targetNode.name : "root") + "  -- is "+ (isCopy==null? "cancel" : isCopy ? "copy" : "move"));
+			return true;
+		}
+		function onDrag(event, treeId, treeNodes) {
+			className = (className === "dark" ? "":"dark");
+			showLog("[ "+getTime()+" onDrag ]&nbsp;&nbsp;&nbsp;&nbsp; drag: " + treeNodes.length + " nodes." );
+		}
+		function onDrop(event, treeId, treeNodes, targetNode, moveType, isCopy) {
+			className = (className === "dark" ? "":"dark");
+			showLog("[ "+getTime()+" onDrop ]&nbsp;&nbsp;&nbsp;&nbsp; moveType:" + moveType);
+			showLog("target: " + (targetNode ? targetNode.name : "root") + "  -- is "+ (isCopy==null? "cancel" : isCopy ? "copy" : "move"));
+			var curNodeIds="";
+			if(targetNode!=null){
+				var curChildObj=targetNode.getParentNode().children;
+				for(var i=0;i<curChildObj.length;i++){
+					curNodeIds=curNodeIds+curChildObj[i].id+",";
+				}
+				//拖拽后排序
+				ajax_pro_noInfo(315,curNodeIds.substring(0,curNodeIds.length-1));
+				//alert(curNodeIds.substring(0,curNodeIds.length-1));
+			}
+		}
+		function onExpand(event, treeId, treeNode) {
+			if (treeNode === autoExpandNode) {
+				className = (className === "dark" ? "":"dark");
+				showLog("[ "+getTime()+" onExpand ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name);
+			}
+		}
+	
+
+	</SCRIPT>
+
+	
+
+
+</head>
+<body>
+<form name="form1" action="" method="post">
+  <input type="hidden" name="tableName" value="{tableName}">
+  <input type="hidden" name="CDNO" value="{CDNO}">
+  <input type="hidden" name="ITNO" value="{ITNO}">
+  <input type="hidden" name="curPage" value="{curPage}">
+  <input name="curTreeId" id="curTreeId" type="hidden" value=""/>
+  <input name="$TABLEKEYWORD" type="hidden" value="{$TABLEKEYWORD}"/>
+  <input name="$KEYWORD" type="hidden" value="1"/>
+	
+
+
+
+<div class="path"> <img src="images/index/path_ico.gif" />{$TABLEKEYWORD1} &gt;{$TABLEKEYWORD2}</div>
+
+<table cellspacing="0" cellpadding="0" width="100%" height="100%" style="margin:0 auto;border:0px;">			
+<tr>
+	<td valign="top" width="180">
+		<div class="zTreeDemoBackground left">
+
+			<ul id="treeDemo" class="ztree"></ul>
+				
+
+		 </div>
+	 </td>
+
+
+    <td  valign="top" id="aaa111">
+					<table border="0" cellspacing="0" cellpadding="0" class="add_table">
+					  <tr>
+						<td class="t_l b_cf" colspan="2">
+							添加------<span id="addSpanTip_Id"></span>
+						</td>
+					 </tr>
+					  <tr>
+						<td class="t_r" width="20%">单位名称：</td>
+						<td class="t_l b_cf" width="60%"><input name="cName_add" size="20" type="text" class="input_txt"/></input>
+						</td>
+					  </tr>
+					  <tr>
+						<td class="t_r" width="20%">单位简称：</td>
+						<td class="t_l b_cf" width="60%"><input name="cShortName_add" size="5" type="text" class="input_txt"/></input></td>
+					  </tr>
+					   <tr>
+						  <td class="t_r" width="20%">单位类别：</td>
+						  <td class="t_l b_cf" width="60%" id="tradeTypeAdd_tdId">
+							
+						  </td>
+					  </tr>		
+					  <tr>
+						  <td class="t_r" width="20%">单位层级：</td>
+						  <td class="t_l b_cf" width="60%">
+							<span id="cType_spanId2"><input type="radio" name="cType_add" value="2">子公司&nbsp;&nbsp;</span>
+							<span id="cType_spanId3"><input type="radio" name="cType_add" value="3">区域公司&nbsp;&nbsp;</span>
+							<span id="cType_spanId4"><input type="radio" name="cType_add" value="4" checked>矿（厂）</span>
+						  </td>
+					  </tr>		
+					  <tr>
+						  <td class="t_l b_cf" width="60%" colspan="2" style="text-align:center">
+							 <input type="button" name="btnAdd" value="保存" class="btn" onclick="editTreeNode('add');" />
+						  </td>
+					  </tr>		
+					  <tr>
+						<td class="t_l b_cf" colspan="2">
+							修改------只能修改本单位和直属单位
+						</td>
+					 </tr>
+					  <tr>
+						<td class="t_r" width="20%">单位名称：</td>
+						<td class="t_l b_cf" width="60%"><input name="cName_edit" size="20" type="text" class="input_txt"/></input>
+						</td>
+					  </tr>
+					  <tr>
+						<td class="t_r" width="20%">单位简称：</td>
+						<td class="t_l b_cf" width="60%"><input name="cShortName_edit" size="5" type="text" class="input_txt"/></input></td>
+					  </tr>
+					  <tr id="tradeTypeEdit_trId">
+						  <td class="t_r" width="20%">单位类别：</td>
+						  <td class="t_l b_cf" width="60%" id="tradeTypeEdit_tdId">
+							
+						  </td>
+					  </tr>		
+					 <tr>
+						   <td class="t_l b_cf" width="60%" colspan="2" style="text-align:center">
+							 <input type="button" name="btnEdit" value="保存" class="btn" onclick="editTreeNode('edit');" />
+						  </td>
+					  </tr>		
+					  <tr>
+      <td class="t_l b_cf" id="wxts_tdId" align="left" colspan="4">
+          <span class="font3" >&nbsp 温馨提示：</span>
+          <br>
+          &nbsp 拖拽单位即可实现排序（只能拖拽直属单位）。
+		  <br>
+      </td>
+    </tr>
+
+					</table>
+				</td>
+            </tr>
+           
+             </tbody>
+</table>
+</body>
+</html>

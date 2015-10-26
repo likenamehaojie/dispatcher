@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+
+	<!--多选搜索 1 begin-->
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery-ui.css" />
+	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
+	<script type="text/javascript" src="js/table/jquery.tableui.js"></script>
+	
+	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
+	<!--多选搜索 1 end-->
+
+	<!--日期控件 begin-->
+	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+	<!--日期控件 end-->
+	
+	<script src="/js/ajax/superValidator.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/map.js"></script>
+	<script src="/js/ajax/mainSub.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+
+	
+
+	 <!--记忆搜索条件  第一步：引用cookie -->
+	<script src="/js/cookie.js"></script>
+
+	<script type="text/javascript" src="js/titleInfo.js"></script>
+</head>
+
+
+  <script>
+$(document).ready(function(){
+	//如果操作列没有权限  隐藏操作列
+	hideLastCol('actor_table');
+
+
+	//初始化上下左右
+	//iniFocus();
+	LoadOrder("{OrderKey}","{OrderBy}");
+
+	//记忆搜索条件  第六步：取cookie 解析cookie
+	iniCookie('{tableName}','{ITNO}','{$USERID}');
+	//初始化多选菜单
+	iniMultOptions('{tableName}','{ITNO}','{$USERID}');
+
+	
+});
+
+
+function qidong_HS(id){
+	window.open('/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTWorry_bank_record_qidong&recordId='+id+'&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}');
+}
+
+function re_setCondition(){
+		document.getElementsByName("$TABLEKEYWORD")[0].value="{$TABLEKEYWORD}";
+		setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');
+}
+function set_stpe(buzhou,id,Currentstep){
+
+	if(Currentstep=='1'&&buzhou=='up'){
+		alert("当前步骤为最前：1");
+	}
+
+	var submitFlag=true;
+	if(submitFlag){
+		submitFlag=false;
+		ajax_pro(392,buzhou+'|'+id+'|'+Currentstep);
+	}
+	window.location.reload();
+}
+
+
+</script>
+
+  <form name="form1" action="" method="post">
+    <input type="hidden" name="tableName" value="{tableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" name="actorCount" value="{actorCount}">
+
+	<input type="hidden" name="OrderBy" value="{OrderBy}">	
+	<input type="hidden" name="OrderKey" value="{OrderKey}">
+
+	<input type="hidden" name="clickValue" value="N1">
+	<input type="hidden" name="firstUrl" value="null">
+	<input type="hidden" id="DTWorry_bank_main_id" value="">
+	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+
+	<input name="dblclick" type="hidden" value="" /><!--已上报禁止双击编辑-->	
+	<input type="hidden" name="field1" value="name|姓名|TXT|50|">
+	<input type="hidden" name="field2" value="sex|性别|OPT|50|">
+	<input type="hidden" name="field3" value="Cid|身份证号|TXT|50|">
+	<input type="hidden" name="field4" value="Place|籍贯|TXT|50|">
+	<input type="hidden" name="field5" value="BirthDate|出生时间|DAT|50|">
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>人员基本档案</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt;列表页面</div>
+  </div>
+
+		<!--多选搜索 4 begin-->
+		<div class="line_list_mulitSelect" style="display:none">
+			<select name="selSetCon" multiple="multiple">
+				<option value="1">姓名</option>
+				<option value="2">性别</option>
+				<option value="3">身份证号</option>
+				<option value="4">籍贯</option>
+				<option value="5">出生时间</option>
+
+			</select>
+		</div>
+		
+		
+		<!--多选搜索 4 end-->
+	 <div class="line_list_left">
+		 <ul id="ul_search">
+			<li id="li_search1">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="1">&nbsp;姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:
+				<input name="name" onkeyup="checkChange(this,'1')" class="input_txt" style="width:156px;"/>
+			</li>
+			
+
+			<li id="li_search2">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="2">&nbsp;性别:<select name="sex" onchange="checkChange(this,'2')"><option value="">--请选择--</option><option value="男">男</option><option value="女">女</option></select>
+				
+			</li>
+			<li id="li_search3">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="3">&nbsp;身份证号:
+				<input name="Cid" onkeyup="checkChange(this,'3')" class="input_txt"/>
+			</li>
+			<li id="li_search4">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="4">&nbsp;籍贯:
+				<input name="Place" onkeyup="checkChange(this,'4')" class="input_txt"/>
+			</li>
+			<li id="li_search5">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="5">&nbsp;出生时间:
+				<input name="BirthDate" style="width:156px;" onchange="checkChange(this,'5')"  class="input_txt" onclick="WdatePicker()"/>
+
+			</li>
+			<li id="li_search_btn">
+				&nbsp;
+				<input type="button"  value="查询" class="btn" onClick="re_setCondition();"/>
+				
+			</li>
+
+		</ul>
+	</div>
+	
+<div class="a_box">
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+      <tr >
+	    <th width="3%"><input type="checkbox" name="recordId" value="checkbox" onClick="selectAllBranch(form1);"></th>
+		<th width="20%"  style="cursor:hand;" onClick="orderByInfo_new('Currentdate','{OrderKey}','{OrderBy}')">日期<span id="workGroupNameOrder" class="orderNo"></span></th> 
+		<th width="20%"  style="cursor:hand;" onClick="orderByInfo_new('Bigtitle','{OrderKey}','{OrderBy}')">大标题<span id="workGroupNameOrder" class="orderNo"></span></th> 
+        <th width="20%" style="cursor:hand;" onClick="orderByInfo_new('Smalltitle','{OrderKey}','{OrderBy}')">小标题<span id="workGroupNameOrder" class="orderNo"></span></th>
+		<th width="8%"  style="cursor:hand;" >步骤</th>
+		<th width="8%" >下一步</th>
+
+      </tr>
+    </thead>
+	{row}
+	<TR style="BACKGROUND-COLOR: #fafbfd" id=1 align=middle bgColor=#fafbfd  	onmouseout={this.style.backgroundColor='#FAFBFD';}; onmouseover= {this.style.backgroundColor='#EEF1F8';};>
+
+	 <td >{id}&nbsp;</td>
+	 <td >{Currentdate}&nbsp;</td>
+	 <td >{Bigtitle}&nbsp;</td>
+	 <td >{Smalltitle}&nbsp;</td>
+	 <td >{Currentstep}&nbsp;</td>
+	 <td ><a href="javascript:void(0)" onclick="set_stpe('up','{recordId}','{Currentstep}');">上一步</a>|
+	 <a href="javascript:void(0)" onclick="qidong_HS('{recordId}');">查看</a>|
+	 <a href="javascript:void(0)" onclick="set_stpe('down','{recordId}','{Currentstep}');">下一步</a></td>
+
+   	 
+	{row}
+	
+  </table>
+  <table width="98%">
+	<tr>
+     {page}
+    </tr>
+   
+  </table>
+
+</div>
+</form>
+</body>
+</html>

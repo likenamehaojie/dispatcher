@@ -1,0 +1,380 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>用户列表</TITLE>
+<SCRIPT src="/js/ajaxGetOptions.js"></SCRIPT>
+<SCRIPT src="/js/ajaxMod.js"></SCRIPT>
+
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta http-equiv="Expires" CONTENT="0"> 
+<meta http-equiv="Cache-Control" CONTENT="no-cache"> 
+<meta http-equiv="Pragma" CONTENT="no-cache"> 
+<style>
+BODY {
+	overflow:hidden;
+	text-align:center;
+	SCROLLBAR-FACE-COLOR: #739aef; SCROLLBAR-HIGHLIGHT-COLOR: #fcfcfc; SCROLLBAR-SHADOW-COLOR: #fcfcfc; SCROLLBAR-3DLIGHT-COLOR: #fcfcfc; SCROLLBAR-ARROW-COLOR: #ffffff; SCROLLBAR-TRACK-COLOR: #d7e1f6; SCROLLBAR-DARKSHADOW-COLOR: #000000; SCROLLBAR-BASE-COLOR: #6cfc48; BACKGROUND-COLOR: #ebf1fa
+}
+.list_pad TABLE {
+	BORDER-RIGHT: #f4f7ff 1px solid; BORDER-TOP: #8e8e8e 1px solid; BORDER-LEFT: #8e8e8e 1px solid; WIDTH: 100%; WORD-BREAK: keep-all; BORDER-BOTTOM: #f4f7ff 1px solid; BACKGROUND-COLOR: #ffffff
+}
+.list_pad TABLE TH {
+	BORDER-RIGHT: #bfbfbf 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #ffffff 1px solid; PADDING-LEFT: 2px; PADDING-BOTTOM: 2px; BORDER-LEFT: #ffffff 1px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #bfbfbf 1px solid; HEIGHT: 20px; BACKGROUND-COLOR: #eeeded
+}
+.list_pad TABLE TR {
+	TEXT-ALIGN: left
+}
+.list_pad TABLE TD {
+	BORDER-RIGHT: #999999 1px solid; PADDING-RIGHT: 2px; BORDER-TOP: #dddddd 0px solid; PADDING-LEFT: 2px; PADDING-BOTTOM: 2px; BORDER-LEFT: #dddddd 0px solid; PADDING-TOP: 2px; BORDER-BOTTOM: #999999 1px solid; HEIGHT: 18px
+}
+.list_pad TABLE TD.inputable {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; WIDTH: auto; PADDING-TOP: 0px; HEIGHT: 18px; BACKGROUND-COLOR: #ffffff
+}
+.list_pad SELECT {
+	BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-LEFT-COLOR: #ff0000; BORDER-BOTTOM-WIDTH: 0px; BORDER-BOTTOM-COLOR: #ff0000; WIDTH: 100%; BORDER-TOP-COLOR: #ff0000; BACKGROUND-COLOR: #f0f0f0; BORDER-RIGHT-WIDTH: 0px; BORDER-RIGHT-COLOR: #ff0000
+}
+.list_pad BUTTON {
+	BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BACKGROUND: #eeeeee; BORDER-BOTTOM-WIDTH: 0px; WIDTH: 16%; CURSOR: hand; HEIGHT: 16px; BORDER-RIGHT-WIDTH: 0px
+}
+.panel {
+	BORDER-RIGHT: #8e8e8e 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #f5f5f5 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; BORDER-LEFT: #f5f5f5 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #8e8e8e 1px solid; BACKGROUND-COLOR: #e4e0ff; Pmargin-top: 10px
+}
+.formFieldLabel {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #000000; FONT-FAMILY: Arial, sans-serif; BACKGROUND-COLOR: #efefef
+}
+.formField {
+	FONT-SIZE: 11px; COLOR: #000000; FONT-FAMILY: Arial, sans-serif; BACKGROUND-COLOR: #ffffff
+}
+INPUT {
+	FONT-SIZE: 9pt; FONT-FAMILY: 宋体
+}
+BUTTON {
+	FONT-SIZE: 9pt; FONT-FAMILY: 宋体
+}
+SELECT {
+	FONT-SIZE: 9pt; FONT-FAMILY: 宋体
+}
+TH {
+	FONT-SIZE: 9pt
+}
+TD {
+	FONT-SIZE: 9pt
+}
+P {
+	MARGIN-TOP: 2px; FONT-SIZE: 11px; MARGIN-BOTTOM: 2px; WORD-SPACING: 4px; LINE-HEIGHT: 100%; FONT-FAMILY: Verdana, Arial, Helvetica
+}
+</style>
+<SCRIPT language=JavaScript>
+<!--
+
+//增加用户，发送
+function addUserToDestList() {
+  destList = window.document.forms[0].destList;
+  srcList = window.document.forms[0].srcList;
+  //alert("destList = "+destList);
+  var len = destList.length;
+  for(var i = 0; i < srcList.length; i++) {
+    if ((srcList.options[i] != null) && (srcList.options[i].selected)) {
+      var found = false;
+      for(var count = 0; count < len; count++) {
+        if (destList.options[count] != null) {
+          if (srcList.options[i].value == destList.options[count].value) {
+            found = true;
+            break;
+          }
+        }
+      }
+      if (found != true) {
+        destList.options[len] = new Option(srcList.options[i].text,srcList.options[i].value);
+        len++;
+      }
+    }
+  }
+}
+//增加用户，抄送
+function addUserToDestList2() {
+  destList2 = window.document.forms[0].destList2;
+  srcList = window.document.forms[0].srcList;
+  //alert("destList2 = "+destList2);
+  var len = destList2.length;
+  for(var i = 0; i < srcList.length; i++) {
+    if ((srcList.options[i] != null) && (srcList.options[i].selected)) {
+      var found = false;
+      for(var count = 0; count < len; count++) {
+        if (destList2.options[count] != null) {
+          if (srcList.options[i].value == destList2.options[count].value) {
+            found = true;
+            break;
+          }
+        }
+      }
+      if (found != true) {
+        destList2.options[len] = new Option(srcList.options[i].text,srcList.options[i].value);
+        len++;
+      }
+    }
+  }
+}
+//增加用户，呈送
+function addUserToDestList3() {
+  destList3 = window.document.forms[0].destList3;
+  srcList = window.document.forms[0].srcList;
+  //alert("destList3 = "+destList3);
+  var len = destList3.length;
+  for(var i = 0; i < srcList.length; i++) {
+    if ((srcList.options[i] != null) && (srcList.options[i].selected)) {
+      var found = false;
+      for(var count = 0; count < len; count++) {
+        if (destList3.options[count] != null) {
+          if (srcList.options[i].value == destList3.options[count].value) {
+            found = true;
+            break;
+          }
+        }
+      }
+      if (found != true) {
+        destList3.options[len] = new Option(srcList.options[i].text,srcList.options[i].value);
+        len++;
+      }
+    }
+  }
+}
+//删除用户，发送
+function deleteFromDestList() {
+  var destList = window.document.forms[0].destList;
+  var len = destList.options.length;
+  for(var i = (len-1); i >= 0; i--) {
+    if ((destList.options[i] != null) && (destList.options[i].selected == true)) {
+      destList.options[i] = null;
+    }
+  }
+}
+//删除用户，抄送
+function deleteFromDestList2() {
+  var destList = window.document.forms[0].destList2;
+  var len = destList.options.length;
+  for(var i = (len-1); i >= 0; i--) {
+    if ((destList.options[i] != null) && (destList.options[i].selected == true)) {
+      destList.options[i] = null;
+    }
+  }
+}
+//删除用户，呈送
+function deleteFromDestList3() {
+  var destList = window.document.forms[0].destList3;
+  var len = destList.options.length;
+  for(var i = (len-1); i >= 0; i--) {
+    if ((destList.options[i] != null) && (destList.options[i].selected == true)) {
+      destList.options[i] = null;
+    }
+  }
+}
+//删除所有用户，发送
+function deleteAllList() {
+  var destList = window.document.forms[0].destList;
+  var len = destList.options.length;
+  for(var i = (len-1); i >= 0; i--) {
+    destList.options[i] = null;
+  }
+}
+//删除所有用户，抄送
+function deleteAllList2() {
+  var destList = window.document.forms[0].destList2;
+  var len = destList.options.length;
+  for(var i = (len-1); i >= 0; i--) {
+    destList.options[i] = null;
+  }
+}
+//删除所有用户，呈送
+function deleteAllList3() {
+  var destList = window.document.forms[0].destList3;
+  var len = destList.options.length;
+  for(var i = (len-1); i >= 0; i--) {
+    destList.options[i] = null;
+  }
+}
+function submitDestList() {
+  var destList = window.document.forms[0].destList;
+  var len = destList.options.length;
+  var strDest = ''
+  var valDest = ''
+  for(var i =0;i<len; i++) {
+ 
+    strDest = strDest + destList.options[i].text +';'
+    valDest = valDest + destList.options[i].value+';'
+	
+  }
+
+//alert("valDest1 = "+valDest);
+  var newstr= "&nbsp;&nbsp;已选："+strDest
+
+  if(window.dialogArguments){
+	  window.opener.document.getElementsByName("receiverIds")[0].value=newstr;
+	  window.opener.document.getElementsByName("receiverNames")[0].value = strDest;
+	  window.opener.document.getElementsByName("noReaderIds")[0].value = valDest;
+	  window.opener.document.getElementsByName("noReaderNames")[0].value=newstr;
+  }else{
+	  window.opener.document.getElementsByName("receiverIds")[0].value=valDest;
+	  window.opener.document.getElementsByName("receiverNames")[0].value = strDest;
+	  window.opener.document.getElementsByName("noReaderIds")[0].value = valDest;
+	  window.opener.document.getElementsByName("noReaderNames")[0].value=strDest;
+  }
+ // window.opener.document.all("checkAndAcceptBranch").value = strDest;
+ // window.opener.document.all("to_name_id").value = valDest;
+  window.close();
+} 
+
+//移动单项
+function movSelectedItem(selectList,nIndex,direction) {
+
+	//direction=1(up);-1(down)
+	if (!selectList) return;
+	
+	if ((nIndex == 0 && direction==1)||(nIndex ==selectList.options.length-1 && direction == -1)) {
+		// Already at the top position  
+		return;  
+	} 
+	if (selectList[nIndex-direction].selected) {
+		//reach the edge,stop move till all selected item in one side
+		return;
+	}
+// Exchange item selected with adjecent one  
+	var objSelected = new Option(selectList[nIndex].text, selectList[nIndex].value);  
+	var objPrevious = new Option(selectList[nIndex-direction].text, selectList[nIndex-direction].value);  
+	selectList.options[nIndex] = objPrevious;  
+	selectList.options[nIndex-direction] = objSelected;  
+// Select item which previous selected  
+	selectList.options[nIndex-direction].selected = true;  
+	
+}
+//上下移动函数
+
+function movSelectedItems(selectList,direction) {
+	if (!selectList) return;
+	var nIndex = selectList.selectedIndex;  
+	if (nIndex == -1) {  
+		// Process continue only if at least one item selected  
+		alert("请您先选择需要移动的项目");  
+		return;  
+	} 
+	if (direction==1) {
+		for (nIndex=0; nIndex<=selectList.options.length-1; nIndex++) {
+			if (selectList.options[nIndex].selected) {
+				movSelectedItem(selectList,nIndex,direction)
+			}
+		}
+	} else {
+		for (nIndex=selectList.options.length-1; nIndex>=0; nIndex--) {
+			if (selectList.options[nIndex].selected) {
+				movSelectedItem(selectList,nIndex,direction)
+			}
+		}
+	}	
+}
+
+function getUsers(sqlNo){
+	//alert(getOnlyOPtionListBySqlNo_upId(sqlNo,value));
+   var commId=document.getElementsByName("communityList")[0].value;
+   var searchKey=document.getElementsByName("searchKey")[0].value;
+   var branchName=document.getElementsByName("subList")[0].value;
+//alert('{trainClassDocumentNo}');
+	if(searchKey=="")searchKey="空";
+  document.getElementById("sList").innerHTML="<SELECT style=\"FONT-SIZE: 13px; WIDTH: 145px;height:260px\" multiple ondblclick=\"addUserToDestList();event.cancelBubble=true;return false\" size=15 name=srcList>"+getOnlyOPtionListBySqlNo_upId(sqlNo,branchName+';'+searchKey+"|"+commId)+"</select>";
+}
+
+
+
+function getWortGroupFromServer(sqlNo,value){
+  document.getElementById("cList").innerHTML="<SELECT id=subList style=\"FONT-SIZE: 13px; WIDTH: 145px;height:280px;\"  onchange=\"getUsers('327');event.cancelBubble=true;return false\" size='18' name=subList>"+getOnlyOPtionListBySqlNo_upId(sqlNo,value)+"</select>";
+}
+
+
+
+function selectAllUsers(){
+	var srcList=document.all("srcList").options;
+	for(var i=0;i<srcList.length;i++){
+		srcList[i].selected=true;
+	}
+}
+function iniComm(){	
+	//选中当前登录人单位
+	document.getElementsByName('communityList')[0].value=window.opener.document.getElementsByName('sysComm')[0].value;
+	//设置单位select 聚焦
+	document.getElementsByName('communityList')[0].focus();
+	//初始化部门
+	getWortGroupFromServer('27',document.getElementsByName('communityList')[0].value);
+
+	//如果收信人有值，则在弹出框初始化联系人
+	var selectedIds=window.opener.document.getElementsByName('receiverIds')[0].value;//初始化联系人ID
+	var selectedNames=window.opener.document.getElementsByName('receiverNames')[0].value;//初始化联系人ｎａｍｅ
+	destList = window.document.forms[0].destList;
+	if(selectedIds.length>0){
+		for(var i=0;i<selectedIds.split(";").length-1;i++){
+			destList.options[i] = new Option(selectedNames.split(";")[i],selectedIds.split(",")[i]);
+		}
+	}
+}
+</SCRIPT>
+
+<META content="MSHTML 6.00.3790.4732" name=GENERATOR></HEAD>
+<BODY onload="iniComm()">
+<FORM method=post>
+<TABLE class=list_pad cellSpacing=1 cellPadding=0 width="100%" height="97%">
+  <TBODY>
+  <TR>
+    <TD class=panel>
+      <TABLE class=list_pad cellSpacing=1 cellPadding=0>
+        <TBODY>
+		 
+		   <TR class=formField align=right height=30>
+		 <TD align=right colSpan=5><INPUT style="WIDTH: 70px" onclick=javascript:submitDestList(); type=button value=" 确定 ">&nbsp;&nbsp;&nbsp;&nbsp; 
+<INPUT style="WIDTH: 70px" onclick=javascript:window.close() type=button value=" 关闭 "> 
+          </TD>
+		  </tr>
+		<TR class=formField align=right height=30>
+		 <TD align=right colSpan=5><font color="red"> 温馨提示：双击人员列表信息，可自动添加到已选人员</font>
+          </TD>
+		  </tr>
+        <TR class=formField align=middle height=20>	
+		  <td align="center" class="formFieldLabel" width="100">
+             社区列表
+          </td>
+          <TD class=formFieldLabel align=middle width=200>用户组: </TD>
+          <TD class=formFieldLabel align=middle width=200>人员列表: <INPUT style="WIDTH: 80px;text-align:center;" height="10px" onclick=javascript:selectAllUsers(); type=button value="部门所有人"></TD>
+          <TD class=formFieldLabel align=middle width=160 colSpan=2>已选人员: 
+        </TD>
+		 </TR>
+        <TR class=formField>
+		        <td>
+            <select style='width:145px;height:280px;font-size:13px' id="communityList" name="communityList" size="18" onchange="getWortGroupFromServer('27',this.value)"> 
+				<script>
+					document.write(getOnlyOPtionListBySqlNo_upId(326,''));
+				</script>
+            </select>
+          </td>
+          <TD align=middle>
+            <DIV id=cList><SELECT id=subList 
+            style="FONT-SIZE: 13px; WIDTH: 145px" 
+            onchange="getUsers('327');event.cancelBubble=true;return false" 
+           name=subList></SELECT> 
+          </DIV></TD>
+          <TD align=middle>
+             <input name="searchKey" type="text" value="" onkeyup="getUsers('327')" style="FONT-SIZE: 13px; WIDTH: 145px;"  size=16  ><br>
+            <SPAN id="sList"><SELECT 
+            style="FONT-SIZE: 13px; WIDTH: 145px;height:260px" multiple size=15 
+            name=srcList></SELECT></SPAN></TD>
+          <TD><FONT size=4>=&gt;</FONT> </TD>
+          <TD>
+            <TABLE>
+              <TBODY>
+              <TR>
+                <TD width=15><FONT color=#ff0066><B>发送：</B></FONT><INPUT style="WIDTH: 70px;" onclick=addUserToDestList() type=button value=添加 name=add1><INPUT style="WIDTH: 70px;" onclick=deleteFromDestList() type=button value=删除 name=del1><INPUT style="WIDTH: 70px" onclick=deleteAllList() type=button value=全部删除 name=delAll1></TD>
+
+                <TD><SPAN id=dList><SELECT 
+                  style="FONT-SIZE: 13px; WIDTH: 165px;height:280px" multiple size=15 
+                  name=destList>{sendFirst}</SELECT> </SPAN></TD>
+                <TD width=15><INPUT onclick=movSelectedItems(destList,1) type=button value=向上 name=up1>
+                  <p><INPUT onclick=movSelectedItems(destList,-1) type=button value=向下 name=down1></P></TD></TR>
+             </TBODY></TABLE></TD></TR>
+        <TR class=formField>
+         </TR></TBODY></TABLE></TD></TR></TBODY></TABLE></FORM>
+</CENTER></BODY></HTML>

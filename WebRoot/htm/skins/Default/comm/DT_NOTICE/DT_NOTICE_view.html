@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+  <link rel="stylesheet" type="text/css" href="css/index_htrecordAdd.css" />
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+
+	<!--多选搜索 1 begin-->
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery-ui.css" />
+	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
+	<!--多选搜索 1 end-->
+
+	<!--日期控件 begin-->
+	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+	<!--日期控件 end-->
+	
+	<script src="/js/ajax/superValidator.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/map.js"></script>
+	<script src="/js/ajax/mainSub.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+
+	 <!--记忆搜索条件  第一步：引用cookie -->
+	<script src="/js/cookie.js"></script>
+
+</head>
+<script>
+$(document).ready(function(){
+
+	
+	$("[id^=sys_a_id]").each(function(index){ 
+		if($(this).attr("realValue")=='{$TABLEKEYWORD3}'){
+			$(this).attr("class","active");
+		}
+		
+	})
+
+})
+
+	function setSysNav(hrefId){
+
+	
+		
+		var check=$("#"+hrefId).attr("realName");
+		var cId=$("#"+hrefId).attr("realValue");
+		if(check=='{$SHORTNAME}')var keyword="more"
+		else var keyword="com|"+cId;
+		window.location="gettablerecordinfoservlet?action=viewDocInfo&templateId=NOTICE_view&$KEYWORD="+keyword+"&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|"+hrefId
+	
+	}
+
+	
+</script>
+
+
+
+  <form name="form1" action="" method="post">
+    <input type="hidden" name="tableName" value="{tableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" name="actorCount" value="{actorCount}">
+
+	<input type="hidden" name="OrderBy" value="{OrderBy}">	
+	<input type="hidden" name="OrderKey" value="{OrderKey}">
+
+	<input type="hidden" name="clickValue" value="N1">
+	<input type="hidden" name="firstUrl" value="null">
+	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+
+    <div class="path">
+      <img src="images/index/path_ico.gif" />
+      {$TABLEKEYWORD1} &gt;{$TABLEKEYWORD2} &gt; 列表页面
+    </div>
+		<!--多选搜索 4 begin-->
+		<div class="line_list_mulitSelect" style="display:none">
+			<select name="selSetCon" multiple="multiple">
+				<option value="1">标题</option>
+				<option value="2">类别</option>
+				<option value="3">发文单位</option>
+				<option value="4">附件</option>
+			</select>
+		</div>
+		
+		
+		<!--多选搜索 4 end-->
+	 <div class="line_list_left">
+		 <ul id="ul_search">
+			<li id="li_search1">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="1">&nbsp;标题：
+				<input name="title" onkeyup="checkChange(this,'1')" class="input_txt"/>
+			</li>
+			<li id="li_search2">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="2">&nbsp;类别：
+				<input name="dispatching_type" onkeyup="checkChange(this,'2')" class="input_txt"/>
+			</li>
+			<li id="li_search3">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="3">&nbsp;发文单位：
+				<input name="dispatching_unit" onkeyup="checkChange(this,'3')" class="input_txt"/>
+			</li>
+			<li id="li_search4">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="4">&nbsp;附件：
+				<input name="file_name" onkeyup="checkChange(this,'4')" class="input_txt"/>
+			</li>
+			<li id="li_search_btn">
+				&nbsp;
+				<input type="button"  value="查询" class="btn" onClick="setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');"/>
+				
+			</li>
+		</ul>
+	</div>
+	 <div class="line_list" id="UP">
+		 
+		<li  class="pian" >
+			<div id="navMenu">
+				<div id="navMenu1">
+				<script language="javascript" >
+				document.write(getJsonNavBySqlNo(26,'','{$TABLEKEYWORD3}'))
+				</script>
+				</div>
+			</div>
+		</li>
+ </div>
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+      <tr>
+	    <th width="3%">序号</th>
+		<th width="10%" style="cursor:hand;" onClick="orderByInfo_new('title','{OrderKey}','{OrderBy}')">标题<span id="titleOrder" class="orderNo"></span></th> 
+        <th width="4%" style="cursor:hand;" onClick="orderByInfo_new('dispatching_unit','{OrderKey}','{OrderBy}')">发文单位<span id="dispatching_unitOrder" class="orderNo"></span></th>
+		<th width="4%" style="cursor:hand;" onClick="orderByInfo_new('range','{OrderKey}','{OrderBy}')">发布范围<span id="rangeOrder" class="orderNo"></span></th>	
+        <th width="4%" style="cursor:hand;" onClick="orderByInfo_new('dispatching_type','{OrderKey}','{OrderBy}')">类别<span id="dispatching_typeOrder" class="orderNo"></span></th>
+		<th width="6%" style="cursor:hand;" onClick="orderByInfo_new('cdate','{OrderKey}','{OrderBy}')">发布时间<span id="cdate_typeOrder" class="orderNo"></span></th>
+		<th style="cursor:hand;" onClick="orderByInfo_new('notice_content','{OrderKey}','{OrderBy}')">公告内容<span id="notice_contentOrder" class="orderNo"></span></th>
+		 
+		<th style="cursor:hand;" onClick="orderByInfo_new('file_name','{OrderKey}','{OrderBy}')">附件<span id="file_nameOrder" class="orderNo"></span></th>
+
+       
+      </tr>
+    </thead>
+	{row}
+	<TR style="BACKGROUND-COLOR: #fafbfd" align=middle bgColor=#fafbfd onmouseout="this.style.backgroundColor='#FAFBFD'" onmouseover= "this.style.backgroundColor='#EEF1F8'">
+		<td >{sNo} &nbsp;</td>
+		<td title="{title}">{Stitle}&nbsp;</td>
+		<td>{workGroupName} &nbsp;</td>
+		<td>
+			<script>
+			var html="&nbsp"
+			if('{range}'=='0')html='全公司'
+			else if('{range}'=='1')html='本单位'
+			document.write(html);
+			
+			</script>
+		</td>
+		<td>{dispatching_type} &nbsp;</td>
+		
+		<td>{date_created} &nbsp;</td>
+		<td title="{notice_content}">{Snotice_content} &nbsp;</td>
+		<td >
+		<script>
+		if('{realFileName}'!='')
+		document.write(setHTML_forParent('{realFileName}'));
+		else document.write('&nbsp');
+		</script>
+		</td>
+		
+	</tr>
+	{row}
+  </table>
+  
+ <table width="98%">
+	
+	<tr>
+      <td colspan="4" align="center">
+        <input type="button" value="关闭" class="btn m_l15" onclick="window.close()"/>
+      </td>
+    </tr>
+  </table>
+
+</form>
+</body>
+</html>

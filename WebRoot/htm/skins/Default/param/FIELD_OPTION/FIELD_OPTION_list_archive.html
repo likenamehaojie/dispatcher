@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<link rel="stylesheet" type="text/css" href="css/main.css" />
+<script src="/js/ajaxGetOptions.js"></script>
+<script src="/js/ajaxMod.js"></script>
+<style>
+.selectType{
+font-size:13px;
+width:330px;
+}
+#rightOne p{
+height:30px;
+line-height:30px;
+}
+#listBtn_b{
+text-align:center;
+}
+#selectableB li{
+
+}
+</style>
+<!-- selectable需要的文件 -->
+<link rel="stylesheet" type="text/css" href="css/setOrder/Styles/formui.css" />
+<link rel="stylesheet" type="text/css" href="css/setOrder/Styles/base.css"/>
+<link rel="stylesheet" type="text/css" href="css/setOrder/Styles/admin-all.css" />
+<script type="text/javascript" src="css/setOrder/Scripts/jquery-1.7.2.js"></script>
+
+<link rel="stylesheet" href="css/selectTable/jquery.ui.all.css">
+<link rel="stylesheet" href="css/selectTable/demos.css">
+<script src="js/selectTable/jquery-1.9.1.js"></script>
+<script src="js/selectTable/jquery.ui.core.js"></script>
+<script src="js/selectTable/jquery.ui.widget.js"></script>
+<script src="js/selectTable/jquery.ui.mouse.js"></script>
+<script src="js/selectTable/jquery.ui.selectable.js"></script>
+<script>
+	$(function() {
+	//初始化左侧select事件
+		  $("#selectable").selectable({        
+		  selected: function( event, ui ) {  
+		//alert( $("#selectable .ui-selected").attr("value"));
+		  updateRight();
+		  }     
+		  });
+	//初始化左侧select和鼠标滑动效果
+	$("#selectable >li").each(function() {
+	$(this).hover(function() {
+      $(this).animate({
+        paddingLeft: "40px"
+      },
+      "fast")
+    },
+    function() {
+      $(this).animate({
+        paddingLeft: "20px"
+      })
+    })
+//初始化左侧select事件
+ $( "#selectableB" ).selectable({             
+		  selected: function( event, ui ) {  }     
+		  })
+	})
+});
+
+function updateRight(){
+//根据左侧选取的值更新右侧的值
+var leftSelect=$("#selectable .ui-selected").attr("value");
+document.all("description_sub").value=leftSelect;
+var rightStr=getOnlyOPtionListBySqlNo_upId(6,'{$TABLEKEYWORD3}|'+leftSelect);
+	rightStr=rightStr.replace(/\OPTION/g,'li').replace(/\\n/g,'').replace(/value/g,'class="ui-widget-content" value');
+	document.getElementById("selectableB").innerHTML=rightStr;
+};
+
+function movSelected(flag){
+//上下移动选项功能实现
+if($('#select .ui-selected')){
+	var indexNum=$('#selectableB li').index($('#selectableB .ui-selected'));
+	//alert($('#selectableB .ui-selected').html());
+	if(indexNum=="-1"){
+		alert("请先选择要移动的节点！");
+	}else{
+			var liNum=$('#selectableB li').length;
+			var nextIndex=eval(indexNum+parseInt(flag));
+			if(nextIndex=="-1"){
+				alert("该项已处于第一位！");
+			}else if(nextIndex>=liNum){
+				alert("该项已处于最后一位！");
+			}else{
+				if(flag=="-1"){//上移
+					$("#selectableB .ui-selected").insertBefore("#selectableB li:eq("+nextIndex+")");
+				}else{//下移
+					$("#selectableB .ui-selected").insertAfter("#selectableB li:eq("+nextIndex+")");
+				}
+			}
+		}
+	}
+};
+
+function updateRow(){
+//更新目录功能实现
+var endOrder='';
+	$("#selectableB li").each(function(){
+		var temp=$(this).attr("value");
+		endOrder+=temp+"-";
+	});
+var description_sub=document.all("description_sub").value;
+
+ajax_pro_bat('7','{$TABLEKEYWORD3}|'+description_sub+'|'+endOrder.substr(0,endOrder.length-1));
+window.location.reload();
+}
+</script>
+
+</head>
+<body>
+<form name="form1" action="" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+<input type="hidden" name="listUrl" value="{listUrl}">
+<input type="hidden" name="operate" value="do">
+
+
+<input type="hidden"  name="OrderBy" value="{OrderBy}">	
+<input type="hidden"  name="OrderKey" value="{OrderKey}">
+<input type="hidden"  name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+
+
+<input type="hidden" name="clickValue" value="N1">
+<input type="hidden" name="firstUrl" value="null">
+<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+
+<input type="hidden" name="description_sub" value="">
+<div id="contentWrap">
+  <div id="widget table-widget">
+<div class="pageTitle">
+   <div>&nbsp;</div>
+    <div class="alert alert-info">当前位置<b class="tip"></b>{$TABLEKEYWORD1}<b class="tip"></b>{$TABLEKEYWORD1}<b class="tip"></b>参数排序</div>
+
+</div>
+    <div class="pageColumn">
+
+<!-- 表格展示数据 -->
+<div id="pageContent" style="padding-top:10px;">
+<div id="secLayer" style="padding:10px;">
+<div style="width:850px;height:450px;margin:0px auto;border:0px solid #00f;">
+<ol id="selectable">
+<script>
+var leftStr=getOnlyOPtionListBySqlNo_upId(5,'{$TABLEKEYWORD3}');
+leftStr=leftStr.replace(/\OPTION/g,'li').replace(/\\n/g,'').replace(/value/g,'class="ui-widget-content" value');
+document.write(leftStr);
+</script>
+</ol>
+	<div id="listBtn_m">
+		<input class="btn" type="button" value="对应参数>>"/>
+	</div>
+    <ul id="selectableB"></ul>
+	<div id="listBtn_r">
+		<INPUT class="btn" onclick="movSelected('-1')" type="button" value="&nbsp;向&nbsp;&nbsp;上&nbsp;" name="up1"><br/><br/>
+		<INPUT class="btn" onclick="movSelected('1')" type="button" value="&nbsp;向&nbsp;&nbsp;下&nbsp;" name="down1"><br/><br/>
+	</div>
+</div>
+<div style="clear:both"></div>
+	 	<div id="listBtn_b">
+			<INPUT class="btn" onclick="updateRow()" type="button" value="更新目录" name="down1">&nbsp;&nbsp;&nbsp;
+			<INPUT class="btn" onclick="javascript:window.close()" type="button" value="关 闭" name="down2">
+		</div>
+	  </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+<script>
+//初始化左侧选中项，同时根据左侧选中项初始化右侧数据
+$("#selectable li:eq(0)").addClass("ui-selected");
+var selectValue=$("#selectable li:eq(0)").attr("value");
+document.all("description_sub").value=selectValue;
+var rightStr=getOnlyOPtionListBySqlNo_upId(6,'{$TABLEKEYWORD3}|'+selectValue);
+rightStr=rightStr.replace(/\OPTION/g,'li').replace(/\\n/g,'').replace(/value/g,'class="ui-widget-content" value');
+  document.getElementById("selectableB").innerHTML=rightStr;
+ //var destList=document.all("selectableB");
+  //var oldStr=getSelectListValuesStr(destList);
+</script>

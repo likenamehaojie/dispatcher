@@ -1,0 +1,439 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title> 
+<script language="JavaScript" src="js/zTree/jquery-1.4.2.js"></script>
+<script src="/js/ajaxGetOptions.js"></script>
+<script src="/js/ajaxMod.js"></script>
+<script src="/js/ajaxSearchInfo.js"></script>
+<script src="/js/search.js"></script>
+<script src="/js/loadingInfo.js"></script>
+<link rel="stylesheet" href="css/zTree/demo_DTFile_manage.css" type="text/css">
+<link rel="stylesheet" href="css/zTree/zTreeStyle/zTreeStyle.css" type="text/css">
+<LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+<LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+<link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+<style type="text/css">
+<style type="text/css">
+.ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
+#pageContent td{
+border:0px;
+}
+</style>
+<script type="text/javascript" src="js/zTree/jquery.ztree.core-3.5.js"></script>
+<script type="text/javascript" src="js/zTree/jquery.ztree.excheck-3.5.js"></script>
+<script type="text/javascript" src="js/zTree/jquery.ztree.exedit-3.5.js"></script>
+<!--新浪导航 -->
+<link rel="stylesheet" type="text/css" href="css/sinaNav/sinaNav.css" />
+<script src="/js/sinaNav/sinaNav.js"></script>
+<script src="/js/upload/upload_noLoad.js"></script>
+
+<SCRIPT type="text/javascript">
+		<!--
+		var setting = {
+			view: {
+				addHoverDom: addHoverDom,
+				removeHoverDom: removeHoverDom,
+				selectedMulti: false
+			},
+			edit: {
+				enable: true,
+				editNameSelectAll: true,
+				showRemoveBtn: showRemoveBtn,
+				showRenameBtn: showRenameBtn
+			},
+			data: {
+				simpleData: {
+					enable: true
+				},
+				keep:{
+					parent:true
+				}
+			},
+			callback: {
+				onClick: zTreeOnClick,
+				beforeDrag: beforeDrag,
+				beforeEditName: beforeEditName,
+				beforeRemove: beforeRemove,
+				beforeRename: beforeRename,
+				onRemove: onRemove,
+				onRename: onRename
+			}
+		};
+		
+		var isown="本矿"
+		if('{$TABLEKEYWORD3}'!='空'&&'{$TABLEKEYWORD3}'!='{$COMMUNITYID}'){
+			isown="别矿"
+		}
+			
+
+
+		if(isown=="别矿"){
+			var zNodes=eval('['+getInfoBySqlNo_noHidden(241,'{$TABLEKEYWORD3}')+']');
+		
+		}
+		
+		else{
+			var zNodes=eval('['+getInfoBySqlNo_noHidden(241,'{$COMMUNITYID}')+']');
+			
+		}
+		
+		
+		
+
+		var log, className = "dark";
+		function beforeDrag(treeId, treeNodes) {
+			return false;
+		}
+		function beforeEditName(treeId, treeNode) {
+			className = (className === "dark" ? "":"dark");
+			showLog("[ "+getTime()+" beforeEditName ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			zTree.selectNode(treeNode);
+			return confirm("进入节点 -- " + treeNode.name + " 的编辑状态吗？");
+		}
+		function beforeRemove(treeId, treeNode) {
+			className = (className === "dark" ? "":"dark");
+			showLog("[ "+getTime()+" beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			zTree.selectNode(treeNode);
+			return confirm("谨慎操作：确认删除 文件夹 -- " + treeNode.name + " （会删除此文件夹下的所有文件）吗？");
+		}
+		function onRemove(e, treeId, treeNode) {
+			ajax_pro_noInfo(242,'del|'+treeNode.id+'|空|-1');
+			showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+		}
+		function beforeRename(treeId, treeNode, newName, isCancel) {
+			className = (className === "dark" ? "":"dark");
+			showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
+			if (newName.length == 0) {
+				alert("节点名称不能为空.");
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				setTimeout(function(){zTree.editName(treeNode)}, 10);
+				return false;
+			}
+			return true;
+		}
+		function onRename(e, treeId, treeNode, isCancel) {
+			ajax_pro_noInfo(242,'edit|'+treeNode.id+'|'+treeNode.name+'|-1');
+			showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" onRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
+		}
+		//删除
+		function showRemoveBtn(treeId, treeNode) {
+			
+			if(isown=="别矿"||'{ztreeshow1_show}'=="none"){
+				
+				return false;
+			}
+			else{
+				return treeNode.id!=0;
+			}
+		}
+		//修改
+		function showRenameBtn(treeId, treeNode) {
+			if(isown=="别矿"||'{ztreeshow1_show}'=="none"){
+			
+				return false;
+			}
+			else{
+				return treeNode.id!=0;
+			}
+		}
+		function showLog(str) {
+			if (!log) log = $("#log");
+			log.append("<li class='"+className+"'>"+str+"</li>");
+			if(log.children("li").length > 8) {
+				log.get(0).removeChild(log.children("li")[0]);
+			}
+		}
+		function getTime() {
+			var now= new Date(),
+			h=now.getHours(),
+			m=now.getMinutes(),
+			s=now.getSeconds(),
+			ms=now.getMilliseconds();
+			return (h+":"+m+":"+s+ " " +ms);
+		}
+
+		var newCount = 1;
+		function addHoverDom(treeId, treeNode) {
+			var sObj = $("#" + treeNode.tId + "_span");
+			if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
+			//添加
+			if(isown=="本矿"&&'{ztreeshow1_show}'=="block"){
+				
+				var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+				+ "' title='添加' onfocus='this.blur();'></span>";
+			}
+			
+			sObj.after(addStr);
+			var btn = $("#addBtn_"+treeNode.tId);
+			if (btn) btn.bind("click", function(){
+				var currentCount=(newCount++);
+				var currenntId=getInfoBySqlNo_noHidden(242,'add|-1|新建文件夹'+currentCount+'|' + treeNode.id);
+				
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				zTree.addNodes(treeNode, {id:currenntId, pId:treeNode.id, name:"新建文件夹" + currentCount,isParent:true});
+				return false;
+			});
+
+		};
+		function removeHoverDom(treeId, treeNode) {
+			$("#addBtn_"+treeNode.tId).unbind().remove();
+		};
+		function selectAll() {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			zTree.setting.edit.editNameSelectAll =  $("#selectAll").attr("checked");
+		}
+		
+		
+
+		function zTreeOnClick(event, treeId, treeNode) {
+			document.getElementById("curTreeId").value=treeNode.id;
+			
+			//alert(treeNode.tId + ", " + treeNode.name);
+			
+			searchList();
+			
+			
+		};
+
+		function searchList(){
+			var cId=""
+			if('{$TABLEKEYWORD3}'=="空")cId='{$COMMUNITYID}'
+			else cId='{$TABLEKEYWORD3}'
+			var condition="manage_type='公共文件区'and fileTypeId in (select id from DTFileTypeTree_public where communityId="+cId+")";
+		
+			var curTreeId=document.getElementById("curTreeId").value;
+			var fileName=document.getElementsByName("fileName")[0].value;
+			
+			if(curTreeId!=""){
+				condition=condition+" and fileTypeId="+curTreeId;
+			}
+			if(fileName!=""){
+				condition=condition+" and fileName like '@mohu"+fileName+"@mohu'";
+			}
+			searchInfo_noExcel('$2','DTFile_manage',condition,'id','desc','{ITNO}&attTableName=DTFile_manage');
+				
+
+			//温馨提示
+			$("#wxts_tdId").show();
+			//如果没有文件去掉相关的修改删除按钮
+			if($("#fileName")){
+				$("#btOpterate").html("");
+			}
+			$("#GK").css('display','none');
+			$("td[id^='isupload'],td[id^='delClick']").css('display','none');
+			if(isown=='别矿')$("#CZ,td[id^='btOpterate']").hide();
+		}
+
+
+		function listdel(type,listid){  //删除
+			if(confirm('确认删除吗？')){
+				document.form1.action="/generictableservlet?action=deleteRecord&delType="+type+"&id="+listid;
+				document.form1.submit();
+			}else{
+				return false;
+			}
+		}
+		//-->
+var nodeNameStr="";
+function publicFile(){
+	var id=$("#curTreeId").val();
+	var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+	var node = treeObj.getNodeByParam("id", id, null);
+	nodeNameStr=node.name
+	setParentNodeName(node);
+
+		if(id !=""&&id !=0){
+			window.open('/generictableservlet?action=addRecord&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|'+id+'|'+nodeNameStr,'','left=160,width=700,height=630,toolbar=no, menubar=no,resizable=yes,scrollbars=yes');
+		}else{
+			alert("请在左侧选择需要添加的文件类别！");
+		}
+
+}
+function setParentNodeName(objNode){
+	if(objNode.getParentNode()!=null){ 
+		nodeNameStr=objNode.getParentNode().name+" > "+nodeNameStr;
+		setParentNodeName(objNode.getParentNode()); 
+		//return true;
+	}
+} 
+
+
+	function beginConvertDoc2Swf(DocName,conName,converted,recordId){
+		showMessage();
+		if(converted=="0" || converted==""){
+			var tipStr=ajax_convert(DocName,conName);
+			if(tipStr.indexOf("成功")>0){
+				ajax_pro_noInfo(45,recordId);
+				removeInfo(recordId);
+			}
+		
+			//setTimeout("removeInfo("+recordId+")",20000);//延时3秒 
+		}else{
+			removeInfo(recordId);
+		}
+	}
+	function removeInfo(recordId){
+		window.open('/gettablerecordinfoservlet?action=viewDocInfo&templateId=flexpaper&ITNO=1&recordId='+recordId);
+		document.getElementById('parentBg').parentNode.removeChild(document.getElementById('parentBg'));
+		window.location.reload();
+	}
+
+
+$(document).ready(function(){
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+			$("#selectAll").bind("click", selectAll);
+			searchList();
+			//新浪导航
+			setMainNav();
+			
+			if(isown=="别矿"){
+				
+				$("#add,#CZ,td[id^='btOpterate']").css('display','none')
+			}
+			
+
+			if('{editshow1_show}'=="none")
+			$("span[id^='addshow']").css('display','none');
+			if('{delsingel1_show}'=="none")
+			$("span[id^='delsingel']").css('display','none');
+			if('{editshow1_show}'=="none"&&'{delsingel1_show}'=="none")$("#CZ,td[id^='btOpterate']").css('display','none');
+			
+			
+			
+			//alert('{ztreeshow1_show}')
+			
+			
+
+		});
+
+	
+//设置子公司的切换
+var curId=0;
+function setComm(aObj,cId,cShortName,cType,isViewData){
+	//如果是yes或者是矿级  则直接进入链接
+	if(isViewData=="yes" || cType==4){
+		window.location="/generictableservlet?action=recordList&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|"+cId+"|"+cShortName;
+		
+		
+	}else{
+		//隐藏当前节点下属所有节点 除了自己
+		setHidden($(aObj).parent().parent(),cId);
+
+		//判断当前节点的隐藏或显示
+		if(document.getElementById("subComm_"+cId)){
+			if(document.getElementById("subComm_"+cId).style.display=="block"){
+				document.getElementById("subComm_"+cId).style.display="none"; 
+			}else{
+				document.getElementById("subComm_"+cId).style.display="block";
+			}
+		}
+	}
+}
+
+//隐藏当前节点下属所有节点 除了自己
+function setHidden(parentDiv,cId){
+	var curIds=$(parentDiv).attr("curIds");//获取当前对象的curIds（当前层级的所有ID）
+	if(curIds && curIds!=''){
+		for(var i=0;i<curIds.split(',').length-1;i++){
+			if(document.getElementById("subComm_"+curIds.split(',')[i])){
+				if(cId!=curIds.split(',')[i])document.getElementById("subComm_"+curIds.split(',')[i]).style.display="none"; 
+				setHidden(document.getElementById("subComm_"+curIds.split(',')[i]),cId);
+			}
+
+		}
+	}
+}
+function setHTML_forParent_realtablename(realFileName,realTableName){
+	var showDivStr="";
+	var tableName=document.getElementsByName("tableName")[0].value;
+	if(realFileName!="" && realFileName!="无附件"){
+		var realFileNameStr=realFileName.split("a62b");
+		
+		for (var i = 1; i < realFileNameStr.length; i++) {
+			//alert(realFileNameStr[i - 1]);
+				showDivStr=showDivStr+"<div class=\"attBox\"><span><a href=\"smartDownloadServlet.do?tableName="+realTableName+"&fn=" + realFileNameStr[i - 1] + "\"><font color=red>" + realFileNameStr[i - 1].substring(0, realFileNameStr[i - 1].lastIndexOf("_")) + realFileNameStr[i - 1].substring(realFileNameStr[i - 1].lastIndexOf("."), realFileNameStr[i - 1].length) + "</font></a></span></div>";	
+			
+		}
+	}
+	return showDivStr;
+}
+</SCRIPT>
+
+
+</head>
+<body>
+<form name="form1" action="" method="post">
+  <input type="hidden" name="tableName" value="{tableName}">
+  <input type="hidden" name="CDNO" value="{CDNO}">
+  <input type="hidden" name="ITNO" value="{ITNO}">
+  <input type="hidden" name="curPage" value="{curPage}">
+  <input name="curTreeId" id="curTreeId" type="hidden" value=""/>
+  <input name="$TABLEKEYWORD" type="hidden" value="{$TABLEKEYWORD}"/>
+  <input type="hidden" name="curPage" value="{curPage}">
+  <input type="hidden" name="curPage" value="{curPage}">
+  <input type="hidden"  name="batUpdateInfo" value="del|1">
+  <div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 列表页面</div>
+  </div>
+
+
+
+
+	<div class="line_list_left" id="YX" >
+<script>
+	
+		document.write(getInfoBySqlNo_noHidden(298,''));
+	
+</script> 
+	<li class="pian">
+		 &nbsp;&nbsp;&nbsp;&nbsp;已选：<font color="red"><script>
+		 if("{$TABLEKEYWORD3}"=="空")
+		 document.write('{$SHORTNAME}')
+		 else 
+		 document.write('{$TABLEKEYWORD4}')</script></font>
+
+   </li>
+</div>
+
+<div class="a_box">	
+<table cellspacing="0" cellpadding="0" width="100%" height="100%" style="margin:0 auto;border:0px;">			
+<tr>
+	<td valign="top" width="180">
+		<div class="zTreeDemoBackground left">
+			<ul id="treeDemo" class="ztree"></ul>
+		 </div>
+	 </td>
+
+    <td  valign="top">
+    <table border="0" cellspacing="0" cellpadding="0" height="100%" width="100%" style="margin:0 auto;">
+         <tbody>
+		 <tr>
+                  <td width="100%"  valign="top" colspan="5" align="center"><!-- start -->
+                   <div style="height:40px;line-height:40px;">
+					<SCRIPT>
+						if('{addshow1_show}'=='block')
+							document.write('<input  class="btn" id="add" type="button" value="添加文件" onClick="publicFile()"/>&nbsp;&nbsp;')
+					</SCRIPT>
+						文件名称：
+                         <input class="input_txt" name="fileName" type="text" />&nbsp;&nbsp;
+						<input class="btn" id="find" type="button" value="搜索" onclick="searchList();"/>
+					</div>
+					<div id="aaa111"></div>
+                    </td>
+             </tr>
+           
+           
+           
+             </tbody>
+    </table>
+	</div>
+</td>
+</tr>
+</table>
+</body>
+</html>

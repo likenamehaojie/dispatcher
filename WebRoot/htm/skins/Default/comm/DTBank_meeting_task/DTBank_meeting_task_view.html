@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+<title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]-查看页面</title>
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+<script src="/js/upload/upload_noLoad.js"></script>
+<script type="text/javascript" src="js/titleInfo.js"></script>
+  <SCRIPT src="/js/jQuery.js"></SCRIPT>
+  <script src="/js/ajaxMod.js"></script>
+
+</head>
+<script>
+	$(document).ready(function(){
+
+		
+		var CDNO=window.opener.document.getElementsByName("CDNO")[0].value;
+		if('{$USERID}'=='{created_by}' && '{isworkflow}'=='0' && (CDNO=='$FSW_1_2' || CDNO=='$FSW_1_3'))$("#Goback").show();
+		if('{empty}'!=''){
+				$("#remove").hide();
+				$("#wu").show();
+		}
+		if('{$ROLENAME}'.indexOf("超级管理员")==0)$("#operate_thId,td[id^='operate_tdId']").show();
+	});
+
+function operate(sNo){
+	$("#edit_span"+sNo+",#save_span"+sNo+",#content_view_td"+sNo+",#content_operate_td"+sNo).toggle();
+	
+}
+
+function updatewf(type,sNo,id){
+	var content=$("#content_"+sNo).val();
+	if(type=='del')ajax_pro_updateRecords(367,id);
+	else ajax_pro_updateRecords(368,id+"|"+content);
+
+}
+var checkSubmitFlg = false;  
+function GoBack(){
+	if (!checkSubmitFlg) {     
+		checkSubmitFlg = true;         
+		document.form1.submit(); 
+	}else{    
+		 alert("您已经提交过了，不能重复提交！");    
+		 return false;    
+	}    
+	 
+}
+
+</script>
+
+<body>
+<form name="form1" action="/wfservlet?action=processSave" method="post">
+<input type="hidden" name="tableName" value="DT_ZERO_FSW_YB">
+<input type="hidden" name="recordId" value="{recordId}">
+<input type="hidden" name="step" value="5">
+
+<input type="hidden" name="operate" value="{operate}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+
+ <div class="path"> <img src="images/index/path_ico.gif" />{$TABLEKEYWORD1} &gt; {$TABLEKEYWORD2}</div>	
+    <div class="path">
+        <h1><center>{ACCIDENT_UNIT}{ACCIDENT_TIME}非伤亡事故月报表 </h1>
+</div>
+<div class="path">
+
+   <table border="0" width="80%" cellspacing="0" cellpadding="0" class="table_list">
+     <thead>
+			<tr height="30" align="center">
+				<th >序号</th>
+				<th >单位</th> 
+				<th >时间</th> 
+				<th >地点</th>
+				<th >性质</th>
+				<th >原因</th>
+				<th >等级</th>
+				<th >直接损失<br>(万元)</th>
+				<th >处理意见</th>
+				
+			</tr>
+		</thead>
+		<tr  style="display:none " id="wu" height="50">
+		<td  colspan="20" height="50"><span id="h1" style="font-size:20px;">{empty}</span></td>
+		</tr>
+		<tbody id="remove">
+            {row}
+			<tr align="center">
+				<td >&nbsp;{sNo}</td>
+				<td >&nbsp;{FILL_UNIT}</td>
+				<td >&nbsp;{FILL_TIME}</td>
+				<td title='{LOCATION}'>&nbsp;{SLOCATION}</td>
+				<td >&nbsp;{nature}</td>
+				<td title='{cause}'>&nbsp;{Scause}</td>
+				<td >&nbsp;{sg_level}</td>
+				<td >&nbsp;{lose}</td>
+				<td title='{idea}'>&nbsp;{Sidea}</td>
+					
+			</tr>
+            {row}
+		</tbody>
+
+    </table>
+  </div>
+     <div class="a_box">
+    <table border="0" cellspacing="0" cellpadding="0" class="view_table">
+	  <tr>
+          <td class="t_r">流程信息：</td>
+          <td class="t_l b_cf_noRed" colspan="3" bgColor="white">
+           <table border="0" width="80%" cellspacing="0" cellpadding="0" class="table_list" id="liuchengInfo">
+            <thead>
+            <tr align="center" height="30">
+            <th width="5%" >&nbsp;步骤</th>
+            <th width="15%"><b>&nbsp;操作人：</b></th>
+            <th width="30%"><b>&nbsp;处理时间：</b></th>
+            <th width="15%"><b>&nbsp;审批意见：</b></th>
+            <th width="15%"><b>&nbsp;流程状态：</b></th>
+			<th id="operate_thId" width="15%" style="display:none"><b>&nbsp;操作：</b></th>
+            </tr>
+            </thead>
+            <tbody>
+            {wf}
+            <tr align="center">
+            <td >&nbsp;{sNo}</td>
+            <td >&nbsp;{realname}</td>
+            <td >&nbsp;{Date_created}</td>
+            <td id="content_view_td{sNo}">&nbsp;{content}</td>
+			<td id="content_operate_td{sNo}" style="display:none" ><textarea  id='content_{sNo}'>{content}</textarea></td>
+            <td >&nbsp;{processStatus}</td>
+
+			<td id="operate_tdId{sNo}" style="display:none">
+				<span id="edit_span{sNo}"><a href="javascript:operate('{sNo}');">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:updatewf('del','{sNo}','{id}');">删除</a></span>
+				<span id="save_span{sNo}" style="display:none"><a href="javascript:updatewf('update','{sNo}','{id}');">保存</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:operate('{sNo}');" >取消</a></span></td>
+            </tr>
+			<script>	
+				if('{sNo}'==''){
+					document.getElementById("operate_tdId{sNo}").innerHTML="&nbsp;";
+				}
+			</script>
+            {wf}
+            </tbody>
+          </table>
+      </td>
+        </tr>
+      </table>
+    </div>
+ <div class="path">
+  <table width="98%">
+    <tr>
+      <td colspan="4" align="center"> 
+		 <span id="Goback" style="display:none"><input  type="button" value="撤销" class="btn m_l15" onclick="GoBack()"/>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <input type="button" value="关闭" class="btn m_l15" onclick="window.close()"/>
+      </td>
+    </tr>
+  </table>
+</div>
+</form>
+</body>
+</html>
+

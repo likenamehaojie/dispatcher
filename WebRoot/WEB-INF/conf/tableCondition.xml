@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="GB2312"?>
+
+<tableConditions>
+	<condition name="$1" ><![CDATA[ where workGroupName='$WORKGROUP' ]]>
+	</condition>
+	<condition name="$2" ><![CDATA[ where 1=1]]>
+	</condition>
+	<condition name="$3" ><![CDATA[ where created_by=$USERID]]>
+	</condition>
+	<condition name="$workGroup" ><![CDATA[ where workGroupId='$WORKGROUPID']]>
+	</condition>
+	<condition name="$del" ><![CDATA[ where del=0 ]]>
+	</condition>
+	<condition name="$sysComm" ><![CDATA[ where cShortName='$SHORTNAME']]>
+	</condition>
+	<condition name="$sysCid" ><![CDATA[ where cid='$COMMUNITYID']]>
+	</condition>
+	<condition name="$sysLogComm" ><![CDATA[ where 1=1]]>
+	</condition>
+	<!-- 基础参数设置  begin-->
+	<condition name="$BO" ><![CDATA[ where communityId='$COMMUNITYID' ]]></condition>
+	<!-- 基础参数设置 end-->
+
+	<!-- 基础参数设置  begin-->
+	<condition name="$BO_up" ><![CDATA[ where communityId in('$COMMUNITYID',1) ]]></condition>
+	<!-- 基础参数设置 end-->
+
+	<!-- 无节点  begin-->
+	<condition name="$wjd" ><![CDATA[ where DT_ctype='$COMMUNITYTYPE' ]]></condition>
+	<!-- 无节点 end-->
+	
+	<!-- 郑处理  2010-08-04 begin-->
+
+	
+	
+
+  <!-- 用户管理 -->
+  <condition name="$u1" ><![CDATA[ where (cShortName='$SHORTNAME' or (select admin_id from admin where admin_id='$USERID')=1)]]></condition>
+	
+  <!-- 用户管理 end -->
+
+
+	<!-- 公告 begin-->
+	<condition name="$news_operate" ><![CDATA[ where communityid='$COMMUNITYID' and created_by='$USERID']]></condition>
+	<!-- 公告 end-->
+	<!-- 公告 begin-->
+	<condition name="$news_view" ><![CDATA[ where (('$TABLEKEYWORD4'='当前矿' and communityId='$COMMUNITYID') or ('$TABLEKEYWORD4'!='当前矿' and communityId='$TABLEKEYWORD5' and range=0))]]></condition>
+	<!-- 公告 end-->
+
+
+
+	<!-- 帮助中的 无节点模块设置-->
+	<condition name="$setInnerInfoByCType" ><![CDATA[ where DT_ctype='$COMMUNITYTYPE' and DT_itno='$TABLEKEYWORD3']]></condition>
+
+
+	
+	<!-- 短信列表 begin -->
+	<!-- 未读列表 begin -->
+	<condition name="$sms_1" ><![CDATA[ where charindex(';$USERID;',';'+receiverIds)>0 and charindex(';$USERID;',';'+noReaderIds)>0]]></condition>	
+	<!-- 已读列表 begin -->
+	<condition name="$sms_2" ><![CDATA[ where charindex(';$USERID;',';'+receiverIds)>0 and charindex(';$USERID;',';'+noReaderIds)=0]]></condition>	
+	<!-- 已发送列表 begin -->
+	<condition name="$sms_3" ><![CDATA[ where senderId=$USERID and isSendDel=0]]></condition>
+	
+	<!-- 专题汇报材料 begin -->
+	<condition name="$DMR" ><![CDATA[ where communityId='$COMMUNITYID' and workGroupId='$WORKGROUPID']]></condition>	
+	
+	<!-- 四大体系 应急救援 矿-->
+	<condition name="$DTRecord_file" ><![CDATA[ where worry_type='$TABLEKEYWORD2' and communityId='$COMMUNITYID']]></condition>
+	<!-- 支架安装回撤记录及台账 -->
+	<condition name="$azhc" ><![CDATA[ where communityId='$COMMUNITYID' and azhctype='$TABLEKEYWORD3'  ]]></condition>
+    <condition name="$azhc_branch" ><![CDATA[ where  azhctype='$TABLEKEYWORD3' and workGroupId='$WORKGROUPID' ]]></condition>
+	
+ 	
+  	<!-- 生产计划 -->
+	<condition name = "$DTPlan_produce_main"><![CDATA[ where communityId='$COMMUNITYID']]></condition>
+	<!-- 底抽底板 -->
+	<condition name="$BK" ><![CDATA[ where communityId='$COMMUNITYID' and jc_type='$TABLEKEYWORD3' ]]></condition>
+	<!-- 底抽底板 -->
+	<condition name="$Bbm" ><![CDATA[ where workGroupId='$WORKGROUPID' and jc_type='$TABLEKEYWORD3' ]]></condition>
+
+	<!-- 早期会议 -->
+	<condition name="$PeriodNumber" ><![CDATA[ where workGroupId='$WORKGROUPID' and PeriodNumber='$TABLEKEYWORD3' ]]></condition>
+
+
+	<!-- 早调会会议调用——待办 -->
+	<condition name="$db" ><![CDATA[where ((step='1' and next_step='2' and workGroupId='$WORKGROUPID') or exists(select id from wf_pendingrequest_444 where table_name='DTBank_meeting_task' and DTBank_meeting_task.id=wf_pendingrequest_444.record_id and ((user_type='USER' and next_user='$USERID' and next_user_community='$SHORTNAME') or (user_type='ROLE' and next_user=(select role_name from admin_role where role_ad_id='$ROLEID') and next_user_community='$SHORTNAME') or (user_type='BRANCH' and next_user='$WORKGROUPID' and next_user_community='$SHORTNAME')))) and Meetingid='$TABLEKEYWORD3'  ]]></condition>
+
+	<!-- 早调会会议调用——已处理 -->
+	<condition name="$ycl" ><![CDATA[where step!='end' and  exists(select id from wf_DTBank_meeting_task where DTBank_meeting_task.id=wf_DTBank_meeting_task.record_id and wf_DTBank_meeting_task.Created_by='$USERID')]]></condition>
+
+	<!-- 早调会会议调用——已结束 -->
+	<condition name="$yjs" ><![CDATA[where next_step='END' and  exists(select id from wf_DTBank_meeting_task where DTBank_meeting_task.id=wf_DTBank_meeting_task.record_id and wf_DTBank_meeting_task.Created_by='$USERID')]]></condition>
+	
+	
+
+</tableConditions>

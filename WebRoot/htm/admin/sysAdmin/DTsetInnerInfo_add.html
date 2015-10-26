@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+  <link rel="stylesheet" type="text/css" href="css/index_htrecordAdd.css" />
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+  <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+
+	<!--多选搜索 1 begin-->
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery-ui.css" />
+	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
+	<!--多选搜索 1 end-->
+
+	<!--日期控件 begin-->
+	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+	<!--日期控件 end-->
+	
+	<script src="/js/ajax/superValidator.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/map.js"></script>
+	<script src="/js/ajax/mainSub.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+
+	 <!--记忆搜索条件  第一步：引用cookie -->
+	<script src="/js/cookie.js"></script>
+
+</head>
+
+
+  <script>
+$(document).ready(function(){
+	
+	ajax_UpdateXML('addInnerInfo','-|excelTemplate|-|53')
+	//初始化row数据
+	iniList();
+	//初始化上下左右
+	//iniFocus();
+	LoadOrder("{OrderKey}","{OrderBy}");
+
+	//记忆搜索条件  第六步：取cookie 解析cookie
+	iniCookie('{realTableName}','{ITNO}','{$USERID}');
+	//初始化多选菜单
+	iniMultOptions('{tableName}','{ITNO}','{$USERID}');
+	
+
+	
+});
+
+
+var map=new Map();
+//初始化row数据
+function iniList(){
+	//功能描述：使用JavaScript动态添加HTML的元素 
+	//行号与列号 
+		
+
+
+	{row}
+	
+	map.clear();
+
+	if('{sNo}'==""){
+		map.put("recordId",'&nbsp;<input type="checkbox" name="id" value="">');
+	}else{
+		map.put("recordId",'&nbsp;{id}');
+	}
+	map.put("xuhao:SYS_HIDDEN",'{sNo}');
+	
+	//项目 itno
+	map.put("itno:SYS_FIELDS",'<span id="itno_sysEdit_spanId#no#"><input type=\"text\" name=\"itno#no#\" value=\"{itno}\" size=\"13\" check=\"2"\ tip=\"项目不能为空\" valFun=\"setEmptyCheck\"></span><span id="itno_sysView_spanId#no#">{itno}</span>');
+
+	//工作内容 tablename
+	map.put("tablename:SYS_FIELDS",'<span id="tablename_sysEdit_spanId#no#"><input type=\"text\" name=\"tablename#no#\" value=\"{tablename}\" size=\"13\" check=\"2"\ tip=\"工作内容不能为空\" valFun=\"setEmptyCheck\"></span><span id="tablename_sysView_spanId#no#">{tablename}</span>');
+	
+
+	//责任部门 listUrl
+	map.put("listUrl:SYS_FIELDS",'<span id="listUrl_sysEdit_spanId#no#"><input type=\"text\" name=\"listUrl#no#\" value=\"{listUrl}\" size=\"13\" check=\"2"\ tip=\"责任部门不能为空\" valFun=\"setEmptyCheck\"></span><span id="listUrl_sysView_spanId#no#">{listUrl}</span>');
+
+
+
+	//责任部门 listUrl
+	map.put("cdno:SYS_FIELDS",'<span id="cdno_sysEdit_spanId#no#"><input type=\"text\" name=\"cdno#no#\" value=\"{cdno}\" size=\"13\" check=\"2"\ tip=\"责任部门不能为空\" valFun=\"setEmptyCheck\"></span><span id="cdno_sysView_spanId#no#">{cdno}</span>');
+	
+	
+	map.put("operate",'<a href=\"javascript:AddRows()\">添加</a>&nbsp;<a href=\"javascript:DelCurrentRow(#no#,1,1);\">删除</a>&nbsp;&nbsp;<a href=\"javascript:ajax_save(#no#);\">保存</a>');
+	
+
+
+	if('{sNo}'==""){
+
+		AddRow(map,'blank');
+	}else{
+		
+		AddRow(map,'data');
+	}
+	
+	{row}
+	
+}
+
+</script>
+<body >
+<div id="Infomessage"  align="center"  style="z-index=99;position:absolute;left:540;top:620;width:850px;height:560px;display:none;">
+</div>
+<div id="excelImportInfomessage"  align="center"  style="z-index=99;position:absolute;left:540;top:620;width:850px;height:560px;display:none;">
+</div>
+  <form name="form1" action="" method="post">
+    <input type="hidden" name="tableName" value="{tableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" name="actorCount" value="{actorCount}">
+	<input type="hidden" name="CONFERENCE_TYPE" value="{$TABLEKEYWORD2}">
+	<input type="hidden" name="$TABLEKEYWORD4" value="{$TABLEKEYWORD4}">
+	<input type="hidden" name="OrderBy" value="{OrderBy}">	
+	<input type="hidden" name="OrderKey" value="{OrderKey}">
+
+	<input type="hidden" name="clickValue" value="N1">
+	<input type="hidden" name="firstUrl" value="null">
+	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+	<input name="dblclick" type="hidden" value="" /><!--已上报禁止双击编辑-->
+    <div class="path">
+      <img src="images/index/path_ico.gif" />
+      {$TABLEKEYWORD1} &gt;{$TABLEKEYWORD2} &gt; 列表页面
+    </div>
+
+	<div class="line_list">
+		<li><a href="#" onclick="DelManyCurrentRows(1,1);"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l">批量删除</span></a></li>
+		<li><a href="#" onclick="AddRows();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l">添加</span></a></li>
+
+
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+      <tr>
+	    <th><input type="checkbox" name="roleCheck" value="" onClick="selectAllRole(form1);"></th>
+            <th>itno</th> 
+			<th>tablename</th> 
+			<th>listUrl</th>
+			<th>cdno</th> 
+			<th>基本操作</th> 
+	  </tr>
+    </thead>
+	
+  </table>
+
+
+
+</form>
+</body>
+</html>

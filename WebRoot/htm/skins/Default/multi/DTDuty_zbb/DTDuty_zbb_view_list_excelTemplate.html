@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+</head>
+  <form name="form1" action="" method="post">
+
+  <table border="1" style=" font:font-family:'微软雅黑';" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+	  <td colspan="4" align="center"  class=vwTitleName2><h3>值班表</h3></td>
+      <tr>	    
+		<th width="3%" style="font-size:20px " rowspan="2">日期</th>	
+		<th width="4%" style="font-size:20px " colspan="2">矿领导</th> 
+		<th width="5%" style="font-size:20px ">科室人员</th>
+		</tr>
+        <tr>
+		<th width="5%" style="font-size:20px ">主值班</th> 
+		<th width="5%" style="font-size:20px ">副值班</th> 
+		<th width="5%" style="font-size:20px ">副值班</th> 
+      </tr>
+    </thead>
+	{row}
+	<TR align=middle>
+	 <td >{tDate}&nbsp;</td>
+	 <td >{zzb}&nbsp;</td>
+	 <td >{kldfzb}&nbsp;</td>
+	 <td >{ksfzb}&nbsp;</td>
+	</tr>
+	{row}
+  </table>
+</form>
+</body>
+
+</html>

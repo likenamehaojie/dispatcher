@@ -1,0 +1,52 @@
+.tangram-suggestion-main{
+
+            border:1px solid #7F9DB9;
+
+            position:absolute;
+			background-color:white;
+        }
+
+        .tangram-suggestion table{
+
+            cursor:default;
+
+            width:100%;
+
+        }
+
+        .tangram-suggestion td{
+
+            font:14px verdana;
+
+        }
+
+        .tangram-suggestion-current{
+
+            background-color:#C7DEED;
+
+            color:#fff;
+
+        }
+        .tangram-suggestion-append{
+
+            padding:2px;
+
+            color:#c0c0c0;
+
+            font:12px verdana;
+
+            text-align:right;
+        }
+
+        .tangram-suggestion-prepend{
+
+            padding:2px;
+
+            color:#c0c0c0;
+
+            font:12px verdana;
+        }
+
+		.td_jz{
+			text-align:center;
+		}

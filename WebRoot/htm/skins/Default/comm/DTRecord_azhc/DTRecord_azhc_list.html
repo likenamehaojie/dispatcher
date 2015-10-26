@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+
+	<!--多选搜索 1 begin-->
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery-ui.css" />
+	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
+	<script type="text/javascript" src="js/table/jquery.tableui.js"></script>
+	
+	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
+	<!--多选搜索 1 end-->
+
+	<!--日期控件 begin-->
+	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+	<!--日期控件 end-->
+	
+	<script src="/js/ajax/superValidator.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/map.js"></script>
+	<script src="/js/ajax/mainSub.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+
+	
+
+	 <!--记忆搜索条件  第一步：引用cookie -->
+	<script src="/js/cookie.js"></script>
+
+	<script type="text/javascript" src="js/titleInfo.js"></script>
+</head>
+
+
+  <script>
+$(document).ready(function(){
+	//如果操作列没有权限  隐藏操作列
+	hideLastCol('actor_table');
+
+
+	//初始化上下左右
+	//iniFocus();
+	LoadOrder("{OrderKey}","{OrderBy}");
+
+	//记忆搜索条件  第六步：取cookie 解析cookie
+	iniCookie('{tableName}','{ITNO}','{$USERID}');
+	//初始化多选菜单
+	iniMultOptions('{tableName}','{ITNO}','{$USERID}');
+
+	//默认选中安装变色
+	if ('{$TABLEKEYWORD3}'=="安装") document.getElementById("stair1").className="active";
+	else document.getElementById("stair2").className="active";
+	  
+	
+});
+
+
+function addtj(){
+	
+	var xpwidth=window.screen.width-50;
+	var xpheight=window.screen.height-350;
+	window.open("/generictableservlet?action=addRecord&ITNO={ITNO}&tableName={tableName}&$TABLEKEYWORD={$TABLEKEYWORD}" ,"FullScreen",'')
+	
+}
+function  edit(recordId){
+	var xpwidth=window.screen.width-10;
+	var xpheight=window.screen.height-35;
+	window.open("/generictableservlet?action=editRecord&recordId="+recordId+"&curPage={curPage}&tableName={tableName}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}" ,"FullScreen",'')
+} 
+
+function re_setCondition(){
+		document.getElementsByName("$TABLEKEYWORD")[0].value="{$TABLEKEYWORD}";
+		setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');
+}
+</script>
+
+  <form name="form1" action="" method="post">
+    <input type="hidden" name="tableName" value="{tableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" name="actorCount" value="{actorCount}">
+
+	<input type="hidden" name="OrderBy" value="{OrderBy}">	
+	<input type="hidden" name="OrderKey" value="{OrderKey}">
+
+	<input type="hidden" name="clickValue" value="N1">
+	<input type="hidden" name="firstUrl" value="null">
+	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+
+	<input name="dblclick" type="hidden" value="" /><!--已上报禁止双击编辑-->	
+	<input type="hidden" name="field1" value="time|时间|DAT|50|">
+	<input type="hidden" name="field2" value="class|班次|TXT|50|">
+    <input type="hidden" name="field6" value="recording|记录人|TXT|50|">
+	<input type="hidden" name="field7" value="workFace|工作面|TXT|50|">
+	<input type="hidden" name="field8" value="iskeyproject|重点工程|TXT|50|">
+<div id="top">
+   <div class="haer"><span id="tans"><strong>生产汇报</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt;列表页面</div>
+  </div>
+
+		<!--多选搜索 4 begin-->
+		<div class="line_list_mulitSelect" style="display:none">
+			<select name="selSetCon" multiple="multiple">
+				<option value="1">时间</option>
+				<option value="2">班次</option>
+				<option value="6">记录人</option>
+				<option value="7">工作面</option>
+				<option value="8">重点工程</option>
+			</select>
+		</div>
+		
+		
+		<!--多选搜索 4 end-->
+	 <div class="line_list_left">
+		 <ul id="ul_search">
+			<li id="li_search1">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="1">&nbsp;时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;间 ：
+				<input name="time_start" style="width:70px;" onchange="checkChange(this,'1')"  class="input_txt" onclick="WdatePicker()"/>至<input name="time_end" style="width:70px;" onchange="checkChange(this,'1')" class="input_txt" onclick="WdatePicker()"/>
+			</li>
+			
+			<li id="li_search2">
+				&nbsp;				
+				<input type="checkbox" name="f_id" value="2">&nbsp;班次：
+				<select name="class" onchange="checkChange(this,'2')"><option value="" >请选择</option>{filterOptions2}</select>
+			</li>
+			<li id="li_search6">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="6">&nbsp;记录人：
+				<input name="recording" onkeyup="checkChange(this,'6')" class="input_txt"/>
+			</li>
+			<li id="li_search7">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="7">&nbsp;工作面：
+				<select name="workFace" onchange="checkChange(this,'7')"><option value="" >请选择</option>{filterOptions3}</select>
+			</li>
+			<li id="li_search8">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="8">&nbsp;重点工程：
+				<select name="iskeyproject" onchange="checkChange(this,'8')"><option value="" >请选择</option>{filterOptions1}</select>				
+			</li>
+			
+			<li id="li_search_btn">
+				&nbsp;
+				<input type="button"  value="查询" class="btn" onClick="re_setCondition();"/>
+				<input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','{ITNO}&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|{$TABLEKEYWORD3}','支架安装及回撤记录台账');"/>
+			</li>
+		</ul>
+	</div>
+	
+     <div class="line_list" id="YC">
+  	      <li>{delmanyshow}</li>
+		  <li>{addshow}</li>
+		  <li style="float:left"><div id="navMenu">
+					<a id="stair1" href="/generictableservlet?action=recordList&ITNO=364&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|安装"
+					 class="">
+						<span>
+							安装
+						</span>
+					</a>
+					<a id="stair2" href="/generictableservlet?action=recordList&ITNO=364&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|回撤"
+					class="">
+						<span>
+							回撤
+						</span>
+					</a>
+					
+			 </div>
+			</li>
+     </div>
+
+<div class="a_box">
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+      <tr >
+	    <th width="3%"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
+		<th width="8%">时间</th> 
+        <th width="8%">班次</th>
+        <th width="15%">工作面</th>
+        <th width="8%">数量</th>
+		<th width="8%">本月累计</th>
+		<th width="20%">备注</th>
+		<th width="8%">记录人</th>
+        <th width="5%">重点工程</th>
+        <th id='YC4' width="8%">操作</th>
+      </tr>
+    </thead>
+	{row}
+	<TR style="BACKGROUND-COLOR: #fafbfd" id=1 align=middle bgColor=#fafbfd  	onmouseout={this.style.backgroundColor='#FAFBFD';}; onmouseover= {this.style.backgroundColor='#EEF1F8';};>
+
+	 <td>{id}&nbsp;</td>
+	 <td>{time}</td>
+	 <td >{class}&nbsp;</td>
+	 <td >{workFace_str}&nbsp;</td>
+	 <td>{number}&nbsp;</td>
+	 <td>{count}&nbsp;</td>
+	 <td  id="remark{sNo}">{remarkstring}&nbsp;</td>
+	 <td>{recording}&nbsp;</td>
+	 <td>{isKeyProject_str}&nbsp;</td>
+
+
+	
+	
+	 
+	 <td id="YC5">{deitshow}{delshow}</td>
+	</tr>
+    <script language="javascript">
+		
+		if('{sNo}'==''){
+			document.getElementById("YC5").innerHTML="&nbsp;";
+		}else{
+			
+			var title='{title}'.replace(/<[^>].*?>/g,'');
+			$("#title{sNo}").attr('title',title)
+
+			var remark='{remark}'.replace(/<[^>].*?>/g,'');
+			$("#remark{sNo}").attr('title',remark)
+		}
+	</script>
+	{row}
+	
+  </table>
+  <table width="98%">
+	<tr>
+     {page}
+    </tr>
+   
+  </table>
+
+</div>
+</form>
+</body>
+</html>

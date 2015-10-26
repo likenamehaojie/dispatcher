@@ -1,0 +1,86 @@
+/*弹出式提示框*/
+.box_msg{
+	
+}
+.box_msg_topcenter{
+	width: 100%;
+	height: 25px;
+	background-image: url(box/box_msg_topcenter.jpg);
+	background-repeat: repeat-x;
+	overflow: hidden;
+	line-height: 20px;
+}
+.box_msg_topleft{
+	width: 100%;
+	height: 100%;
+	background-image: url(box/box_msg_topleft.jpg);
+	background-repeat: no-repeat;
+	overflow: hidden;
+}
+.box_msg_topright{
+	width: 100%;
+	height: 100%;
+	background-image: url(box/box_msg_topright.jpg);
+	background-repeat: no-repeat;
+	background-position: 100% 0%;
+	overflow: hidden;
+}
+.box_msg_middlecenter{
+	width: 100%;
+	background-color: #fbe0de;/*内容区背景色*/
+}
+.box_msg_middleleft{
+	width: 100%;
+	background-image: url(box/box_msg_middleleft.jpg);
+	background-repeat: repeat-y;
+}
+.box_msg_middleright{
+	width: 100%;
+	background-image: url(box/box_msg_middleright.jpg);
+	background-repeat: repeat-y;
+	background-position: 100% 0%;
+}
+.box_msg_bottomcenter{
+	width: 100%;
+	height: 11px;
+	background-image: url(box/box_msg_bottomcenter.jpg);
+	background-repeat: repeat-x;
+	overflow: hidden;
+	line-height: 11px;
+}
+.box_msg_bottomleft{
+	width: 100%;
+	height: 100%;
+	background-image: url(box/box_msg_bottomleft.jpg);
+	background-repeat: no-repeat;
+	overflow: hidden;
+}
+.box_msg_bottomright{
+	width: 100%;
+	height: 100%;
+	background-image: url(box/box_msg_bottomright.jpg);
+	background-repeat: no-repeat;
+	background-position: 100% 0%;
+	overflow: hidden;
+}
+.box_msg .boxContent{
+	padding:0 15px 0 15px;
+}
+.box_msg_title{
+	float:left;
+	padding:3px 0 0 10px;
+	color:white;
+	font-weight:bold;
+}
+.box_msg_close{
+	width:18px;
+	height:18px;
+	background-image: url(box/box_msg_close.jpg);
+	background-repeat: no-repeat;
+	background-position:0% 100%;
+	cursor:pointer;
+	cursor:hand;
+	float:right;
+	padding:3px 5px 0 0;
+}
+/*弹出式提示框*/

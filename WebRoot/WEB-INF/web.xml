@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4">
+  <display-name>HITSYH</display-name>
+  <!--<distributable fg/>-->
+  <servlet>
+    <servlet-name>validate</servlet-name>
+    <servlet-class>com.ldtec.base.share.Validate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>validate</servlet-name>
+    <url-pattern>/checkCode</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>adminloginservlet</servlet-name>
+    <servlet-class>com.ldtec.stpm.login.LoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>adminloginservlet</servlet-name>
+    <url-pattern>/adminlogin.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>purviewservlet</servlet-name>
+    <servlet-class>com.ldtec.stpm.purview.PurviewServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>purviewservlet</servlet-name>
+    <url-pattern>/adminpurview.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>updateself</servlet-name>
+    <servlet-class>com.ldtec.stpm.purview.UpdateSelf</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>updateself</servlet-name>
+    <url-pattern>/updateself.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>leftservlet</servlet-name>
+    <servlet-class>com.ldtec.stpm.login.LeftServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>leftservlet</servlet-name>
+    <url-pattern>/left.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>generictableservlet</servlet-name>
+    <servlet-class>com.ldtec.stpm.genericTable.GenericTableServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>generictableservlet</servlet-name>
+    <url-pattern>/generictableservlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>downloadServlet</servlet-name>
+    <servlet-class>com.ldtec.stpm.genericTable.util.DownloadServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>downloadServlet</servlet-name>
+    <url-pattern>/downloadServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>gettablerecordinfoservlet</servlet-name>
+    <servlet-class>com.ldtec.stpm.workflow.GetTableRecordInfoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>gettablerecordinfoservlet</servlet-name>
+    <url-pattern>/gettablerecordinfoservlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ajaxsaveinfoaction</servlet-name>
+    <servlet-class>com.ldtec.stpm.ajaxSave.view.action.AjaxSaveInfoAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ajaxsaveinfoaction</servlet-name>
+    <url-pattern>/ajaxsaveinfoaction</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ajaxsearchaction</servlet-name>
+    <servlet-class>com.ldtec.stpm.ajaxSave.view.action.AjaxSearchAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ajaxsearchaction</servlet-name>
+    <url-pattern>/ajaxsearchaction</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>wfservlet</servlet-name>
+    <servlet-class>com.ldtec.stpm.workflow.WfServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>wfservlet</servlet-name>
+    <url-pattern>/wfservlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>logservlet</servlet-name>
+    <servlet-class>com.ldtec.stpm.rzcx.LogServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>logservlet</servlet-name>
+    <url-pattern>/log.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>autogetinfoaction</servlet-name>
+    <servlet-class>com.ldtec.stpm.ajaxSave.view.action.AutoGetInfoAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>autogetinfoaction</servlet-name>
+    <url-pattern>/autogetinfoaction</url-pattern>
+  </servlet-mapping>
+ 
+  <servlet>
+    <servlet-name>reportinfoservlet</servlet-name>
+    <servlet-class>com.ldtec.stpm.report.ReportInfoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>reportinfoservlet</servlet-name>
+    <url-pattern>/reportinfoservlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>exceldownloadservlet</servlet-name>
+    <servlet-class>com.ldtec.stpm.report.ExcelDownloadServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>exceldownloadservlet</servlet-name>
+    <url-pattern>/exceldownloadservlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ajaxgetoptionlist</servlet-name>
+    <servlet-class>com.ldtec.stpm.ajaxSave.view.action.AjaxGetOptionList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ajaxgetoptionlist</servlet-name>
+    <url-pattern>/ajaxgetoptionlist</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ajaxcheckunique</servlet-name>
+    <servlet-class>com.ldtec.stpm.ajaxSave.view.action.AjaxCheckUniqueAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ajaxcheckunique</servlet-name>
+    <url-pattern>/ajaxcheckunique</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ajaxupdateinfoaction</servlet-name>
+    <servlet-class>com.ldtec.stpm.ajaxSave.view.action.AjaxUpdateInfoAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ajaxupdateinfoaction</servlet-name>
+    <url-pattern>/ajaxupdateinfoaction</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.htm</welcome-file>
+  </welcome-file-list>
+  <error-page>
+    <error-code>400</error-code>
+    <location>/error.do</location>
+  </error-page>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/error.do</location>
+  </error-page>
+  <error-page>
+    <error-code>500</error-code>
+    <location>/error.do</location>
+  </error-page>
+  <error-page>
+    <error-code>505</error-code>
+    <location>/error.do</location>
+  </error-page>
+  <error-page>
+    <exception-type>java.lang.NullPointerException</exception-type>
+    <location>/error.do</location>
+  </error-page>
+  <servlet>
+    <servlet-name>centerservelt</servlet-name>
+    <servlet-class>com.ldtec.stpm.login.CenterServelt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>centerservelt</servlet-name>
+    <url-pattern>/center.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>topservlet</servlet-name>
+    <servlet-class>com.ldtec.stpm.login.TopServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>topservlet</servlet-name>
+    <url-pattern>/top.do</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>addextraservlet</servlet-name>
+    <servlet-class>com.ldtec.base.share.AddExtraServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>addextraservlet</servlet-name>
+    <url-pattern>/addextra.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>addimgservlet</servlet-name>
+    <servlet-class>com.ldtec.base.share.AddImgServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>addimgservlet</servlet-name>
+    <url-pattern>/addimg.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>downfileservlet</servlet-name>
+    <servlet-class>com.ldtec.base.share.DownFileServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>downfileservlet</servlet-name>
+    <url-pattern>/downfile.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>genericchartservlet</servlet-name>
+    <servlet-class>com.ldtec.amchart.servlet.GenericChartServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>genericchartservlet</servlet-name>
+    <url-pattern>/genericchart.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>exportimageservlet</servlet-name>
+    <servlet-class>com.ldtec.amchart.servlet.ExportImageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>exportimageservlet</servlet-name>
+    <url-pattern>/exportimage.do</url-pattern>
+  </servlet-mapping>
+ 
+  <servlet>
+    <servlet-name>downloadAppServlet</servlet-name>
+    <servlet-class>com.ldtec.stpm.genericTable.util.DownloadAppServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>downloadAppServlet</servlet-name>
+    <url-pattern>/downloadAppServlet</url-pattern>
+  </servlet-mapping>
+
+ 
+<servlet>
+    <servlet-name>genericmultableservlet</servlet-name>
+    <servlet-class>com.ldtec.stpm.genericTable.GenericMulTableServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>genericmultableservlet</servlet-name>
+    <url-pattern>/genericmultableservlet</url-pattern>
+  </servlet-mapping>
+
+<servlet>
+    <servlet-name>roleZTreeServlet</servlet-name>
+    <servlet-class>com.ldtec.base.Role.RoleZTreeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>roleZTreeServlet</servlet-name>
+    <url-pattern>/roleZTreeServlet</url-pattern>
+  </servlet-mapping>
+
+<mime-mapping> 
+        <extension>docx</extension> 
+        <mime-type>application/vnd.openxmlformats-officedocument.wordprocessingml.document</mime-type> 
+</mime-mapping> 
+
+
+   <listener>  
+     <listener-class>com.ldtec.stpm.SCListener.InitRoleJurisdictionListener</listener-class>  
+  </listener>
+
+
+ 	<servlet>
+		<servlet-name>loadAdminServlet</servlet-name>
+		<servlet-class>com.ldtec.oa.mail.loadAdmin.LoadAdminServlet</servlet-class>
+	  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>loadAdminServlet</servlet-name>
+    <url-pattern>/loadAdminServlet.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>docConverterServlet</servlet-name>
+    <servlet-class>com.ldtec.openOffice.DocConverterServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>docConverterServlet</servlet-name>
+    <url-pattern>/docConverterServlet.do</url-pattern>
+  </servlet-mapping>
+
+
+    <servlet>
+    <servlet-name>excelImportSingleDoServlet</servlet-name>
+    <servlet-class>com.ldtec.stpm.genericExcelImport.ExcelImportSingleDoServlet</servlet-class>
+  </servlet>
+   <servlet-mapping>
+    <servlet-name>excelImportSingleDoServlet</servlet-name>
+    <url-pattern>/excelImportSingleDoServlet</url-pattern>
+  </servlet-mapping>
+
+
+ <servlet>
+    <servlet-name>excelImportMultiDoServlet</servlet-name>
+    <servlet-class>com.ldtec.stpm.genericExcelImport.ExcelImportMultiDoServlet</servlet-class>
+  </servlet>
+   <servlet-mapping>
+    <servlet-name>excelImportMultiDoServlet</servlet-name>
+    <url-pattern>/excelImportMultiDoServlet</url-pattern>
+  </servlet-mapping>
+
+ <servlet>
+    <servlet-name>ZipCompressorByAntServlet</servlet-name>
+    <servlet-class>com.ldtec.oa.mail.updownload.ZipCompressorByAntServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ZipCompressorByAntServlet</servlet-name>
+    <url-pattern>/rarCompressorServlet.do</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>smartUploadServlet</servlet-name>
+    <servlet-class>com.ldtec.oa.mail.updownload.SmartUploadServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>smartDownloadServlet</servlet-name>
+    <servlet-class>com.ldtec.oa.mail.updownload.SmartDownloadServlet</servlet-class>
+  </servlet>
+
+ 
+  <servlet-mapping>
+    <servlet-name>smartUploadServlet</servlet-name>
+    <url-pattern>/smartUploadServlet.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>smartDownloadServlet</servlet-name>
+    <url-pattern>/smartDownloadServlet.do</url-pattern>
+  </servlet-mapping>
+	<servlet>
+	 <servlet-name>dwr-invoker</servlet-name>
+	 <display-name>DWR Servlet</display-name>
+	 <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+	 <init-param>
+		<param-name>debug</param-name>
+		<param-value>true</param-value>
+	 </init-param>
+      <init-param>
+             <param-name>crossDomainSessionSecurity</param-name>
+             <param-value>false</param-value>
+      </init-param>
+      <init-param>
+            <param-name>allowScriptTagRemoting</param-name>
+            <param-value>true</param-value>
+      </init-param>
+	</servlet>
+
+	<servlet-mapping>
+	 <servlet-name>dwr-invoker</servlet-name>
+	 <url-pattern>/dwr/*</url-pattern>
+	</servlet-mapping>
+
+	 <servlet>
+        <servlet-name>export</servlet-name>
+        <servlet-class>com.ldtec.stpm.export.servlet.ExportWordServlet</servlet-class>
+    </servlet>
+   <servlet-mapping>
+   	<servlet-name>export</servlet-name>
+		<url-pattern>/export</url-pattern>   
+   </servlet-mapping>
+
+   <servlet>
+        <servlet-name>report</servlet-name>
+        <servlet-class>com.ldtec.stpm.export.servlet.ReportServlet</servlet-class>
+    </servlet>
+   <servlet-mapping>
+   	<servlet-name>report</servlet-name>
+		<url-pattern>/report</url-pattern>   
+   </servlet-mapping>
+
+
+  <servlet>  
+    <servlet-name>helloServlet</servlet-name>  
+    <servlet-class>com.ldtec.stpm.export.servlet.ServletToBeanProxy</servlet-class>  
+  </servlet>  
+  
+  <servlet-mapping>  
+    <servlet-name>helloServlet</servlet-name>  
+    <url-pattern>/base</url-pattern>  
+  </servlet-mapping>  
+
+
+	<context-param>  
+	        <param-name>contextConfigLocation</param-name>  
+	        <param-value>  
+	            classpath:spring/context.xml
+	        </param-value>  
+	    </context-param>   
+	    <listener>  
+	        <listener-class>  
+	            org.springframework.web.context.ContextLoaderListener  
+	        </listener-class>  
+	    </listener>  
+
+
+ 
+   <servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:spring/mvc.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        
+        <url-pattern>*.mv</url-pattern>
+    </servlet-mapping>  
+</web-app>
+

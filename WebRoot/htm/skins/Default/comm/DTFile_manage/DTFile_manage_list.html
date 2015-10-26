@@ -1,0 +1,341 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title> 
+<script language="JavaScript" src="js/zTree/jquery-1.4.2.js"></script>
+<script src="/js/ajaxGetOptions.js"></script>
+<script src="/js/ajaxMod.js"></script>
+<script src="/js/ajaxSearchInfo.js"></script>
+<script src="/js/search.js"></script>
+<script src="/js/loadingInfo.js"></script>
+
+<link rel="stylesheet" href="css/zTree/demo_DTFile_manage.css" type="text/css">
+<link rel="stylesheet" href="css/zTree/zTreeStyle/zTreeStyle.css" type="text/css">
+<LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+<LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+<link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+<style type="text/css">
+.ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
+#pageContent td{
+border:0px;
+}
+</style>
+<script type="text/javascript" src="js/zTree/jquery.ztree.core-3.5.js"></script>
+<script type="text/javascript" src="js/zTree/jquery.ztree.excheck-3.5.js"></script>
+<script type="text/javascript" src="js/zTree/jquery.ztree.exedit-3.5.js"></script>
+<script src="/js/upload/upload_noLoad.js"></script>
+
+<SCRIPT type="text/javascript">
+		<!--
+		var setting = {
+			view: {
+				addHoverDom: addHoverDom,
+				removeHoverDom: removeHoverDom,
+				selectedMulti: false
+			},
+			edit: {
+				enable: true,
+				editNameSelectAll: true,
+				showRemoveBtn: showRemoveBtn,
+				showRenameBtn: showRenameBtn
+			},
+			data: {
+				simpleData: {
+					enable: true
+				},
+				keep:{
+					parent:true
+				}
+			},
+			callback: {
+				onClick: zTreeOnClick,
+				beforeDrag: beforeDrag,
+				beforeEditName: beforeEditName,
+				beforeRemove: beforeRemove,
+				beforeRename: beforeRename,
+				onRemove: onRemove,
+				onRename: onRename
+			}
+		};
+
+		var zNodes=eval('['+getInfoBySqlNo_noHidden(32,'')+']');
+		var log, className = "dark";
+		function beforeDrag(treeId, treeNodes) {
+			return false;
+		}
+		function beforeEditName(treeId, treeNode) {
+			className = (className === "dark" ? "":"dark");
+			showLog("[ "+getTime()+" beforeEditName ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			zTree.selectNode(treeNode);
+			return confirm("进入节点 -- " + treeNode.name + " 的编辑状态吗？");
+		}
+		function beforeRemove(treeId, treeNode) {
+			className = (className === "dark" ? "":"dark");
+			showLog("[ "+getTime()+" beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			zTree.selectNode(treeNode);
+			return confirm("谨慎操作：确认删除 文件夹 -- " + treeNode.name + " （会删除此文件夹下的所有文件）吗？");
+		}
+		function onRemove(e, treeId, treeNode) {
+			ajax_pro_noInfo(33,'del|'+treeNode.id+'|空|-1');
+			showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+		}
+		function beforeRename(treeId, treeNode, newName, isCancel) {
+			className = (className === "dark" ? "":"dark");
+			showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
+			if (newName.length == 0) {
+				alert("节点名称不能为空.");
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				setTimeout(function(){zTree.editName(treeNode)}, 10);
+				return false;
+			}
+			return true;
+		}
+		function onRename(e, treeId, treeNode, isCancel) {
+			ajax_pro_noInfo(33,'edit|'+treeNode.id+'|'+treeNode.name+'|-1');
+			showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" onRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
+		}
+		function showRemoveBtn(treeId, treeNode) {
+			if('{ztreeshow1_show}'=="none"){
+				return false;
+			}
+			return treeNode.id!=0;
+		}
+		function showRenameBtn(treeId, treeNode) {
+			if('{ztreeshow1_show}'=="none"){
+				return false;
+			}
+			return treeNode.id!=0;
+		}
+		function showLog(str) {
+			if (!log) log = $("#log");
+			log.append("<li class='"+className+"'>"+str+"</li>");
+			if(log.children("li").length > 8) {
+				log.get(0).removeChild(log.children("li")[0]);
+			}
+		}
+		function getTime() {
+			var now= new Date(),
+			h=now.getHours(),
+			m=now.getMinutes(),
+			s=now.getSeconds(),
+			ms=now.getMilliseconds();
+			return (h+":"+m+":"+s+ " " +ms);
+		}
+
+		var newCount = 1;
+		function addHoverDom(treeId, treeNode) {
+			var sObj = $("#" + treeNode.tId + "_span");
+			if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
+			if('{ztreeshow1_show}'=="block"){
+				
+				var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+				+ "' title='添加' onfocus='this.blur();'></span>";
+			}
+			
+			sObj.after(addStr);
+			var btn = $("#addBtn_"+treeNode.tId);
+			if (btn) btn.bind("click", function(){
+				var currentCount=(newCount++);
+				var currenntId=getInfoBySqlNo_noHidden(33,'add|-1|新建文件夹'+currentCount+'|' + treeNode.id);
+				
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				zTree.addNodes(treeNode, {id:currenntId, pId:treeNode.id, name:"新建文件夹" + currentCount,isParent:true});
+				return false;
+			});
+		};
+		function removeHoverDom(treeId, treeNode) {
+			$("#addBtn_"+treeNode.tId).unbind().remove();
+		};
+		function selectAll() {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			zTree.setting.edit.editNameSelectAll =  $("#selectAll").attr("checked");
+		}
+		
+		$(document).ready(function(){
+
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+			$("#selectAll").bind("click", selectAll);
+			searchList();
+			
+			
+			if('{editshow1_show}'=="none")
+			$("span[id^='addshow']").css('display','none')
+			if('{delsingel1_show}'=="none")
+			$("span[id^='delsingel']").css('display','none')
+			if('{editshow1_show}'=="none"&&'{delsingel1_show}'=="none")$("#CZ,td[id^='btOpterate']").css('display','none')
+			if('{publicshow1_show}'=="none")$("#GK,td[id^='isupload'],td[id^='delClick']").css('display','none')
+			
+			
+		});
+
+
+		function zTreeOnClick(event, treeId, treeNode) {
+			document.getElementById("curTreeId").value=treeNode.id;
+			
+			//alert(treeNode.tId + ", " + treeNode.name);
+			searchList()
+		};
+
+		function searchList(){
+			var condition="manage_type='私有文件区' and fileTypeId in (select id from DTFileTypeTree where communityId='$COMMUNITYID')";
+			
+			var curTreeId=document.getElementById("curTreeId").value;
+			var fileName=document.getElementsByName("fileName")[0].value;
+
+			if(curTreeId!=""){
+				condition=condition+" and fileTypeId="+curTreeId;
+			}
+			if(fileName!=""){
+				condition=condition+" and fileName like '@mohu"+fileName+"@mohu'";
+			}
+			searchInfo_noExcel('$2','DTFile_manage',condition,'id','desc','{ITNO}');
+			
+			
+			
+			
+			$("[id^=isupload]").each(function(index){ 
+				if($(this).attr("realValue")=='已公开'){
+					$(this).html("已公开");
+				}
+			
+			})
+		
+			//把文件转成下载连接
+			/*
+			$("td [id^=realFileName]").each(function(index){ 
+				var realFileName=$(this).html();
+				realFileName=realFileName.replace(/<[^>].*?>/g,'');
+				realFileName=setHTML_forParent(realFileName);
+				$(this).html(realFileName);
+				
+
+			})
+			*/
+			
+			//如果没有文件去掉相关的修改删除公开按钮
+			var sNo=$("#sNo").html();
+			if(sNo=="")$("#isupload,#btOpterate").html('')
+			
+
+		}
+
+
+		function listdel(type,listid){  //删除
+			if(confirm('确认删除吗？')){
+				document.form1.action="/generictableservlet?action=deleteRecord&delType="+type+"&id="+listid;
+				document.form1.submit();
+			}else{
+				return false;
+			}
+		}
+		//-->
+var nodeNameStr="";
+function publicFile(){
+	var id=$("#curTreeId").val();
+	var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+	var node = treeObj.getNodeByParam("id", id, null);
+	nodeNameStr=node.name
+	setParentNodeName(node);
+
+		if(id !=""&&id !=0){
+			window.open('/generictableservlet?action=addRecord&tableName={tableName}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|'+id+'|'+nodeNameStr,'','left=160,width=700,height=630,toolbar=no, menubar=no,resizable=yes,scrollbars=yes');
+		}else{
+			alert("请在左侧选择需要添加的文件类别！");
+		}
+
+}
+function publicFiletwo(cId){
+	
+	
+	
+	window.open('/generictableservlet?action=addRecord&ITNO={ITNO}_file&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|'+cId,'','left=160,width=900,height=500,toolbar=no, menubar=no,resizable=yes,scrollbars=yes');
+
+
+}
+function setParentNodeName(objNode){
+	if(objNode.getParentNode()!=null){ 
+		nodeNameStr=objNode.getParentNode().name+" > "+nodeNameStr;
+		setParentNodeName(objNode.getParentNode()); 
+		//return true;
+	}
+} 
+
+
+	function beginConvertDoc2Swf(DocName,conName,converted,recordId){
+		showMessage();
+		if(converted=="0" || converted==""){
+			var tipStr=ajax_convert(DocName,conName);
+			if(tipStr.indexOf("成功")>0){
+				ajax_pro_noInfo(45,recordId);
+				removeInfo(recordId);
+			}
+		
+			//setTimeout("removeInfo("+recordId+")",20000);//延时3秒 
+		}else{
+			removeInfo(recordId);
+		}
+	}
+	function removeInfo(recordId){
+		window.open('/gettablerecordinfoservlet?action=viewDocInfo&templateId=flexpaper&ITNO=1&recordId='+recordId);
+		document.getElementById('parentBg').parentNode.removeChild(document.getElementById('parentBg'));
+		window.location.reload();
+	}
+
+	</SCRIPT>
+
+
+</head>
+<body>
+<form name="form1" action="" method="post">
+  <input type="hidden" name="tableName" value="{tableName}">
+  <input type="hidden" name="CDNO" value="{CDNO}">
+  <input type="hidden" name="ITNO" value="{ITNO}">
+  <input type="hidden" name="curPage" value="{curPage}">
+  <input name="curTreeId" id="curTreeId" type="hidden" value=""/>
+  <input name="$TABLEKEYWORD" type="hidden" value="{$TABLEKEYWORD}"/>
+  <input type="hidden" name="curPage" value="{curPage}">
+  <input type="hidden" name="curPage" value="{curPage}">
+  <input type="hidden"  name="batUpdateInfo" value="del|1">
+  <div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 列表页面</div>
+  </div>
+<table cellspacing="0" cellpadding="0" width="100%" height="100%" style="margin:0 auto;border:0px;">			
+<tr>
+	<td valign="top" width="180">
+		<div class="zTreeDemoBackground left">
+			<ul id="treeDemo" class="ztree"></ul>
+		 </div>
+	 </td>
+
+    <td  valign="top">
+    <table border="0" cellspacing="0" cellpadding="0" height="100%" width="100%" style="margin:0 auto;">
+         <tbody>
+		 <tr>
+                  <td width="100%"  valign="top" colspan="5" align="center"><!-- start -->
+                   <div style="height:40px;line-height:40px;">
+				   	<SCRIPT>
+					if('{addshow1_show}'=='block')
+					document.write('<input class="btn" id="find" type="button" value="添加文件" onClick="publicFile()"/>&nbsp;&nbsp;')
+					</SCRIPT>
+						文件名称：
+                         <input class="input_txt" name="fileName" type="text" />&nbsp;&nbsp;
+						<input class="btn" id="find" type="button" value="搜索" onclick="searchList();"/>
+					</div>
+					<div id="aaa111"></div>
+                    </td>
+             </tr>
+           
+           
+           
+             </tbody>
+    </table>
+	
+</td>
+</tr>
+</table>
+</body>
+</html>

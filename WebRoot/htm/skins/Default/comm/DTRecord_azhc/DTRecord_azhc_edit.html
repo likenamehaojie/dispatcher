@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+  <link rel="stylesheet" type="text/css" href="css/index.css" />
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+  <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+  <script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+
+
+ <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+<SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+</head>
+<script type="text/javascript">
+$(document).ready(function(){
+	setEmptyCheck("time:class:number:count:remark:recording");
+	
+	
+})
+
+
+</script>
+
+   <form name="form1" action="/generictableservlet?action=saveEditRecord&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}&recordId={recordId}" method="post">
+    <input type="hidden" name="mulId" value="{mulId}">
+	<input type="hidden" name="tableName" value="{tableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+	
+	<input type="hidden" name="formFlag" value="2">
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" id="actorCount" name="actorCount" value="{actorCount}">
+    <input type="hidden" name="flag" value="1">
+    <input type="hidden" name="FINISH" value="">    
+	<input type="hidden" name="azhctype" value="{$TABLEKEYWORD3}">
+
+
+
+	
+
+	<input type="hidden" name="todo" value="1">
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>生产汇报</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp;{$TABLEKEYWORD2} &gt;{$TABLEKEYWORD3} &gt; 录入页面</div>
+
+
+  <div style = "clear:both;"></div>
+  
+
+<div class='toolbar'>
+<table width="100%" class="tabtap" style="border-collapse:collapse;" cellspacing="0" cellpadding="0">
+  <tbody>
+
+  <tr>
+   <td class="tad" >时间：</td>
+	<td class="t_l b_cf" ><input name="time" type="text" class="input_txt" value="{time}"  onclick="WdatePicker({maxDate:'%y-%M-%d'})" tip="[时间]不能为空" check="2"/>&nbsp;</td>
+    <td class="tad" >班次：</td>
+		<td class="t_l b_cf"><select name="class" tip="班次不能为空" check="2"><option value="" >请选择</option>{class}</select>&nbsp;</td>
+    </tr>
+	<tr>
+	<td class="tad">&nbsp;数量&nbsp;:</td>
+     <td> <input name="number" type="text" value="{number}" class="input_txt"  tip="[数量]不能为空" check="2"/>&nbsp;</td>
+    <td class="tad">&nbsp;本月累计&nbsp;:</td>
+     <td colspan="3"><input type="text" class="input_txt" value="{count}" name="count" tip="[本月累计]不能为空" check="2"/>&nbsp;</td>
+    </tr>
+	<td class="tad">&nbsp;记录人&nbsp;:</td>
+     <td ><input type="text" class="input_txt"  value="{recording}" name="recording" tip="[记录人]不能为空" check="2"/>&nbsp;</td>
+    <td class="tad">&nbsp;工作面&nbsp;:</td>
+     <td colspan="3"><select name="workFace" tip="工作面不能为空" check="2"><option value="" >请选择</option>{workFace}</select>&nbsp;</td>
+    </tr>
+	<tr>
+	<td class="tad">&nbsp;是否为重点工程&nbsp;:</td>
+     <td colspan="3"><select name="iskeyproject" tip="班次不能为空" check="2"><option value="" >请选择</option>{iskeyproject}</select>&nbsp;</td>
+	</tr>
+    <td class="tad" >备注：</td>
+     <td class="t_l b_cf" colspan="3"><textarea name="remark" value="{remark}" rows="5" cols="110" tip="[备注]不能为空" check="2"/>{remark}</textarea>&nbsp;</td>
+
+	
+   </tr>
+  
+</tbody></table>
+
+
+</div>
+<div class="path">
+ 
+  <table width="98%">
+    <tr>
+      <td colspan="4" align="center">
+        <input type="submit" value="保存" class="btn" name="save" onclick="return true" />
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" name="back" class="btn" onClick="window.close();"
+				value="关 闭">	
+      </td>
+    </tr>
+  </table>
+
+</form>
+</body>
+</html>

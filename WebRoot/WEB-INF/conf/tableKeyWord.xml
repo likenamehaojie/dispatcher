@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="GB2312"?>
+
+<tableKeyWords>
+	<tableKeyWord name="$index_ql"><![CDATA[首页|快捷方式]]></tableKeyWord>
+	<tableKeyWord name="$1"><![CDATA[1|2|3]]></tableKeyWord>
+	<tableKeyWord name="$2"><![CDATA[4|5|6]]></tableKeyWord>
+
+	<tableKeyWord name="$19"><![CDATA[调度档案管理|公共文件区|空]]></tableKeyWord>
+	<tableKeyWord name="$20"><![CDATA[调度档案管理|内部文件区]]></tableKeyWord>
+	<tableKeyWord name="$23"><![CDATA[系统设置|操作日志]]></tableKeyWord>
+	<tableKeyWord name="$24"><![CDATA[系统设置|部门设置]]></tableKeyWord>
+	<tableKeyWord name="$25"><![CDATA[系统设置|角色设置]]></tableKeyWord>
+	<tableKeyWord name="$26"><![CDATA[系统设置|用户管理]]></tableKeyWord>
+
+	<tableKeyWord name="$32"><![CDATA[参数设置|基本参数设置]]></tableKeyWord>
+	<tableKeyWord name="$34"><![CDATA[基本参数设置|参数设置]]></tableKeyWord>
+
+
+	<tableKeyWord name="$1_redmindTool"><![CDATA[系统小工具|定时提醒]]></tableKeyWord>
+	<tableKeyWord name="$1_smsTool"><![CDATA[系统小工具|短信]]></tableKeyWord>
+	<tableKeyWord name="$1_note"><![CDATA[双基考核|日常考核]]></tableKeyWord>
+	<tableKeyWord name="$1_pending"><![CDATA[待办提示|所有待办]]></tableKeyWord>
+ 	<tableKeyWord name="$437"><![CDATA[参数设置|基础参数设置]]></tableKeyWord>
+	<tableKeyWord name="$438"><![CDATA[参数设置|煤质计算公式]]></tableKeyWord>
+	<tableKeyWord name="$83"><![CDATA[公告信息|公告管理|sys_a_id1|当前矿]]></tableKeyWord>
+	<tableKeyWord name="$332"><![CDATA[公告管理|公告查看]]></tableKeyWord>
+	<tableKeyWord name="$429"><![CDATA[调度档案管理|专题汇报材料]]></tableKeyWord>
+	<tableKeyWord name="$436"><![CDATA[参数设置|工作面维护]]></tableKeyWord>
+	<tableKeyWord name="$412"><![CDATA[生产汇报|采掘工作面接续情况]]></tableKeyWord>
+	<tableKeyWord name="$413"><![CDATA[生产汇报|初未次放顶预报]]></tableKeyWord>
+	<tableKeyWord name="$414"><![CDATA[生产汇报|巷道贯通预报]]></tableKeyWord>
+	<tableKeyWord name="$415"><![CDATA[生产汇报|地质断层预报]]></tableKeyWord>
+	<tableKeyWord name="$416"><![CDATA[生产汇报|贯通过巷]]></tableKeyWord>
+	<tableKeyWord name="$417"><![CDATA[生产汇报|探放水]]></tableKeyWord>
+
+    <tableKeyWord name="$421"><![CDATA[生产计划|开掘巷探计划]]></tableKeyWord>
+
+
+	<tableKeyWord name="$364"><![CDATA[生产汇报|支架安装回撤记录及台账|安装]]></tableKeyWord>
+	<tableKeyWord name="$365"><![CDATA[生产汇报|采煤工作面|工作面]]></tableKeyWord>
+	<tableKeyWord name="$366"><![CDATA[生产汇报|掘进进尺|工作面]]></tableKeyWord>
+	<tableKeyWord name="$367"><![CDATA[生产汇报|底抽巷进尺|底抽巷进尺]]></tableKeyWord>
+	<tableKeyWord name="$368"><![CDATA[生产汇报|开拓进尺|开拓进尺]]></tableKeyWord>
+	<tableKeyWord name="$369"><![CDATA[生产汇报|巷修进尺|巷修进尺]]></tableKeyWord>
+	<tableKeyWord name="$370"><![CDATA[生产汇报|底板改造钻孔进尺|底板改造钻孔进尺]]></tableKeyWord>
+	<tableKeyWord name="$371"><![CDATA[生产汇报|抽放钻孔进尺|工作面]]></tableKeyWord>
+	<tableKeyWord name="$373"><![CDATA[生产汇报|运输队|工作面]]></tableKeyWord>
+	<tableKeyWord name="$374"><![CDATA[生产汇报|产量、媒质情况|工作面]]></tableKeyWord>
+	<tableKeyWord name="$375"><![CDATA[生产报表|日报表|汇总页面]]></tableKeyWord>
+	<tableKeyWord name="$377"><![CDATA[生产报表|全月生产情况|汇总页面]]></tableKeyWord>
+	<tableKeyWord name="$378"><![CDATA[生产报表|采掘工作面生产情况|汇总页面]]></tableKeyWord>
+	<tableKeyWord name="$379"><![CDATA[生产报表|掘进工作面生产情况|汇总页面]]></tableKeyWord>
+	<tableKeyWord name="$380"><![CDATA[生产报表|副井提升情况|汇总页面]]></tableKeyWord>
+	<tableKeyWord name="$381"><![CDATA[生产报表|探防队进尺情况|汇总页面]]></tableKeyWord>
+	<tableKeyWord name="$382"><![CDATA[生产报表|抽放队进尺情况|汇总页面]]></tableKeyWord>
+	<tableKeyWord name="$383"><![CDATA[生产报表|巷修进尺情况|汇总页面]]></tableKeyWord>
+	<tableKeyWord name="$385"><![CDATA[生产报表|月汇总|汇总页面]]></tableKeyWord>
+	<tableKeyWord name="$446"><![CDATA[生产报表|日报表|汇总页面]]></tableKeyWord>
+	<tableKeyWord name="$447"><![CDATA[生产报表|日报表|汇总页面]]></tableKeyWord>
+	<tableKeyWord name="$431"><![CDATA[调度档案管理|早调会会议纪要|工作面]]></tableKeyWord>
+	<tableKeyWord name="$347"><![CDATA[调度档案管理|调度人员档案|工作面]]></tableKeyWord>
+	<tableKeyWord name="$426"><![CDATA[调度档案管理|矿井基本信息|工作面]]></tableKeyWord>
+
+
+    <tableKeyWord name="$420"><![CDATA[生产计划|生产经营计划]]></tableKeyWord>
+    <tableKeyWord name="$442"><![CDATA[参数设置|班子成员基本信息维]]></tableKeyWord>
+	<tableKeyWord name="$443"><![CDATA[参数设置|科室成员基本信息维]]></tableKeyWord>
+	<tableKeyWord name="$394"><![CDATA[下井跟值班管理|值班表]]></tableKeyWord>
+    <tableKeyWord name="$395"><![CDATA[下井跟值班管理|领导带班表]]></tableKeyWord>
+	<tableKeyWord name="$396"><![CDATA[下井跟值班管理|带班表]]></tableKeyWord>
+	<tableKeyWord name="$401"><![CDATA[事故信息管理|事故影响记录]]></tableKeyWord>
+	<tableKeyWord name="$389"><![CDATA[生产台账|打钻异常情况台账]]></tableKeyWord>
+	<tableKeyWord name="$388"><![CDATA[生产台账|重点工程台账]]></tableKeyWord>
+	<tableKeyWord name="$390"><![CDATA[生产台账|月度生产计划完成情况]]></tableKeyWord>
+
+  
+</tableKeyWords>

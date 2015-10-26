@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!-- 
+1,projectTitle表示生成word的文件名.模板放在conf下面
+-->
+
+<viewTableRecordTemplates>
+
+<!--查看用户 2012/12/6-->
+<viewTableRecordTemplate tid = "sysAdmin" singleness="admin/sysAdmin/sysAdmin_view.html">
+	<table tableName="sysAdmin" attList="" rowName=""  fields="role_name,admin_name,admin_pwd,address,realname,mobile,email,about,branch_name,cShortName,business_name"><![CDATA[SELECT role_name,admin_name,admin_pwd,address,realname,mobile,email,about,branch_name,cShortName,business_name from sysAdmin where id='$RECORDID']]></table>
+</viewTableRecordTemplate>
+
+<!--查看用户 2012/12/6-->
+
+<!-- 部门排序 2012/12/6-->
+<viewTableRecordTemplate tid = "branchSortSet" singleness="admin/sysBranch/sysBranch_SortSet.html">
+	<table tableName="branchSortSet" attList="" rowName="row"  fields="id,branch_name"><![CDATA[SELECT id,branch_name from sysBranch where  cid='$COMMUNITYID' order by branch_sort]]></table>
+</viewTableRecordTemplate>
+<!-- 部门排序 2012/12/6-->
+
+<!-- 职务排序 2012/12/6-->
+<viewTableRecordTemplate tid = "businessSortSet" singleness="admin/business/businessSortSet.html">
+	<table tableName="businessSortSet" attList="" rowName="row"  fields="id,business_name"><![CDATA[SELECT id,business_name from business where del=0 and  cid='$COMMUNITYID' order by orderId]]></table>
+</viewTableRecordTemplate>
+<!-- 职务排序 2012/12/6-->
+
+<!-- 用户排序 2012/12/6-->
+<viewTableRecordTemplate tid = "adminSortSet" singleness="admin/sysAdmin/sysAdmin_SortSet.html">
+	<table tableName="branch" attList="" rowName="row_branch"  fields="branchId,branch_name"><![CDATA[SELECT id as branchId,branch_name from sysBranch where  cid='$COMMUNITYID' order by branch_sort]]></table>
+</viewTableRecordTemplate>
+<!-- 用户排序 2012/12/6-->
+
+
+<!-- 添加组合 2012/12/6-->
+<viewTableRecordTemplate tid = "sys_comb_add" singleness="admin/sysBase/admin_purview_sub/admin_purview_sub_comb_add.html">
+	<table tableName="sys_CDNO_ListUrl_add" attList="" rowName="row"  fields="purview_ad_id,pur_name,url,identify,iparent,tableName,remark"><![CDATA[with cte1 as(select * from admin_purview_$COMMUNITYTYPE where iparent = 0 union all select t.* from admin_purview_$COMMUNITYTYPE as t , cte1 as c where t.iparent = c.purview_ad_id )select purview_ad_id,pur_name,url,identify,iparent,tableName,remark from cte1 where (community_id=$COMMUNITYID or community_id=0) order by iparent,sequence]]></table>
+</viewTableRecordTemplate>
+<!-- 添加组合 2012/12/6-->
+
+
+<!--首页index 2012/12/6-->
+<viewTableRecordTemplate tid = "sysIndex" singleness="web/index.html">
+	 <table tableName="DTIndex_top" attList="" rowName=""  fields="USERID,REALNAME,curDate"><![CDATA[select '$USERID' as USERID,'$REALNAME' as REALNAME,convert(nvarchar(10),getDate(),120) as curDate]]></table> 
+
+	  <table tableName="DTIndex_nav" attList="" rowName="row_nav"  fields="purview_ad_id,pur_name,url,identify,community_id"><![CDATA[select purview_ad_id,pur_name,url,identify,community_id from dbo.admin_purview_$COMMUNITYTYPE where iparent=0 and identify in(select identify from adrole_purview_$COMMUNITYTYPE where role_ad_id='$ROLEID') and pur_name!='无节点模块' order by sequence]]></table> 
+
+	 <table tableName="DTIndex_left" attList="" rowName=""  fields="leftStr"><![CDATA[exec proc_createLeftStr $COMMUNITYTYPE,$ROLEID]]></table> 
+
+	
+	<!-- 待办 -->
+	 <table tableName="wf_pendingrequest" attList="" rowName="row_wf"  fields="table_name,wf_pStr"><![CDATA[select table_name,'<img src="images/index/mbi_024.gif">&nbsp;<a href="'+deal_url+'" target="_blank">'+(case when table_name like 'DThtrecord_main_%' then description+wf_titleShort else description end)+'(<font color="red">'+cast(dealCount as varchar(10))+'条</font>)</a>' wf_pStr from (select table_name,description,wf_title,(case when wf_title like '%复查' then '--待复查' when wf_title like '已发送%' then '--待整改' else '--'+wf_title end) wf_titleShort,deal_url,COUNT(deal_url) dealCount from wf_pendingrequest_$COMMUNITYID where (user_type='user' and next_user='$USERID' and next_user_community='$SHORTNAME') or (user_type='role' and next_user='$ROLEID' and next_user_community='$SHORTNAME') or (user_type='branch' and next_user='$WORKGROUPID' and next_user_community='$SHORTNAME') group by table_name,description,wf_title,deal_url) a]]></table> 
+
+	 <!-- 快捷方式 -->
+	 <table tableName="DTIndex_quickLink" attList="" rowName="row_ql"  fields="id,name,url,imageName"><![CDATA[select id,name,url,imageName from DTIndex_quickLink where created_by='$USERID' and cType='$COMMUNITYTYPE' order by seqNo]]></table> 
+
+	 <!-- 短信总数 -->
+	  <table tableName="DTTools_sms_count" attList="" rowName=""  fields="smsNum"><![CDATA[select count(id) as smsNum from DTTools_sms where charindex(';$USERID;',';'+receiverIds)>0 and charindex(';$USERID;',';'+noReaderIds)>0 ]]></table> 
+	
+	 <!-- 提醒汇总 -->
+	  <table tableName="DTTools_remind_cal" attList="" rowName="row_remindCal"  fields="cfId,typeName,countNum"><![CDATA[exec PROC_DTTools_remind_cal '$COMMUNITYID','$USERID']]></table> 
+
+
+	 <!-- 带班表 -->
+	  <table tableName="DTDuty_dbb_ks" attList="" rowName="row_dbb"  fields="AzdbA,AzdbB,AfdbA,MzdbA,MzdbB,MfdbA,EzdbA,EzdbB,EfdbA,yearAndMonth"><![CDATA[select AzdbA, AzdbB, AfdbA, MzdbA, MzdbB, MfdbA, EzdbA, EzdbB, EfdbA, (case yearAndMonth when CONVERT(nvarchar(10),GETDATE(),120) then yearAndMonth+'<font color="red">(今天)</font>' else yearAndMonth end) as yearAndMonth from dbo.DTDuty_dbb_ks where communityId='$COMMUNITYID' and DATEDIFF(DD,GETDATE(),yearAndMonth)>=-1 and DATEDIFF(DD,GETDATE(),yearAndMonth)<=1 order by yearAndMonth]]></table> 
+
+	<!-- 值班表 -->
+	  <table tableName="DTDuty_zbb_sub" attList="" rowName="row_zbb"  fields="tDate,zzb,kldfzb,ksfzb"><![CDATA[select (case tDate when CONVERT(nvarchar(10),GETDATE(),120) then tDate+'<font color="red">(今天)</font>' else tDate end) as tDate, zzb, kldfzb, ksfzb from dbo.DTDuty_zbb_sub where main_id in(select id from DTDuty_zbb_main where communityId='$COMMUNITYID') and DATEDIFF(DD,GETDATE(),tDate)>=-1 and DATEDIFF(DD,GETDATE(),tDate)<=1 order by tDate]]></table> 
+
+	<!-- 生产日报 -->
+	  <table tableName="DTRecord" attList="" rowName="row_record"  fields="workDes,dateDes,date_created"><![CDATA[exec proc_DTRecord_view '$COMMUNITYID']]></table> 
+
+</viewTableRecordTemplate>
+<!--首页index 2012/12/6-->
+
+<!--待办more 2012/12/6-->
+<viewTableRecordTemplate tid = "wf_pendingrequest" singleness="web/wf_pendingrequest.html">
+	<!-- 待办more -->
+	 <table tableName="wf_pendingrequest" attList="" rowName="row"  fields="id,description,wf_title,wf_status,next_user_community,created_realName,create_time,deal_url"><![CDATA[select id,description,wf_title,wf_status,next_user_community,CONVERT(varchar(10),created_realName, 20) as created_realName,CONVERT(varchar(16),create_time, 20) as create_time,deal_url from wf_pendingrequest_$COMMUNITYID where (user_type='user' and next_user='$USERID' and next_user_community='$SHORTNAME') or (user_type='role' and next_user='$ROLEID' and next_user_community='$SHORTNAME') or (user_type='branch' and next_user='$WORKGROUPID' and next_user_community='$SHORTNAME') order by create_time desc]]></table> 
+</viewTableRecordTemplate>
+
+
+
+	<!--附件上传 2012/12/6-->
+	<viewTableRecordTemplate tid="upload" singleness="skins/upload.html">
+	  <table tableName="tableName" attList="" rowName=""  fields="tableName,fieldName,recordId,seqNo,realFileName"><![CDATA[select '$KEYWORD1' as tableName,'$KEYWORD2' as fieldName,'$RECORDID' as recordId,'$KEYWORD3' as seqNo,'$KEYWORD4' as realFileName]]></table> 
+	</viewTableRecordTemplate>
+	<!--附件上传 2012/12/6-->
+
+
+
+
+<!-- 部门类别设置 -->
+<viewTableRecordTemplate tid="DTParam_branchType_view" isMulCt="" singleness="admin/sysBranch/DTParam_branchType_set.html">
+	  <table tableName="DTParam_branchType_bType" attList="" rowName="row"  fields="id,typeName"><![CDATA[exec PROC_DTParam_branchType '$COMMUNITYID','$COMMUNITYTYPE','$COMMUNITYTRADETYPE','0']]></table>
+</viewTableRecordTemplate>
+
+
+	<!--  admin_purview  -->
+	<viewTableRecordTemplate tid="admin_purview_add" singleness="admin/sysBase/admin_purview/admin_purview_add.html">
+
+		<table tableName="DT_iparent" attList="" rowName=""  fields="iparentDes,iparent"><![CDATA[select '$KEYWORD1' as iparentDes,'$KEYWORD2' as iparent]]></table>
+		  
+	</viewTableRecordTemplate>
+
+		<!--  admin_purview  -->
+	<viewTableRecordTemplate tid="admin_purview_edit" singleness="admin/sysBase/admin_purview/admin_purview_edit.html">
+
+		<table tableName="DT_iparent1" attList="" rowName=""  fields="pur_name,url,realTableName,sequence,identify,iparent,image,remark,hotKey,community_id"><![CDATA[select pur_name,url,tableName realTableName,sequence,identify,iparent,image,remark,hotKey,community_id from admin_purview_$COMMUNITYTYPE where identify='$KEYWORD1']]></table>
+
+	</viewTableRecordTemplate>
+
+	<!--  admin_purview  -->
+	<viewTableRecordTemplate tid="tijiaoOK" singleness="skins/Default/multi/DTSJ_examResult_main/tijiaoOK.html">
+	</viewTableRecordTemplate>
+
+
+	
+	<!--定时提醒 2012/12/6-->
+	<viewTableRecordTemplate tid = "DTTools_remind" singleness="skins/Default/comm/DTTools_remind/DTTools_remind.html">
+	  <table tableName="DTTools_remind" attList="" rowName="row"  fields="id,typeName,title,content,isReady,remindType,remindDays,remindDate,remindHour,date_created"><![CDATA[select id,typeName,title,content,isReady,remindType,remindDays,convert(nvarchar(16),remindDate,120) as remindDate,remindHour,convert(nvarchar(10),date_created,120) as date_created from DTTools_remind where  created_by='$USERID' order by id desc]]></table> 
+	</viewTableRecordTemplate>
+	<!--定时提醒 2012/12/6-->
+
+	<!--定时提醒 2012/12/6-->
+	<viewTableRecordTemplate tid = "DTTools_remind_cal" singleness="skins/Default/comm/DTTools_remind/DTTools_remind_cal.html">
+	  <table tableName="DTTools_remind" attList="" rowName="row"  fields="id,typeName,title,content,isReady,remindType,remindDays,remindDate,remindHour,date_created"><![CDATA[exec PROC_DTTools_remind_calList '$COMMUNITYID','$USERID','$KEYWORD1']]></table> 
+	</viewTableRecordTemplate>
+	<!--定时提醒 2012/12/6-->
+
+		<!-- 定时提醒 类别设置 -->
+	<viewTableRecordTemplate tid="DTTools_remind_typeName" isMulCt="" singleness="skins/Default/comm/DTTools_remind/DTTools_remind_typeName.html">
+		  <table tableName="DTParam_branchType_bType" attList="" rowName="row"  fields="typeName,typeName"><![CDATA[select typeName,typeName from DTTools_remind_typeName where isSys=1 and created_by='$USERID' order by orderNo]]></table>
+	</viewTableRecordTemplate>
+
+	<!-- 首页超链接 2012/12/6-->
+	<viewTableRecordTemplate tid = "DTIndex_quickLink" singleness="skins/Default/comm/DTIndex_quickLink/DTIndex_quickLink.html">
+	  <table tableName="DTIndex_quickLink1" attList="" rowName=""  fields="iniCType"><![CDATA[select '$COMMUNITYTYPE' as iniCType]]></table> 
+	  <table tableName="DTIndex_quickLink2" attList="" rowName="row"  fields="id,name,url,imageName,seqNo,date_created"><![CDATA[select id,name,url,imageName,seqNo,convert(nvarchar(10),date_created,120) as date_created from DTIndex_quickLink where created_by ='$USERID' and cType='$COMMUNITYTYPE' order by seqNo]]></table> 
+	</viewTableRecordTemplate>
+	<!--首页超链接 2012/12/6-->
+
+
+
+	<!--  首页公告查看  -->
+	<viewTableRecordTemplate tid="NOTICE_view" singleness="skins/Default/comm/DT_NOTICE/DT_NOTICE_view.html">
+	<table tableName="DT_NOTICE" attList="" rowName="row"  fields="id,title,Stitle,realFileName,dispatching_unit,range,dispatching_type,notice_content,Snotice_content,workGroupName,date_created"><![CDATA[select id,title,realFileName,dispatching_unit,range,dispatching_type,notice_content,workGroupName,date_created from  DT_NOTICE where ('$KEYWORD1'='com' and communityId='$KEYWORD2' and range=0) or ('$KEYWORD1'='more' and communityId='$COMMUNITYID')]]></table> 
+	<table tableName="DT_NOTICE" attList="" rowName=""  fields="tableName"><![CDATA[select 'DT_NOTICE' as tableName]]></table> 
+	</viewTableRecordTemplate>
+
+	<!--  首页公告单笔查看  -->
+	<viewTableRecordTemplate tid="NOTICE_one_view" singleness="skins/Default/comm/DT_NOTICE/DT_NOTICE_one_view.html">
+	<table tableName="DT_NOTICE" attList="" rowName=""  fields="id,title,realFileName,dispatching_unit,range,dispatching_type,notice_content,workGroupName,date_created,End_time"><![CDATA[select id,title,realFileName,dispatching_unit,range,dispatching_type,notice_content,workGroupName,convert(nvarchar(16),date_created,120) as date_created,End_time from  DT_NOTICE where id='$RECORDID']]></table> 
+	<table tableName="DT_NOTICE" attList="" rowName=""  fields="tableName"><![CDATA[select 'DT_NOTICE' as tableName]]></table> 
+	</viewTableRecordTemplate>
+
+
+	<!--  基本参数设置  2015/9/17-->
+	<viewTableRecordTemplate tid="FIELD_OPTION" singleness="skins/Default/param/FIELD_OPTION/FIELD_OPTION_list.html">
+	<table tableName="FIELD_OPTION" attList="" rowName=""  fields="id,orderId,VALUE,NAME,FIELD,TABLE_NAME,updatable,communityId"><![CDATA[select id,orderId,VALUE,NAME,FIELD,TABLE_NAME,updatable,communityId from  FIELD_OPTION where communityId='$COMMUNITYID' ]]></table> 
+	</viewTableRecordTemplate>
+	<!-- 参数设置 end -->
+
+
+	<!-- 工作面维护树-->
+	<viewTableRecordTemplate tid="v_DTParam_workPlace" singleness="skins/Default/param/DTParam_workPlace/DTParam_workPlace_tree.html">
+	
+	 	<table tableName="DTParam_workPlace" attList="" rowName="row"  fields="id,pid,name,ishide,isjobcut,haschild"><![CDATA[select id,parentId as pid,jobcut_name as name,ishide as ishide,isjobcut as isjobcut,(select COUNT(1) from DTParam_workPlace d where m.id = d.parentId ) as haschild from DTParam_workPlace m where COMMUNITYID = $COMMUNITYID ORDER BY ORDERS]]></table> 
+	</viewTableRecordTemplate>
+
+    <!-- 开掘巷探计划 -->
+        <viewTableRecordTemplate tid="DTPlan_ktht_main" singleness="skins/Default/multi/DTPlan_ktht/DTPlan_ktht_view_list.html">
+	 	<table tableName="DTPlan_ktht_sub" attList="" rowName="row"  fields="flag,jobcut_name,job_plan,name,valid"><![CDATA[select b.flag,wp.jobcut_name ,b.job_plan,fo.name,b.isvalid as valid from  DTPlan_ktht_sub b,DTParam_workPlace wp,FIELD_OPTION fo where b.jobcut_id = wp.id and fo.description = '参数设置' and fo.description_sub = '生产计划-重点工程' and b.Iskeyproject = fo.VALUE and main_id='$RECORDID']]></table> 
+	 	<table tableName="DTPlan_ktht_main" attList="" rowName=""  fields="id,yearandmonth,work_teamid,work_team,target_plan,date_created"><![CDATA[select id,yearandmonth,work_teamid,dbo.f_DTPlan_ktht(work_teamid,'$COMMUNITYID') as work_team,target_plan,convert(nvarchar(10),date_created,120) as date_created from DTPlan_ktht_main where id='$RECORDID' ]]></table> 
+	</viewTableRecordTemplate>
+    <!-- 生产计划 -->
+    <viewTableRecordTemplate tid="DTPlan_produce_main" singleness="skins/Default/multi/DTPlan_produce/DTPlan_produce_view_list.html">
+	 	<table tableName="DTPlan_produce_sub" attList="" rowName="row"  fields="flag,procedure_in_month,avg_procedure_in_day,target_procedure_in_month,valid_leap_in_month,branch_name"><![CDATA[select m.flag,m.procedure_in_month,m.avg_procedure_in_day,m.target_procedure_in_month,m.valid_leap_in_month,b.branch_name from DTPlan_produce_sub m,branch b,DTParam_branchType tp where tp.id = b.bType and tp.typeName = '区队' and main_id='$RECORDID']]></table> 
+	 	<table tableName="DTPlan_produce_main" attList="" rowName=""  fields="id,mtcl,pjrc,jjzjc,pjrj,ktjc,ktrjc,dbcfhjcjh,dbcfhrjc,wscfzkjc,wscfl,dbzkjc,zjl,yearandmonth,shijitianshu,tianbaoren,hf,sf,kml"><![CDATA[select id,mtcl,pjrc,jjzjc,pjrj,ktjc,ktrjc,dbcfhjcjh,dbcfhrjc,wscfzkjc,wscfl,dbzkjc,zjl,yearandmonth,shijitianshu,tianbaoren,hf,sf,kml from DTPlan_produce_main where id='$RECORDID' ]]></table> 
+	</viewTableRecordTemplate>
+
+    <!-- 下井跟值班管理-领导干部值班表-->
+    <viewTableRecordTemplate tid="DTDuty_zbb_main" downFileTitle="值班表" singleness="skins/Default/multi/DTDuty_zbb/DTDuty_zbb_view_list.html">
+	 	<table tableName="DTDuty_zbb_sub" attList="" rowName="row"  fields="flag,tDate,zzb,kldfzb,ksfzb"><![CDATA[select flag,tDate,zzb,kldfzb,ksfzb from  DTDuty_zbb_sub where main_id='$RECORDID' ]]></table> 
+	 	<table tableName="DTDuty_zbb_main" attList="" rowName=""  fields="id,yearAndMonth,Company,fDate,remark,ReBranch"><![CDATA[select id,yearAndMonth,Company,fDate,remark,ReBranch from DTDuty_zbb_main where id='$RECORDID']]></table> 
+	</viewTableRecordTemplate>
+
+
+	<!--早调会会议纪要2015/10/08-->
+	<viewTableRecordTemplate tid="DTBank_meeting_task" singleness="skins\Default\comm\DTBank_meeting_task/DTBank_meeting_task_list.html">
+	  <table tableName="DTBank_meeting_task" attList="" rowName=""  fields="id,Meetingid,Leader,Leader_str,ArrangeWork,ResponsibilityId,ResponsibilityName,wf_status">
+	  <![CDATA[select id,Meetingid,Leader,dbo.f_field_option_Leader(Leader) as Leader_str,ArrangeWork,ResponsibilityId,ResponsibilityName,wf_status from DTBank_meeting_task where id='$RECORDID']]></table>
+
+	  <table tableName="" attList="" rowName="wf" fields="id,realName,create_time,content,processStatus,created_by"><![CDATA[select w.id,w.realName,CONVERT(varchar(16),w.create_time,120) as create_time,w.content,w.processStatus,w.created_by from wf_DTBank_meeting_task w,DTBank_meeting_task t where w.record_id=t.id and t.id='$RECORDID'  order by w.id]]></table>
+
+	</viewTableRecordTemplate>
+	<!--早调会会议纪要2015/10/08-->
+
+	<!--早调会会议纪要2015/10/08-->
+	<viewTableRecordTemplate tid="DTBank_meeting_task1" singleness="skins\Default\comm\DTBank_meeting_task/DTBank_meeting_task_list1.html">
+	  <table tableName="DTBank_meeting_task" attList="" rowName=""  fields="id,Meetingid,Leader,Leader_str,ArrangeWork,ResponsibilityId,ResponsibilityName,wf_status">
+	  <![CDATA[select id,Meetingid,Leader,dbo.f_field_option_Leader(Leader) as Leader_str,ArrangeWork,ResponsibilityId,ResponsibilityName,wf_status from DTBank_meeting_task where id='$RECORDID']]></table>
+	
+
+	  <table tableName="" attList="" rowName="wf" fields="id,realName,create_time,content,processStatus,created_by"><![CDATA[select w.id,w.realName,CONVERT(varchar(16),w.create_time,120) as create_time,w.content,w.processStatus,w.created_by from wf_DTBank_meeting_task w,DTBank_meeting_task t where w.record_id=t.id and t.id='$RECORDID'  order by w.id]]></table>
+
+	</viewTableRecordTemplate>
+	<!--早调会会议纪要2015/10/08-->
+
+
+	
+	<!--打钻异常情况台账 2015/09/29-->
+	<viewTableRecordTemplate tid="DTRecord_cfd" downFileTitle="打钻异常台账表" singleness="skins\Default\comm\DTTaizhang_abnormal\DTTaizhang_abnormal_list.html">
+	  <table tableName="DTRecord_cfd" attList="" rowName="row"  fields="id,workPlace,Shift,BirthDate,Exceptions,created_by,Exceptionsstring">
+	  <![CDATA[select id,workPlace,Shift,BirthDate,Exceptions,dbo.getShortFieldIfLong(Exceptions,40) as Exceptionsstring,(select realname from admin where id=451 and communityId=444) AS created_by from DTRecord_cfd where communityId='$COMMUNITYID' and BirthDate=(case '$KEYWORD1' when '当前日' then convert(nvarchar(10),getdate(),120) else '$KEYWORD1' end) AND Exceptions IS  NOT NULL and  Exceptions!='' ]]></table>
+	   <table tableName="DTRecord_cfd" attList="" rowName="" fields="dattime"><![CDATA[select  (case '$KEYWORD1' when '当前日' then convert(nvarchar(10),getdate(),120) else '$KEYWORD1' end) as dattime]]></table>
+	</viewTableRecordTemplate>
+	<!--打钻异常情况台账 2015/09/29-->
+
+		<!--重点工程台账 2015/10/8-->
+	<viewTableRecordTemplate tid="DTTaizhang_emphasis_zdgctz" downFileTitle="重点工程台账表" singleness="skins\Default\comm\DTTaizhang_emphasis\DTTaizhang_emphasis_list.html"> 
+      <table tableName="DTParam_workPlaceInfo" attList="" rowName="" fields="jobcut_namea"><![CDATA[select jobcut_name as jobcut_namea from DTParam_workPlace where id='$KEYWORD2' and communityId = '$COMMUNITYID']]></table>
+
+	  <table tableName="" attList="" rowName="row_select" fields="valueid,jobcut_name"><![CDATA[select id as valueid,jobcut_name from DTParam_workPlace  where communityId = '$COMMUNITYID' and isJobCut = 0]]></table>
+	  <table tableName="DTParam_workPlaceInfo" attList="" rowName="" fields="id,Specifications,NetSection,length"><![CDATA[select id,Specifications,NetSection,length from DTParam_workPlaceInfo where tree_id='$KEYWORD2' and communityId = '$COMMUNITYID']]></table>
+	  <table tableName="DTTaizhang_emphasis" attList="" rowName="row" fields="BirthDate,ActualFootage,yj,sy,scqk"><![CDATA[exec porc_DTTaizhang_emphasis '$KEYWORD1' ,'$KEYWORD2', '$COMMUNITYID']]></table>
+	  <table tableName="PageContion" attList="" rowName="" fields="time,jobcut"><![CDATA[select (case '$KEYWORD1' when '当前月' then replace(convert(nvarchar(7),GETDATE(),120),'-','年')+'月' else '$KEYWORD1' end) as time,'$KEYWORD2' as jobcut]]></table>
+	</viewTableRecordTemplate>
+	<!--重点工程台账 2015/10/8-->
+
+		<!--月度生产计划完成情况 2015/10/12-->
+	<viewTableRecordTemplate tid="DTTaizhang_planFact"  downFileTitle="月度生产计划完成情况表"
+	singleness="skins\Default\comm\DTTaizhang_planFact\DTTaizhang_planFact_list.html"> 
+	  <table tableName="DTTaizhang_emphasis" attList="" rowName="row" fields="dmonth,MJBmtcl,JJBjjzjcl,KJBktjc,MJLmtcl,JJLjjzjc,KJLktjc,JSBaf,KSBaf,MSBdp,JSLaf,KSLaf,MSLdp"><![CDATA[exec DTTaizhang_planFact '$KEYWORD1' , '$COMMUNITYID']]></table>
+	  <table tableName="" attList="" rowName="" fields="dattime"><![CDATA[select (case '$KEYWORD1' when '当前月' then replace(convert(nvarchar(7),GETDATE(),120),'-','年')+'月' else '$KEYWORD1' end) as dattime]]></table>
+    	</viewTableRecordTemplate>
+	<!--月度生产计划完成情况 2015/10/8-->
+
+
+	<!--基本档案2015/10/08-->
+	<viewTableRecordTemplate tid="DTBank_dispatcher_resume" singleness="skins\Default\comm\DTBank_dispatcher\DTBank_dispatcher_resume.html">
+	  <table tableName="DTBank_dispatcher" attList="" rowName=""  fields="name,cid">
+	  <![CDATA[select name,cid from DTBank_dispatcher where id='$RECORDID']]></table>
+	  <table tableName="" attList="" rowName="row" fields="id,Startdate,Enddate,Workunit,Postoffice,Witnes"><![CDATA[ select id,Startdate,Enddate,Workunit,Postoffice,Witnes from DTBank_dispatcher_resume where dispid='$RECORDID' ]]></table>
+	</viewTableRecordTemplate>
+	<!--基本档案2015/10/08-->
+
+	
+	<!--应急处置卡2015/10/18-->
+	<viewTableRecordTemplate tid="DTWorry_bank_main_sub" singleness="skins\Default\comm\DTWorry_bank\DTWorry_bank_view.html">
+	  <table tableName="DTWorry_bank_main" attList="" rowName=""  fields="id,Bigtitle,Smalltitle">
+	  <![CDATA[select id,Bigtitle,Smalltitle from DTWorry_bank_main where id='$RECORDID']]></table>
+	
+
+	  <table tableName="DTWorry_bank_sub" attList="" rowName="row" fields="id,sub_id,Dispatch,Step,StepContent"><![CDATA[ select id,id as sub_id,Dispatch,Step,StepContent from DTWorry_bank_sub where main_id='$RECORDID' ]]></table>
+
+	</viewTableRecordTemplate>
+	<!--应急处置卡2015/10/08-->
+
+	
+	<!--应急记录——查看详情2015/10/18-->
+	<viewTableRecordTemplate tid="DTWorry_bank_record_main" singleness="skins/Default/comm/DTWorry_bank_record/DTWorry_bank_record_view.html">
+	  <table tableName="DTWorry_bank_record" attList="" rowName=""  fields="id,Bigtitle,Smalltitle,Currentstep">
+	  <![CDATA[select id,Bigtitle,Smalltitle,Currentstep from DTWorry_bank_record ]]></table>
+
+	  <table tableName="DTWorry_bank_record_step" attList="" rowName="row" fields="id,sub_id,Dispatch,Step,StepContent,Replycontent"><![CDATA[ select id,id as sub_id,Dispatch,Step,StepContent,Replycontent from DTWorry_bank_record_step where record_id='$RECORDID' ]]></table>
+	
+	</viewTableRecordTemplate>
+	<!--应急记录——查看详情2015/10/08-->
+
+
+	<!--应急记录——启动2015/10/18-->
+	<viewTableRecordTemplate tid="DTWorry_bank_record_qidong" singleness="skins/Default/comm/DTWorry_bank_record/DTWorry_bank_record_view1.html">
+	  <table tableName="DTWorry_bank_record_main" attList="" rowName=""  fields="id,Bigtitle,Smalltitle,Currentstep">
+	  <![CDATA[select id,Bigtitle,Smalltitle,Currentstep from DTWorry_bank_record_main ]]></table>
+
+	  <table tableName="DTWorry_bank_record_sub" attList="" rowName="row" fields="id,main_id,Step,StepContent,Dispatch,Sending"><![CDATA[ select id,main_id,Step,StepContent,Dispatch,Sending from DTWorry_bank_record_sub where main_id='$RECORDID' ]]></table>
+	
+	</viewTableRecordTemplate>
+	<!--应急记录——启动2015/10/08-->
+
+		<!--应急记录——回执信息2015/10/18-->
+	<viewTableRecordTemplate tid="DTWorry_bank_record_huizhi" singleness="skins/Default/comm/DTWorry_bank_record/DTWorry_bank_record_view2.html">
+	  <table tableName="DTWorry_bank_record" attList="" rowName=""  fields="id,Bigtitle,Smalltitle,Currentstep">
+	  <![CDATA[select id,Bigtitle,Smalltitle,Currentstep from DTWorry_bank_record ]]></table>
+
+	  <table tableName="DTWorry_bank_record_sub_step" attList="" rowName="row" fields="id,sub_id,Dispatch,Step,StepContent,Replycontent,Operation"><![CDATA[ select id,id as sub_id,Dispatch,Step,StepContent,Replycontent,Operation from DTWorry_bank_record_sub_step where record_id='$RECORDID' and Typename='不显示' and Step='$KEYWORD1']]></table>
+	
+	</viewTableRecordTemplate>
+	<!--应急记录——回执信息2015/10/08-->
+
+
+
+
+	
+</viewTableRecordTemplates>

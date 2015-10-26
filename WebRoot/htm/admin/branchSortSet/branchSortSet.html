@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+<title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]</title>
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+
+<script type="text/javascript" src="js/changeto.js"></script>
+
+
+<SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajaxGetOptions.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajaxMod.js" type="text/javascript"></SCRIPT>
+
+</head>
+
+
+<SCRIPT type=text/javascript> 
+	$(document).ready(function(){
+		//setEmptyCheck("branch_name:bType");
+		//setCombineUnique("branch_name:cid");
+
+		//默认选中第一个
+		$("select[id=selectLeft] option[index='0']").attr("selected",true);
+		//setBType_sub($("select[id=selectLeft]").val());
+	});
+
+	
+	function saveLeft(){
+		var selectLeftVal="";
+		for(var i=0;i<selectLeft.options.length;i++){
+			selectLeftVal=selectLeftVal+selectLeft.options[i].value+",";
+		}
+		selectLeftVal=selectLeftVal.substring(0,selectLeftVal.length-1);
+		//alert(selectLeftVal);
+
+		ajax_pro_updateRecords(291,selectLeftVal);
+	}
+	
+
+	
+</SCRIPT>
+
+
+<body>
+<form name="form1" action="/generictableservlet?action=saveAddRecord&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+<input type="hidden" name="formFlag" value="2">
+
+<input type="hidden" name="listUrl" value="{listUrl}">
+<input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+
+ <div class="path"> <img src="images/index/path_ico.gif" />{$TABLEKEYWORD1} &gt; {$TABLEKEYWORD2} </div>	
+    <div class="a_box">
+        <table border="0" cellspacing="0" cellpadding="0" class="view_table">
+          <tr>
+			<td class="t_r" width="50%"> <div><b>职务排序</b></div>
+                             <select id="selectLeft" style="width:150px" size="27">                                 
+								{row}
+									<option value="{id}">{business_name}</option>
+								{row}                             
+                             </select>
+			</td>
+			<td class="t_l b_cf">
+							 <input value=" 顶部 " type="button" id="moveTop_left" /><br />
+							 &nbsp;<br>
+                             <input value=" 上移 " type="button" id="moveUp_left"><br />
+							 &nbsp;<br>
+                             <input value=" 下移 " type="button" id="moveDown_left"><br />
+							 &nbsp;<br>
+                             <input value=" 底部 " type="button" id="moveBottom_left" /><br />
+							 &nbsp;<br>
+			</td>
+
+		
+			
+		  </tr>
+			
+		   <tr>                  
+			<td colspan="2" align="center">
+				<input type="button" name="save" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="saveLeft();" value="保 存">
+				&nbsp;&nbsp;&nbsp;
+				<input type="button" name="back" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="javascript:window.close();return false;"
+				value="关 闭">
+			</td>
+			
+		   </tr>
+		
+    </table>
+  </div>
+</form>
+</body>
+</html>
+<script type="text/javascript"> 
+ 
+var selectLeft = document.getElementById("selectLeft");
+ 
+var moveTop_left = document.getElementById("moveTop_left");
+var moveUp_left = document.getElementById("moveUp_left");
+var moveDown_left = document.getElementById("moveDown_left");
+var moveBottom_left = document.getElementById("moveBottom_left");
+ 
+ 
+
+ 
+ 
+//这个函数检验传入的值是否在有边出现过！
+function hasOption(selectObj,str){
+    for(var i=0;i<selectObj.options.length;i++){
+        if(selectObj.options[i].value==str){
+        return false;
+        }
+    }
+    return true;
+}
+ 
+function mTop_left(){   
+ 
+    var i = selectLeft.options.selectedIndex;
+    if(i > 0){   
+        Temp_Text=selectLeft.options[i].text;   
+        Temp_ID=selectLeft.options[i].value;   
+        for(j=i;j>0;j--){   
+            selectLeft.options[j].text=selectLeft.options[j-1].text;   
+            selectLeft.options[j].value=selectLeft.options[j-1].value;   
+        }   
+        selectLeft.options[0].value=Temp_ID;   
+        selectLeft.options[0].text=Temp_Text;       
+        selectLeft.selectedIndex=0;   
+    }   
+}   
+    
+function mUp_left(){   
+    var i = selectLeft.options.selectedIndex;   
+    var j = i-1   
+    if(i>0){   
+        Temp_Text = selectLeft.options[j].text;   
+        Temp_ID = selectLeft.options[j].value;   
+    
+        selectLeft.options[j].text = selectLeft.options[i].text;   
+        selectLeft.options[j].value = selectLeft.options[i].value;   
+    
+        selectLeft.options[i].text = Temp_Text;   
+        selectLeft.options[i].value = Temp_ID;   
+    
+        selectLeft.selectedIndex=j;   
+    }   
+}   
+    
+function mDown_left(){   
+    var i = selectLeft.options.selectedIndex;
+    if (i != selectLeft.length-1){   
+        var j = i+1;   
+        if(i < selectLeft.length){   
+            Temp_Text = selectLeft.options[j].text;   
+            Temp_ID = selectLeft.options[j].value;   
+    
+            selectLeft.options[j].text = selectLeft.options[i].text;   
+            selectLeft.options[j].value = selectLeft.options[i].value;   
+    
+            selectLeft.options[i].text = Temp_Text;   
+            selectLeft.options[i].value = Temp_ID;   
+    
+            selectLeft.selectedIndex=j;   
+        }   
+    }   
+	
+}   
+    
+function mBottom_left(){   
+    var i = selectLeft.selectedIndex;   
+    var j = selectLeft.length-1   
+    if(i < j){   
+        Temp_Text = selectLeft.options[i].text;   
+        Temp_ID = selectLeft.options[i].value;   
+        for(var k=i+1;k<=j;k++){   
+            selectLeft.options[k-1].text=selectLeft.options[k].text;   
+            selectLeft.options[k-1].value=selectLeft.options[k].value;   
+        }   
+    
+        selectLeft.options[j].text=Temp_Text;   
+        selectLeft.options[j].value=Temp_ID;   
+    
+        selectLeft.selectedIndex=j;   
+    }   
+}   
+ 
+ 
+ 
+ 
+function rm_left(){   
+    var i = selectLeft.selectedIndex; 
+	var curValue=selectLeft.options[i].value
+	if(curValue.indexOf("new")==-1){
+		var isExists=getInfoBySqlNo_noHidden(188,curValue+'|1');
+		if(isExists=='true'){
+			alert("该类别下有关联部门，请先删除部门");
+			return;
+		}
+	}
+
+	if(selectLeft.options.length>1 && i>=0)
+	$(selectLeft.options[i]).remove();
+	if(i==0)
+		$(selectLeft.options[i]).attr("selected",true);
+	else
+		$(selectLeft.options[i-1]).attr("selected",true);
+}   
+ 
+moveTop_left.onclick = mTop_left;
+moveUp_left.onclick = mUp_left;
+moveDown_left.onclick = mDown_left;
+moveBottom_left.onclick = mBottom_left;
+ 
+     
+//alert(document.getElementById("selectright").options.length);
+</script>

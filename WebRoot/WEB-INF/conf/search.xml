@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="GB2312"?>
+<tables> 
+ 
+    <!--  参数设置    2014/1/1  -->
+   <table tableName = "FIELD_OPTION" viewTemplateId="" attList = "" searchPage="" listHtml = "skins/Default/param/FIELD_OPTION/FIELD_OPTION_searchlist.html">
+	<recordList 
+	sqlClos="id,orderId,VALUE,NAME,FIELD,TABLE_NAME,updatable,description" sqlTables="FIELD_OPTION" pageSize="20" IKey="id" OKey="table_name asc,field asc,orderId" OType="asc" ><![CDATA[select count(id) from FIELD_OPTION]]></recordList>
+   </table>
+
+      <!--  参数设置    2014/1/1  -->
+   <table tableName = "FIELD_OPTION_up" viewTemplateId="" attList = "" searchPage="" listHtml = "skins/Default/param/FIELD_OPTION/FIELD_OPTION_searchlist_up.html">
+	<recordList 
+	sqlClos="id,orderId,VALUE,NAME,FIELD,TABLE_NAME,updatable,description,communityId" sqlTables="FIELD_OPTION" pageSize="20" IKey="id" OKey="table_name asc,field asc,orderId" OType="asc" ><![CDATA[select count(id) from FIELD_OPTION]]></recordList>
+   </table>
+
+   	<!--  文件管理  2014/2/26  -->
+   <table tableName = "DTFile_manage" viewTemplateId="" attList = "realFileName" searchPage="" listHtml = "skins/Default/comm/DTFile_manage/DTFile_manage_searchList.html">
+	<recordList fields="id,isupload,fileTypeId,fileName,realFileName,remark,date_created,converted" sqlClos="id,isupload,fileTypeId,fileName,realFileName,remark,convert(nvarchar(16),date_created,120) as date_created,converted" sqlTables="DTFile_manage" pageSize="10" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTFile_manage ]]></recordList>
+  </table>
+
+  	<!--  文件管理 查看 2014/2/26  -->
+   <table tableName = "DTFile_manage_searchList_view" viewTemplateId="" attList = "realFileName" searchPage="" listHtml = "skins/Default/comm/DTFile_manage/DTFile_manage_searchList_view.html">
+	<recordList fields="id,fileTypeId,fileName,realFileName,filePathName,remark,date_created,converted" sqlClos="id,fileTypeId,fileName,realFileName,SUBSTRING(filePath,6,LEN(filePath)) as filePathName,remark,convert(nvarchar(16),date_created,120) as date_created,converted" sqlTables="DTFile_manage" pageSize="10" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTFile_manage ]]></recordList>
+  </table>
+
+    	<!--  文件管理 查看 2014/2/26  -->
+   <table tableName = "DTBank_material_file_searchList" viewTemplateId="" attList = "realFileName" searchPage="" listHtml = "skins\Default\comm\DTBank_material\DTBank_material_file_searchList.html">
+	<recordList fields="id,fileName,remark,name,editTime,date_created,realFileName" sqlClos="id,fileName,remark,name,editTime,date_created,realFileName" sqlTables="DTBank_material_file" pageSize="10" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTBank_material_file ]]></recordList>
+  </table>
+
+
+
+
+
+</tables>
+
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!--
+说明：
+1、chartName图表名称；
+2、chartType生成的图表类型：pie、line、column、radar、bar；
+3、dataType生成的数据文件类型：xml、txt、csv；viewHtml显示页面
+4、viewHtml生成图片调用的页面
+5、fields页面参数，用“|”分隔
+6、sql生成图片所执行的sql语句
+7、series生成图片的横轴参数所对应的sql数据列，pie图此项不设置
+8、categories生成图片的个体所对应的sql数据列
+9、value生成图片的竖轴参数所对应的sql数据列
+10、defaultValue中，当field中的参数为null或没有值时，系统默认执行CDATA中的语句获取默认值
+-->
+<charts>
+
+
+</charts>

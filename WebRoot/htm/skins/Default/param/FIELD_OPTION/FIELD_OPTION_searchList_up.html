@@ -1,0 +1,54 @@
+
+				<!--start-->
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"   id="actor_table">
+    <thead>
+      <tr>
+		  <th width="3%">序号</th>
+		
+          <th width="29%">参数值</th>
+            
+          <th width="18%">基本操作 </th>
+        </tr>
+	</thead>
+	 <tbody>
+	{row}
+  	<TR>
+			<td style="display:none">{id}
+			<input name="searchList_communityId{sNo}" type="hidden" value="{communityId}">
+			</td>
+			<td style="text-align:center">{sNo}</td>
+		
+			<td style="text-align:center">{VALUE}&nbsp;</td>
+
+			<td style="text-align:center" id="operate_tdId{sNo}"><img src="images/zTree/treeEdit.gif" width="16" height="16" /><a href="#" onClick="doPostBack('{recordId}','{VALUE}')">编辑</a>&nbsp; &nbsp;<img src="images/zTree/treeDel.gif" width="16" height="16" /><a href="#" onClick="singleDelRecord('1','{recordId}')">删除</a></td>
+        </tr>
+		{row}
+     </tbody>	
+	</table>
+	<table width="98%"><tr>{page}</table>
+	 <tr>
+         <td>		
+		 <center >
+                <table style="border:1px solid #d4d4d4;"  cellspacing="0" cellpadding="0" align="center" width="400px" >
+                      <tr >
+                        <th align="center" style="width: 100px;">
+                            参数值
+                        </th>
+                        <td align="left">
+                            <input name="VALUE" type="text" class="input_txt" id="S_value"  style="width:160px;" />
+							<input name="NAME" type="hidden" class="input_txt"   style="width:160px;" />
+                        </td>
+                    </tr>
+                   
+                    <tr >
+                        <td align="center" colspan="4">                       
+						 <input type="button"  value="添加保存" class="btn"  onclick="getaction(0);" />
+						   <input type="button"  value="修改保存" class="btn" onclick="getaction(1);" />
+						 <span id="cancelSpanId"><input type="button" value="重置" class="btn" onclick="reset()"/></span>
+                        </td>
+                    </tr>
+                </table></center >
+            </td>
+        </tr>
+
+			<!-- end -->

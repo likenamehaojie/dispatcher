@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="GB2312"?>
+
+<tableKeyWords>
+	<tableKeyWord name="$index_ql"><![CDATA[首页|快捷方式]]></tableKeyWord>
+	<tableKeyWord name="$1"><![CDATA[1|2|3]]></tableKeyWord>
+	<tableKeyWord name="$2"><![CDATA[4|5|6]]></tableKeyWord>
+
+	<tableKeyWord name="$19"><![CDATA[双基建设|公共文件区|空]]></tableKeyWord>
+	<tableKeyWord name="$20"><![CDATA[双基建设|内部文件区]]></tableKeyWord>
+	<tableKeyWord name="$23"><![CDATA[系统设置|操作日志]]></tableKeyWord>
+	<tableKeyWord name="$24"><![CDATA[系统设置|部门设置]]></tableKeyWord>
+	<tableKeyWord name="$25"><![CDATA[系统设置|角色设置]]></tableKeyWord>
+	<tableKeyWord name="$26"><![CDATA[系统设置|用户管理]]></tableKeyWord>
+
+	<tableKeyWord name="$32"><![CDATA[参数设置|基本参数设置]]></tableKeyWord>
+	<tableKeyWord name="$34"><![CDATA[基本参数设置|参数设置]]></tableKeyWord>
+
+
+	<tableKeyWord name="$1_redmindTool"><![CDATA[系统小工具|定时提醒]]></tableKeyWord>
+	<tableKeyWord name="$1_smsTool"><![CDATA[系统小工具|短信]]></tableKeyWord>
+	<tableKeyWord name="$1_note"><![CDATA[双基考核|日常考核]]></tableKeyWord>
+	<tableKeyWord name="$1_pending"><![CDATA[待办提示|所有待办]]></tableKeyWord>
+ 	<tableKeyWord name="$437"><![CDATA[参数设置|基础参数设置]]></tableKeyWord>
+	<tableKeyWord name="$438"><![CDATA[参数设置|煤质计算公式]]></tableKeyWord>
+	<tableKeyWord name="$83"><![CDATA[公告管理|公告管理]]></tableKeyWord>
+	<tableKeyWord name="$332"><![CDATA[公告管理|公告查看]]></tableKeyWord>
+	<tableKeyWord name="$429"><![CDATA[调度档案管理|专题汇报材料]]></tableKeyWord>
+	<tableKeyWord name="$436"><![CDATA[生产汇报|工作面维护]]></tableKeyWord>
+	<tableKeyWord name="$412"><![CDATA[生产汇报|采掘工作面接续情况]]></tableKeyWord>
+	<tableKeyWord name="$413"><![CDATA[生产汇报|初未次放顶预报]]></tableKeyWord>
+	<tableKeyWord name="$414"><![CDATA[生产汇报|巷道贯通预报]]></tableKeyWord>
+	<tableKeyWord name="$415"><![CDATA[生产汇报|地质断层预报]]></tableKeyWord>
+	<tableKeyWord name="$416"><![CDATA[生产汇报|贯通过巷]]></tableKeyWord>
+	<tableKeyWord name="$417"><![CDATA[生产汇报|探放水]]></tableKeyWord>
+
+
+    
+</tableKeyWords>

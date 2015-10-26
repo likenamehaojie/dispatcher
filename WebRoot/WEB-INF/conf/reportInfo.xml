@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!-- 
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!readmeBefore!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+1,tid 唯一标识
+2,templatePath 表示该报表渲染的模板 该模板存在于/WEB-IFNO/templates/下
+3,isDynamic 表示是否动态生成 如果为true则表示repoertId为动态生成，程序结束后删除该reportId想关的树表信息
+5,headerName 指定报表名称的渲染位置 
+6,connect 指定了<beroreSql>与<section>的关联关系
+7,sectionName 指定了该数据在模板中的填冲位置
+8,megreCols指定了该主体需要合并的列以逗号隔开
+9,backgroundColor指定生成主表的背景颜色
+10,id 指定生成该table表的id 方便导入css文件以自定义样式
+11,style 指定该表每一列的样式可以填入任何已经存在的样式
+12,fillPostion 指定该表渲染的位置
+13,<mainInfo>指定了额外的数据生成约定 如果数据集为单条数据集可以不指定maininfo的name属性 如果为多条数据则必须指定其name属性
+   约定取值为 查询列的字段 的小写 如 m.yearAndMonth 则在模板中用${yearandmonth}取值 ，如果有指定别名 如 m.yearAndMonth as alis_name 则模板中用${alis_name}取值
+   如果是多条数据 则数据渲染为
+   <#list mainInfo标签的name属性值  .  字段名同上
+   如
+   <#list main1 as valiable>
+   	${valiable.yearandmonth}
+   
+   </#list>
+-->
+
+<reportInfos>
+
+<!--安全费用计划汇总表二  wkk 2015/08/13-->
+  <reportInfo tid = "FOUR_SAVETY_MONEY_YEAR_TWO_gs" filedList="title1,title2,year,cName,commId" templatePath="FOUR_SAVETY_MONEY_YEAR_TWO_list_gs.html" >
+		       
+		  <mainInfo name="main1" ><![CDATA[select '$title1' as title1,'$title2' as title2,(case '$year' when '当前年' then replace(convert(nvarchar(5),getdate(),120),'-','年') else '$year' end) as year,'$cName' as cName,'$commId' as commId]]></mainInfo>
+		   <!-- 获取该报表的报表ID -->             
+    	  <beforeSql connect="1" isDynamic="true"><![CDATA[ exec  proc_FOUR_beforeSql '$commId']]></beforeSql>
+		   <!-- 该报表的主体信息 -->
+	      <section headerName = "header1" sectionName="htmlStr" connect = "1" megreCols="" backgroundColor="" id="id='test' border='0' cellspacing='0' cellpadding='0' class='table_list' style='text-align:center'" style="" fillPostion="htmlStr" exportName="安全费用汇总表"><![CDATA[exec proc_FOUR_SAVETY_MONEY_YEAR_TWO_gs '$year','$COMMUNITYID']]></section>
+		
+	         
+  </reportInfo>
+  
+  
+  
+  
+  
+    <!--城效煤矿调度日报表-->
+  <reportInfo tid = "dispatcher_day_report_chengjiao" filedList="dayInMonth" templatePath="dayReport/chengjiao/day_report.html" >
+		       
+		  <mainInfo name="main1" ><![CDATA[select (case '$dayInMonth' when '当天' then convert(nvarchar(10),getdate(),120) else '$dayInMonth' end) as dayInMonth]]></mainInfo>
+		   <!-- 获取该报表的报表ID -->             
+    	  <beforeSql connect="1" isDynamic="false"><![CDATA[ select 685]]></beforeSql>
+		   <!-- 该报表的主体信息 -->
+	      <section headerName = "header1" sectionName="htmlStr" connect = "1" megreCols="" backgroundColor="" id="id='test' border='0' cellspacing='0' cellpadding='0' class='table_list' style='text-align:center'" style="" fillPostion="htmlStr" exportName="城郊煤矿调度日报表1 "><![CDATA[exec [dbo].[proc_chengjiao_day_report_STATISTICS] '$dayInMonth' ,'$COMMUNITYID' ]]></section>
+		 
+		   <!-- 获取该报表的报表ID -->             
+    	  <beforeSql connect="2" isDynamic="false"><![CDATA[ select 852]]></beforeSql>
+		   <!-- 该报表的主体信息 -->
+	      <section headerName = "header1" sectionName="htmlStr" connect = "2" megreCols="" backgroundColor="" id="id='test' border='0' cellspacing='0' cellpadding='0' class='table_list' style='text-align:center'" style="" fillPostion="htmlStr" exportName="城郊煤矿调度日报表1 "><![CDATA[exec [dbo].[proc_chengjiao_juejin_day_report_STATISTICS] '$dayInMonth' ,'$COMMUNITYID' ]]></section>
+		 
+		  
+	         
+  </reportInfo>
+  
+  
+    
+    <!--城效煤矿调度日报表-->
+  <reportInfo tid = "dispatcher_day_report_chengjiao_self" filedList="dayInMonth" templatePath="dayReport/chengjiao/day_report.html" >
+		       
+		  <mainInfo name="main1" ><![CDATA[select (case '$dayInMonth' when '当天' then convert(nvarchar(10),getdate(),120) else '$dayInMonth' end) as dayInMonth]]></mainInfo>
+		   <!-- 获取该报表的报表ID -->             
+    	  <beforeSql connect="1" isDynamic="false"><![CDATA[ select 872]]></beforeSql>
+		   <!-- 该报表的主体信息 -->
+	      <section headerName = "header1" sectionName="htmlStr" connect = "1" megreCols="0,1" refColmun='0' backgroundColor="" id="id='test' border='0' cellspacing='0' cellpadding='0' class='table_list' style='text-align:center'" style="" fillPostion="htmlStr" exportName="城郊煤矿调度日报表1 "><![CDATA[exec [dbo].[proc_chengjiao_self_day_report_STATISTICS] '$dayInMonth' ,'$COMMUNITYID' ]]></section>
+		 
+	
+		  
+	         
+  </reportInfo>
+  
+  
+  
+  
+  
+  
+  
+  <!--调度日报表-->
+  <reportInfo tid = "dispatcher_day_report" filedList="title1,title2,cName,commId,dayInMonth" templatePath="dayReport/FOUR_SAVETY_MONEY_YEAR_TWO_list_gs.html" >
+		       
+		  <mainInfo name="main1" ><![CDATA[select '$title1' as title1,'$title2' as title2,(case '$dayInMonth' when '当天' then convert(nvarchar(10),getdate(),120) else '$dayInMonth' end) as dayInMonth,'$cName' as cName,'$commId' as COMMUNITYID]]></mainInfo>
+		   <!-- 获取该报表的报表ID -->             
+    	  <beforeSql connect="1" isDynamic="false"><![CDATA[ select 4]]></beforeSql>
+		   <!-- 该报表的主体信息 -->
+	      <section headerName = "header1" sectionName="htmlStr" connect = "1" megreCols="15" backgroundColor="" id="id='test' border='0' cellspacing='0' cellpadding='0' class='table_list' style='text-align:center'" style="" fillPostion="htmlStr" exportName="车集煤矿调度日报表 "><![CDATA[proc_day_report_statistics '$dayInMonth','$commId']]></section>
+		 
+		   <beforeSql connect="2" isDynamic="false"><![CDATA[ select 5]]></beforeSql>
+
+		   <section headerName = "header1" isIncludeReportName = "false" sectionName="htmlStr2" connect = "2" megreCols="0,7" refColmun='0' megrePointLose = "1" backgroundColor="" id="id='test' border='0' cellspacing='0' cellpadding='0' class='table_list' style='text-align:center'" style="" fillPostion="htmlStr" exportName="车集煤矿调度日报表 "><![CDATA[proc_day_plan_statistics '$dayInMonth','$COMMUNITYID']]></section>
+		      <beforeSql connect="3" isDynamic="false"><![CDATA[ select 902]]></beforeSql>
+           <section headerName = "header1" isGenerateReportHeader="false" isIncludeReportName = "false" isExportHeader = "false"  sectionName="htmlStr2" connect = "3" megreCols="0" refColmun='' megrePointLose = "" backgroundColor="" id="id='test' border='0' cellspacing='0' cellpadding='0' class='table_list' style='text-align:center'" style="" fillPostion="htmlStr" exportName="车集煤矿调度日报表 "><![CDATA[proc_day_report_section1_statistics '$dayInMonth','$COMMUNITYID']]></section>
+		
+		                                                                 
+	       <beforeSql connect="4" isDynamic="false"><![CDATA[ select 901]]></beforeSql>
+           <section headerName = "header1" isGenerateReportHeader="false" isIncludeReportName = "false" isExportHeader = "false"  sectionName="htmlStr2" connect = "4" megreCols="" refColmun='' megrePointLose = "" backgroundColor="" id="id='test' border='0' cellspacing='0' cellpadding='0' class='table_list' style='text-align:center'" style="" fillPostion="htmlStr" exportName="车集煤矿调度日报表 "><![CDATA[proc_day_report_section_statistics '$dayInMonth','$COMMUNITYID']]></section>
+		  
+	         
+	          
+  </reportInfo>
+  
+  
+  
+  
+  <!-- 矿领导值带班表  zy 2015/10/9-->
+  <reportInfo tid = "RI_DTDuty_kld_zd" filedList="yearAndMonth,commName,commId" templatePath="RI_DTDuty_kld_zd.html" >
+	  <mainInfo name="main" ><![CDATA[select (case '$yearAndMonth' when '当前年月' then replace(CONVERT(nvarchar(7),GETDATE(),120),'-','年')+'月' else '$yearAndMonth' end)  as yearAndMonth,'$commName' as commName,'$commId' as commId]]></mainInfo>
+	   <!-- 获取该报表的报表ID -->             
+	  <beforeSql connect="1" isDynamic="true"><![CDATA[exec [proc_DTDuty_kld_title] '$yearAndMonth']]></beforeSql>
+	   <!-- 该报表的主体信息 -->
+	  <section headerName = "header1" sectionName="htmlStr" connect = "1" megreCols="" backgroundColor="" id="id='test' border='0' cellspacing='0' cellpadding='0' class='table_list' style='text-align:center'" style="" fillPostion="htmlStr" exportName="矿领导值、带班表"><![CDATA[exec [proc_DTDuty_kld_data] '$yearAndMonth','$COMMUNITYID']]></section> 
+  </reportInfo>
+  
+  
+  
+    <!--全月生产情况报表-->
+  <reportInfo tid = "all_month_procedure_report" filedList="dayInMonth,cName" templatePath="procedureReport/ALL_MONTH_PROCEDURE_REPORT.html" >
+		       
+		  <mainInfo name="main1" ><![CDATA[select (case '$dayInMonth' when '当前月' then cast(year(GETDATE()) as nvarchar(4))+'年'+cast(MONTH(getdate()) as nvarchar(2))+'月' else '$dayInMonth' end) as dayInMonth,'$cName' as cName,'$commId' as commId]]></mainInfo>
+		   <!-- 获取该报表的报表ID -->             
+    	  <beforeSql connect="1" isDynamic="false"><![CDATA[ select 153]]></beforeSql>
+		   <!-- 该报表的主体信息 -->
+	      <section headerName = "header1" sectionName="htmlStr" connect = "1" megreCols="" backgroundColor="" id="id='test' border='0' cellspacing='0' cellpadding='0' class='table_list' style='text-align:center'" style="" fillPostion="htmlStr" exportName="全月生产情况 "><![CDATA[ exec proc_all_Recordcommon_statistics '$dayInMonth','$COMMUNITYID'   ]]></section>
+		 
+	
+  </reportInfo>
+  
+      <!--采煤工作面报表-->
+  <reportInfo tid = "procedure_workplace_report" filedList="dayInMonth,cName" templatePath="procedureReport/ALL_MONTH_PROCEDURE_REPORT.html" >
+		       
+		    <mainInfo name="main1" ><![CDATA[select (case '$dayInMonth' when '当前天' then cast(year(GETDATE()) as nvarchar(4))+'年'+cast(MONTH(getdate()) as nvarchar(2))+'月' else '$dayInMonth' end) as dayInMonth,'$cName' as cName,'$commId' as commId]]></mainInfo>
+		   <!-- 获取该报表的报表ID -->             
+    	  <beforeSql connect="1" isDynamic="true"><![CDATA[proc_GENERATE_CMD_REPORT_HEADER '$dayInMonth','$COMMUNITYID' ]]></beforeSql>
+		   <!-- 该报表的主体信息 -->
+	      <section headerName = "header1" sectionName="htmlStr" connect = "1" megreCols="" backgroundColor="" id="id='test' border='0' cellspacing='0' cellpadding='0' class='table_list' style='text-align:center'" style="" fillPostion="htmlStr" exportName="采煤工作面生产情况 "><![CDATA[ proc_PROCEDURE_CMD_RANGE_IN_WORKPLACE_STATISTICS '$dayInMonth','$COMMUNITYID'  ]]></section>
+		 
+	
+  </reportInfo>
+  
+        <!--掘进工作面报表-->
+  <reportInfo tid = "jjd_workplace_report" filedList="dayInMonth,cName" templatePath="procedureReport/ALL_MONTH_PROCEDURE_REPORT.html" >
+		       
+		  <mainInfo name="main1" ><![CDATA[select (case '$dayInMonth' when '当前月' then cast(year(GETDATE()) as nvarchar(4))+'年'+cast(MONTH(getdate()) as nvarchar(2))+'月' else '$dayInMonth' end) as dayInMonth,'$cName' as cName,'$commId' as commId]]></mainInfo>
+		   <!-- 获取该报表的报表ID -->             
+    	  <beforeSql connect="1" isDynamic="true"><![CDATA[proc_GENERATE_jjd_REPORT_HEADER '$dayInMonth','$COMMUNITYID' ]]></beforeSql>
+		   <!-- 该报表的主体信息 -->
+	      <section headerName = "header1" sectionName="htmlStr" connect = "1" megreCols="" backgroundColor="" id="id='test' border='0' cellspacing='0' cellpadding='0' class='table_list' style='text-align:center'" style="" fillPostion="htmlStr" exportName="掘进工作面情况 "><![CDATA[proc_PROCEDURE_jjd_RANGE_IN_WORKPLACE_STATISTICS '$dayInMonth','$COMMUNITYID' ]]></section>
+		 
+	
+  </reportInfo>
+        <!--副井提升情况报表-->
+  <reportInfo tid = "ysd_fujing_report" filedList="dayInMonth,cName" templatePath="procedureReport/ALL_MONTH_PROCEDURE_REPORT.html" >
+		       
+		 <mainInfo name="main1" ><![CDATA[select (case '$dayInMonth' when '当前月' then cast(year(GETDATE()) as nvarchar(4))+'年'+cast(MONTH(getdate()) as nvarchar(2))+'月' else '$dayInMonth' end) as dayInMonth,'$cName' as cName,'$commId' as commId]]></mainInfo>
+		   <!-- 获取该报表的报表ID -->             
+    	  <beforeSql connect="1" isDynamic="true"><![CDATA[proc_GENERATE_fujing_ysd_REPORT_HEADER '$dayInMonth','$COMMUNITYID']]></beforeSql>
+		   <!-- 该报表的主体信息 -->
+	      <section headerName = "header1" sectionName="htmlStr" connect = "1" megreCols="" backgroundColor="" id="id='test' border='0' cellspacing='0' cellpadding='0' class='table_list' style='text-align:center'" style="" fillPostion="htmlStr" exportName="副井提升情况 "><![CDATA[proc_fujingtishengqingkuang_STATISTICS '$dayInMonth','$COMMUNITYID' ]]></section>
+		 
+	
+  </reportInfo>
+        <!--探防队进尺情况报表-->
+  <reportInfo tid = "dch_report" filedList="dayInMonth,cName" templatePath="procedureReport/ALL_MONTH_PROCEDURE_REPORT.html" >
+		       
+		  <mainInfo name="main1" ><![CDATA[select (case '$dayInMonth' when '当前月' then cast(year(GETDATE()) as nvarchar(4))+'年'+cast(MONTH(getdate()) as nvarchar(2))+'月' else '$dayInMonth' end) as dayInMonth,'$cName' as cName,'$commId' as commId]]></mainInfo>
+		   <!-- 获取该报表的报表ID -->             
+    	  <beforeSql connect="1" isDynamic="true"><![CDATA[proc_GENERATE_dch_REPORT_HEADER '$dayInMonth','$COMMUNITYID']]></beforeSql>
+		   <!-- 该报表的主体信息 -->
+	      <section headerName = "header1" sectionName="htmlStr" connect = "1" megreCols="" backgroundColor="" id="id='test' border='0' cellspacing='0' cellpadding='0' class='table_list' style='text-align:center'" style="" fillPostion="htmlStr" exportName="探防队进尺情况 "><![CDATA[proc_PROCEDURE_dch_RANGE_IN_WORKPLACE_STATISTICS '$dayInMonth','$COMMUNITYID'  ]]></section>
+		 
+	
+  </reportInfo>
+  
+        <!--抽放队进尺情况报表-->
+  <reportInfo tid = "cfd_report" filedList="dayInMonth,cName" templatePath="procedureReport/ALL_MONTH_PROCEDURE_REPORT.html" >
+		       
+		 <mainInfo name="main1" ><![CDATA[select (case '$dayInMonth' when '当前月' then cast(year(GETDATE()) as nvarchar(4))+'年'+cast(MONTH(getdate()) as nvarchar(2))+'月' else '$dayInMonth' end) as dayInMonth,'$cName' as cName,'$commId' as commId]]></mainInfo>
+		   <!-- 获取该报表的报表ID -->             
+    	  <beforeSql connect="1" isDynamic="false"><![CDATA[select 343]]></beforeSql>
+		   <!-- 该报表的主体信息 -->
+	      <section headerName = "header1" sectionName="htmlStr" connect = "1" megreCols="" backgroundColor="" id="id='test' border='0' cellspacing='0' cellpadding='0' class='table_list' style='text-align:center'" style="" fillPostion="htmlStr" exportName="抽放队进尺情况 "><![CDATA[proc_PROCEDURE_cfd_RANGE_IN_month_STATISTICS '$dayInMonth','$COMMUNITYID' ]]></section>
+		 
+	
+  </reportInfo>
+        <!--巷修进尺情况报表-->
+  <reportInfo tid = "ktd_report" filedList="dayInMonth,cName" templatePath="procedureReport/ALL_MONTH_PROCEDURE_REPORT.html" >
+		       
+		  <mainInfo name="main1" ><![CDATA[select (case '$dayInMonth' when '当前月' then cast(year(GETDATE()) as nvarchar(4))+'年'+cast(MONTH(getdate()) as nvarchar(2))+'月' else '$dayInMonth' end) as dayInMonth,'$cName' as cName,'$commId' as commId]]></mainInfo>
+		   <!-- 获取该报表的报表ID -->             
+    	  <beforeSql connect="1" isDynamic="true"><![CDATA[proc_GENERATE_ktd_REPORT_HEADER '$dayInMonth','$COMMUNITYID'   ]]></beforeSql>
+		   <!-- 该报表的主体信息 -->
+	      <section headerName = "header1" sectionName="htmlStr" connect = "1" megreCols="" backgroundColor="" id="id='test' border='0' cellspacing='0' cellpadding='0' class='table_list' style='text-align:center'" style="" fillPostion="htmlStr" exportName="巷修进尺情况 "><![CDATA[proc_PROCEDURE_ktd_RANGE_IN_WORKPLACE_STATISTICS '$dayInMonth','$COMMUNITYID']]></section>
+		 
+	
+  </reportInfo>
+        <!--2015年车集煤矿产量、进尺完成情况报表-->
+  <reportInfo tid = "all_report" filedList="dayInMonth,cName" templatePath="procedureReport/ALL_MONTH_PROCEDURE_REPORT.html" >
+		       
+		    <mainInfo name="main1" ><![CDATA[select (case '$dayInMonth' when '当前月' then cast(year(GETDATE()) as nvarchar(4))+'年'+cast(MONTH(getdate()) as nvarchar(2))+'月' else '$dayInMonth' end) as dayInMonth,'$cName' as cName,'$commId' as commId]]></mainInfo>
+		   <!-- 获取该报表的报表ID -->             
+    	  <beforeSql connect="1" isDynamic="false"><![CDATA[select 383  ]]></beforeSql>
+		   <!-- 该报表的主体信息 -->
+	      <section headerName = "header1" sectionName="htmlStr" connect = "1" megreCols="" backgroundColor="" isConvertColToRow = "true" isUseDataBaseMegreRule = "true" id="id='test' border='0' cellspacing='0' cellpadding='0' class='table_list' style='text-align:center'" style="" fillPostion="htmlStr" exportName="全月生产情况 "><![CDATA[proc_PROCEDURE_month_sum_STATISTICS '$dayInMonth','$COMMUNITYID']]></section>
+		 
+		   <beforeSql connect="2" isDynamic="false"><![CDATA[select 383  ]]></beforeSql>
+		   <!-- 该报表的主体信息 -->
+	      <section headerName = "header1" sectionName="htmlStr" connect = "2" megreCols="0" backgroundColor="" isConvertColToRow = "true" isUseDataBaseMegreRule = "false" isGenerateReportHeader="false" id="id='test' border='0' cellspacing='0' cellpadding='0' class='table_list' style='text-align:center'" style="" fillPostion="htmlStr" exportName="全月生产情况 "><![CDATA[proc_PROCEDURE_otherspec_month_sum_STATISTICS  '$dayInMonth','$COMMUNITYID']]></section>
+		   
+	
+	
+  </reportInfo>
+  
+  
+
+  
+  
+  
+  
+  
+  
+</reportInfos>

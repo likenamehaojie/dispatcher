@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="GB2312"?>
+
+<wfList>
+<!-- 2015/04/10  伤亡事故月报 -->
+ <table tableName = "DTBank_meeting_task" isMulCt="" viewTemplateId="DTBank_meeting_task" attList = "" listHtml = "skins/Default/comm/DTBank_meeting_task/DTBank_meeting_task_list.html">
+	<recordList fields="id,Meetingid,Leader,ArrangeWork,ResponsibilityId,ResponsibilityName,step,next_step,wf_status,Leader_str" sqlClos="id,Meetingid,Leader,ArrangeWork,ResponsibilityId,ResponsibilityName,step,next_step,wf_status,dbo.f_field_option_Leader(Leader) as Leader_str" sqlTables="DTBank_meeting_task" pageSize="10" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTBank_meeting_task ]]></recordList>
+	<stepList>
+	  <step number="2" title="启动" firstStatus="待发送" nextStatus="已发送" updateFields="stepThreeName,stepThreeId,content,ITNO,ResponsibilityId" attList=""  htmUrl="skins/Default/comm/DTBank_meeting_task/DTBank_meeting_task_step2.html"><!-- 此步骤通过存储过程实现 -->
+		<todoList todoNum="3" cantodo="select id from DTBank_meeting_task where id='$RECORDID' and next_step='2' and step='-1'">
+	      <todo id="1"><![CDATA[insert into wf_DTBank_meeting_task(record_id,step,content,realName,processStatus,created_by,create_time,workGroupId,workGroupName,communityId,communityName) values('$RECORDID','2','$content','$REALNAME','$REALNAME启动流程','$USERID',getdate(),'$WORKGROUPID','$WORKGROUP','$COMMUNITYID','$COMMUNITYNAME')]]></todo>
+		  
+		  <todo id="2"><![CDATA[UPDATE DTBank_meeting_task SET wf_status='$REALNAME启动流程',next_step='3',step='2' where id='$RECORDID']]></todo>
+		  
+		  <todo id="3"><![CDATA[exec proc_DTBank_meeting_task '$RECORDID','$USERID','$REALNAME','$SHORTNAME','$ResponsibilityId']]></todo>
+		</todoList>
+	  </step>
+	  <step number="3" title="发送" firstStatus="处理中" nextStatus="已处理" updateFields="next_role,ispass,content,created_by,realName,ITNO,realName,communityName" attList="" htmUrl="skins/Default/comm/DTBank_meeting_task/DTBank_meeting_task_step3.html">
+		<todoList todoNum="2" cantodo="exec proc_wf_cantodo '$COMMUNITYID','$SHORTNAME','$WORKGROUPID','$ROLEID','$USERID','$RECORDID','DTBank_meeting_task'">
+		 <todo id="1"><![CDATA[insert into wf_DTBank_meeting_task(record_id,step,content,realName,processStatus,created_by,create_time,workGroupId,workGroupName,communityId,communityName) values('$RECORDID','3','$content','$REALNAME','$REALNAME处理结束','$USERID',getdate(),'$WORKGROUPID','$WORKGROUP','$COMMUNITYID','$COMMUNITYNAME')]]></todo>
+		<todo id="2"><![CDATA[exec porc_UPDATE '$realName','$RECORDID','$COMMUNITYID','$USERID','$REALNAME','$created_by','$WORKGROUPID']]></todo>    
+		</todoList>
+	  </step>
+
+	   <step number="4" title="流程审批中或流程结束" firstStatus="处理中" nextStatus="已发送" updateFields="next_role,ispass,content,created_by,created_name,ITNO,realName,communityName,CompanyId,CompanyName" attList="" htmUrl="skins/Default/comm/DTBank_meeting_task/DTBank_meeting_task_step4.html">
+		<todoList todoNum="7" cantodo="exec proc_wf_cantodo '$COMMUNITYID','$SHORTNAME','$WORKGROUPID','$ROLEID','$USERID','$RECORDID','DTBank_meeting_task'">
+	      <todo id="1" todoCondition="ispass|审核"><![CDATA[insert into wf_DTBank_meeting_task(record_id,step,content,realName,processStatus,created_by,create_time,workGroupId,workGroupName,communityId,communityName) values('$RECORDID','4',case '$content' when '' then '审批流转' else '$content' end,'$REALNAME','$REALNAME处理结束','$USERID',getdate(),'$WORKGROUPID','$WORKGROUP','$COMMUNITYID','$COMMUNITYNAME')]]></todo>
+		  
+		  <todo id="2" todoCondition="ispass|审核"><![CDATA[UPDATE DTBank_meeting_task SET wf_status='$REALNAME处理结束,$CompanyName处理中',next_step='3',step='4',CompanyId='$CompanyId', CompanyName='$CompanyName' where id='$RECORDID']]></todo>
+
+		  <todo id="3" todoCondition="ispass|审核"><![CDATA[delete from wf_pendingrequest_$COMMUNITYID where table_name='DTBank_meeting_task' and record_id='$RECORDID' and ((user_type = 'USER' and next_user='$USERID')or(user_type = 'BRANCH' and next_user='$WORKGROUPID'))]]></todo>
+			
+		 <todo id="4" todoCondition="ispass|审核"><![CDATA[exec proc_DTBank_meeting_task '$RECORDID','$USERID','$REALNAME','$SHORTNAME','$CompanyId']]></todo>
+		
+		 <todo id="5" todoCondition="ispass|发布"><![CDATA[insert into wf_DTBank_meeting_task(record_id,step,content,realName,processStatus,created_by,create_time,workGroupId,workGroupName,communityId,communityName) values('$RECORDID','end','$content','$REALNAME','结束流程','$USERID',getdate(),'$WORKGROUPID','$WORKGROUP','$COMMUNITYID','$COMMUNITYNAME')]]></todo>
+		  
+		  <todo id="6" todoCondition="ispass|发布"><![CDATA[UPDATE DTBank_meeting_task SET wf_status='流程结束',next_step='END',step='END' where id='$RECORDID']]></todo>
+		 
+		  <todo id="7" todoCondition="ispass|发布"><![CDATA[delete from wf_pendingrequest_$COMMUNITYID where table_name='DTBank_meeting_task' and record_id='$RECORDID' and ((user_type = 'USER' and next_user='$USERID')or(user_type = 'BRANCH' and next_user='$WORKGROUPID'))]]></todo>
+
+		</todoList>
+	  </step>
+
+	  </stepList>
+
+  </table>
+
+
+
+</wfList>

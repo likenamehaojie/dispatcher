@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /> 
+    <title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]</title>
+
+    <link rel="stylesheet" type="text/css" href="newFrame/Styles/formui.css" /><link rel="stylesheet" type="text/css" href="newFrame/Styles/base.css"/>
+    <link rel="stylesheet" type="text/css" href="newFrame/Styles/admin-all.css" />
+	<link rel="stylesheet" type="text/css" href="css/index.css" />
+    <script type="text/javascript" src="newFrame/Scripts/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="newFrame/Scripts/jquery-ui-1.8.22.custom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="newFrame/Styles/ui-lightness/jquery-ui-1.8.22.custom.css" /> 
+
+	<LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="js/changeto.js"></script>
+	<SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
+	<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+	<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+	<script src="/js/My97DatePicker/WdatePicker.js"></script>
+	<script src="/js/ajaxSearchInfo.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+	<script src="/js/checkout.js"></script>
+	<script src="/js/checkout_subTable.js"></script>
+
+<SCRIPT type=text/javascript> 
+	$(document).ready(function(){
+		setEmptyCheck("Title:content");
+ 		//setCombineUnique("workname");
+	});
+function setTop(){
+	if(document.all("isTop").checked=="true"){
+		document.all("isTop").value="0";
+	}
+	if(document.all("isTop").checked=="false"){
+		document.all("isTop").value="1";
+	}
+}
+
+function delFile(filename,i){
+	document.getElementById("msg"+i).innerHTML="";
+	document.getElementById("del"+i).innerHTML="";
+	document.all("realFileName"+i).value="";
+	var newFileName=filename.replace("News/","");
+	document.all("realFileName").value=document.all("realFileName").value.replace(newFileName+"a6#2b","");
+	
+	deleteNewsFile(filename);	
+}
+function callbackDel(isDel){
+	showHide();
+}
+
+function getURL(){
+	   
+	   var fileone = document.getElementById("fileone").value;  
+	   if(fileone == null || fileone == "")  
+	   {  
+			alert("请选择需要上传的文件");  
+			return;  
+	   }
+	  
+	   else  
+	   {  
+		
+	        myform.upload.value="正在上传文件，请稍候……";
+			
+			myform.upload.disabled="false";
+			
+		    document.myform.submit();
+	   }  
+}
+
+function callbackError(msg){
+	alert(msg);
+	myform.upload.value="开始上传";
+	myform.upload.disabled="";
+}
+
+function callback(msg,del,renameFile)   
+{  
+	for(var i=1;i<=200;i++)
+	{ 
+		if(document.getElementById("msg"+i)){
+			if(document.getElementById("msg"+i).innerHTML!=""){
+				continue;
+			}
+		}else{
+			if(document.getElementById("msg"+i) && document.getElementById("msg"+i).innerHTML==""){
+				break;
+			}else{
+				document.getElementById("showTip").innerHTML=document.getElementById("showTip").innerHTML+ "<div id=\"showline"+i+"\" class=\"attBox\" style=\"display:none\"><span id=\"msg"+i+"\"></span>&nbsp;&nbsp;&nbsp;<span id=\"del"+i+"\"></span><input name=\"realFileName"+i+"\" type=\"hidden\" class=\"ipt\"/></div>";
+				break;
+			}
+		}
+	}
+
+	for(var i=1;i<=200;i++)
+	{
+		if(document.getElementById("msg"+i) && document.getElementById("msg"+i).innerHTML==""){
+			document.getElementById("msg"+i).innerHTML = "<font color=red>"+msg+"</font>"; 
+			document.all("realFileName"+i).value=renameFile;
+			document.getElementById("del"+i).innerHTML="<a href=\"javascript:delFile('News\/"+renameFile+"',"+i+")\"><font color=red>"+del+"</font></a>";
+
+			document.all("realFileName").value=document.all("realFileName").value.replace(renameFile+"a6#2b","");
+			document.all("realFileName").value=document.all("realFileName").value+renameFile+"a6#2b";
+			
+			break;
+		}
+	}
+		
+     showHide();
+	 myform.upload.value="开始上传";
+	 myform.upload.disabled="";
+}   
+function showHide(){
+	for(var i=1;i<=200;i++){
+		if(document.getElementById("msg"+i)){
+			if(document.getElementById("msg"+i).innerHTML!="")
+			{
+				document.getElementById("showline"+i).style.display="block";
+			}else{
+				document.getElementById("showline"+i).style.display="none";
+			}
+		}else{
+			break;
+		}
+	}
+}
+	function reValidate(){
+	document.all("content").value=KE.html('editor_id');
+		if(validate()){	
+			document.myform.encoding="application/x-www-form-urlencoded"; 
+			document.myform.action="/generictableservlet?action=saveAddRecord&tableName=News&CDNO=$2&ITNO=35";
+			document.myform.target="";
+			return true;
+		}else{
+			return false;
+		}
+	}
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+</SCRIPT>
+</head>
+<body>
+<form name="form1" action="/generictableservlet?action=saveEditRecord&tableName={tableName}&listUrl={listUrl}&recordId={recordId}&CDNO={CDNO}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}" method="post" enctype="multipart/form-data">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+
+<input type="hidden" name="listUrl" value="{listUrl}">
+<input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+<input type="hidden" name="viewScope" value="全矿查看">
+
+<input type="hidden" name="listUrl" value="{listUrl}">
+<input type="hidden" name="isTextarea" value="">
+<input type="hidden" name="publishtime" value="{publishtime}">
+
+
+ <div class="path"> <img src="images/index/path_ico.gif" />{$TABLEKEYWORD1} &gt;{$TABLEKEYWORD2} &gt; 修改页面</div>
+  <div class="s_box">
+    <table border="0" cellspacing="0" cellpadding="0" class="add_table">
+            <tr>
+                <td class="t_r">标题</td>
+                <td class="t_l b_cf"><input type="text" name="Title"  tip="[ 标题 ]不能为空" value="{Title}"  size="20" check="2" class="input_txt"/>&nbsp;*</td>
+                <td class="t_r">附件1</td>
+                <td class="t_l b_cf"><input type="file" name="fildone"  size="30" class="input_txt"></td>
+                <td class="t_r">附件2</td>
+                <td class="t_l b_cf"><input type="file" name="fildtwo" size="30" class="input_txt"></td>
+			</tr>
+            <tr>
+                <td class="t_r">专业类型</td>
+                <td class="t_l b_cf"><select name="NEWS_TYPE" class="input_txt" >{NEWS_TYPE}</select></td>
+                <td class="t_r">是否置顶显示：</td>
+                <td class="t_l b_cf" colspan="3">&nbsp;{isTop}</td>
+			</tr>
+            <tr>
+                <td class="t_r">公告内容：</td>
+					<TD class="t_l b_cf" colspan="5"><textarea class="textarea_txt"  id="content"  tip="[ 公告内容 ]不能为空" name="content" value="{content}" cols="120" rows="10" check="2">{content}</textarea>*</TD>
+
+                </td>
+            </tr>
+	
+<tr>
+	<td colspan="6" align="center">
+			<input type="submit" name="save" class="btn" value="保 存">
+				&nbsp;&nbsp;&nbsp;
+				<input type="button" name="back" class="btn" onClick="javascript:history.back();return false;"
+				value="返 回">
+			</td>
+		</tr>
+	</table>
+   
+</form>
+</body>
+</html>

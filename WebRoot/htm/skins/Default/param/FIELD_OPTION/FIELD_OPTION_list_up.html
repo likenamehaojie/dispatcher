@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" /> 
+<title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<link rel="stylesheet" href="css/zTree/FIELD_OPTION_demo.css" type="text/css">
+<link rel="stylesheet" href="css/zTree/zTreeStyle/zTreeStyle.css" type="text/css">
+
+<script language="JavaScript" src="js/zTree/jquery-1.4.2.js"></script>
+
+<script src="/js/ajaxGetOptions.js"></script>
+<script src="/js/ajaxSearchInfo.js"></script>
+<script src="/js/search.js"></script>
+
+<script src="/js/ajaxMod.js"></script>
+
+
+<script src="/js/getOneObject.js"></script>
+<script src="/js/loadingInfo.js"></script>
+
+</head>
+
+<script type="text/javascript" src="js/zTree/jquery.ztree.core-3.5.js"></script>
+<script type="text/javascript" src="js/zTree/jquery.ztree.excheck-3.5.js"></script>
+<script type="text/javascript" src="js/zTree/jquery.ztree.exedit-3.5.js"></script>
+<SCRIPT type="text/javascript">
+ 
+    var setting = {
+      data: {
+        simpleData: {
+          enable: true
+        }
+      },
+      callback: {
+        onClick: zTreeOnClick
+      }
+    };
+
+    
+    var zNodes=eval('['+getInfoBySqlNo_noHidden(371,'{$TABLEKEYWORD1}')+']');
+    
+
+    var log, className = "dark";
+    
+    function selectAll() {
+      var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+      zTree.setting.edit.editNameSelectAll =  $("#selectAll").attr("checked");
+    }
+    function zTreeOnClick(event, treeId, treeNode) {
+      if(treeNode.id==0){
+		return;
+       // document.all("description_sub").value='';
+      }else{
+        document.all("description_sub").value=treeNode.name;
+		document.all("$TABLEKEYWORD").value="{$TABLEKEYWORD1}|{$TABLEKEYWORD2}|"+document.all("description_sub").value;
+		
+      }
+      
+     
+      searchList();
+      //alert(treeNode.id + ", " + treeNode.name);
+    };
+    $(document).ready(function(){
+      $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+      $("#selectAll").bind("click", selectAll);
+
+		var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+
+		var node = treeObj.getNodeByParam("id", "1");
+		if('{$TABLEKEYWORD3}'.indexOf('$TABLEKEYWORD3')==-1){
+			node = treeObj.getNodeByParam("name", '{$TABLEKEYWORD3}');
+		}
+		treeObj.selectNode(node,false);
+		document.all("description_sub").value=treeObj.getSelectedNodes()[0].name;
+
+		var description_sub=document.all("description_sub").value;
+		
+		document.all("$TABLEKEYWORD").value="{$TABLEKEYWORD1}|{$TABLEKEYWORD2}|"+description_sub;
+	
+		//alert(treeObj.getSelectedNodes()[0].name);
+
+		 searchList();
+
+	});
+
+
+
+    function searchList(){
+      var condition="communityId in(1,'{$COMMUNITYID}')";
+      var description_sub=document.getElementsByName("description_sub")[0].value;
+
+      if(description_sub!=""){
+        condition=condition+" and description='{$TABLEKEYWORD1}' and description_sub like '@mohu"+description_sub+"@mohu'";
+      }
+    //  alert(condition);
+		searchInfo_noExcel('$BO_up','FIELD_OPTION_up',condition,'description_sub asc,field asc,orderId','asc','{ITNO}');
+
+		
+	  	$(".table_list tbody tr:even").addClass("even");
+		$(".table_list tbody tr:odd").addClass("odd");
+		
+		$(".table_list tbody tr").mouseover(function(){
+			$(this).addClass("table_hover_bg");
+		});
+		
+		$(".table_list tbody tr").mouseout(function(){
+			$(this).removeClass("table_hover_bg");
+		}); 
+		$("input[name^=searchList_communityId]").each(function(index){
+			if($(this).val()=='1'){
+				$("#operate_tdId"+(index+1)).html("&nbsp;");
+				
+			}
+		});
+		
+    }
+
+    
+    function setSequence(){
+		 var description_sub=document.all("description_sub").value;
+      window.open ('/generictableservlet?action=recordList&ITNO=1_FIELD_OPTION&$TABLEKEYWORD=基本参数设置|参数排序|{$TABLEKEYWORD1}|'+description_sub,'newwindow','height=600,width=850,top=50,left=150,toolbar=no,menubar=no,scrollbars=no, resizable=yes,location=no, status=no') 
+    }
+
+	function doPostBack(recordId,p1){
+		document.getElementsByName("recordId")[0].value=recordId;
+		document.getElementsByName("VALUE")[0].value=p1;
+
+    }
+	function getaction(v){
+		var val=document.getElementById("S_value").value;
+		if(val=='')return false;
+		if(v==0){
+			//document.form1.action="/generictableservlet?action=saveAddRecord";
+			 var VALUE=document.getElementsByName("VALUE")[0].value;
+			 var description_sub=document.getElementsByName("description_sub")[0].value;
+			 ajax_pro_bat(56,VALUE+"|{$TABLEKEYWORD1}|"+description_sub);
+			 window.location="/generictableservlet?action=recordList&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|"+description_sub;
+		}else if(v==1){
+			
+			var recordId=document.getElementsByName("recordId")[0].value;
+			document.getElementsByName("NAME")[0].value=document.getElementsByName("VALUE")[0].value;
+			if(recordId==''){
+				alert('请先选择记录');return false;
+			}
+			else{
+				
+				document.form1.action="/generictableservlet?action=saveEditRecord&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}&listUrl={listUrl}&recordId="+recordId;
+				document.form1.submit();
+			
+			}
+			
+		}
+		return true;
+	}
+  </SCRIPT>
+<body>
+<form name="form1" action="" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+<input type="hidden"  name="keyWords" value="{$TABLEKEYWORD}">
+<input type="hidden" name="curPage" value="{curPage}">
+<input type="hidden" name="recordId" value="">
+<input type="hidden"  name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+
+<input type="hidden" name="description" value="{$TABLEKEYWORD1}">
+<input type="hidden" name="description_sub" value="">
+
+<div class="path"> <img src="images/index/path_ico.gif" />{$TABLEKEYWORD1} &gt; {$TABLEKEYWORD2}</div>
+<!--
+  <table border="0" cellspacing="0" cellpadding="0"  width="100%">
+    <tr>
+      <td><div class="line_list">
+		 <li>  <input class="btn" id="find" type="button" onclick="setSequence()" value="参数排序" />&nbsp;&nbsp;</li>
+		
+		
+		 
+        </div></td>
+    </tr>
+  </table>
+  -->
+  <table border="0" cellspacing="0" cellpadding="0" width="100%">
+ 
+    <tbody><tr>
+        <td valign="top" width="19%">
+          <div class="zTreeDemoBackground left">
+            <ul id="treeDemo" class="ztree"></ul>
+           </div>
+       </td>
+        <td valign="top"  width="81%" id="aaa111" >
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</form>
+</body>
+</html>

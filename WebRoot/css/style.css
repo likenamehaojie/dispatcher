@@ -1,0 +1,727 @@
+.bor{
+BORDER-BOTTOM: #96978E 1px inset;BORDER-RIGHT: #96978E 1px inset;
+}
+a:link {
+	font-size: 12px;
+	line-height: 140%;
+	color: #000000;
+	text-decoration: none;
+}
+a:visited {
+	font-size: 12px;
+	line-height: 140%;
+	color: #000000;
+	text-decoration: none;
+}
+a:hover {
+	font-size: 12px;
+	line-height: 140%;
+	color: #790025;
+	text-decoration: none;
+}
+.s0 {
+ font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体"; font-size: 12px; color: #000000; font-weight: bold; font-style: normal;
+ background-color: #FFFFFF;
+ border-color:#000000; border-style: solid;
+ border-left-width: 1px;
+ border-right-width: 1px;
+ border-top-width: 1px;
+ border-bottom-width: 1px;
+ text-align: center; vertical-align: middle;
+}
+
+.s2 {
+ font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体"; font-size: 12px; color: #000000; font-weight: bold; font-style: normal;
+ background-color: #E2EAFC;
+ border-color:#000000; border-style: solid;
+ border-left-width: 0px;
+ border-right-width: 0px;
+ border-top-width: 0px;
+ border-bottom-width: 1px;
+ text-align: center; vertical-align: middle;
+}
+/*打印专用*/
+.s2P {
+ font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体"; font-size: 12px; color: #000000; font-weight: bold; font-style: normal;
+ background-color: #EFEFEF;
+ border-color:#000000; border-style: solid;
+ border-left-width: 0px;
+ border-right-width: 0px;
+ border-top-width: 0px;
+ border-bottom-width: 1px;
+ text-align: center; vertical-align: middle;
+}
+
+.s2F {
+ font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体"; font-size: 16px; color: #000000; font-weight: bold; font-style: normal;
+ background-color: #FFFFFF;
+ border-color:#000000; border-style: solid;
+ border-left-width: 0px;
+ border-right-width: 0px;
+ border-top-width: 0px;
+ border-bottom-width: 1px;
+ text-align: center; vertical-align: middle;
+}
+
+.s2PLT {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-style: normal;
+	background-color: #E8E8E8;
+	border-color:#000000;
+	border-style: solid;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 1px;
+	text-align: left;
+	vertical-align: top;
+	font-weight: normal;
+}
+/*打印专用*/
+.s2PLTP {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-style: normal;
+	background-color: #FFFFFF;
+	border-color:#000000;
+	border-style: solid;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 1px;
+	text-align: left;
+	vertical-align: top;
+	font-weight: normal;
+}
+.s2BRM {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	font-style: normal;
+	background-color: #E2EAFC;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 1px;
+	text-align: right;
+	vertical-align: middle;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #000000;
+	border-right-color: #E2EAFC;
+	border-bottom-color: #000000;
+	border-left-color: #000000;
+}
+
+.s2BRMP {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	font-style: normal;
+	background-color: #EFEFEF;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 1px;
+	text-align: right;
+	vertical-align: middle;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #000000;
+	border-right-color: #E2EAFC;
+	border-bottom-color: #000000;
+	border-left-color: #000000;
+}
+
+.s2BLT {
+ font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体"; font-size: 12px; color: #000000; font-weight: bold; font-style: normal;
+ background-color: #FFFFFF;
+ border-color:#000000; border-style: solid;
+ border-left-width: 0px;
+ border-right-width: 0px;
+ border-top-width: 0px;
+ border-bottom-width: 1px;
+ text-align: left; vertical-align: top;
+}
+
+.s4 {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体"; font-size: 12px; color: #000000; font-weight: bold; font-style: normal;
+	background-color: #E2EAFC;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	text-align: center;
+	vertical-align: middle;
+	border-left-width: 0px;
+}
+/*打印专用*/
+.s4P {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体"; font-size: 12px; color: #000000; font-weight: bold; font-style: normal;
+	background-color: #EFEFEF;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	text-align: center;
+	vertical-align: middle;
+	border-left-width: 0px;
+}
+
+.s4PLT {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体"; font-size: 12px; color: #000000; font-style: normal;
+	background-color: #E8E8E8;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	text-align: left;
+	vertical-align: top;
+	border-left-width: 0px;
+}
+
+.s4PLTP {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体"; font-size: 12px; color: #000000; font-style: normal;
+	background-color: #FFFFFF;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	text-align: left;
+	vertical-align: top;
+	border-left-width: 0px;
+}
+/*粗体，有右下边框，背景色为淡蓝，用于需要添加的字段信息*/
+.s7 {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	font-style: normal;
+	background-color: #E2EAFC;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	border-bottom-width: 1px;
+	text-align: center;
+	vertical-align: middle;
+	border-left-width: 0px;
+}
+/*打印专用，没有背景色*/
+.s7P {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	font-style: normal;
+	background-color: #EFEFEF;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	border-bottom-width: 1px;
+	text-align: center;
+	vertical-align: middle;
+	border-left-width: 0px;
+}
+
+/*正常字体，居左靠上，有右下边框，背景色为白色，用于需要加空格填充页面*/
+.s7PLTO {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #F9F9F9;
+	font-style: normal;
+	background-color: #E8E8E8;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	border-bottom-width: 1px;
+	text-align: left;
+	vertical-align: top;
+	border-left-width: 0px;
+	font-weight: normal;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #000000;
+	border-right-color: #000000;
+	border-bottom-color: #000000;
+	border-left-color: #E8E8E8;
+}
+.s7PLTOP {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #F9F9F9;
+	font-style: normal;
+	background-color: #FFFFFF;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	border-bottom-width: 1px;
+	text-align: left;
+	vertical-align: top;
+	border-left-width: 0px;
+	font-weight: normal;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #000000;
+	border-right-color: #000000;
+	border-bottom-color: #000000;
+	border-left-color: #E8E8E8;
+}
+
+/*正常字体，居左靠上，有右下边框，背景色为白色，用于需要添加的字段信息*/
+.s7PLT {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-style: normal;
+	background-color: #E8E8E8;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	border-bottom-width: 1px;
+	text-align: left;
+	vertical-align: top;
+	border-left-width: 0px;
+	font-weight: normal;
+}
+/*打印专业，无背景*/
+.s7PLTP {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-style: normal;
+	background-color: #FFFFFF;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	border-bottom-width: 1px;
+	text-align: left;
+	vertical-align: middle;
+	border-left-width: 0px;
+	font-weight: normal;
+}
+.s7BLT {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	font-style: normal;
+	background-color: #FFFFFF;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	border-bottom-width: 1px;
+	text-align: left;
+	vertical-align: top;
+	border-left-width: 0px;
+}
+/*打印页面用*/
+.s7BLMP {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	font-style: normal;
+	background-color: #EFEFEF;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	border-bottom-width: 1px;
+	text-align: left;
+	vertical-align: middle;
+	border-left-width: 0px;
+}
+/*粗体，居左，右下边框，添加用*/
+.s7BLM {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	font-style: normal;
+	background-color: #E2EAFC;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	border-bottom-width: 1px;
+	text-align: left;
+	vertical-align: middle;
+	border-left-width: 0px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #000000;
+	border-right-color: #000000;
+	border-bottom-color: #000000;
+	border-left-color: #000000;
+}
+/*粗体，左右下边框，背景淡蓝*/
+.s12 {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	font-style: normal;
+	background-color: #E2EAFC;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	border-bottom-width: 1px;
+	text-align: center;
+	vertical-align: middle;
+	border-left-width: 1px;
+}
+
+
+.s15 {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	font-style: normal;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	text-align: center;
+	vertical-align: middle;
+	border-left-width: 0px;
+	background-color: #E2EAFC;
+}
+
+.s15P {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	font-style: normal;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	text-align: center;
+	vertical-align: middle;
+	border-left-width: 0px;
+	background-color: #EFEFEF;
+}
+/*居右*/
+.s15R {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	font-style: normal;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	text-align: right;
+	vertical-align: right;
+	border-left-width: 0px;
+}
+.s15T {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	font-style: normal;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	text-align: right;
+	vertical-align: top;
+	border-left-width: 0px;
+	background-color: #E2EAFC;
+}
+
+.s15TP {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	font-style: normal;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	text-align: right;
+	vertical-align: top;
+	border-left-width: 0px;
+	background-color: #E2EAFC;
+}
+
+.s15B  {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	font-style: normal;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	text-align: right;
+	vertical-align: middle;
+	border-left-width: 0px;
+	background-image: url(../images/title-bottom.gif);
+	background:url(../images/title-bottom.gif);
+	background-position: bottom;
+}
+.s15N {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-weight: normal;
+	font-style: normal;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	text-align: center;
+	vertical-align: middle;
+	border-left-width: 0px;
+	background-color: #E8E8E8;
+}
+/*打印专用*/
+.s15NP {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 12px;
+	color: #000000;
+	font-weight: normal;
+	font-style: normal;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	text-align: center;
+	vertical-align: middle;
+	border-left-width: 0px;
+	background-color: #FFFFFF;
+}
+.s16 {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 24px;
+	color: #000000;
+	font-weight: bold;
+	font-style: normal;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	text-align: center;
+	vertical-align: middle;
+	border-left-width: 0px;
+}
+
+.s16F {
+	font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+	font-size: 24px;
+	color: #000000;
+	font-weight: bold;
+	font-style: normal;
+	border-color:#000000;
+	border-style: solid;
+	border-right-width: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	text-align: center;
+	vertical-align: middle;
+	border-left-width: 0px;
+	text-decoration: underline;
+}
+.box0 {
+	font-size: 12px;
+	line-height: 150%;
+	color: #000000;
+	width: 85%;
+	text-decoration: none;
+	background-color: #FFFFFF;
+}
+.box1 {
+	font-size: 12px;
+	line-height: 150%;
+	color: #000000;
+	width: 100%;
+	text-decoration: none;
+	background-color: #FFFFFF;
+}
+/*opt类型输入框*/
+.box2 {
+	font-size: 12px;
+	line-height: 150%;
+	color: #000000;
+	width: 100%;
+	text-decoration: none;
+	background-color: #FFFFFF;
+	text-align: center;
+	vertical-align: middle;
+}
+.box3 {
+	font-size: 12px;
+	line-height: 150%;
+	color: #000000;
+	width: 100%;
+	text-decoration: none;
+	background-color: #FFFFFF;
+	border: medium none #000000;
+
+}
+
+.box4 {
+	color: #000000;
+	background-color: #FFFFFF;
+
+}
+.submit_select {
+	font-size:12px;
+	color:#0000ff;
+	padding:1px;
+	border:1px solid #7C8BC4;
+	background-attachment: fixed;
+	background-image: url(../images/index_15.gif);
+	background:url(../images/index_15.gif);
+	background-repeat: repeat-x;
+	background-position: center center;
+	background-color: #EBEEF7;
+	height: 21px;
+	line-height: 130%;
+}
+.submit {
+	font-size:12px;
+	color:#0000ff;
+	padding:1px;
+	border:1px solid #7C8BC4;
+	background-attachment: fixed;
+	background-image: url(../images/index_15.gif);
+	background:url(../images/index_15.gif);
+	background-repeat: repeat-x;
+	background-position: center center;
+	background-color: #EBEEF7;
+	margin: 3px;
+	height: 21px;
+	line-height: 130%;
+}
+.submit1 {
+	font-size:12px;
+	color:#790025;
+	padding:1px;
+	border:1px solid #BB6532;
+	background-attachment: fixed;
+	background-image: url(../images/index_15.gif);
+	background:url(../images/index_15.gif);
+	background-repeat: repeat-x;
+	background-position: center center;
+	background-color: #EBEEF7;
+	margin: 3px;
+	height: 21px;
+	line-height: 130%;
+}
+.font1 {
+	color: #000000;
+	font-weight: normal;
+	font-size: 14px;
+}
+.font2 {
+	color: #000000;
+	font-weight: bold;
+	font-size: 12px;
+}
+.font3 {
+	color: red;
+	font-weight: normal;
+	font-size: 12px;
+	BORDER-BOTTOM: #000000 1px dashed;
+}
+.font4 {
+	font-size: 12px;
+	line-height: 140%;
+	color: #fff;
+	text-decoration: none;
+}
+TD {
+	FONT-SIZE: 11px; COLOR: #000000; FONT-FAMILY: Arial, sans-serif
+}
+SELECT {
+	FONT-SIZE: 9pt; font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";
+}
+.put{
+border:0;BORDER-BOTTOM: #97a4d0 1px inset;background:transparent;width:100%
+}
+.put_bottom{
+border:0;background:transparent;width:100%
+}
+span{ /*list 控制字符溢出*/
+overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+}
+.wrap{/*view 控制自动换行*/
+word-break:break-all;
+font-size: 12px;
+line-height: 150%;
+color: #000000;
+width: 100%;
+text-decoration: none;
+background-color: #FFFFFF;
+}
+
+#winpop { width:200px; height:0px; position:absolute; right:0; bottom:0; border:1px solid #999999; margin:0; padding:1px; overflow:hidden;display:none; background:#FFFFFF} 
+#winpop .title { width:100%; height:20px;  top:2px; line-height:20px; background:#FFCC00; font-weight:bold; text-align:center; font-size:12px;} 
+#winpop .con { width:100%; height:80px; line-height:80px; font-weight:bold; font-size:12px; color:#FF0000; text-decoration:underline; text-align:center} 
+#silu { font-size:13px; color:#999999; position:absolute; right:0;bottom:0px; text-align:right; text-decoration:underline; line-height:22px;} 
+.close { position:absolute; right:4px; top:2px; color:#000000; cursor:pointer} 
+
+.submit_solid{ /*表单显示下划线*/
+border-color: #000000; 
+border-style: solid; 
+border-top-width: 0px;
+border-right-width: 0px; 
+border-bottom-width: 1px;
+border-left-width: 0px
+}
+
+.soliding { /*表单显示下划线*/
+font-size: 12px;
+line-height: 150%;
+color: #000000;
+width: 100%;
+text-decoration: none;
+background-color: #FFFFFF;
+border-color: #000000; 
+border-style: solid; 
+border-top-width: 0px;
+border-right-width: 0px; 
+border-bottom-width: 1px;
+border-left-width: 0px
+}

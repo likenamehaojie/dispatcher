@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+<title>个人资料修改</title>
+ <link rel="stylesheet" type="text/css" href="css/index.css" />
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+  <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+
+<script type="text/javascript" src="js/changeto.js"></script>
+
+
+<SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+</head>
+
+
+
+<SCRIPT type=text/javascript> 
+	$(document).ready(function(){
+		setEmptyCheck("realname:admin_pwd:admin_pwdOK:commId:businessId:branch_realId:admrole_id");
+		//setCombineUnique("branch_name:cid");
+	});
+
+	function reValidate(){
+		var admin_pwd=document.all("admin_pwd").value;
+		var admin_pwdOK=document.all("admin_pwdOK").value;
+		if(admin_pwd!=admin_pwdOK){
+			alert("两次密码输入不一致，请重新输入");
+			return false;
+		}
+		return true;
+	}
+</SCRIPT>
+
+
+<body>
+<form name="form1" action="/generictableservlet?action=saveEditRecordPar&ITNO={ITNO}&recordId={recordId}" method="post">
+<input type="hidden"  name="tableName" value="{tableName}">	
+<input type="hidden"  name="id" value="{recordId}">	
+<input type="hidden" name="curPage" value="{curPage}">
+<input type="hidden" name="listUrl" value="{listUrl}">
+
+<input type="hidden" name="admin_name" value="{admin_name}"/>
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>查看</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; 登录人信息查看</div>
+  </div>
+    <div class="a_box">
+	   <table border="0" cellspacing="0" cellpadding="0" class="view_table">
+          <tr>
+			<td class="tad">用户名称：</td>
+			<td class="t_l b_cf">&nbsp;{admin_name}</td>
+			<td class="tad">真实姓名：</td>
+			<td class="t_l b_cf"><input name="realname" type="text" class="input_txt" value="{realname}" tip="真实姓名不能为空" check="2"/>&nbsp;*</td>
+		  </tr>
+		  <tr>
+			<td class="tad">密&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
+			<td class="t_l b_cf"><input name="admin_pwd" type="password" class="input_txt" value="{admin_pwd}" tip="密码不能为空" check="2"/>&nbsp;*</td>	
+			<td class="tad">确认密码：</td>
+			<td class="t_l b_cf"><input name="admin_pwdOK" type="password" class="input_txt" value="{admin_pwd}" tip="确认密码不能为空" check="2"/>&nbsp;*</td>
+		  </tr>
+		   <tr>
+			<td class="tad">联系电话：</td>
+			<td class="t_l b_cf"><input name="mobile" type="text" class="input_txt" value="{mobile}" /></td>	
+			<td class="tad">电子邮件：</td>
+			<td class="t_l b_cf"><input name="email" type="text" class="input_txt" value="{email}" /></td>
+		  </tr>
+		   <tr>
+			<td class="tad">家庭住址：</td>
+			<td class="t_l b_cf" colspan="3"><input name="address" type="text" class="input_txt" value="{address}" /></td>
+		  </tr>		  
+		   <tr>
+			<td class="tad">备注：</td>
+			<td class="t_l b_cf" colspan="3"><textarea name="about" rows="3"  class="textarea_txt" cols="80">{about}</textarea>
+			</td>
+		  </tr>
+		  <tr class="tad">                  
+			<td class="STYLE_submit" colspan="4" align="center"> 
+				<input type="submit" name="save" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="return reValidate()" value="保 存">
+				<input type="button" name="back" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="window.close()"
+				value="关 闭">
+			</td>
+	      </tr>
+	  </table>
+   </div>
+</form>
+</body>
+</html>
+</html>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!-- 
+1，reportFields,表示reportCreateHtml页面需要填写的字段
+2，sheetName为excel中sheet(表名)的名字；excelTemplate为报表模板 title为表头部分，reportFields为需要替换的参数 
+-->
+<reportTemplates>
+
+</reportTemplates>

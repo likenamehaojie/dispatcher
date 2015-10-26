@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+  <link rel="stylesheet" type="text/css" href="css/index_htrecordAdd.css" />
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+
+	<!--多选搜索 1 begin-->
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery-ui.css" />
+	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
+	<!--多选搜索 1 end-->
+
+	<!--日期控件 begin-->
+	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+	<!--日期控件 end-->
+	
+	<script src="/js/ajax/superValidator.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/map.js"></script>
+	<script src="/js/ajax/mainSub.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+
+	 <!--记忆搜索条件  第一步：引用cookie -->
+	<script src="/js/cookie.js"></script>
+
+	
+</head>
+
+
+<script>
+
+</script>
+
+  <form name="form1" action="" method="post">
+    <input type="hidden" name="tableName" value="{tableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+
+
+	<input type="hidden" name="OrderBy" value="{OrderBy}">	
+	<input type="hidden" name="OrderKey" value="{OrderKey}">
+
+
+	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+	
+
+	
+
+    <div class="path">
+      <img src="images/index/path_ico.gif" />
+      {$TABLEKEYWORD1} &gt;{$TABLEKEYWORD2} &gt; 列表页面
+    </div>
+
+
+
+	
+
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+      <tr>
+	    <th width="3%">序号</th>
+		<th>名称</th> 
+		<th>当前状态</th> 
+		<th>发送人</th> 
+	
+		<th>发送时间</th> 
+		<th>单位</th> 
+		
+      </tr>
+	  </thead>
+			
+	
+	  {row}
+          <TR>
+			<td align="center">{sNo}&nbsp;</td>
+			<td align="center"><a href="{deal_url}" target="_blank">{description} </a></td>
+			<td align="center">{wf_status}&nbsp;</td>	
+			<td align="center">{created_realName}&nbsp;</td>	
+			<td align="center">{create_time}&nbsp;</td>	
+			<td align="center">{next_user_community}&nbsp;</td>	
+			
+			
+	</tr>
+	 
+	{row}
+    
+	
+  </table>
+ <div class="path">
+  <table width="98%">
+    <tr align="center">
+	  
+      <td><input type="button" value="关 闭" class="btn" onclick="window.close()" /></td>
+	
+	</tr>
+  </table>
+</div>
+
+</form>
+</body>
+</html>

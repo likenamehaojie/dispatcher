@@ -1,0 +1,481 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+<title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]</title>
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+<LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+<link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+
+
+<script type="text/javascript" src="js/changeto.js"></script>
+
+<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+
+<SCRIPT src="/js/layer/jquery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajaxGetOptions.js" type="text/javascript"></SCRIPT>
+<script type="text/javascript" src="/js/baiduAutoComplete.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/ajaxMod.js"></script>
+
+
+<style>
+.left_td{text-align:left}
+.right_td{text-align:right}
+html { overflow-x: hidden; overflow-y: auto; }
+table tbody td{text-align:left}
+.td_center{text-align:center}
+
+</style>
+</head>
+
+
+<SCRIPT type=text/javascript> 
+
+	var typeNameOptStr='';
+	$(document).ready(function(){
+		
+		setRemindType("仅一次");
+
+		$("#actor_table tr td").dblclick(function(){
+			//
+			//var curTrObj=$(this).parent("tr");
+		//	dblTr(curTrObj);
+			
+		}); 
+
+
+		//提醒类别初始化
+		typeNameOptStr=getOnlyOPtionListBySqlNo_upId(322,'');
+		$("select[name=typeName]").append(typeNameOptStr);
+
+
+	}); 
+
+	function dblTr(curTrObj){
+		if($(curTrObj).next("tr").attr("id")=="editHtmlTrObj")$("#editHtmlTrObj").remove();
+		else{
+			$("#editHtmlTrObj").remove();
+			if($(curTrObj).attr("recordId")!=""){
+				$(curTrObj).after(dblEditHtml($(curTrObj).attr("typeName"),$(curTrObj).attr("title"),$(curTrObj).attr("content"),$(curTrObj).attr("remindType"),$(curTrObj).attr("remindDate"),$(curTrObj).attr("remindHour"),$(curTrObj).attr("remindDays"),$(curTrObj).attr("isReady"),$(curTrObj).attr("recordId")));
+				
+				$("select[name=edit_typeName]").val($(curTrObj).attr("typeName"));
+				$("select[name=edit_remindType]").val($(curTrObj).attr("remindType"));
+				edit_setRemindType($(curTrObj).attr("remindType"));
+				if($(curTrObj).attr("remindType")=="周提醒"){
+					$("input[name=edit_remindWeeks]").each(function(){
+						if((','+$(curTrObj).attr("remindDays")+',').indexOf(','+$(this).val()+',')>-1)$(this).attr("checked",true);
+					});
+				}else{
+					$("input[name=edit_remindMonths]").each(function(){
+						if((','+$(curTrObj).attr("remindDays")+',').indexOf(','+$(this).val()+',')>-1)$(this).attr("checked",true);
+					});
+				}
+				if($(curTrObj).attr("isReady")=="1")$("input[name=edit_ckbIsReady]").attr("checked",true);
+				else $("input[name=edit_ckbIsReady]").attr("checked",false);
+			}
+		}
+	}
+	function reSave(){
+		var title=$("input[name=title]").val();
+		var content=$("textarea[name=content]").val();
+		var remindType=$("select[name=remindType]").val();
+		var remindDate=$("input[name=remindDate]").val();
+		var remindHour=$("input[name=remindHour]").val();
+		var remindWeeks=$("input[name=remindWeeks]").val();
+		var remindMonths=$("input[name=remindMonths]").val();
+		if(title.length==0){
+			alert("请填写主题");
+			return false;
+		}
+		else if(content.length==0){
+			alert("请填写内容");
+			return false;
+		}
+
+		
+		var remindDays="";
+		if(remindType=="仅一次"){
+			if(remindDate.length==0){
+				alert("请填写提醒时间");
+				return false;
+			}	
+			$("input[name=remindHour]").val("");
+		}else{
+			if(remindHour.length==0){
+				alert("请填写提醒时间");
+				return false;
+			}
+			
+			if(remindType=="周提醒"){
+				if($("input[name=remindWeeks]:checked").length==0){
+					alert("请勾选周提醒");
+					return false;
+				}else{
+					$("input[name=remindWeeks]:checked").each(function(j){
+						remindDays=remindDays+$(this).val()+",";
+					});
+				}
+				
+			}else{
+				if($("input[name=remindMonths]:checked").length==0){
+					alert("请勾选月提醒");
+					return false;
+				}else{
+					$("input[name=remindMonths]:checked").each(function(j){
+						remindDays=remindDays+$(this).val()+",";
+					});
+				}
+			}
+			$("input[name=remindDate]").val("");
+		}
+		if(remindDays!="")remindDays=remindDays.substring(0,remindDays.length-1);
+
+		$("input[name=remindDays]").val(remindDays);
+		var isReady=$("input[name=ckbIsReady]:checked").val();
+		if(isReady!=1)isReady=0;
+		$("input[name=isReady]").val(isReady);
+		return true;
+	}
+	function reEditSave(){
+		var recordId=$("input[name=edit_recordId]").val();
+		var typeName=$("select[name=edit_typeName]").val();
+		var title=$("input[name=edit_title]").val();
+		var content=$("textarea[name=edit_content]").val();
+		var remindType=$("select[name=edit_remindType]").val();
+		var remindDate=$("input[name=edit_remindDate]").val();
+		var remindHour=$("input[name=edit_remindHour]").val();
+		var remindWeeks=$("input[name=edit_remindWeeks]").val();
+		var remindMonths=$("input[name=edit_remindMonths]").val();
+		if(title.length==0){
+			alert("请填写主题");
+			return false;
+		}
+		else if(content.length==0){
+			alert("请填写内容");
+			return false;
+		}
+
+		
+		var remindDays="";
+		if(remindType=="仅一次"){
+			if(remindDate.length==0){
+				alert("请填写提醒时间");
+				return false;
+			}	
+			remindHour="";
+		}else{
+			if(remindHour.length==0){
+				alert("请填写提醒时间");
+				return false;
+			}
+			
+			if(remindType=="周提醒"){
+				if($("input[name=edit_remindWeeks]:checked").length==0){
+					alert("请勾选周提醒");
+					return false;
+				}else{
+					$("input[name=edit_remindWeeks]:checked").each(function(j){
+						remindDays=remindDays+$(this).val()+",";
+					});
+				}
+			}else{
+				if($("input[name=edit_remindMonths]:checked").length==0){
+					alert("请勾选月提醒");
+					return false;
+				}else{
+					$("input[name=edit_remindMonths]:checked").each(function(j){
+						remindDays=remindDays+$(this).val()+",";
+					});
+				}
+			}
+			remindDate="";
+		}
+		if(remindDays!="")remindDays=remindDays.substring(0,remindDays.length-1);
+	
+
+		$("input[name=edit_remindDays]").val(remindDays);
+		var isReady=$("input[name=edit_ckbIsReady]:checked").val();
+		if(isReady!=1)isReady=0;
+		$("input[name=edit_isReady]").val(isReady);
+	
+		//alert(DTSJ_examIndex_id);
+		//exec proc_sys_BaseCom 'DTSJ_class_JF','61:edit;60:edit;62:edit;63:edit;','JF_money,remark,','2b62a3c62b2b62
+
+
+		ajax_pro_updateRecords(96,'DTTools_remind|'+recordId+':edit;|typeName,title,content,isReady,remindType,remindDays,remindDate,remindHour,|'+typeName+'b62a'+title+'b62a'+content+'b62a'+isReady+'b62a'+remindType+'b62a'+remindDays+'b62a'+remindDate+'b62a'+remindHour+'b62a|保存');
+		//return false;
+	}
+
+
+	function delRecord(recordId){
+		if(confirm("确认删除吗"))
+		ajax_pro_updateRecords(96,"DTTools_remind|"+ recordId+":del;|空|1|删除");
+		//document.form1.action="/generictableservlet?action=deleteRecord&RecordId="+recordId+"&delType="+type;
+		//document.form1.submit();
+	}
+
+
+
+	function setRemindType(val){
+		if(val=="仅一次"){
+			$("#remindDate_spanId").show();
+			$("#remindHour_spanId").hide();
+
+			$("#week_trId").hide();
+			$("#month_trId").hide();
+		}else{
+			if(val=="周提醒"){
+				$("#week_trId").show();
+				$("#month_trId").hide();
+			}else{
+				$("#week_trId").hide();
+				$("#month_trId").show();
+			}
+			$("#remindDate_spanId").hide();
+			$("#remindHour_spanId").show();
+		}
+	}
+	function edit_setRemindType(val){
+		if(val=="仅一次"){
+			$("#edit_weekMonth_trId").hide();
+			$("#edit_remindDate_spanId").show();
+			$("#edit_remindHour_spanId").hide();
+
+			$("#edit_week_trId").hide();
+			$("#edit_month_trId").hide();
+		}else{
+			$("#edit_weekMonth_trId").show();
+			if(val=="周提醒"){
+				$("#edit_week_trId").show();
+				$("#edit_month_trId").hide();
+			}else{
+				$("#edit_week_trId").hide();
+				$("#edit_month_trId").show();
+			}
+			$("#edit_remindDate_spanId").hide();
+			$("#edit_remindHour_spanId").show();
+		}
+	}
+
+
+	function dblEditHtml(typeName,title,content,remindType,remindDate,remindHour,remindDays,isReady,recordId){
+		var editHtml="";
+		editHtml=editHtml+'<tr id="editHtmlTrObj">';
+		editHtml=editHtml+'<td colspan="10">';
+		editHtml=editHtml+'<table border="0" cellspacing="0" cellpadding="0" class="dblEdit_table">';
+		editHtml=editHtml+'<tr>';
+		editHtml=editHtml+'<td class="t_r">提醒分类：</td>';
+		editHtml=editHtml+'<td class="t_l" colspan="3"><select name="edit_typeName">'+typeNameOptStr+'</select></td>';
+		editHtml=editHtml+'</tr>';
+		editHtml=editHtml+'<tr>';
+		editHtml=editHtml+'<td class="t_r">主题：</td>';
+		editHtml=editHtml+'<td class="t_l"><input type="text" name="edit_title" value="'+title+'" size="60">&nbsp;&nbsp;<input type="hidden" name="edit_recordId" value="'+recordId+'"></td>';
+		editHtml=editHtml+'<td class="t_r">内容：</td>';
+		editHtml=editHtml+'<td class="t_l"><textarea id="edit_content" name="edit_content" cols="60" rows="3">'+content+'</textarea>&nbsp;&nbsp;</td>';
+		editHtml=editHtml+'</tr>';
+		editHtml=editHtml+'<tr>';
+		editHtml=editHtml+'<td class="t_r">设定提醒时间：</td>';
+		editHtml=editHtml+"<td class='t_l b_cf'><select name='edit_remindType' onchange='edit_setRemindType(this.value)'><option value='仅一次'>仅一次</option><option value='周提醒'>周提醒</option><option value='月提醒'>月提醒</option></select><span id='edit_remindDate_spanId'><input type='text' name='edit_remindDate' value='"+remindDate+"' onclick=\"WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',minDate:'%y-%M-%d'})\" size='15'></span><span id='edit_remindHour_spanId' style='display:none'><input type='text' name='edit_remindHour' value='"+remindHour+"' onclick=WdatePicker({dateFmt:'HH:mm'}) size='5'></span></td>";
+		editHtml=editHtml+'<td class="t_r">提醒人：</td>';
+		editHtml=editHtml+'<td class="t_l b_cf"><input type="checkbox" name="edit_ckbIsReady" value="1">提醒自己&nbsp;<input type="button" name="save_edit" class="btn" onClick="return reEditSave()" value="保 存">&nbsp;';
+		editHtml=editHtml+'</td>';
+		editHtml=editHtml+'</tr>';
+		editHtml=editHtml+'<tr id="edit_weekMonth_trId" style="display:none">';
+		editHtml=editHtml+'<td class="t_r">勾选提醒日期：</td>';
+		editHtml=editHtml+'<td class=\"t_l b_cf\" colspan="3"><span id="edit_week_trId" style="display:none"><input type="checkbox" name="edit_remindWeeks" value="1">周一&nbsp;&nbsp;<input type="checkbox" name="edit_remindWeeks" value="2">周二&nbsp;&nbsp;<input type="checkbox" name="edit_remindWeeks" value="3">周三&nbsp;&nbsp;<input type="checkbox" name="edit_remindWeeks" value="4">周四&nbsp;&nbsp;<input type="checkbox" name="edit_remindWeeks" value="5">周五&nbsp;&nbsp;<input type="checkbox" name="edit_remindWeeks" value="6">周六&nbsp;&nbsp;<input type="checkbox" name="edit_remindWeeks" value="7">周日&nbsp;&nbsp;</span><span id="edit_month_trId" style="display:none"><input type="checkbox" name="edit_remindMonths" value="1">第 1 天&nbsp;&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="2">第 2 天&nbsp;&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="3">第 3 天&nbsp;&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="4">第 4 天&nbsp;&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="5">第 5 天&nbsp;&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="6">第 6 天&nbsp;&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="7">第 7 天&nbsp;&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="8">第 8 天&nbsp;&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="9">第 9 天&nbsp;&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="10">第 10 天<br><input type="checkbox" name="edit_remindMonths" value="11">第 11 天&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="12">第 12 天&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="13">第 13 天&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="14">第 14 天&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="15">第 15 天&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="16">第 16 天&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="17">第 17 天&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="18">第 18 天&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="19">第 19 天&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="20">第 20 天<br><input type="checkbox" name="edit_remindMonths" value="21">第 21 天&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="22">第 22 天&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="23">第 23 天&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="24">第 24 天&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="25">第 25 天&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="26">第 26 天&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="27">第 27 天&nbsp;&nbsp;<input type="checkbox" name="edit_remindMonths" value="28">第 28 天&nbsp;&nbsp;</span>';
+		editHtml=editHtml+'</td>';
+		editHtml=editHtml+'</tr>';
+		editHtml=editHtml+'</table>';
+		editHtml=editHtml+'</td>';
+		editHtml=editHtml+'</tr>';
+		return editHtml;
+	}
+
+function  winOpenWH(url,width,height){
+	window.open(url ,"FullScreen","scrollbars=yes,width="+width+",height="+height);
+} 
+
+</SCRIPT>
+
+
+<body>
+<form name="form1" action="/generictableservlet?action=saveAddRecordPar&ITNO=1_remind" method="post">
+	<input type="hidden" name="tableName" value="DTTools_remind">
+	<input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+
+	<input type="hidden" name="isReady" value="0">
+	<input type="hidden" name="remindDays" value="">
+
+	<input type="hidden" name="edit_isReady" value="0">
+	<input type="hidden" name="edit_remindDays" value="">
+
+
+ <div class="path"> <img src="images/index/path_ico.gif" />{$TABLEKEYWORD1} &gt; {$TABLEKEYWORD2}</div>	
+    <div class="a_box_big">
+        <table border="0" cellspacing="0" cellpadding="0" class="view_table" style="display:none">
+		  <tr>
+			<td class="t_r" width="10%">提醒分类：</td>
+			<td class="t_l b_cf" width="20%">
+				<select name="typeName">
+					
+				</select>
+				<a href="#" onclick="winOpenWH('/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTTools_remind_typeName&ITNO=1&$TABLEKEYWORD=$1_redmindTool',800,600);"><span style="color:red">新增分类</span></a>
+			</td>
+			
+		  </tr>
+          <tr>
+			<td class="t_r" width="10%">主题：</td>
+			<td class="t_l b_cf" width="20%"><input type="text" name="title" value="" size="60">&nbsp;&nbsp;</td>
+			
+		  </tr>
+		   <tr>
+			<td class="t_r">内容：</td>
+			<td class="t_l b_cf"><textarea name="content" cols="60" rows="4"></textarea></td>
+			
+		  </tr>
+		   <tr>
+			<td class="t_r">设定提醒时间：</td>
+			<td class="t_l b_cf">
+				<select name="remindType" onchange="setRemindType(this.value)">
+					<option value="仅一次">仅一次</option>
+					<option value="周提醒">周提醒</option>
+					<option value="月提醒">月提醒</option></select>
+					&nbsp;&nbsp;
+					<span id="remindDate_spanId" style="display:none"><input type="text" name="remindDate" value="" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',minDate:'%y-%M-%d'})" size="15"></span>
+					<span id="remindHour_spanId" style="display:none"><input type="text" name="remindHour" value="" onclick="WdatePicker({dateFmt:'HH:mm'})" size="5"></span>	
+			</td>
+			
+		  </tr>
+		   <tr id="week_trId" style="display:none">
+			<td class="t_r">周提醒：</td>
+			<td class="t_l b_cf">
+				<input type="checkbox" name="remindWeeks" value="1">周一&nbsp;&nbsp;
+				<input type="checkbox" name="remindWeeks" value="2">周二&nbsp;&nbsp;
+				<input type="checkbox" name="remindWeeks" value="3">周三&nbsp;&nbsp;
+				<input type="checkbox" name="remindWeeks" value="4">周四&nbsp;&nbsp;
+				<input type="checkbox" name="remindWeeks" value="5">周五&nbsp;&nbsp;
+				<input type="checkbox" name="remindWeeks" value="6">周六&nbsp;&nbsp;
+				<input type="checkbox" name="remindWeeks" value="7">周日&nbsp;&nbsp;
+			</td>
+			
+		  </tr>
+		   <tr id="month_trId" style="display:none">
+			<td class="t_r">月提醒：</td>
+			<td class="t_l b_cf">
+				<input type="checkbox" name="remindMonths" value="1">第 1 天&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="2">第 2 天&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="3">第 3 天&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="4">第 4 天&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="5">第 5 天&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="6">第 6 天&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="7">第 7 天&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="8">第 8 天&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="9">第 9 天&nbsp;&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="10">第 10 天&nbsp;&nbsp;<br>
+				<input type="checkbox" name="remindMonths" value="11">第 11 天&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="12">第 12 天&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="13">第 13 天&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="14">第 14 天&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="15">第 15 天&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="16">第 16 天&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="17">第 17 天&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="18">第 18 天&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="19">第 19 天&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="20">第 20 天&nbsp;&nbsp;<br>
+				<input type="checkbox" name="remindMonths" value="21">第 21 天&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="22">第 22 天&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="23">第 23 天&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="24">第 24 天&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="25">第 25 天&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="26">第 26 天&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="27">第 27 天&nbsp;&nbsp;
+				<input type="checkbox" name="remindMonths" value="28">第 28 天&nbsp;&nbsp;
+			</td>
+			
+		  </tr>
+		   <tr>
+			<td class="t_r">提醒人：</td>
+			<td class="t_l b_cf">
+				<input type="checkbox" name="ckbIsReady" checked=true value="1">提醒自己&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="save" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="return reSave()" value="保 存">
+				<input type="button" name="back" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="window.close();"
+				value="关 闭">
+			</td>
+		   
+		</tr>
+    </table>
+	
+
+	<table border="0" cellspacing="0" cellpadding="0" class="dblEdit_table_list"  id="actor_table">
+    <thead>
+      <tr>
+		<th width="3%">序号</th> 
+		<th width="5%">提醒分类</th>
+		<th width="10%">主题</th> 
+        <th width="20%">内容</th> 
+		<th width="4%">提醒类型</th> 
+	    <th width="8%">提醒时间</th> 
+		<th width="25%">周提醒/月提醒</th> 
+		<th width="6%">创建日期</th> 
+        <th width="5%">是否启用</th> 
+      </tr>
+    </thead>
+	 <tbody>
+	 {row}
+      <tr id="tr_Id{sNo}" typeName="{typeName}" title="{title}" content="{content}" remindType="{remindType}" remindDate="{remindDate}" remindHour="{remindHour}" remindDays="{remindDays}" isReady="{isReady}" recordId="{id}">
+		<td style="text-align:center;">{sNo}&nbsp;</td> 
+		<td style="text-align:center">{typeName}&nbsp;</td> 
+		<td style="text-align:center">{title}&nbsp;</td> 
+        <td style="text-align:center">{content}&nbsp;</td> 
+	    <td style="text-align:center">{remindType}&nbsp;</td> 
+		<td style="text-align:center">{remindDate}{remindHour}&nbsp;</td> 
+		<td style="text-align:center" id="remindDays_tdId{sNo}">{remindDays}&nbsp;</td> 
+		<td style="text-align:center">{date_created}&nbsp;</td> 
+		<td style="text-align:center" id="isReady_tdId{sNo}">&nbsp;</td> 
+     
+      </tr>
+	  <script>
+		var remindWeeksArray=['周一','周二','周三','周四','周五','周六','周日'];
+		var remindMonthsArray=['第 1 天','第 2 天','第 3 天','第 4 天','第 5 天','第 6 天','第 7 天','第 8 天','第 9 天','第 10 天','第 11 天','第 12 天','第 13 天','第 14 天','第 15 天','第 16 天','第 17 天','第 18 天','第 19 天','第 20 天','第 21 天','第 22 天','第 23 天','第 24 天','第 25 天','第 26 天','第 27 天','第 28 天'];
+		if("{remindType}"=="周提醒"){
+			var remindDaysStr="";
+			for(var i=0;i<'{remindDays}'.split(",").length;i++){
+				remindDaysStr=remindDaysStr+remindWeeksArray['{remindDays}'.split(",")[i]-1]+";";
+			}
+			$("#remindDays_tdId{sNo}").html(remindDaysStr);
+		}
+		if("{remindType}"=="月提醒"){
+			var remindDaysStr="";
+			for(var i=0;i<'{remindDays}'.split(",").length;i++){
+				remindDaysStr=remindDaysStr+remindMonthsArray['{remindDays}'.split(",")[i]-1]+";";
+			}
+			$("#remindDays_tdId{sNo}").html(remindDaysStr);
+		}
+		if("{isReady}"=="1"){
+			$("#isReady_tdId{sNo}").html("已启用");
+		}else{
+			$("#isReady_tdId{sNo}").html("未启用");
+		}
+		if('{sNo}'==''){
+			//	$("#operateTdId{sNo}").html('&nbsp;');
+				$("#isReady_tdId{sNo}").html('&nbsp;');
+			}
+	  </script>
+	   {row}
+		
+    </tbody>
+	
+  </table>
+
+
+
+  </div>
+</form>
+</body>
+</html>

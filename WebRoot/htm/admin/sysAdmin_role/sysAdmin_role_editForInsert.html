@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+<title>[系统设置]-[角色设置]-添加页面</title>
+ <link rel="stylesheet" type="text/css" href="css/index.css" />
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+    <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+
+
+
+<SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajaxGetOptions.js" type="text/javascript"></SCRIPT>
+
+</head>
+
+
+<SCRIPT type=text/javascript> 
+	$(document).ready(function(){
+		setEmptyCheck("role_name");
+		//setCombineUnique("branch_name:cid");
+	});
+
+
+function setRoleUnique(){
+	var role_name=$("input[name=role_name]").val();
+	if(role_name!=''){
+		var isExists=getInfoBySqlNo_noHidden(340,role_name);
+		if(isExists==1){
+			alert("【"+role_name+"】角色名字不能重复");
+			return false;
+		}
+		else return true;
+	}
+	return true;
+}
+
+
+function selectAllSubRole(e,checkname,size){
+  for(var i=0;i<size;i++){
+    var secName = checkname + "_" + i;
+    //var tmp = eval("form1." + secName);
+	var tmp=document.getElementsByName(secName)[0];
+	//var flag = eval("form1." + checkname).checked;
+	var flag=document.getElementsByName(checkname)[0].checked;
+	tmp.checked=flag;
+	selectAllRole(tmp,secName);
+  }
+}
+
+function selectAllRole(e,checkname){
+	//	var tmp = eval("form1.elements('" + checkname + "')");
+	var flag=document.getElementsByName(checkname)[0].checked
+	//eval("form1." + checkname).checked;
+	//如果选中状态
+	if(flag){
+		document.getElementsByName(checkname.substring(0,checkname.indexOf("_")))[0].checked=true;
+		document.getElementsByName(checkname.substring(0,checkname.lastIndexOf("_")))[0].checked=true;
+		//如果包含子节点
+		if(document.getElementsByName(checkname+"_0")[0]){
+			for(var i=0;i<100;i++){
+				if(document.getElementsByName(checkname+"_"+i)[0]){
+					document.getElementsByName(checkname+"_"+i)[0].checked=true;
+
+				}else{
+					break;
+				}
+			}
+		}
+
+	}
+	
+	if(!flag){
+		if(checkname.substring(0,checkname.lastIndexOf("_")).indexOf("_")!=-1){
+			var thirFlag=false;
+			for(var i=0;i<100;i++){
+				if(document.getElementsByName(checkname.substring(0,checkname.lastIndexOf("_"))+"_"+i)[0]){
+					
+					if(document.getElementsByName(checkname.substring(0,checkname.lastIndexOf("_"))+"_"+i)[0].checked==true){
+						thirFlag=true;
+					}
+				}
+			}
+			if(thirFlag==false){
+				document.getElementsByName(checkname.substring(0,checkname.lastIndexOf("_")))[0].checked=false;
+			}
+		}
+	}
+	setAllChecked(e,checkname.replace("s",""));
+}
+
+function setAllChecked(checkObj,operateId){
+	var operateNames='s;';
+	var btnHiddenStr="";
+	if(document.getElementsByName("btnHiddenStr"+operateId)[0]){
+		btnHiddenStr=document.getElementsByName("btnHiddenStr"+operateId)[0].value;
+		operateNames=operateNames+btnHiddenStr;
+		for(var i=0;i<operateNames.split(";").length;i++){
+			if(document.getElementsByName(operateNames.split(";")[i]+operateId)[0]){
+				if(checkObj.checked==true){
+					document.getElementsByName(operateNames.split(";")[i]+operateId)[0].checked=true;
+				}else{
+					document.getElementsByName(operateNames.split(";")[i]+operateId)[0].checked=false;
+				}
+			}
+		}
+	}
+	//如果包含子节点
+	if(document.getElementsByName("s"+operateId+"_0")[0]){
+		for(var i=0;i<100;i++){
+			operateNames='s;'
+			if(document.getElementsByName("s"+operateId+"_"+i)[0]){
+				btnHiddenStr=document.getElementsByName("btnHiddenStr"+operateId+"_"+i)[0].value;
+				operateNames=operateNames+btnHiddenStr;
+				for(var j=0;j<operateNames.split(";").length;j++){
+					if(document.getElementsByName(operateNames.split(";")[j]+operateId+"_"+i)[0]){
+						if(checkObj.checked==true){
+							document.getElementsByName(operateNames.split(";")[j]+operateId+"_"+i)[0].checked=true;
+						}else{
+							document.getElementsByName(operateNames.split(";")[j]+operateId+"_"+i)[0].checked=false;
+						}
+					}
+				}
+			}else{
+				break;
+			}
+		}
+	}
+
+	var parentStr="s"+operateId.substring(0,operateId.indexOf("_"));
+	if(checkObj.checked==false){
+		var currentFlag=false;
+		for(var i=0;i<100;i++){
+			if(document.getElementsByName("s"+operateId.substring(0,operateId.indexOf("_"))+"_"+i)[0]){
+				
+				if(document.getElementsByName("s"+operateId.substring(0,operateId.indexOf("_"))+"_"+i)[0].checked==true){
+					currentFlag=true;
+				}
+			}
+		}
+		
+		if(!currentFlag){
+			document.getElementsByName(parentStr)[0].checked=false;
+		}
+	}
+	
+
+	
+	if(checkObj.checked==true){
+		document.getElementsByName(parentStr)[0].checked=true;
+	}
+}
+function setSelfChecked(checkObj,operateId){
+	var flag=checkObj.checked;
+
+	var btnHiddenStr="";
+	//如果是选中状态 选择所有父节点
+	if(flag==true){
+		document.getElementsByName("s"+operateId.substring(0,operateId.indexOf("_")))[0].checked=true;
+		document.getElementsByName("s"+operateId.substring(0,operateId.lastIndexOf("_")))[0].checked=true;
+		document.getElementsByName("s"+operateId)[0].checked=true;
+	}else{//取消选中所有父节点
+		btnHiddenStr=document.getElementsByName("btnHiddenStr"+operateId)[0].value;
+		var operateNames=btnHiddenStr.replace(checkObj.name.replace(operateId,"")+";","");
+		var operateFlag=false;//其他节点只要有一个选中，则结束
+		for(var i=0;i<operateNames.split(";").length;i++){
+			if(document.getElementsByName(operateNames.split(";")[i]+operateId)[0].checked==true){
+				operateFlag=true;
+			}
+		}
+		//全部为非选状态
+		if(operateFlag==false){
+			//	alert("s"+operateId.substring(0,operateId.lastIndexOf("_")));
+			//document.getElementsByName("s"+operateId)[0].checked=false;//当前模块去掉勾选
+			//判断第一层父节点是否也勾选
+			for(var i=0;i<100;i++){
+				if(document.getElementsByName("s"+operateId.substring(0,operateId.lastIndexOf("_"))+"_"+i)[0]){
+					if(document.getElementsByName("s"+operateId.substring(0,operateId.lastIndexOf("_"))+"_"+i)[0].checked==true){
+						return;
+					}
+				}else{
+					break;
+				}
+			}
+			document.getElementsByName("s"+operateId.substring(0,operateId.lastIndexOf("_")))[0].checked=false;
+			if(operateId.substring(0,operateId.lastIndexOf("_"))==operateId.substring(0,operateId.indexOf("_")))return;
+			//判断第二层父节点是否也勾选
+			for(var i=0;i<100;i++){
+				if(document.getElementsByName("s"+operateId.substring(0,operateId.indexOf("_"))+"_"+i)[0]){
+					if(document.getElementsByName("s"+operateId.substring(0,operateId.indexOf("_"))+"_"+i)[0].checked==true){
+						return;
+					}
+				}else{
+					break;
+				}
+			}
+			document.getElementsByName("s"+operateId.substring(0,operateId.indexOf("_")))[0].checked=false;
+		}
+	}
+
+}
+</SCRIPT>
+
+<body style="padding-bottom:28px;">
+<form name="form1" action="/adminpurview.do?action=addRole&ITNO={ITNO}" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+
+<input type="hidden" name="listUrl" value="{listUrl}">
+<input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+
+<input type="hidden" name="ITNO" value="{ITNO}">
+<input type="hidden" value="{values}" name="values" id="values">
+<input type="hidden" value="{values1}" name="values1" id="values1">
+<input type="hidden" value="{values2}" name="values2" id="values2">
+
+
+   <div class="haer"><span id="tans"><strong>系统设置 </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; 角色设置 &gt; 修改页面</div>
+   <div class="a_box">
+    <table border="0" cellspacing="0" cellpadding="0" class="add_table">
+	      <tr>
+			<td class="tad">角色名称：</td>
+			<td class="t_l b_cf"><input name="role_name" type="text" size="20" value="" tip="角色名称不能为空,且唯一" check="2" class="input_txt"/>&nbsp;*</td>
+			<td class="tad">所属单位：</td>
+			<td class="t_l b_cf"><select name="community" class="select">{community}</select>&nbsp;*</td>
+		  </tr>
+		  <tr>                  
+			<td class="tad">备&nbsp;&nbsp;&nbsp; 注：</td>
+			<td class="t_l b_cf" colspan="3"><textarea name="about" rows="3"  cols="80" class="style1" class="textarea_txt">{about}</textarea></td>
+		  </tr>
+		   <tr>                  
+			<td class="tad">角色权限：</td>
+			<td class="t_l b_cf_noRed" colspan="3">{purview}</td>
+		  </tr>
+		  <tr class="tad">                  
+			<td colspan="4"  width="100%" align="center"> 
+				<input type="submit" name="save" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="return setRoleUnique()" value="保 存">
+				&nbsp;&nbsp;&nbsp;	
+				<input type="button" name="back" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="javascript:history.back();return false;"
+				value="返 回">
+			</td>
+		 </tr>
+    </table>
+  </div>
+</form>
+</body>
+</html>

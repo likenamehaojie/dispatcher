@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="GB2312"?>
+ <!--<tables>  
+ 例子<table tableName = "requisition" type="main" fields="title,content,closeTime,issueUnit,issueTime"  optFields="issueUnit|4"><![CDATA[select title,content,closeTime,issueUnit,issueTime from requisition where title='$KEYWORD' ]]></table>
+  <table tableName = "requisition1" type="sub" fields="title,content,closeTime,issueUnit,issueTime"  optFields="issueUnit|1"><![CDATA[select title,content,closeTime,issueUnit,issueTime from requisition where title='$KEYWORD' ]]></table>
+</tables> -->
+
+<!-- 用于项目编号 -->
+<tables>
+
+</tables>
+<!-- 结束 -->

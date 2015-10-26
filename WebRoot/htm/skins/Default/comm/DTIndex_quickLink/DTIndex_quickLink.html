@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+<title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]-添加页面</title>
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+
+<SCRIPT src="/js/layer/jquery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+<script type="text/javascript" src="/js/ajaxMod.js"></script>
+
+
+<style>
+	.left_td{text-align:left}
+	.right_td{text-align:right}
+	html { overflow-x: hidden; overflow-y: auto; }
+	table tbody td{text-align:left}
+	.td_center{text-align:center}
+</style>
+</head>
+
+
+<SCRIPT type=text/javascript> 
+	$(document).ready(function(){
+		$("#actor_table tr td").dblclick(function(){
+			//alert();
+			var curTrObj=$(this).parent("tr");
+			dblTr(curTrObj);
+			
+		}); 
+
+	}); 
+	function dblTr(curTrObj){
+		
+			if($(curTrObj).next("tr").attr("id")=="editHtmlTrObj")$("#editHtmlTrObj").remove();
+			else{
+				$("#editHtmlTrObj").remove();
+				if($(curTrObj).attr("recordId")!=""){
+					$(curTrObj).after(dblEditHtml($(curTrObj).attr("name"),$(curTrObj).attr("url"),$(curTrObj).attr("imageName"),$(curTrObj).attr("seqNo"),$(curTrObj).attr("recordId")));
+					$("select[name=edit_imageName]").val($(curTrObj).attr("imageName"));
+					$("input[name='edit_seqNo'][value="+$(curTrObj).attr("seqNo")+"]").attr("checked",true); 
+			
+					setImg('edit_',$(curTrObj).attr("imageName"))
+					//$("input[name=edit_seqNo]").val($(curTrObj).attr("imageName"));
+				}
+			}
+	}
+	
+	function reSave(){
+		var name=$("input[name=name]").val();
+		var url=$("textarea[name=url]").val();
+		var imageName=$("select[name=imageName]").val();
+		if(name.length==0 || name.length>5 ){
+			alert("【链接名称】不能为空且不能超过5个汉字");
+			return false;
+		}else if(url.length==0){
+			alert("请填写链接（URL）");
+			return false;
+		}else if(imageName.length==0){
+			alert("请选择图片");
+			return false;
+		}
+		return true;
+	}
+	String.prototype.replaceAll  = function(s1,s2){     
+		return this.replace(new RegExp(s1,"gm"),s2);     
+	}   
+	function reEditSave(){
+		var recordId=$("input[name=edit_recordId]").val();
+		var name=$("input[name=edit_name]").val();
+		var url=$("textarea[name=edit_url]").val();
+		var imageName=$("select[name=edit_imageName]").val();
+		var seqNo=$('input[name="edit_seqNo"]:checked').val();
+	
+		if(name.length==0 || name.length>5 ){
+			alert("【链接名称】不能为空且不能超过5个汉字");
+			return false;
+		}else if(url.length==0){
+			alert("请填写链接（URL）");
+			return false;
+		}else if(imageName.length==0){
+			alert("请选择图片");
+			return false;
+		}
+		//if(fieldsArray[i]=="url")fieldVal=fieldVal.replace('/','%2F').replace('?','%3F').replaceAll('&','%26').replace('|','竖杠').replace('|','竖杠').replace('|','竖杠').replace('|','竖杠').replace('|','竖杠').replace('|','竖杠').replace('|','竖杠');
+
+		url=url.replace('/','%2F').replace('?','%3F').replaceAll('&','%26').replace('|','竖杠').replace('|','竖杠').replace('|','竖杠').replace('|','竖杠').replace('|','竖杠').replace('|','竖杠').replace('|','竖杠');
+		//url=url.replace('?','%3F').replaceAll('&','%26').replaceAll('%','%25').replaceAll('/','%2F');
+
+		ajax_pro_updateRecords(96,'DTIndex_quickLink|'+recordId+':edit;|name,url,imageName,seqNo,|'+name+'b62a'+url+'b62a'+imageName+'b62a'+seqNo+'b62a|保存');
+		ajax_pro_noInfo(335,recordId);
+		//return false;
+	}
+
+
+	function delRecord(recordId){
+		if(confirm("确认删除吗"))
+		ajax_pro_updateRecords(96,"DTIndex_quickLink|"+ recordId+":del;|空|1|删除");
+		//document.form1.action="/generictableservlet?action=deleteRecord&RecordId="+recordId+"&delType="+type;
+		//document.form1.submit();
+	}
+
+
+	function setImg(type,curValue){
+		$('#'+type+'qlImg').attr('src','images/main/right'+curValue+'.png');
+	}
+
+
+
+	function dblEditHtml(name,url,imageName,seqNo,recordId){
+		var editHtml="";
+		editHtml=editHtml+'<tr id="editHtmlTrObj">';
+		editHtml=editHtml+'<td colspan="9">';
+		editHtml=editHtml+'<table border="0" cellspacing="0" cellpadding="0" class="dblEdit_table">';
+	
+		editHtml=editHtml+'<tr>';
+		editHtml=editHtml+'<td class="t_r" width="15%">链接名称：</td>';
+		editHtml=editHtml+'<td class="t_l" width="35%"><input type="text" name="edit_name" value="'+name+'" size="30">&nbsp;<font color=red>*</font>&nbsp;<input type="hidden" name="edit_recordId" value="'+recordId+'"></td>';
+		editHtml=editHtml+'<td class="t_r" width="15%">图片：</td>';
+		editHtml=editHtml+'<td class="t_l" width="35%"><select name="edit_imageName" onchange="setImg(\'edit_\',this.value)"><option value="">---请选择---</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select>&nbsp;<img id="edit_qlImg" src=""/>&nbsp;<font color=red>*</font></td>';
+		editHtml=editHtml+'</tr>';
+		editHtml=editHtml+'<tr>';
+		editHtml=editHtml+'<td class="t_r">链接（URL）：</td>';
+		editHtml=editHtml+"<td class='t_l b_cf' colspan='3'><textarea id='edit_url' name='edit_url' cols='60' rows='3'>"+url+"</textarea>&nbsp;<font color=red>*</font></td>";
+		editHtml=editHtml+'</tr>';
+		editHtml=editHtml+'<tr>';
+		editHtml=editHtml+'<td class="t_r">排序：</td>';
+		editHtml=editHtml+'<td class=\"t_l b_cf\" colspan="3"><input type="radio" name="edit_seqNo" value="1" checked> 1 &nbsp;&nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="2"> 2 &nbsp;&nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="3"> 3 &nbsp;&nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="4"> 4 &nbsp;&nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="5"> 5 &nbsp;&nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="6"> 6 &nbsp;&nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="7"> 7 &nbsp;&nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="8"> 8 &nbsp;&nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="9"> 9 &nbsp;&nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="10"> 10 &nbsp;&nbsp;<br><input type="radio" name="edit_seqNo" value="11"> 11 &nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="12"> 12 &nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="13"> 13 &nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="14"> 14 &nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="15"> 15 &nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="16"> 16 &nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="17"> 17 &nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="18"> 18 &nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="19"> 19 &nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="20"> 20 &nbsp;&nbsp;<br><input type="radio" name="edit_seqNo" value="21"> 21 &nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="22"> 22 &nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="23"> 23 &nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="24"> 24 &nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="25"> 25 &nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="26"> 26 &nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="27"> 27 &nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="28"> 28 &nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="29"> 29 &nbsp;&nbsp;<input type="radio" name="edit_seqNo" value="30"> 30 &nbsp;&nbsp;&nbsp;<input type="button" name="save_edit" class="btn" onClick="return reEditSave()" value="保 存">&nbsp;';
+		editHtml=editHtml+'</td>';
+		editHtml=editHtml+'</tr>';
+		editHtml=editHtml+'</table>';
+		editHtml=editHtml+'</td>';
+		editHtml=editHtml+'</tr>';
+		return editHtml;
+	}
+
+
+</SCRIPT>
+
+
+<body>
+<form name="form1" action="/generictableservlet?action=saveAddRecordPar&ITNO=1_quickLink" method="post">
+	<input type="hidden" name="tableName" value="DTIndex_quickLink">
+
+	<input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+	<input type="hidden" name="cType" value="{iniCType}">
+
+
+ <div class="path"> <img src="images/index/path_ico.gif" />{$TABLEKEYWORD1} &gt; {$TABLEKEYWORD2}</div>	
+    <div class="a_box_big">
+        <table border="0" cellspacing="0" cellpadding="0" class="view_table">
+          <tr>
+			<td class="t_r" width="10%">链接名称：</td>
+			<td class="t_l b_cf" width="20%"><input type="text" name="name" value="" style="width:400px">&nbsp;*</td>
+			
+		  </tr>
+		   <tr>
+			<td class="t_r">链接（URL）：</td>
+			<td class="t_l b_cf"><textarea name="url" rows="4" style="width:402px"></textarea>&nbsp;*</td>
+			
+		  </tr>
+		   <tr>
+			<td class="t_r">图片类型：</td>
+			<td class="t_l b_cf">
+				<select name="imageName" onchange="setImg('',this.value)">
+					<option value="">---请选择---</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+				</select>&nbsp;<img id="qlImg" src=""/>&nbsp;*
+			</td>
+			
+		  </tr>
+		  
+		
+		   <tr>
+			<td class="t_r">序号：</td>
+			<td class="t_l b_cf">
+				<input type="radio" name="seqNo" value="1" checked> 1 &nbsp;&nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="2"> 2 &nbsp;&nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="3"> 3 &nbsp;&nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="4"> 4 &nbsp;&nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="5"> 5 &nbsp;&nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="6"> 6 &nbsp;&nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="7"> 7 &nbsp;&nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="8"> 8 &nbsp;&nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="9"> 9 &nbsp;&nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="10"> 10 &nbsp;&nbsp;<br>
+				<input type="radio" name="seqNo" value="11"> 11 &nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="12"> 12 &nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="13"> 13 &nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="14"> 14 &nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="15"> 15 &nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="16"> 16 &nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="17"> 17 &nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="18"> 18 &nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="19"> 19 &nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="20"> 20 &nbsp;&nbsp;<br>
+				<input type="radio" name="seqNo" value="21"> 21 &nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="22"> 22 &nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="23"> 23 &nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="24"> 24 &nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="25"> 25 &nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="26"> 26 &nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="27"> 27 &nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="28"> 28 &nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="29"> 29 &nbsp;&nbsp;
+				<input type="radio" name="seqNo" value="30"> 30 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="save" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="return reSave()" value="保 存">
+				<input type="button" name="back" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="window.close();"
+				value="关 闭">
+			</td>
+		   
+		
+    </table>
+	
+
+	<table border="0" cellspacing="0" cellpadding="0" class="dblEdit_table_list"  id="actor_table">
+    <thead>
+      <tr>
+		<th width="5%">序号</th> 
+		<th width="10%">链接名称</th> 
+        <th width="20%">链接（URL）</th> 
+		<th width="5%">图片类型</th> 
+		<th width="10%">创建日期</th> 
+		<th width="5%">操作</th> 
+      </tr>
+    </thead>
+	 <tbody>
+	 {row}
+      <tr id="tr_Id{sNo}" seqNo="{seqNo}" name="{name}" url="{url}" imageName="{imageName}" recordId="{id}">
+		<td style="text-align:center">{seqNo}&nbsp;</td> 
+		<td style="text-align:center">{name}&nbsp;</td> 
+        <td style="text-align:center">{url}&nbsp;</td> 
+	    <td style="text-align:center" id="imgTdId{sNo}"><img src="images/main/right{imageName}.png"/>&nbsp;</td> 
+		<td style="text-align:center">{date_created}&nbsp;</td> 
+        <td style="text-align:center" id="operateTdId{sNo}"><img src="images/zTree/treeEdit.gif" width="16" height="16" /><a href="#"   onClick="dblTr($('#tr_Id{sNo}'))">编辑</a>&nbsp;<img src="images/zTree/treeDel.gif" width="16" height="16" /><a href="#" onClick="delRecord('{id}')">删除</a></td> 
+      </tr>
+		<script>
+			if('{sNo}'==''){
+				$("#imgTdId{sNo}").html('&nbsp;');
+				$("#operateTdId{sNo}").html('&nbsp;');
+			}
+		</script>
+	   {row}
+		
+    </tbody>
+	
+  </table>
+	 <table width="100%">
+	
+    <tr>
+      <td id='wxts_tdId' align="left">
+          <span class="font3" >温馨提示：</span>
+          <br>
+          双击行信息可进入该行数据的编辑状态。
+      </td>
+    </tr>
+  </table>
+
+
+  </div>
+</form>
+</body>
+</html>

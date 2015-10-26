@@ -1,0 +1,655 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>永煤集团调度管理信息化系统-登录页面</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=GBK" />
+	<link href="css/main/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/main/dpl-min.css" rel="stylesheet" type="text/css" />
+    <link href="css/main/bui-min.css" rel="stylesheet" type="text/css" />
+    <link href="css/main/main-min.css" rel="stylesheet" type="text/css" />
+    <link href="css/main/common.css" rel="stylesheet" type="text/css" />
+   <link href="css/main/index.css" rel="stylesheet" type="text/css" /> 
+   <script type="text/javascript" src="js/main/jquery-1.4.2.min.js"></script>  
+
+	<script type="text/javascript" src="js/ajaxGetOptions.js"></script>
+
+</head>
+<!-- 下拉悬浮  -->
+<style type="text/css">
+*{margin:0;padding:0;list-style-type:none;}
+a,img{border:0;}
+.colorFloat{float:right;margin-right:10px;}
+.dateFloat{float:right;margin-right:10px;}
+
+#mintbar{background:url('images/bg1.png') repeat ;font-size:14px;font-family:Arial,Helvetica,Sans-serif;color:#FFF;padding:0;position:relative;top:10px;margin-right:490px;z-index:2000;width:60%;text-align:center;height:210px;}
+#mintbar div{position:relative;margin:0 auto;padding-top:10px;width:100%;height:30px;}
+#mintbar div h2{float:left;font-size:16px;}
+.closebtn{float:right;margin-right:10px;}
+#mint{cursor:pointer;position:relative;z-index:1000;}
+.yslt{ width:30px; height:30px;background:url(../../images/main/user.png)  no-repeat;}
+
+.helpXML tr td{height:32px;}
+.btn {
+  width: 76px;
+  height: 26px;
+  line-height: 26px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  overflow: visible;
+  background: url(../images/index/btn.gif) no-repeat;
+}
+</style>
+
+<body>
+<div id="mintbar" style="display:none;position:absolute;top:0;right:10px;">
+	<div>
+		<h2>&nbsp;&nbsp;&nbsp;&nbsp; 短信提醒</h2>
+		<a href="/generictableservlet?action=recordList&ITNO=1_sms1&$TABLEKEYWORD=$1_smsTool" target="_blank"><font color="white" class="colorFloat">更多短信>></font></a>
+	</div>
+	
+</div>
+
+<div class="header">
+  <div class="dl-title" style="line-height:30px">
+    <!--<img src="/chinapost/Public/assets/img/top.png">-->
+    <div class="top-right"> <img src="images/login/pin.png"  alt="" /> </div>
+    <div class="top-left"><a id="mint" title="您有 {smsNum} 未读短信" class="topall">消息</a><a href="javascript:sysUpdateXML()" title="帮助" class="topala">帮助</a>
+     <a href="javascript:logout()" title="退出系统" class="topalb">[退出]</a>
+     </div>
+	 <br>
+	 <div style="float:right;font-size:12px;"><a class="yslt" href="javascript:updateSelf()">{$REALNAME}-{$SHORTNAME}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+  </div>
+</div>
+
+<!--zhongbu-->
+<div class="content"> 
+    <div class="dl-main-nav">
+            <div class="dl-inform"><div class="dl-inform-title"><s class="dl-inform-icon dl-up"></s></div></div>
+           <ul id="J_Nav"  class="nav-list ks-clear">	
+				{row_nav}
+            <li class="nav-item dl-selected"><div class="nav-item-inner ">{pur_name}</div></li>
+		{row_nav}
+			
+         </ul>
+    </div>
+	 <ul id="J_NavContent" class="dl-tab-conten" style="display:none">
+		
+    </ul>
+  <ul id="J_NavContent_main" class="dl-tab-conten">
+   
+  <div class="mainbox">
+   <div class="leftinfo">
+   
+    <div class="mainMiddle1">
+      <div class="listtitle"><a href="/generictableservlet?action=recordList&ITNO=83_index&$TABLEKEYWORD=$83" target="_blank" class="more1">更多</a>公告信息</div>
+  <div class="tisn" id="tisn_NOTICE"> 
+			<ul id="NOTICE" class="tab"  style="" >
+			
+			<script>
+				if('{$COMMUNITYTYPE}'!=1){
+					//初始化公告导航
+					var json=eval(getJsonBySqlNo(26,''));
+					var Str=""
+					for(var i=0; i<json.length; i++){
+						Str=Str+'<li onmouseover="may(this)"  name="NOTICE'+i+'"  id="'+json[i].value+'">'+json[i].name+'</li>';
+						 
+					} 
+					document.write(Str);
+					//document.getElementById("{$COMMUNITYID}").stlye.backgroundColor="#fff";
+					//$("#{$COMMUNITYID}").css("background-color","#fff");
+					
+				}else{
+					$("#tisn_NOTICE").css('display','none')
+				}
+
+				//onmouseover 调用函数 
+				function may(cId){
+					$("li[name^=NOTICE]").css("background-color","");
+					$("#"+$(cId).attr('id')).css("background-color","#fff");
+					var	htmlStr='<TBODY>';
+					if('{$COMMUNITYTYPE}'==1){
+						var json=eval(getJsonBySqlNo(27,'{$COMMUNITYID}'));
+					}else{
+						//alert(getJsonBySqlNo(27,$(cId).attr('id')));
+						var json=eval(getJsonBySqlNo(27,$(cId).attr('id')));
+					}
+					
+					if(json.length==0){
+						htmlStr=htmlStr+'<tr><td align="center" width="5%" onMouseOver="on(this);" onMouseOut="out(this);">&nbsp;<img src="images/main/dot_right2.gif"></td><td width="40%" align="left" title="" id="title_tdId{sNo}">无</td><td width="30%">&nbsp;</td><td width="20%" align="right">&nbsp;</td></tr>';
+						
+					}else{
+						for(var i=0; i<json.length; i++){
+							//alert(json[0].type );
+							var curTitleColor="";
+							if(json[i].dispatching_type=='紧急')curTitleColor='red';
+							htmlStr=htmlStr+'<tr><td align="center" width="5%" >&nbsp;<img src="images/main/dot_right2.gif"></td><td width="280px" align="left" title="'+json[i].title+'" id="title_tdId'+i+'"><a href="/gettablerecordinfoservlet?action=viewDocInfo&templateId=NOTICE_one_view&recordId='+json[i].id+'&ITNO={ITNO}&$TABLEKEYWORD=$83" target="_blank" style="color:'+curTitleColor+'">'+json[i].Stitle+'</a></td><td width="50px">&nbsp;'+json[i].dispatching_unit+'</td><td width="90px" align="right">&nbsp;'+json[i].date_created+'&nbsp;&nbsp;&nbsp;</td></tr>';
+						} 
+					}
+					htmlStr=htmlStr+'</TBODY>';
+					//document.write(htmlStr);
+				
+					$("#tab_NOTICE").empty();
+					$("#tab_NOTICE").append(htmlStr);
+				}
+				</script>
+				
+			</ul>
+			<table width="100%" id="tab_NOTICE" border="0" cellspacing="0" cellpadding="0">
+			
+		  </table>
+			</div>
+</div>
+
+
+   </div>  
+  <!--mainMiddle1结束--> 
+
+    
+    <div class="mainMiddle2" style="overflow-y:scroll">
+      <div class="listtitle">生产日报</div>
+	  <table width="100%" style=" margin-left:0px; margin-right:0px;"  border="0" cellspacing="0" cellpadding="0">
+				<tr>
+				<td colspan="2" align="center">生产信息</td> 
+				<td align="center">日期</td> 
+				<td align="center">操作时间</td> 
+			  </tr>
+			  
+				{row_record}
+				  <tr>
+					<td align="center" width="5%" onMouseOver="on(this);" onMouseOut="out(this);">&nbsp;<img src="images/main/dot_right2.gif"></td>
+					<td >&nbsp;{workDes}</td>
+					<td align="center">&nbsp;{dateDes}</td>
+					<td align="center">&nbsp;{date_created}</td>
+				  </tr>
+				 {row_record}
+				 <tr>
+					 <td align="center" width="5%" onMouseOver="on(this);" onMouseOut="out(this);">&nbsp;<img src="images/main/dot_right2.gif"></td>
+					<td colspan="3">&nbsp;最多显示100条...</td>
+				  </tr>
+			</table>
+          </div> 
+ <div class="infoleft">
+      <div class="listtitle">待办事宜</div>
+	   	<table width="100%" style=" margin-left:0px; margin-right:0px;" id='table1' border="0" cellspacing="0" cellpadding="0">
+				{row_wf}
+				  <tr>
+					<td align="center" width="5%" onMouseOver="on(this);" onMouseOut="out(this);">&nbsp;<img src="images/main/dot_right2.gif"></td>
+					<td width="90%" id="wf_title_tdId{sNo}">&nbsp;{wf_pStr}</td>
+				  </tr>
+				  <script>
+					
+					if('{table_name}'=='')$("#wf_title_tdId{sNo}").html('无');
+				  </script>
+				 {row_wf}
+				</table>
+        </div>   
+ <div class="inforight">
+      <div class="listtitle">跟值班情况</div>
+       
+			<table width="100%" style=" margin-left:0px; margin-right:0px;"  border="0" cellspacing="0" cellpadding="0">
+				<tr>
+				<td colspan="2" align="center">带班-日期</td> 
+				<td colspan="3" align="center">早班</td> 
+				<td colspan="3" align="center">中班</td> 
+				<td colspan="3" align="center">夜班</td>	
+			  </tr>
+			  
+				{row_dbb}
+				  <tr>
+					<td align="center" width="5%" onMouseOver="on(this);" onMouseOut="out(this);">&nbsp;<img src="images/main/dot_right2.gif"></td>
+					<td >&nbsp;{yearAndMonth}</td>
+					<td >&nbsp;<b>{AzdbA}</b></td>
+					<td >&nbsp;{AzdbB}</td>
+					<td >&nbsp;{AfdbA}</td>
+					<td >&nbsp;<b>{MzdbA}</b></td>
+					<td >&nbsp;{MzdbB}</td>
+					<td >&nbsp;{MfdbA}</td>
+					<td >&nbsp;<b>{EzdbA}</b></td>
+					<td >&nbsp;{EzdbB}</td>
+					<td >&nbsp;{EfdbA}</td>
+				  </tr>
+				 {row_dbb}
+			</table>
+<br>
+				<table width="100%" style=" margin-left:0px; margin-right:0px;"  border="0" cellspacing="0" cellpadding="0">
+				<tr>
+				<td colspan="2" align="center">值班-日期</td> 
+				<td align="center">主值班</td> 
+				<td align="center">副值班（矿领导）</td> 
+				<td align="center">副值班（科室人员）</td>	
+			  </tr>
+			  
+				{row_zbb}
+				  <tr>
+					<td align="center" width="5%" onMouseOver="on(this);" onMouseOut="out(this);">&nbsp;<img src="images/main/dot_right2.gif"></td>
+					<td >&nbsp;{tDate}</td>
+					<td align="center" >&nbsp;<b>{zzb}</b></td>
+					<td align="center" >&nbsp;{kldfzb}</td>
+					<td align="center" >&nbsp;{ksfzb}</td>
+				  </tr>
+				 {row_zbb}
+			</table>
+ 
+    </div>
+    
+     
+    
+    
+    <!--leftinfo end-->
+    </div>
+   </div>  
+ <!--mainbox end-->   
+  </ul>
+  </div>
+
+<script type="text/javascript" src="js/main/bui-min.js"></script>
+<script type="text/javascript" src="js/main/config-min.js"></script>
+
+<script type="text/javascript" src="js/ajaxMod.js"></script>
+
+
+<!--提示信息框架 layer begin -->
+<script src="js/layer/layer.min.js"></script>
+<!--提示信息框架 layer begin -->
+
+<!--快速链接 begin -->
+<link rel="stylesheet" type="text/css" href="css/quickLink/base.css" />
+<script type="text/javascript" src="js/quickLink/common.js"></script>
+<!--快速链接 end -->
+
+<script>
+//退出 模块
+function logout(){
+	$.layer({
+		area: ['auto','auto'],
+		dialog: {
+			msg: '您真的要离开吗？',
+			btns: 2,                    
+			type: 4,
+			btn: ['确定','取消'],
+			yes: function(){
+				window.open('/adminlogin.do?action=logout','_top');
+			}
+		}
+	});
+}
+
+//加载左边拦
+BUI.use('common/main',function(){
+	var config = eval('[{leftStr}]');
+	new PageUtil.MainPage({
+		modulesConfig : config
+	});
+});
+
+
+
+//更新自己
+function updateSelf(){
+	window.open('/generictableservlet?action=editRecord&recordId={USERID}&ITNO=1_updateSelf','main','');
+}
+
+//帮助  更新配置文件
+var pageii;
+function sysUpdateXML(){
+
+
+
+
+	pageii = $.layer({
+		type: 1,
+		title: false,
+		area: ['auto', 'auto'],
+		shift: 'left', //从左动画弹出
+		page: {
+	html: '<div style="width:420px; height:270px; padding:20px; border:1px solid #ccc; background-color:#eee;"><p><table class="helpXML"><tr><td><input name="xmlRadio" type="radio" value="reloadTable" checked>table.xml&nbsp;</td><td><input name="xmlRadio" type="radio" value="reloadMulTable">mulTable.xml&nbsp;</td><td><input name="xmlRadio" type="radio" value="reloadViewDoc">viewTableRecord.xml&nbsp;</td></tr><tr><td><input name="xmlRadio" type="radio" value="reloadWF">wfInfo.xml&nbsp;</td><td><input name="xmlRadio" type="radio" value="reloadCdno">tableCondition.xml&nbsp;</td><td><input name="xmlRadio" type="radio" value="reloadSearch">search.xml&nbsp;</td></tr><tr><td><input name="xmlRadio" type="radio" value="reloadAutoGetInfo">autoGetInfo.xml&nbsp;</td><td><input name="xmlRadio" type="radio" value="reloadKword">tableKeyWord.xml&nbsp;</td><td><input name="xmlRadio" type="radio" value="reloadExcelTable">singleExcel.xml&nbsp;</td></tr><tr><td><input name="xmlRadio" type="radio" value="reloadExcelMulTable">multiExcel.xml&nbsp;</td><td><input name="xmlRadio" type="radio" value="reloadAmchar">charts.xml&nbsp;</td><td>&nbsp;</td></tr><tr><td colspan="3" align="center"><input name="xmlID" type="text" value="">&nbsp;&nbsp;<button id="pageSaveBtn" class="btn" onclick="pageOK()">更新XML</button>&nbsp;<button id="pageSaveAllBtn" class="btn" onclick="pageAllOK()">更新所有XML</button></td></tr><tr><td colspan="3" align="center">ITNO：<input name="txtITNO" type="text" style="width:105px" value="">&nbsp;&nbsp;<button id="pageNodeBtn" class="btn" onclick="pageNodeBtn()">节点设置</button>&nbsp;<button id="pageNoNodeBtn" class="btn" onclick="pageNoNodeBtn()">无节点设置</button></td></tr><tr><td colspan="3" align="center"><button id="pageCloseBtn" class="btn" onclick="openModuleTree();">按钮CDNO</button>&nbsp;&nbsp;<button id="pageCloseBtn" class="btn" onclick="pageClose();">关闭</button></td></tr></table></p></div>'
+		}
+	});
+	$('input[name="xmlID"]').focus();
+
+	//alert($(".tab-content :visible").html());return;
+	var iframeBoxObj=$("#J_NavContent").find($(".dl-tab-item")).find($(".tab-content-container")).find($("div:visible"));
+	if(iframeBoxObj[0]){
+		var iframeObj=iframeBoxObj[0].getElementsByTagName('iframe')[0];
+		var ITNOObj=$(iframeObj).contents().find("input[name=ITNO]");
+		//alert();
+		var ITNO="";
+		if($(iframeObj).contents().find("input[name=ITNO]").length>0)
+			ITNO=$(iframeObj).contents().find("input[name=ITNO]").val();
+
+		//alert(ITNO);
+		$('input[name="txtITNO"]').val(ITNO);
+	}
+	
+	
+
+	//window.open('http://yun.baidu.com/share/link?shareid=3444941737&uk=1411143373')
+}
+
+function openModuleTree(){
+	winOpenWH('/roleZTreeServlet?action=iniZTree&ITNO=28','1300','700');
+	
+}
+
+
+//更新xml
+function pageOK(){
+    var xmlRadio=$('input[name="xmlRadio"]:checked').val();
+	var xmlID=$('input[name="xmlID"]').val();
+	ajax_UpdateXML(xmlRadio,xmlID);
+	alert("更新成功");
+}
+//更新所有xml
+function pageAllOK(){
+	$("input[name='xmlRadio']").each(function(){
+		var xmlRadio=$(this).val();
+		var xmlID="";
+		ajax_UpdateXML(xmlRadio,xmlID);
+	});
+    alert("更新成功");
+}
+
+
+//头部 通知 
+function sys_DTTools_remind(){
+	var remindMsgJson=eval(getJsonBySqlNo(25,''));
+	if(remindMsgJson.length>0){
+		page_DTTools_remind = $.layer({
+			type: 1,
+			title: false,
+			area: ['auto', 'auto'],
+			shift: 'top', //从左动画弹出
+			page: {
+			html: '<div style="width:420px; height:150px; padding:20px; border:1px solid #ccc; background-color:#eee;"><h3 align="center" width="100%">一个提醒</h3><p><table width="100%"><tr><td width="20%">主&nbsp;&nbsp;&nbsp;&nbsp;题：</td><td>'+remindMsgJson[0].title+'&nbsp;</td></tr><tr><td>内&nbsp;&nbsp;&nbsp;&nbsp;容：</td><td>'+remindMsgJson[0].content+'&nbsp;</td></tr></table></p></div>'
+			}
+		});
+	}
+
+}
+//默认打开页面
+function  winOpenWH(url,width,height){
+	window.open(url ,"","scrollbars=yes,width="+width+",height="+height);
+} 
+
+//帮助-----节点按钮设置
+function pageNodeBtn(){
+    var txtITNO=$('input[name="txtITNO"]').val();
+	if(txtITNO==''){
+		alert("请输入ITNO");
+		return;
+	}
+	winOpenWH('/gettablerecordinfoservlet?action=viewDocInfo&templateId=admin_purview_edit&ITNO=1&$KEYWORD='+txtITNO,'1300','700');
+
+}
+//帮助-----无节点按钮设置
+function pageNoNodeBtn(){
+	var txtITNO=$('input[name="txtITNO"]').val();
+	if(txtITNO==''){
+		alert("请输入ITNO");
+		return;
+	}
+	var cTypeArray=['1','2','3','4'];
+	var ITNOArray=['262_setInner','275_setInner','307_setInner','275_setInner'];
+	var realITNO="";
+	for(var i=0;i<cTypeArray.length;i++){
+		if(cTypeArray[i]=='{$COMMUNITYTYPE}'){
+			realITNO=ITNOArray[i];
+			break;
+		}
+	}
+	winOpenWH('/generictableservlet?action=recordList&ITNO='+realITNO+'&$TABLEKEYWORD=系统设置|无节点模块设置|'+txtITNO,'1300','700');
+}
+
+//自设关闭
+function pageClose(){
+    layer.close(pageii);
+}
+
+//短消息提示框重大
+function setMsgBox(){
+//	var remindStr=getInfoBySqlNo_noHidden(59,'','');
+	var remindStr=eval(getJsonBySqlNo(23,''));
+	if(remindStr.length>0){
+		$.messager.anim('show', 1000);
+		//$.messager.show('<font color=red>办班申请</font>', '<font color=green style="font-size:14px;font-weight:bold;"><a href="'+remindArray[2]+'" target=_blank>'+remindArray[1]+'</a></font>');
+		$.messager.show('<font color=red>'+remindStr[0].des+'</font>', '<font color=green style="font-size:14px;font-weight:bold;"><a href="'+remindStr[0].deal_url+'" target=_blank>'+remindStr[0].wf_title+'</a></font>');
+	}
+}
+
+$(function(){
+
+	/*
+	$("div.ranklist").myScroll({
+		speed:40,
+		rowHeight:24
+	});
+	*/
+	setMsgBox();//短消息提示框
+
+	//初始化屏幕宽度 高度
+	setWH();
+
+	//重大隐患滚动
+	
+//	$("#show_divId").height($('.mainMiddle1').height()-32);
+//	var scrollYh_width=$('.mainMiddle1').width();
+//	var scrollYh_height=$('.mainMiddle1').height()-32;
+//	new Marquee("show_divId",0,1,scrollYh_width,scrollYh_height,30,0,0,0,0,"show_divId");
+	//setInterval("sys_DTTools_remind()",2000);
+	//alert((window.screen.width-window.screen.width*0.3-30)/2);
+	//alert((window.screen.width-420-20)/2+'');
+
+	//$('.lien').width((window.screen.width-window.screen.width*0.3-30)/2+'px');
+	
+});
+
+
+//base 快速链接
+var _baseUrl = '';
+var baseJSUrl = 'js/quickLink/';
+var baseCSSUrl = 'css/quickLink/';
+var account_url="/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTSJ_examResult_main_note&ITNO=1&$KEYWORD=当前月&$TABLEKEYWORD=$1_note";
+var refreshCartUrl="";//
+var smsUrl="/generictableservlet?action=recordList&ITNO=1_sms1&$TABLEKEYWORD=$1_smsTool"; //短消息
+var saveMessageUrl="";//
+var checkout_Url="";//
+var go_buy="";//
+var place_url="images/quickLink/place.png";//loading图片
+var validateCode_url="";//获取验证码
+var delCart_url="";
+var account_order_url="/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTTools_remind&ITNO=1&$TABLEKEYWORD=$1_redmindTool";
+var account_return_url="";
+var account_address_url="";
+var account_giftcard_url="";
+var account_cashcard_url="";
+var account_jf_url="";
+var account_comment_url = "";
+var account_consult_url = "";
+var account_message_url = "";
+var account_arrival_url = "";
+var account_reduce_url = "";
+var unreadNewMsgUrl = "";
+//Dialog icon base path
+ds.Dialog.defaults.iconBasePath = 'images/quickLink/';
+function showInfoTip(content, type, onhide){
+	var icons = {success:'success.png', info: 'info.png'};
+	var icon = icons[type] || 'error.png';
+	return ds.dialog({
+		title: '消息提示',
+		content: content,
+		onhide: onhide,
+		onyes: true,
+		icon: icon,
+		timeout: 3,
+		width: 200
+	});
+}
+//ds.loadScript(baseJSUrl+'quick_links.js');
+//base 快速链接 end
+//点击 图片more
+function more(type){
+	
+	switch(type){
+		case 'NOTICE':
+			window.open('generictableservlet?action=recordList&ITNO=83_index&$TABLEKEYWORD=$83')
+			break;
+		case 'Readme':
+			window.open('generictableservlet?action=recordList&ITNO=87&$TABLEKEYWORD=$54')
+			break;
+		case 'request':
+			window.open('gettablerecordinfoservlet?action=viewDocInfo&templateId=wf_pendingrequest&$KEYWORD=more&ITNO={ITNO}&$TABLEKEYWORD=$1_pending')
+			break;
+		case 'DT_SJ':
+			window.open('gettablerecordinfoservlet?action=viewDocInfo&templateId=DTSJ_summary_more&ITNO={ITNO}&$TABLEKEYWORD=$53')
+			break;
+		case 'quickLink':
+			window.open('gettablerecordinfoservlet?action=viewDocInfo&templateId=DTIndex_quickLink&ITNO={ITNO}&$TABLEKEYWORD=$index_ql')
+			break;
+	}
+}
+//短信通知 头部
+function setSmsHtml(){
+	$('[id^=sms_divId]').remove();
+//下拉通知
+	var smsHtml="";	
+	var smsJson=eval(getJsonBySqlNo(42,''));
+
+	if(smsJson.length==0){
+		$('#mintbar').height((smsJson.length+2)*44);
+		smsHtml=smsHtml+'<div id="sms_divId0"><h2>&nbsp;&nbsp; 【无未读短信】</h2></div>';
+		
+	}else{
+		$('#mintbar').height((smsJson.length+1)*44);
+		for(var i=0;i<smsJson.length;i++){
+			smsHtml=smsHtml+'<div id="sms_divId'+smsJson[i].id+'"><h2>&nbsp;&nbsp; 【'+smsJson[i].smsType+'】['+smsJson[i].senderName+']：'+smsJson[i].shortContent+'</h2><a id="closebtn'+i+'" recordId="'+smsJson[i].id+'" class="closebtn" href="#"><img src="images/close.png" /></a>	 <span class="dateFloat">'+smsJson[i].date_created+'</span></div>';
+		}
+
+	}
+	$('#mintbar').append(smsHtml);
+    $('[id^=closebtn]').click(function() {
+        $(this).parent().slideUp();
+		//$("#mintbar").height($("#mintbar").height()-44);
+		$("#mintbar").animate({"height" : ($("#mintbar").height()-44)+"px"}, 360);
+		ajax_pro_noInfo(328,$(this).attr("recordId"));
+		//alert($(this).attr("recordId"));
+       // anim(600);
+    });
+//alert('2:'+$('#mintbar').height());
+   
+}	
+//setSmsHtml();
+$('#mint').click(function() {
+	//anim(600);
+	if($('#mintbar').css("display")=='none'){
+		//$('#mintbar').slideDown('slow');
+		$('#mintbar').show();
+		setSmsHtml();
+		
+	}else{
+		$('#mintbar').hide();
+
+		//$('#mintbar').slideUp('slow');
+	}//alert('2:'+$('#mintbar').height());
+});
+if('{smsNum}'>0)$('#mint').css('color','red');
+
+
+(function($){
+
+	$.fn.myScroll = function(options){
+	//默认配置
+	var defaults = {
+		speed:40,  //滚动速度,值越大速度越慢
+		rowHeight:24 //每行的高度
+	};
+	
+	var opts = $.extend({}, defaults, options),intId = [];
+	
+	function marquee(obj, step){
+	
+		obj.find("ul").animate({
+			marginTop: '-=1'
+		},0,function(){
+				var s = Math.abs(parseInt($(this).css("margin-top")));
+				if(s >= step){
+					$(this).find("li").slice(0, 1).appendTo($(this));
+					$(this).css("margin-top", 0);
+				}
+			});
+		}
+		
+		this.each(function(i){
+			var sh = opts["rowHeight"],speed = opts["speed"],_this = $(this);
+			intId[i] = setInterval(function(){
+				if(_this.find("ul").height()<=_this.height()){
+					clearInterval(intId[i]);
+				}else{
+					marquee(_this, sh);
+				}
+			}, speed);
+
+			_this.hover(function(){
+				clearInterval(intId[i]);
+			},function(){
+				intId[i] = setInterval(function(){
+					if(_this.find("ul").height()<=_this.height()){
+						clearInterval(intId[i]);
+					}else{
+						marquee(_this, sh);
+					}
+				}, speed);
+			});
+		
+		});
+
+	}
+
+})(jQuery);
+
+$(function(){
+
+	$("div.ranklist").myScroll({
+		speed:40,
+		rowHeight:24
+	});
+	
+});
+
+
+//自适应屏幕宽度
+function setWH(){
+		//设置首页的宽度
+		$('.mainMiddle1').width((document.documentElement.clientWidth-30)/2+'px');
+		$('.mainMiddle2').width((document.documentElement.clientWidth-30)/2+'px');
+
+		$('.infoleft').width((document.documentElement.clientWidth-30)/2+'px');
+		$('.inforight').width((document.documentElement.clientWidth-30)/2+'px');
+		
+	//alert(document.documentElement.clientHeight);
+		//设置首页的高度
+		$('.mainMiddle1').height((document.documentElement.clientHeight-97-30)/2+'px');
+		$('.infoleft').height((document.documentElement.clientHeight-97-30)/2+'px');
+
+		$('.mainMiddle2').height((document.documentElement.clientHeight-97-30)/2+'px');
+		$('.inforight').height((document.documentElement.clientHeight-97-30)/2+'px');
+
+		//setTimeout("may($('#{$COMMUNITYID}'))",'1000');
+		
+	}
+//增加自适应事件
+$(window).resize(function(){
+	setWH();
+});
+
+//setTimeout("",700);
+$('.mainbox').show();
+
+setTimeout("may($('#{$COMMUNITYID}'))",'500');
+
+</script>
+
+</body>
+</html>

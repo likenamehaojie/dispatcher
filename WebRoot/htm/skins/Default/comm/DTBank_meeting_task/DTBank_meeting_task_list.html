@@ -1,0 +1,367 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>调度档案管理>早调会会议纪要>列表页面>待处理</title>
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+  <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+	 <!--table-->
+
+
+	<!--多选搜索 1 begin-->
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery-ui.css" />
+	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
+	<!--多选搜索 1 end-->
+
+
+	<!--日期控件 begin-->
+	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+	<!--日期控件 end-->
+	
+	<script src="/js/ajax/superValidator.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/map.js"></script>
+	<script src="/js/ajax/mainSub.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+
+	 <!--记忆搜索条件  第一步：引用cookie -->
+	<script src="/js/cookie.js"></script>
+
+	<!--提示信息框架 layer begin -->
+	<script src="js/layer/layer.min.js"></script>
+	<!--提示信息框架 layer begin -->
+
+
+
+</head>
+
+
+  <script>
+  var publishingTasks='none';
+	if(window.opener.document.getElementsByName("publishingTasks")[0]){
+		
+		publishingTasks=window.opener.document.getElementsByName("publishingTasks")[0].value;
+		
+		
+	} 
+		
+	
+
+
+$(document).ready(function(){
+	
+	
+
+
+	//初始化row数据
+	iniList();
+	//如果操作列没有权限  隐藏操作列
+	hideLastCol('actor_table');
+
+	//初始化上下左右
+	//iniFocus();
+	LoadOrder("{OrderKey}","{OrderBy}");
+
+	//记忆搜索条件  第六步：取cookie 解析cookie
+	iniCookie('{tableName}','{ITNO}','{$USERID}');
+
+	
+
+	if(publishingTasks=='block')$(".operation_th").show()
+	
+	if(publishingTasks=='none') document.getElementsByName("dblclick")[0].value="true";
+	
+});
+
+
+var map=new Map();
+//初始化row数据
+function iniList(){
+	//功能描述：使用JavaScript动态添加HTML的元素 
+	//行号与列号 
+
+	{row}
+	
+	var tmp=setHTML_forParent("{realFileName}");
+
+	var BirthDate_Str='{BirthDate}'.replace(/<[^>].*?>/g,'');
+
+	var branchName_Str='{branchName}'.replace(/<[^>].*?>/g,'');
+
+	var workPlace_Str='{workPlace_str}'.replace(/<[^>].*?>/g,'');
+
+	var Shift_Str='{Shift}'.replace(/<[^>].*?>/g,'');
+
+	
+	map.clear();
+	if('{sNo}'==""){
+		map.put("recordId",'&nbsp;<input type="checkbox" name="id" value="">');
+	}else{
+		map.put("recordId",'&nbsp;{id}');
+	}
+	map.put("xuhao:SYS_HIDDEN",'{sNo}');
+
+	
+
+
+	
+    //矿领导 Leader
+	if(publishingTasks=='block')map.put("Leader:SYS_FIELDS",'<span id="Leader_sysEdit_spanId#no#"><select name=\"Leader#no#\" realValue=\"{Leader_str}\"  check=\"2"\ valFun=\"setEmptyCheck\">{filterOptions1}</select></span><span id="Leader_sysView_spanId#no#">{Leader_str}</span>');
+	else map.put("Leader:SYS_FIELDS",'<span id="Leader_sysView_spanId#no#">{Leader_str}"><select name=\"Leader#no#\" realValue=\"{Leader_str}\">{filterOptions1}</select> </span>');
+
+	//安排工作内容	ArrangeWork
+	if(publishingTasks=='block')map.put("ArrangeWork:SYS_FIELDS",'<span id="ArrangeWork_sysEdit_spanId#no#"><TEXTAREA NAME=\"ArrangeWork#no#\" tip=\"会议摘要不能为空\" check=\"2"\ valFun=\"setEmptyCheck\">{ArrangeWork}</TEXTAREA></span><span id="ArrangeWork_sysView_spanId#no#" title=\"{ArrangeWork}\">{ArrangeWork}</span>');
+	else map.put("ArrangeWork:SYS_FIELDS",'<span "ArrangeWork_sysView_spanId#no#" title=\"{ArrangeWork}\">{ArrangeWork}</span>');
+
+	//安排工作内容	ArrangeWork
+	//map.put("ArrangeWork:SYS_FIELDS",'<span id="ArrangeWork_sysEdit_spanId#no#"><textarea name=\"ArrangeWork#no#\" value=\"{ArrangeWork}\" size=\"8\" check=\"2"\ tip=\"打钻期间异常情况不能为空\" valFun=\"setEmptyCheck\"></textarea></span><span id="ArrangeWork_sysView_spanId#no#">{ArrangeWork}</span>');
+
+
+	//责任单位	Responsibility
+	//map.put("Responsibility:SYS_FIELDS",'<span id="Responsibility_sysEdit_spanId#no#"><select name=\"Responsibility#no#\" multiple realValue=\"{Responsibility}\"  check=\"2"\ valFun=\"setEmptyCheck\">{filterOptions2}</select></span><span id="Responsibility_sysView_spanId#no#">{Responsibility}</span>');
+	
+	if(publishingTasks=='block')map.put("operate_zrBranch",'<a href=\"javascript:layer_div(#no#)\">添加单位</a><br><span id="operate_zrBranch_spanId#no#">{ResponsibilityName}</span>');
+	else map.put("operate_zrBranch",'<span id="operate_zrBranch_spanId#no#">{ResponsibilityName}</span>');
+
+	//状态  wf_status
+	if(publishingTasks=='block')map.put("wf_status:SYS_FIELDS",'<span id="wf_status_sysEdit_spanId#no#"><input type=\"text\" name=\"wf_status#no#\" defaultValue=\"未发送\" readOnly="true"  value=\"{wf_status}\" size=\"15\"  check=\"2"\ valFun=\"setEmptyCheck\" ></span><span id="wf_status_sysView_spanId#no#">{wf_status}</span>');
+	else map.put("wf_status:SYS_FIELDS",'<span id="wf_status_sysView_spanId#no#">{wf_status}</span>');
+
+	//发送
+	if(publishingTasks=='block' ||'{Leader}'!='')map.put("operate",'<a href=\"javascript:openWfPage(#no#)\">点击发送</a>');
+	else map.put("add_open",'&nbsp;');
+
+	  
+	
+	map.put("Meetingid:SYS_FIELDS:SYS_HIDDEN",'<span id="Meetingid_sysEdit_spanId#no#"><TEXTAREA NAME=\"Meetingid#no#\">{$TABLEKEYWORD3}</TEXTAREA></span><span id="Meetingid_sysView_spanId#no#">{$TABLEKEYWORD3}</span>');
+
+	map.put("ResponsibilityId:SYS_FIELDS:SYS_HIDDEN",'<span id="ResponsibilityId_sysEdit_spanId#no#"><TEXTAREA NAME=\"ResponsibilityId#no#\">{ResponsibilityId}</TEXTAREA></span><span id="ResponsibilityId_sysView_spanId#no#">{ResponsibilityId}</span>');
+	map.put("ResponsibilityName:SYS_FIELDS:SYS_HIDDEN",'<span id="ResponsibilityName_sysEdit_spanId#no#"><TEXTAREA NAME=\"ResponsibilityName#no#\">{ResponsibilityName}</TEXTAREA></span><span id="ResponsibilityName_sysView_spanId#no#">{ResponsibilityName}</span>');
+
+	//保存 
+	map.put("next_step:SYS_FIELDS:SYS_HIDDEN",'<span id="next_step_sysEdit_spanId#no#"><TEXTAREA NAME=\"next_step#no#\">2</TEXTAREA></span><span id="next_step_sysView_spanId#no#">{next_step}</span>');
+
+
+
+	// map中的按钮数组     '{editshow_show}'判断是否可以双击
+	//var btnArray=['{editshow}','{saveshow}','{delshow}']; 
+	//map.put("operate",OperateForRealValue(btnArray),'{editshow_show}');
+	if(publishingTasks=='block')map.put("operate",'<a href=\"javascript:dblEdit(#no#)\">编辑&nbsp;<a href=\"javascript:ajax_save(#no#);\">保存</a>&nbsp;&nbsp;<a href=\"javascript:DelCurrentRow(#no#,1,1);\">删除</a>');
+	
+	
+	
+
+
+
+	if('{sNo}'=="" ){
+
+		AddRow(map,'blank');
+	}else{
+		
+		AddRow(map,'data');
+	}
+	
+	{row}
+	
+}
+
+
+
+function clearNoNum(obj){
+
+		//先把非数字的都替换掉，除了数字和.
+		obj.value = obj.value.replace(/[^\d.]/g,"");
+		//必须保证第一个为数字而不是.
+		obj.value = obj.value.replace(/^\./g,"");
+		//保证只有出现一个.而没有多个.
+		obj.value = obj.value.replace(/\.{2,}/g,".");
+		//保证.只出现一次，而不能出现两次以上
+		obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+
+		 //如果第一位是负号，则允许添加   如果不允许添加负号 可以把这块注释掉
+	
+	}
+
+
+
+//
+var ckbZrBranchStr=getJsonRadioBySqlNo(46,'','zrBranch','checkbox','5','');
+
+var selectBranchLayer;
+function layer_div(num){
+	 
+	 selectBranchLayer=$.layer({
+			type: 1,
+			title: false,
+			area: ['auto', 'auto'],
+			shift: '', //从左动画弹出
+			page: {
+			html: '<div style="width:420px; height:150px; padding:20px; border:1px solid #ccc; background-color:#eee;"><h3 align="center" width="100%">责任单位</h3><br><p width="100%" align="center">'+ckbZrBranchStr+'</p><br><p width="100%" align="center"><input type="button" value="确定" class="btn" onclick="queding('+num+')"></p></div>'
+			}
+		});
+
+	var oldValue=";"+$("TEXTAREA[name=ResponsibilityId"+num).val();
+	$("input[name=zrBranch]").each(function(){
+		if(oldValue.indexOf(";"+$(this).val()+";")>-1){
+			$(this).attr("checked",true);
+		}
+		
+	})
+	
+	
+}
+
+function queding(num){
+	
+
+	var zrBranchIds='';
+	var zrBranchNames='';
+	$("input[name=zrBranch]").each(function(){
+		if($(this).is(':checked')){
+			//val+=$(this).val+',';
+			zrBranchIds+=$(this).attr("value")+';';
+			zrBranchNames+=$(this).attr("realText")+';';
+		}
+		
+	})
+
+	$("TEXTAREA[name=ResponsibilityId"+num).val(zrBranchIds);
+	$("#operate_zrBranch_spanId"+num).html(zrBranchNames);
+	$("TEXTAREA[name=ResponsibilityName"+num+"]").val(zrBranchNames);
+
+	layer.close(selectBranchLayer);
+
+	dblEdit(num)
+	
+
+}
+function openWfPage(no){
+	
+	
+	var recordId=document.getElementById("recordId_td"+no).getElementsByTagName("INPUT")[0].value;
+	var next_step=document.getElementById("next_step_sysView_spanId"+no).innerHTML;
+	if(next_step=='')next_step=2
+	
+	 document.form1.target='_blank';
+	 document.getElementsByName("recordId")[0].value=recordId;
+	 document.getElementsByName("step")[0].value=next_step;
+	 document.form1.action="/wfservlet?action=processInfo";
+     document.form1.submit();
+	 document.form1.target='';
+	 document.form1.action='';
+
+
+ 
+}
+
+function sys_fun_save(tableName,oType,newId,sNo){
+	
+	//window.location.reload();
+
+}
+
+
+
+</script>
+<body >
+  <form name="form1" action="" method="post">
+    <input type="hidden" name="tableName" value="DTBank_meeting_task">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" name="actorCount" value="{actorCount}">
+	<input type="hidden" name="worry_type" value="{$TABLEKEYWORD2}">
+
+	<input type="hidden" name="OrderBy" value="{OrderBy}">	
+	<input type="hidden" name="OrderKey" value="{OrderKey}">
+	
+	<input type="hidden" name="clickValue" value="N1">
+	<input type="hidden" name="firstUrl" value="null">
+	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+	<input name="dblclick" type="hidden" value="" /><!--已上报禁止双击编辑-->
+	<input type="hidden" name="PeriodNumber" id="PeriodNumber" value="{$TABLEKEYWORD4}">
+
+	<input type="hidden" name="step" value="">
+    <input type="hidden" name="recordId" value="">
+	<input type="hidden" name="templateId" value="DTBank_meeting_task">
+	<input type="hidden" name="saveFun" value="sys_fun_save">
+
+
+
+
+	<input type="hidden" name="j" value="">
+
+  <div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1}</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp;{$TABLEKEYWORD2}>列表页面>待处理</div>
+  </div>
+  <br><br>
+	<div class="line_list">
+			 <li class="pian">
+                 <div id="navMenu">
+                            <a id="stair1" href="/generictableservlet?action=recordList&ITNO=431_task&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}"
+                            title="待处理" class="active">
+                                <span>
+                                    待处理
+                                </span>
+                            </a>
+                            <a id="stair2" href="/generictableservlet?action=recordList&ITNO=431_ycl&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|{$TABLEKEYWORD3}"
+                            title="已处理" class="">
+                                <span>
+                                    已处理
+                                </span>
+                            </a>
+                            <a id="stair3" href="/generictableservlet?action=recordList&ITNO=431_yjs&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|{$TABLEKEYWORD3}"
+                            title="已结束" class="">
+                                <span>
+                                    已结束
+                                </span>
+                            </a>
+                        </div>
+			</li>
+	  <li><a href="#" class="operation_th" style="display:none" onclick="DelManyCurrentRows(1,1);"  ><span><img src="images/index/listDel.gif"   class="f_l"/></span><span class="f_l">批量删除</span></a></li>
+	   <li><a href="#" class="operation_th" style="display:none" onclick="AddRows();" ><span><img src="images/index/listAdd.gif"   class="f_l"/></span><span class="f_l">添加</span></a></li>
+    </div>
+
+		
+<div class="a_box">	
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+      <tr>
+	    <th width="1%"><input type="checkbox" name="roleCheck" value="" onClick="selectAllRole(form1);"></th>
+          
+            <th width="5%">矿领导</th> 
+			<th width="3%">安排工作内容</th>
+			<th width="3%">责任单位</th> 
+			<th width="3%">状态</th> 
+			<th width="3%">发送</th> 
+			<th width="3%" class="operation_th" style="display:none">基本操作</th>
+      </tr>
+    </thead>
+	
+  </table>
+
+   <table width="100%">
+	<tr>
+     {page}
+    </tr>
+   
+  </table>
+
+  </div>
+</form>
+</body>
+</html>

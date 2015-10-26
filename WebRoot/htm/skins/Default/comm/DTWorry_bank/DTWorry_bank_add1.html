@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+<title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]-添加页面</title>
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+  <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+
+<script type="text/javascript" src="js/changeto.js"></script>
+
+<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+
+<SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+<SCRIPT language="javascript" src="/js/upload/upload.js"></SCRIPT>
+
+<!--日期控件 begin-->
+<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+<!--日期控件 end-->
+<script charset="utf-8" src="kindeditor-4.1.10/kindeditor.js"></script>
+<script charset="utf-8" src="kindeditor-4.1.10/lang/zh_CN.js"></script>
+<script src="/js/mainSub.js"></script>
+</head>
+<script>
+$(document).ready(function(){
+	setEmptyCheck("name:sex:BirthDate:Nation:Addres:Place:partyDate:workDate:EntryDate:Nature:Healthy:Family:Family:Cid:phone");
+	
+})
+
+
+var options = {
+        cssPath : '/css/index.css',
+        filterMode : true
+};
+
+
+
+function getFileName(path){//alert(path);
+	var pos1 = path.lastIndexOf('/');
+	var pos2 = path.lastIndexOf('\\');
+	var pos  = Math.max(pos1, pos2);
+	var ftype="";
+	if( pos>=0 ){
+	  path=path.substring(pos+1);
+	  ftype=path.substring(path.lastIndexOf("."));
+      path=path.substring(0,path.lastIndexOf("."));
+	}else{
+	  ftype=path.substring(path.lastIndexOf("."));
+	}
+    if(ftype.indexOf(".doc")>=0||ftype.indexOf(".docx")>=0||ftype.indexOf(".xls")>=0||ftype.indexOf(".xlsx")>=0){
+          getURL();
+		  //$("input[name=Photo]").val($("input[name=realFileName]").val());
+		 // alert($("input[name=realFileName]").val());
+	}else{
+	  alert("您导入的文件不是【WORD或EXCEL】文件，请重新浏览选择正确的word或excel文件，谢谢！");
+	  //document.form1.reset();
+      document.getElementsByName("file1")[0].outerHTML=document.getElementsByName("file1")[0].outerHTML;
+	}
+}
+
+function checkFileType() {
+  if(document.getElementsByName("file1")[0].value!=''){
+     getFileName(document.getElementsByName("file1")[0].value);
+
+  }
+}
+
+
+</script>
+
+<body>
+<form name="form1" action="/generictableservlet?action=saveAddRecord&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+<input type="hidden" name="formFlag" value="2">
+<input type="hidden" name="listUrl" value="">
+<input type="hidden" name="realFileName" value="">
+<input type="hidden" name="dispatching_unit" value="{$WORKGROUP}">
+<input type="hidden" name="Photo" value="">
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>调度人员档案 </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 录入页面</div>
+  <div style = "clear:both;"></div>
+    <div class="a_box">
+        <table border="0" cellspacing="0" cellpadding="0" class="view_table">
+          <tr>
+
+			<td class="tad" > 姓名:</td>
+			<td class="t_l b_cf"  colspan="1"><input name="name" type="text" class="input_txt" value="" style="width:200px;" tip="姓名不能为空" check="2"/>&nbsp;*</td>
+			
+			<td class="tad" width="20%">性别:</td>
+			<td class="t_l b_cf " width="200px">
+				<select name="sex">
+					<option value="">请选择</option>
+					<option value="男">男</option>
+					<option value="女">女</option>
+				</select> &nbsp;*
+			</td>
+		  </tr>
+		  <tr>
+			<td class="tad">出生日期:</td>
+			<td class = "t_l b_cf"><input name="BirthDate" style="width:200px;" readonly="readonly"  class="input_txt" onclick="WdatePicker()"/>&nbsp;*</td>
+
+			<td class="tad" > 民族:</td>
+			<td class="t_l b_cf"  colspan="1"><input name="Nation" type="text" class="input_txt" value="汉" style="width:200px;" tip="民族不能为空" check="2"/>&nbsp;*</td>
+			
+		  </tr>
+
+		  <tr>
+			<td class="tad">出生地址:</td>
+			<td class = "t_l b_cf" colspan="1"><input name="Addres" type="text" class="input_txt" value="" style="width:200px;" tip="地址不能为空" check="2"/>&nbsp;*</td>
+
+			<td class="tad" > 籍贯:</td>
+			<td class = "t_l b_cf""  colspan="1"><input name="Place" type="text" class="input_txt" value="河南省" style="width:200px;" tip="籍贯不能为空" check="2"/>&nbsp;*</td>
+			
+		  </tr>
+
+		  <tr>
+			<td class="tad">入党时间:</td>
+			<td class = "t_l b_cf"><input name="partyDate" style="width:200px;" readonly="readonly" class="input_txt" onclick="WdatePicker()"/>&nbsp;*</td>
+
+			<td class="tad" > 参加工作时间:</td>
+			<td class = "t_l b_cf"><input name="workDate" style="width:200px;"  readonly="readonly" class="input_txt" onclick="WdatePicker()"/>&nbsp;*</td>
+			
+		  </tr>
+		  
+		  <tr>
+			<td class="tad">入职时间:</td>
+			<td class = "t_l b_cf"><input name="EntryDate" style="width:200px;"  readonly="readonly" class="input_txt" onclick="WdatePicker()"/>&nbsp;*</td>
+
+			<td class="tad" > 工作性质:</td>
+			<td class = "t_l b_cf"  colspan="1"><input name="Nature" type="text" class="input_txt" value="" style="width:200px;" tip="工作性质不能为空" check="2"/>&nbsp;*</td>
+			
+		  </tr>
+
+		  <tr>
+			<td class="tad">健康情况:</td>
+			<td class = "t_l b_cf" colspan="1"><input name="Healthy" type="text" class="input_txt" value="优" style="width:200px;" tip="健康情况不能为空" check="2"/>&nbsp;*</td>
+
+			<td class="tad" > 家庭住址:</td>
+			<td class = "t_l b_cf"  colspan="1"><input name="Family" type="text" class="input_txt" value="河南省永城市" style="width:200px;" tip="家庭住址不能为空" check="2"/>&nbsp;*</td>
+			
+		  </tr>
+
+		  <tr>
+			<td class="tad">身份证号:</td>
+			<td class = "t_l b_cf" colspan="1"><input name="Cid" type="text" class="input_txt" value="" style="width:200px;" tip="身份证号不能为空" check="2"/>&nbsp;*</td>
+
+			<td class="tad" > 手机号码:</td>
+			<td class = "t_l b_cf"  colspan="1"><input name="phone" type="text" class="input_txt" value="" style="width:200px;" tip="手机号码不能为空" check="2"/>&nbsp;*</td>
+			
+		  </tr>
+
+		  <tr>
+			<td class="tad" width="20%">照片附件:</td>
+			<td id="fileTdId" class="t_l b_cf" width="20%" colspan="3">
+			<input type="file" name="file1" size="40" maxlength="500" onChange="checkFileType()" ></td>
+		  </tr>
+    </table>
+  </div>
+  <div>
+	<table width="100%">
+		<tr>                  
+			<td colspan="8" align="center">
+				<input type="submit" name="save" class="btn" onMouseOver="this.className='btn'" onMouseOut="this.className='btn'" onClick="return true" value="保 存">
+				&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="button" value="返回" class="btn m_l15" onclick="window.history.go(-1)">
+			</td>
+		      </tr>
+	</table>
+  </div>
+</form>
+</body>
+</html>

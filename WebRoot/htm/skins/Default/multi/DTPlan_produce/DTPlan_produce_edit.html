@@ -1,0 +1,332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+     <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  
+  <script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+  <script src="/js/ajax1.js"></script>
+  <script src="/js/ajaxCheckUnique.js"></script>
+  <SCRIPT src="/js/checkout.js"></SCRIPT>
+  <SCRIPT src="/js/checkout_subTable.js"></SCRIPT>
+  <script src="/js/ajaxAutoInfo.js"></script>
+  <script src="/js/ajaxGetOptions.js"></script>
+  <script src="/js/jQuery.js"></script>
+  <script src="/js/expandJs/jQuery.setAvg-min.js"></script>
+  <script src="/js/mainSub.js"></script>
+  <script src="/js/ajaxMod.js"></script>
+  <script src="/js/map.js"></script>
+  <SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+  
+   
+</head>
+
+
+ <script type="text/javascript">
+
+ var unit_id_optstr='';
+//添加条件行 
+function AddRow(maxLength){ 
+	
+	//UNIT=UNIT.replace('selected','')
+	
+	var map=new Map();
+	//工作面
+	map.put("unit_id",'<select  name=\"unit_id#no#\" value=\"\">'+unit_id_optstr+'</select>');
+
+	//考核产量-月产 月进
+	map.put("procedure_in_month",'<input  class=\"input_txt\" id="procedure_in_month#no#"  type=\"text\"  name=\"procedure_in_month#no#\" value=\"\" />');	
+	//考核产量-平均日产 日进
+	map.put("avg_procedure_in_day",'<input  class=\"input_txt\"  type=\"text\" id="avg_procedure_in_day#no#" readonly="readonly"  name=\"avg_procedure_in_day#no#\" value=\"\" />');	
+	
+	
+	//考核计划-有效进尺
+	map.put("valid_leap_in_month",'<input  class=\"input_txt\"  type=\"text\"  name=\"valid_leap_in_month#no#\" value=\"\" />');	
+	
+	//目标产量-月产
+	map.put("target_procedure_in_month",'<input  class=\"input_txt\"  type=\"text\"  name=\"target_procedure_in_month#no#\" value=\"\" />');	
+
+
+	
+
+	//操作<a  href=\"javascript:AddRow_MR()\">添加</a><br/><a href=\"javascript:DelCurrentRow(#no#);\">删除</a>
+	map.put("operate",'<div style =\'width:60%;margin:0 auto\'><li><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l">添加 &nbsp;</span></a></li>   <li><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l">删除</span></a></li></div>'); 
+	//所在单位 用于存储过程
+	map.put("COMPANY_TYPE:SYS_FIELDS:SYS_HIDDEN",'<span id="COMPANY_TYPE_sysEdit_spanId#no#"><TEXTAREA NAME=\"COMPANY#no#\">{$SHORTNAME}</TEXTAREA></span><span id="CONFERENCE_TYPE_sysView_spanId#no#">{$SHORTNAME}</span>');
+
+	//矿名 用于存储过程
+	map.put("communityName:SYS_FIELDS:SYS_HIDDEN",'<span id="communityName_sysEdit_spanId#no#"><TEXTAREA NAME=\"communityName#no#\">{$SHORTNAME}</TEXTAREA></span><span id="communityName_TYPE_sysView_spanId#no#">{$SHORTNAME}</span>');
+
+	//矿id 用于存储过程
+	map.put("communityId:SYS_FIELDS:SYS_HIDDEN",'<span id="communityId_sysEdit_spanId#no#"><TEXTAREA NAME=\"communityId#no#\">{$COMMUNITYID}</TEXTAREA></span><span id="communityId_TYPE_sysView_spanId#no#">{$COMMUNITYID}</span>');
+		
+	for(var i=1;i<=maxLength;i++){  
+		AddRow_sys(map);
+	}
+	map.clear();
+} 
+
+
+
+$(document).ready(function(){
+	$("#mtcl").setAvg({setId:"pjrc"});
+	$("#jjzjc").setAvg({setId:"pjrj"});
+	$("#ktjc").setAvg({setId:"ktrjc"});
+	$("#dbcfhjcjh").setAvg({setId:"dbcfhrjc"});
+	$("#shijitianshu").setAvg({setId:"mtcl,jjzjc,ktjc,dbcfhjcjh",pjIds:"pjrc,pjrj,ktrjc,dbcfhrjc"});
+ });
+
+
+
+function AddRow_MR(){
+	
+	AddRow(1);
+	$("#procedure_in_month"+sys_j).setAvg({setId:"avg_procedure_in_day"+sys_j});
+	
+	var alls = "procedure_in_month"+sys_j;
+	var avgs = "avg_procedure_in_day"+sys_j;
+	$("#shijitianshu").setAvg({setId:alls,pjIds:avgs});
+	
+	$("td[id^=COMPANY_td]").css('display','none')
+}
+
+	function clearNoNumZS(obj){
+		//只能输入正整数
+		obj.value = obj.value.replace(/[^\d]/g,"");
+	}
+	function clearNoNum(obj){
+		//先把非数字的都替换掉，除了数字和.
+		obj.value = obj.value.replace(/[^\d.]/g,"");
+		//必须保证第一个为数字而不是.
+		obj.value = obj.value.replace(/^\./g,"");
+		//保证只有出现一个.而没有多个.
+		obj.value = obj.value.replace(/\.{2,}/g,".");
+		//保证.只出现一次，而不能出现两次以上
+		obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+		//小数点后只能输入两位
+		obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); 
+
+	}
+	function checkzz(){
+		var main_name=document.getElementsByName("MAIN_NAME")[0].value
+		var plan_time=document.getElementsByName("PLAN_TIME")[0].value
+		var main_id=document.getElementsByName("main_id")[0].value
+		var ceshi=getInfoBySqlNo_noHidden(280,main_name+'|'+plan_time+'|'+main_id)
+		if (ceshi==0)
+		{
+			return check_subTable();
+		}
+		else
+		{
+		alert('项目名称和年份必须唯一')
+		return false;
+		}
+	}
+</script>
+
+
+<form name="form1" action="/genericmultableservlet?action=saveEditRecord" method="post">
+<input type="hidden" name="tableName" value="{mulId}">
+
+<input type="hidden" name="recordId" value="{recordId}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+
+<input type="hidden" name="listUrl" value="{listUrl}">
+<input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+<input type="hidden" name="curPage" value="{curPage}">
+<input type="hidden" name="mulId" value="{mulId}">
+<input type="hidden" id="actorCount" name="actorCount" value="{actorCount}">
+<input type="hidden" name="flag" value="{flag}">
+
+<input type="hidden" name="realFileName" value="{realFileName}">
+
+
+<input type="hidden" name="main_id" value="{main_id}">
+   <input type="hidden" name="field.validateValue" value="mtcl|煤炭产量|TXT|100|1|yn|">	
+   <input type="hidden" name="field.validateValue" value="yearandmonth|年份|TXT|100|1|yn|">
+   <input type="hidden" name="field.validateValue" value="hf|灰份|NUM|100|1|yn|">
+   <input type="hidden" name="field.validateValue" value="sf|水份|NUM|100|1|yn|">
+   <input type="hidden" name="field.validateValue" value="kml|块煤率|NUM|100|1|yn|">
+   <input type="hidden" name="field.validateValue" value="pjrc|平均日产|NUM|100|1|yn|">
+   <input type="hidden" name="field.validateValue" value="jjzjc|掘进总进尺|NUM|100|1|yn|">
+   <input type="hidden" name="field.validateValue" value="pjrj|平均日进|NUM|100|1|yn|">
+   <input type="hidden" name="field.validateValue" value="ktjc|开拓进尺|NUM|100|1|yn|">
+   <input type="hidden" name="field.validateValue" value="ktrjc|开拓日进尺|NUM|100|1|yn|">
+   <input type="hidden" name="field.validateValue" value="dbcfhjcjh|底板抽放巷进尺计划|NUM|100|1|yn|">
+   <input type="hidden" name="field.validateValue" value="dbcfhrjc|底板抽放巷日进尺|NUM|100|1|yn|">
+   <input type="hidden" name="field.validateValue" value="zjl|注浆量|NUM|100|1|yn|">
+   <input type="hidden" name="field.validateValue" value="shijitianshu|实际天数|NUM|100|1|yn|">
+   <input type="hidden" name="field.validateValue_sub" value="valid_leap_in_month|有效进尺|NUM|100|1|yn|">
+   <input type="hidden" name="field.validateValue_sub" value="target_procedure_in_month|月目标产量|NUM|100|1|yn|">
+
+
+
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp;  {$TABLEKEYWORD2} &gt; 修改页面</div>
+     <div style = "clear:both;"></div>
+<div class='toolbar'>
+<table width="100%" class="tabtap" style="border-collapse:collapse;" cellspacing="0" cellpadding="0">
+  <tbody>
+
+  <tr>
+  
+     <td class="tad"><img src="images/form/mi.GIF">&nbsp;年月&nbsp;:</td>
+    <td> <input name="yearandmonth" type="text" value="{yearandmonth}" class="input_txt"  onClick="WdatePicker({dateFmt:'yyyy年MM月'})"  readonly/></td>
+         <td class="tad"><img src="images/form/mi.GIF">&nbsp;煤炭产量(吨)&nbsp;:</td>
+    <td> <input name="mtcl" type="text" value="{mtcl}" id ="mtcl" class="input_txt" /></td>
+  </tr>
+  <tr>
+           <td class="tad"><img src="images/form/mi.GIF">&nbsp;灰份(%)&nbsp;:</td>
+    <td> <input name="hf" type="text" value="{hf}" class="input_txt" /></td>
+           <td class="tad"><img src="images/form/mi.GIF">&nbsp;水份(%)&nbsp;:</td>
+    <td> <input name="sf" type="text" value="{sf}" class="input_txt" /></td>
+ 
+
+   </tr>
+  <tr>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;块煤率(%)&nbsp;:</td>
+    <td> <input name="kml" type="text" value="{kml}" class="input_txt" /></td>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;平均日产(吨)&nbsp;:</td>
+    <td> <input name="pjrc" type="text" value="{pjrc}" id ="pjrc" readonly="readonly" class="input_txt" /></td>
+  
+  </tr>
+  <tr>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;掘进总进尺(米)&nbsp;:</td>
+    <td> <input name="jjzjc" id="jjzjc" type="text" value="{jjzjc}" class="input_txt" /></td>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;平均日进(米)&nbsp;:</td>
+    <td> <input name="pjrj" type="text" value="{pjrj}" id="pjrj" readonly="readonly" class="input_txt" /></td>
+  
+  </tr>
+  <tr>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;其中：开拓进尺(米)&nbsp;:</td>
+    <td> <input name="ktjc" type="text" value="{ktjc}" id="ktjc"  class="input_txt" /></td>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;开拓日进尺(米)&nbsp;:</td>
+    <td> <input name="ktrjc" type="text" value="{ktrjc}" id="ktrjc" readonly="readonly"  class="input_txt" /></td>
+  
+  </tr>
+  <tr>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;底板抽放巷进尺计划(米)&nbsp;:</td>
+    <td> <input name="dbcfhjcjh" type="text" id="dbcfhjcjh" value="{dbcfhjcjh}" class="input_txt" /></td>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;底板抽放巷日进尺(米)&nbsp;:</td>
+    <td> <input name="dbcfhrjc" type="text" value="{dbcfhrjc}" readonly="readonly" id="dbcfhrjc"  class="input_txt" /></td>
+  
+  </tr>
+  <tr>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;瓦斯抽放钻孔进尺(米)&nbsp;:</td>
+    <td> <input name="wscfzkjc" type="text" value="{wscfzkjc}" class="input_txt" /></td>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;瓦斯抽放量(方)&nbsp;:</td>
+    <td> <input name="wscfl" type="text" value="{wscfl}" class="input_txt" /></td>
+  
+  </tr>
+  <tr>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;底板钻孔进尺(米)&nbsp;:</td>
+    <td> <input name="dbzkjc" type="text" value="{dbzkjc}" class="input_txt" /></td>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;注浆量(吨)&nbsp;:</td>
+    <td> <input name="zjl" type="text" value="{zjl}" class="input_txt" /></td>
+  
+  </tr>
+  <tr>
+            <td class="tad"><img src="images/form/mi.GIF">&nbsp;实际天数&nbsp;:</td>
+    <td> <input name="shijitianshu" type="text" id="shijitianshu" value="{shijitianshu}" class="input_txt" /></td>
+
+  
+  </tr>
+</tbody></table>
+
+
+</div>
+
+
+  <div>
+  <table border="0"width="100%" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+    <tr  >
+    	<th rowspan="2" align="center">序号</th>
+    	<th  rowspan="2" align="center" >单 位</th>
+    	<th align="center" colspan="3">考核产量/计划</th>
+    	
+    <th align="center" rowspan="2">月目标产量(吨)</th>
+    	<th width="10%" rowspan="2" align="center">操作</th>
+    </tr>
+      <tr>
+		<th align="center">月(产量(吨)/进尺(米))</th>
+		<th align="center">平均日(产量(吨)/进尺(米))</th>
+		
+	
+		<th align="center">有效进尺(米)</th>
+	
+		
+      </tr>
+    </thead>
+    <tbody>
+	{row}
+	<script>
+	//添加一行新数据获取option值
+		var UNIT;
+		if('{flag}'==1){
+			UNIT='{UNIT}';
+			
+		}
+		unit_id_optstr='{unit_id}';
+	
+		
+		
+		
+		   //procedure_in_month,avg_procedure_in_day,target_procedure_in_month,leap_in_month,valid_leap_in_month,avg_leap_in_day,unit_id
+		   </script>
+		   
+	<tr id="{flag}">
+    <td id="xuhao{flag}" align="center">{flag}</td>
+    <td align="center"><select name = "unit_id{flag}">{unit_id}</select>
+	<td align="center"><input  class="input_txt" type="text" id="procedure_in_month{flag}" name="procedure_in_month{flag}" value="{procedure_in_month}"/></td>
+	<td align="center"><input  class="input_txt" type="text" readonly="readonly" id="avg_procedure_in_day{flag}" name="avg_procedure_in_day{flag}" value="{avg_procedure_in_day}"/></td>
+	<td align="center"><input  class="input_txt" type="text" name="valid_leap_in_month{flag}" value="{valid_leap_in_month}"/></td>
+	<td align="center"><input  class="input_txt" type="text" name="target_procedure_in_month{flag}" value="{target_procedure_in_month}"/></td>
+	
+	<td style="display:none"><input name="FINISH{flag}" type="text" value="{FINISH}" size="5"/></td>
+	<td style="display:none"><input name="REMARK_F{flag}" type="text" value="{REMARK_F}" size="5"/></td>
+	<td style="display:none"><input name="COMPANY{flag}" type="text" value="{COMPANY}" size="5"/></td>
+	<td style="display:none"><input name="communityName{flag}" type="text" value="{communityName}" size="5"/></td>
+	<td style="display:none"><input name="communityId{flag}" type="text" value="{communityId}" size="5"/></td>
+
+    <td align="center"> <div style ="width:60%;margin:0 auto"><li><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l">添加 &nbsp;</span></a></li>   <li><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l">删除</span></a></li></div></td>
+	
+  </tr>
+<script>
+
+
+$("#procedure_in_month"+'{flag}').setAvg({setId:"avg_procedure_in_day"+'{flag}'});
+
+var alls = "procedure_in_month"+'{flag}';
+
+var avgs = "avg_procedure_in_day"+'{flag}';
+$("#shijitianshu").setAvg({setId:alls,pjIds:avgs});
+
+
+
+</script>
+{row}
+       
+    </tbody>
+  </table>
+</div>
+  <table width="98%">
+    <tr>
+      <td colspan="4" align="center">
+        <input type="submit" value="保存" class="btn" onclick="return check_subTable();" />
+        <input type="button" value="返回" class="btn m_l15" onclick="window.history.go(-1)"/>
+      </td>
+    </tr>
+  </table>
+
+</form>
+</body>
+</html>

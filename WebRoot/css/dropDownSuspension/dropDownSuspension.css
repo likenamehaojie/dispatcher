@@ -1,0 +1,10 @@
+*{margin:0;padding:0;list-style-type:none;}
+a,img{border:0;}
+.colorFloat{float:right;margin-right:10px;}
+.dateFloat{float:right;margin-right:10px;}
+
+#mintbar{background:url('images/bg1.png') repeat ;font-size:14px;font-family:Arial,Helvetica,Sans-serif;color:#FFF;padding:0;position:relative;top:10px;margin-right:490px;z-index:2000;width:60%;text-align:center;height:210px;}
+#mintbar div{position:relative;margin:0 auto;padding-top:10px;width:100%;height:30px;}
+#mintbar div h2{float:left;font-size:16px;}
+.closebtn{float:right;margin-right:10px;}
+#mint{cursor:pointer;position:relative;z-index:1000;}

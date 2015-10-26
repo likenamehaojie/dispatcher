@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+<title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]-添加页面</title>
+  <link rel="stylesheet" type="text/css" href="css/index.css" />
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+    <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+
+<script type="text/javascript" src="js/changeto.js"></script>
+
+<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+
+<SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+<SCRIPT language="javascript" src="/js/upload/upload.js"></SCRIPT>
+
+<script charset="utf-8" src="kindeditor-4.1.10/kindeditor.js"></script>
+<script charset="utf-8" src="kindeditor-4.1.10/lang/zh_CN.js"></script>
+<script src="/js/mainSub.js"></script>
+</head>
+<script>
+
+KindEditor.ready(function(K) {
+		window.editor = K.create('#editor_id');
+});
+
+var options = {
+        cssPath : '/css/index.css',
+        filterMode : true
+};
+
+
+
+$(document).ready(function(){
+	setEmptyCheck("title");
+	
+})
+
+function getFileName(path){//alert(path);
+	var pos1 = path.lastIndexOf('/');
+	var pos2 = path.lastIndexOf('\\');
+	var pos  = Math.max(pos1, pos2);
+	var ftype="";
+	if( pos>=0 ){
+	  path=path.substring(pos+1);
+	  ftype=path.substring(path.lastIndexOf("."));
+      path=path.substring(0,path.lastIndexOf("."));
+	}else{
+	  ftype=path.substring(path.lastIndexOf("."));
+	}
+    if(ftype.indexOf(".doc")>=0||ftype.indexOf(".docx")>=0||ftype.indexOf(".xls")>=0||ftype.indexOf(".xlsx")>=0){
+          getURL();
+	}else{
+	  alert("您导入的文件不是【WORD或EXCEL】文件，请重新浏览选择正确的word或excel文件，谢谢！");
+	  //document.form1.reset();
+      document.getElementsByName("file1")[0].outerHTML=document.getElementsByName("file1")[0].outerHTML;
+	}
+}
+
+function checkFileType() {
+  if(document.getElementsByName("file1")[0].value!=''){
+     getFileName(document.getElementsByName("file1")[0].value);
+
+  }
+}
+function EndTimeToshow(obj){
+	
+	if(obj.value=='紧急'){
+		$("#end_time").show();
+
+		
+	}
+	if(obj.value=='普通')$("#end_time").hide();
+	
+	
+}
+
+</script>
+
+<body>
+<form name="form1" action="/generictableservlet?action=saveAddRecord&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+<input type="hidden" name="formFlag" value="2">
+<input type="hidden" name="listUrl" value="">
+<input type="hidden" name="realFileName" value="">
+<input type="hidden" name="dispatching_unit" value="{$WORKGROUP}">
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1}</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2}&gt; 录入页面</div>
+  <div style = "clear:both;"></div>
+
+    <div class="a_box">
+        <table border="0" cellspacing="0" cellpadding="0" class="view_table">
+          <tr>
+
+			<td class="tad" >标题：</td>
+			<td class="t_l b_cf"  colspan="3"><input name="title" type="text" class="input_txt" value="" style="width:500px;" tip="标题不能为空" check="2"/>&nbsp;*</td>
+			
+		  </tr>
+		  <tr>
+			<td class="tad" width="20%">上传附件：</td>
+			<td id="fileTdId" class="t_l b_cf" width="30%" colspan="3">
+			<input type="file" name="file1" size="40" maxlength="500" onChange="checkFileType()" >
+			
+		  </tr>
+		
+		  <tr>
+			<td class="tad" width="20%">发布范围：</td>
+			<td class="t_l b_cf" width="30%" >
+			<input type="radio" name="range" value="1" checked="checked" />本单位 
+			<input type="radio" name="range" value="0" />全公司&nbsp;</td>
+			<tr>
+			<td class="tad" width="20%">类别：</td>
+			<td class="t_l b_cf" width="30%"> 
+			<input type="radio" name="dispatching_type" value="普通" checked="checked" onclick="EndTimeToshow(this);"/>普通 
+			<input type="radio" name="dispatching_type" value="紧急" onclick="EndTimeToshow(this);"/>紧急&nbsp;
+			<span class="t_l b_cf"  id="end_time" style="display:none"><input type="text" name="End_time" size="10" onclick="WdatePicker()" value="{time}" readonly>（有效期）</span>
+			</tr>
+			</td>
+		  </tr>
+		 
+		<tr>
+			<td class="tad" width="20%">公告内容：</td>
+			<td class="t_l b_cf" colspan="3"><textarea id="editor_id" name="notice_content" style="width:900px;height:300px;" ></textarea></td>
+		 </tr>
+
+		
+		  
+    </table>
+  </div>
+  <div>
+	<table width="100%">
+		<tr>                  
+			<td colspan="8" align="center">
+				<input type="submit" name="save" class="btn" onMouseOver="this.className='btn'" onMouseOut="this.className='btn'" onClick="return true" value="保 存">
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" name="back" class="btn" onMouseOver="this.className='btn'"
+				onMouseOut="this.className='btn'" onClick="window.close();"
+				value="关 闭">	
+			</td>
+		      </tr>
+	</table>
+  </div>
+</form>
+</body>
+</html>

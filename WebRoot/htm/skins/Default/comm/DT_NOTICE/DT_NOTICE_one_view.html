@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+<title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]-查看页面</title>
+  <link rel="stylesheet" type="text/css" href="css/index.css" />
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+  <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+<SCRIPT language="javascript" src="/js/upload/upload_noLoad.js"></SCRIPT>
+
+</head>
+
+
+<body>
+<form name="form1" action="" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>首页</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 公告信息查看</div>
+  </div>
+    <div class="path">
+        <table border="0" cellspacing="0" cellpadding="0" class="add_table">
+          <tr>
+			<td class="tad">标题：</td>
+			<td class="t_l b_cf_noRed" colspan="3" >&nbsp;{title}</td>
+		  </tr>
+		   <tr>
+			<td class="tad">附件：</td>
+			<td class="t_l b_cf_noRed" colspan="3" >&nbsp;
+				<script>
+					if('{realFileName}'!="")document.write(setHTML_forParent('{realFileName}'));
+					else document.write('&nbsp;');
+				</script>
+			</td>
+		  </tr>
+		   <tr>
+			<td class="tad">发文单位：</td>
+			<td class="t_l b_cf_noRed"  >&nbsp;{workGroupName}</td>
+			<td class="tad">发布时间：</td>
+			<td class="t_l b_cf_noRed" >&nbsp;{date_created}</td>
+		  </tr>
+		   <tr>
+			<td class="tad" width="20%">发布范围：</td>
+			<td class="t_l b_cf_noRed" width="30%">&nbsp;<script>
+					if('{range}'==1)document.write("本单位");
+					else if ('{range}'=="0")document.write("全公司");
+					else document.write("");
+				</script></td>
+			<td class="tad" width="20%">类别：</td>
+			<td class="t_l b_cf_noRed"  width="30%">&nbsp;{dispatching_type}
+				<script>
+					if('{dispatching_type}'=='紧急'){
+						document.write('<span style="color:red">{End_time}(有效期)</span>')
+					}
+				
+				</script></td>
+		  </tr>
+		   <tr>
+			<td class="tad">公告内容：</td>
+			<td class="t_l b_cf_noRed" colspan="3" >&nbsp;{notice_content}</td>
+		  </tr>
+			
+<tr>
+</table>
+</div>
+
+ <div class="path">
+  <table width="98%">
+    <tr>
+      <td colspan="4" align="center"> 
+        <input type="button" value="关闭" class="btn m_l15" onclick="window.close()"/>
+      </td>
+    </tr>
+  </table>
+</div>
+</form>
+</body>
+</html>
+

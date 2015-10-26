@@ -1,0 +1,13 @@
+ERROR	11:56:20	[ConnectionManager] load connection pool profile error:com.microsoft.sqlserver.jdbc.SQLServerException: 无法打开登录所请求的数据库 "dispatcherDB"。登录失败。 ClientConnectionId:03b349e0-c700-4990-89b4-24d2df4f9757. poolItem=SISDB{
+   connectionPoolSize=300
+   dbPass=Yc123!
+   dbUrl=jdbc:sqlserver://192.168.31.181:1433;DatabaseName=dispatcherDB;SelectMethod=cursor;
+   dbUser=sa
+   driverClass=com.microsoft.sqlserver.jdbc.SQLServerDriver
+   idleConnTimeout=7200
+   idleTimeout=55
+   minConnectionPoolSize=10
+   shrinkInterval=50
+   statementPoolSize=1000
+}
+

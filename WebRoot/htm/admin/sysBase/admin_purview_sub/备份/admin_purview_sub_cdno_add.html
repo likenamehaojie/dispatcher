@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<link rel="stylesheet" href="css/zTree/addZTreeDemo.css" type="text/css">
+<link rel="stylesheet" href="css/zTree/zTreeStyle/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="js/zTree/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="js/zTree/jquery.ztree.core-3.5.js"></script>
+<script type="text/javascript" src="js/zTree/jquery.ztree.excheck-3.5.js"></script>
+<script type="text/javascript" src="js/ajaxMod.js"></script>
+
+
+<LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+<SCRIPT src="/js/ajax1.js" type="text/javascript"></SCRIPT>
+
+<title>按钮CDNO设置-添加页面</title>
+</head>
+<script>
+
+		<!--
+		var setting = {
+			check: {
+				enable: true,
+				chkboxType: {"Y":"", "N":""}
+			},
+			view: {
+				dblClickExpand: false
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				beforeClick: beforeClick,
+				onCheck: onCheck
+			}
+		};
+
+		var zNodes =[
+			{purview}
+		 ];
+
+		function beforeClick(treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			zTree.checkNode(treeNode, !treeNode.checked, null, true);
+			return false;
+		}
+		
+		function onCheck(e, treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+			nodes = zTree.getCheckedNodes(true),
+			v = "";
+			for (var i=0, l=nodes.length; i<l; i++) {
+				v += nodes[i].id + ",";
+			}
+			if (v.length > 0 ) v = v.substring(0, v.length-1);
+			var cityObj = $("#citySel");
+			cityObj.attr("value", v);
+		}
+
+		function showMenu() {
+			var cityObj = $("#citySel");
+			var cityOffset = $("#citySel").offset();
+			$("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+
+			$("body").bind("mousedown", onBodyDown);
+		}
+		function hideMenu() {
+			$("#menuContent").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDown);
+		}
+		function onBodyDown(event) {
+			if (!(event.target.id == "menuBtn" || event.target.id == "citySel" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+				hideMenu();
+			}
+		}
+
+		$(document).ready(function(){
+			setEmptyCheck("cdnoName:cdnoValue");
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+		});
+
+		function getCheckedNodeId(){
+			if($("input[name='cdnoName']").attr("class")=="input_txt tooltipinputok" && $("input[name='cdnoValue']").attr("class")=="input_txt tooltipinputok"){
+				var cdnoName=document.all("cdnoName").value;
+				var cdnoValue=document.all("cdnoValue").value;
+				
+
+				if($('input[name="conScole"]:checked').val()=="全局"){
+					identify_id='0';
+				}else{
+					identify_id=document.all("citySel").value;
+					if(identify_id=="")identify_id='0';
+				}
+				//alert(identify_id);return;
+				var isCommon=$('input[name="isCommon"]:checked').val();
+				ajax_proGoUrl(2,cdnoName+"|"+cdnoValue+"|"+identify_id+"|"+isCommon,'/roleZTreeServlet?action=iniZTree&ITNO={ITNO}');
+			}else{
+				if($("input[name='cdnoName']").attr("class")!="input_txt tooltipinputok"){
+					$("input[name='cdnoName']").addClass('tooltipinputerr');
+				}
+				if($("input[name='cdnoValue']").attr("class")!="input_txt tooltipinputok"){
+					$("input[name='cdnoValue']").addClass('tooltipinputerr');
+				}
+			}
+		}
+
+		function setDisplay(){
+			if($('input[name="conScole"]:checked').val()=="全局"){
+				$('#treeeNode_trId').hide();
+			}else{
+				$('#treeeNode_trId').show();
+			}
+		}
+
+		//-->
+	</SCRIPT>
+
+<body onload="setDisplay()"> 
+
+<div class="path"> <img src="images/index/path_ico.gif" />基础设置 &gt; 按钮CDNO设置 &gt; CDNO添加页面</div>
+  <div class="a_box">
+    <table border="0" cellspacing="0" cellpadding="0" class="view_table">
+      <tr>
+        <td class="t_r" width="20%">CDNO名称：</td>
+        <td class="t_l b_cf" width="80%"><input name="cdnoName" type="text"  class="input_txt"  tip="CDNO名称不能为空" check="2"/></td>
+      </tr>
+      <tr>
+        <td class="t_r">CDNO控制属性：</td>
+        <td class="t_l b_cf"><input name="cdnoValue" type="text"  class="input_txt"  tip="CDNO控制属性不能为空" check="2"/></td>
+      </tr>
+      <tr>
+        <td class="t_r">范围：</td>
+        <td class="t_l b_cf"><input name="conScole" type="radio" onclick="setDisplay()" value="选择节点" checked/>选择节点</td>
+      </tr>
+	   <tr>
+        <td class="t_r">权限管理：</td>
+        <td class="t_l b_cf"><input name="isCommon" type="radio" value="0" checked/>客户&nbsp;&nbsp;<input name="isCommon" type="radio"  value="1" />开发者&nbsp;&nbsp;<br>温馨提示：选择客户时，角色管理中会显示该按钮；选择开发者时，角色管理中不显示该按钮。</td>
+      </tr>
+      <tr id="treeeNode_trId">
+        <td class="t_r">&nbsp;</td>
+        <td class="t_l b_cf">
+			<div class="content_wrap">
+				<div class="zTreeDemoBackground left">
+					<ul class="list">
+						<li class="title">&nbsp;&nbsp;<span class="highlight_red">勾选 checkbox 或者 点击节点 进行选择</span></li>
+						<li class="title">&nbsp;&nbsp;节点: <input id="citySel" name="citySel" type="text" readonly value="28,11" style="width:120px;" onclick="showMenu();" />
+					&nbsp;<a id="menuBtn" href="#" onclick="showMenu(); return false;">选择</a></li>
+					</ul>
+				</div>
+				
+			</div>
+
+			<div id="menuContent" class="menuContent" style="display:none; position: absolute;">
+				<ul id="treeDemo" class="ztree" style="margin-top:0; width:180px; height: 300px;"></ul>
+			</div>
+		</td>
+      </tr>
+     
+      <tr>
+        <td colspan="2" align="center"><input type="button" value="保 存" class="btn" onclick="getCheckedNodeId()" />
+          <input type="button" value="返 回" class="btn m_l15" onclick="history.back()"/></td>
+      </tr>
+    </table>
+	</div>
+</body>
+</html>

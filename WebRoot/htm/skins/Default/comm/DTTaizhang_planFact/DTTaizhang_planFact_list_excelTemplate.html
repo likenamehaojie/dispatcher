@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+</head>
+  <form name="form1" action="" method="post">
+
+  <table border="1" style=" font:font-family:'微软雅黑';" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+	  <td colspan="13" align="center"  class=vwTitleName2><h3>重点工程台账表</h3></td>
+		<tr>
+			<td width="3%" colspan="2" style="font-size:20px;" >日期</td>	
+			<td width="3%" colspan="11" style="font-size:20px;" align="center" >{$TABLEKEYWORD3}</td>
+		</tr>
+      <tr>		
+        <th  rowspan="3" >月份</th>
+		<th  colspan="4">煤炭产量(万吨)</th>
+		<th  colspan="4">掘进总进尺(m)</th>
+		<th  colspan="4">开拓进尺(m)</th>
+        <tr>
+		<th  colspan="2">计划</th>
+		<th  colspan="2">实际</th>
+		<th  colspan="2">计划</th>
+		<th  colspan="2">实际</th>
+		<th  colspan="2">计划</th>
+		<th  colspan="2">实际</th>
+		</tr>
+		<tr>
+		<th >本月</th>
+		<th >累计</th>
+		<th >本月</th>
+		<th >累计</th>
+		<th >本月</th>
+		<th >累计</th>
+		<th >本月</th>
+		<th >累计</th>
+		<th >本月</th>
+		<th >累计</th>
+		<th >本月</th>
+		<th >累计</th>
+      </tr>
+    </thead>
+	{row}
+	<TR align=middle>
+		<td>{dmonth}&nbsp;</td>
+        <td>{MJBmtcl}&nbsp;</td>
+        <td>{MJLmtcl}&nbsp;</td>
+        <td>{MSBdp}&nbsp;</td>     
+		<td>{MSLdp}&nbsp;</td>
+		
+		<td>{JJBjjzjcl}&nbsp;</td>
+        <td>{JJLjjzjc}&nbsp;</td>
+        <td>{JSBaf}&nbsp;</td>       
+		<td>{JSLaf}&nbsp;</td>
+       
+		<td>{KJBktjc}&nbsp;</td>
+		<td>{KJLktjc}&nbsp;</td>
+        <td>{KSBaf}&nbsp;</td>
+		<td>{KSLaf}&nbsp;</td>
+	</tr>
+	{row}
+  </table>
+</form>
+</body>
+
+</html>

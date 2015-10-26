@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!-- 
+1,projectTitle表示生成word的文件名.模板放在conf下面
+-->
+
+<viewTableRecordTemplates>
+
+<!--查看用户 2012/12/6-->
+<viewTableRecordTemplate tid = "sysAdmin" templatepath="admin/sysAdmin/sysAdmin_view.html" headerSize="1,4,4,2,2,2,4,6,5,3,6,1" isGenerateAll="true" templateHeader="2.docx" filedList="id">
+	<table tableName="DTSJ_class_massage" isSingle="true"><![CDATA[select '$SHORTNAME'cc,name,job,main_work from DTSJ_class_massage where id='$classId']]></table>
+	<table tableName="DTONE_main_sub" isSingle="false"><![CDATA[ select FIRST_TIME,HT_NAME,HT_TYPE,HT_LEVE,HT_UNIT_LOCATION,HT_DESCRIPTION,MEASURES,convert(nvarchar(10),ACCOMPLISHTIME,120) as ACCOMPLISHTIME,DUTY_OFFICER,ALTER_STATUS,REMARKS from DTONE_main_sub where classId='$classId' and  id in($id)]]></table>
+</viewTableRecordTemplate>
+
+
+
+</viewTableRecordTemplates>

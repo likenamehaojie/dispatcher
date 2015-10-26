@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+<script type="text/javascript" src="js/layer/jquery.js"></script>
+<script src="js/layer/layer.min.js"></script>
+<script src="js/cookie.js"></script>
+
+<title>主动预防型安全信息化管理系统-登录页面</title>
+</head>
+<style>
+a{ text-decoration:none; color: #0000FF;}
+a:hover{ text-decoration:none; color: #33CCFF;}
+body{
+	margin: 0;  
+/*	overflow:hidden;*/
+	padding: 0;font-family: "微软雅黑";  
+	font-size: 15px;
+	height:100%; 
+	
+}
+.logon_al{
+ width:100%; 
+ text-align:center;
+ height:345px; 
+ margin:auto; 
+ background:#1dade2 url(images/login1/login-bv.png) no-repeat center; 
+}
+
+.logon_al img{ margin-top:180px; text-align:center;
+
+}
+.logon_al img{ 
+padding-top:5px;
+}   
+.login{
+ width:100%;
+
+ }
+.loginru{ height:200px; width:800px; margin:auto;}
+
+    
+.logon_all{
+ width:100%; 
+ padding-top:10px; padding-bottom:10px;  
+ text-align:center; 
+ position: absolute;
+ bottom: 0; 
+}  	
+
+
+
+
+.loginbin {
+ float:left; 
+ position:absolute;
+ padding:px 0 0 px;
+ height:60px;
+}
+#loginName {
+ width:413px;
+ padding-top:15px;
+ padding-bottom:15px;
+ padding-left:50px;
+ border:none;
+ font-size:14px;
+ vertical-align:middle;
+ background: url(images/login1/andin.png) left no-repeat; 
+ outline:none;
+	  
+}
+#loginPass {
+ width:413px; 
+ outline:none;
+ height:22px;
+ padding-top:15px;
+ padding-bottom:15px;
+ border: none;  
+ padding-left:50px; 
+ font-size:14px;
+ vertical-align:middle; 
+ background: url(images/login1/tren1.png) left no-repeat; 
+  
+	}
+.button{ 
+ width:199px; 
+ height:38px; 
+ background:#0d95d3; 
+ border:1px solid #9ad3ed; 
+ outline: none; 
+ font-size:16px; 
+ color:#FFFFFF;  
+ }
+.rarrow{
+ width:199px; 
+ height:38px; 
+ background:#e8e8e8; 
+ border:1px solid #e7e4e4; 
+ outline: none; 
+ font-size:16px; 
+ color:#585656;
+ }
+</style>
+<script type="text/javascript">
+	$(document).ready(function(){
+	//	submitForm.loginName.focus();
+		var cookie_loginComm=getCookieValue("cookie_loginComm");
+		if(cookie_loginComm=="")
+			selectComm();
+		else{
+			document.getElementsByName("loginCommId")[0].value=cookie_loginComm.split(":")[0];
+			document.getElementById("selectedComm_spanId").innerHTML=cookie_loginComm.split(":")[1];
+		}
+			
+	});
+	document.onkeydown=function(event){
+		var e = event || window.event || arguments.callee.caller.arguments[0];    
+		if(e && e.keyCode==13){ // enter 键
+			 //要做的事情
+			 login();
+		}
+	}; 
+	
+	//	登录
+	function login(){
+		if(submitForm.loginCommId.value == ""){
+			//alert("请输入用户名");
+			layer.alert('请先选择单位', 8); //风格一
+			//submitForm.loginName.focus();
+			return false;
+		}if(submitForm.loginName.value == "请输入您的用户名"){
+			//alert("请输入用户名");
+			layer.alert('请输入用户名', 8); //风格一
+			submitForm.loginName.focus();
+			return false;
+		}else if(submitForm.loginPass.value == ""){
+			//alert("请输入密码");
+			layer.alert('请输入密码', 8); //风格一
+			submitForm.loginPass.focus();
+			return false;
+		}else{
+			var loginCommId=document.getElementsByName("loginCommId")[0].value;
+			var selectedComm_spanId=document.getElementById("selectedComm_spanId").innerHTML;
+			var cookie_loginComm=loginCommId+":"+selectedComm_spanId;
+			setCookie('cookie_loginComm',cookie_loginComm,365,"/");
+			document.submitForm.submit();
+		}
+	}
+    function resetLogin(){
+	  $("#loginName").val("请输入您的用户名");
+	  $("#loginPass").val("");
+	}
+	var selectedCommPage;
+	function selectComm(){
+		selectedCommPage=$.layer({
+			type:2,
+			title: "选择单位",
+			area: ['400px', '320px'],
+			iframe: {
+				src: 'htm/web/selecedComm.html',
+				scrolling: 'auto'
+			}
+		});
+
+		
+	}
+</script>
+
+
+<body>
+ <form name="submitForm" action="/adminlogin.do?action=login" method="post">
+ <input name="communityId" type="hidden" value="{communityId}"><!-- 初始化所有单位ID -->
+ <input name="communityShortName" type="hidden" value="{communityShortName}"><!-- 初始化所有单位名称 -->
+ <input name="loginCommId" type="hidden" value=""><!-- 用户选择的单位 -->
+
+
+  <div class="login">
+<div class="logon_al"><img src="images/login1/top.png" /></div>
+  <div id="pagebody">
+       <div class="loginru">
+           <table width="100%" style=" text-align:center;">
+		    <tr>
+                <td style=" padding-top:20px; " height="30px"><b>登录单位：&nbsp;<span id="selectedComm_spanId"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:selectComm();">点击选择单位</a></b></td>
+             </tr>
+             <tr>
+                <td style=" padding-top:10px; " height="50px">&nbsp;<input name="loginName" id="loginName"  value="请输入您的用户名" style="color:#6c6b6b" onFocus="if(value==defaultValue){value='';this.style.color='#33549c'}" onBlur="if(!value){value=defaultValue;}" type="text" /></td>
+             </tr>
+             <tr>
+               <td height="50px">&nbsp;<input name="loginPass" id="loginPass" style="float:14px;color:#6c6b6b;" value="" type="password"  /></td>
+             </tr>
+             <tr>
+               <td style=" height:70px; float:left; bottom:0; padding-top:20px; padding-left:170px;">
+               <button style="cursor:pointer;" type="button" class="button" onClick="return login();"><strong>登  &nbsp;&nbsp;&nbsp;  录 </strong></button>&nbsp;&nbsp; 
+               <button style="cursor:pointer;" type="button" class="rarrow" onClick="resetLogin();"><strong>重  &nbsp;&nbsp;&nbsp;置</strong></button>
+                        </td>
+             </tr>
+            </table>
+       </div>
+  </div>
+ </div>
+</form>
+</body>
+</html>

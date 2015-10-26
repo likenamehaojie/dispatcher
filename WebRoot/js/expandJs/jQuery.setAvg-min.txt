@@ -1,0 +1,18 @@
+  var defaults = {
+      setId: null,
+      baseId: "shijitianshu",
+      pjIds: "",
+      isDynamic: "false",
+      weishu: 2
+    };
+    
+    
+    有 5个设置选项
+    setId :该值为要将计算结果给哪个dom元素写上值
+    baseId:该值为根据谁去计算结果 相当于被除数
+    
+    
+    
+    当$(this)的id值 为baseId时 说明这个时候焦点是在除数上这时候setId:值为一个以","号分隔的dom元素列表一般为被除数列表 而pjIds则为计算结果要设置的DOM元素的ID列表
+    
+    weishu:表示小数点后保留几位 默认为2位

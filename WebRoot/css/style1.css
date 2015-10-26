@@ -1,0 +1,9 @@
+﻿@charset "utf-8";
+
+
+
+.ranklist{height:200px;overflow:hidden;width:390px; margin-left:0px; margin-top:10px; margin-right:0px;  }
+.ranklist li{height:16px;line-height:16px;overflow:hidden;position:relative;padding:0 70px 0 0px;margin:0 0 10px 0; }
+.ranklist li a{ float:left; padding-left:10px;}
+.ranklist li .nus{position:absolute;left:280px;top:0; color: #FF3333}
+.ranklist li .num{position:absolute;left:150px;top:0;color:#999;}

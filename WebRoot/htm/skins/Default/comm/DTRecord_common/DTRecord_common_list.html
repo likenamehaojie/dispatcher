@@ -1,0 +1,254 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>系统设置-用户管理</title>
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+	 <!--table-->
+
+
+	<!--多选搜索 1 begin-->
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery-ui.css" />
+	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
+	<!--多选搜索 1 end-->
+
+
+	<!--日期控件 begin-->
+	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+	<!--日期控件 end-->
+	
+	<script src="/js/ajax/superValidator.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/map.js"></script>
+	<script src="/js/ajax/mainSub.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+
+	 <!--记忆搜索条件  第一步：引用cookie -->
+	<script src="/js/cookie.js"></script>
+
+</head>
+
+
+  <script>
+$(document).ready(function(){
+	
+	
+	
+	//初始化row数据
+	iniList();
+	//如果操作列没有权限  隐藏操作列
+	hideLastCol('actor_table');
+
+	//初始化上下左右
+	//iniFocus();
+	LoadOrder("{OrderKey}","{OrderBy}");
+
+	//记忆搜索条件  第六步：取cookie 解析cookie
+	iniCookie('{tableName}','{ITNO}','{$USERID}');
+	//初始化多选菜单
+	iniMultOptions('{tableName}','{ITNO}','{$USERID}');
+	
+});
+
+
+var map=new Map();
+//初始化row数据
+function iniList(){
+	//功能描述：使用JavaScript动态添加HTML的元素 
+	//行号与列号 
+
+	{row}
+	
+	var BirthDate_Str='{BirthDate}'.replace(/<[^>].*?>/g,'');
+
+	var Shift_Str='{Shift}'.replace(/<[^>].*?>/g,'');
+	map.clear();
+	if('{sNo}'==""){
+		map.put("recordId",'&nbsp;<input type="checkbox" name="id" value="">');
+	}else{
+		map.put("recordId",'&nbsp;{id}');
+	}
+	map.put("xuhao:SYS_HIDDEN",'{sNo}');
+
+	
+
+
+	//日期  BirthDate
+	map.put("BirthDate:SYS_FIELDS",'<span id="BirthDate_sysEdit_spanId#no#"><input type=\"text\" id="time#no#" name=\"BirthDate#no#\" value=\"{BirthDate}\"  size=\"8\" check=\"2"\ tip=\"区队不能为空\" valFun=\"setEmptyCheck\" onclick=WdatePicker()></span><span id="BirthDate_sysView_spanId#no#">'+BirthDate_Str+'</span>');	
+	//班次
+	map.put("Shift:SYS_FIELDS",'<span id="Shift_sysEdit_spanId#no#"><select name=\"Shift#no#\" realValue=\"{Shift}\"  check=\"2"\ valFun=\"setEmptyCheck\">{filterOptions1}</select></span><span id="Shift_sysView_spanId#no#">'+Shift_Str+'</span>');
+	 //毛煤量  MaoMei	
+	map.put("MaoMei:SYS_FIELDS",'<span id="MaoMei_sysEdit_spanId#no#"><input type=\"text\" name=\"MaoMei#no#\" value=\"{MaoMei}\" size=\"8\"   check=\"2"\ tip=\"原煤不能为空\" valFun=\"setEmptyCheck\"  onkeyup=\"clearNoNum(this)\"></span><span id="MaoMei_sysView_spanId#no#">{MaoMei}</span>');
+	 //矸石量  Waste
+	map.put("Waste:SYS_FIELDS",'<span id="Waste_sysEdit_spanId#no#"><input type=\"text\" name=\"Waste#no#\" value=\"{Waste}\" size=\"8\"   check=\"2"\ tip=\"原煤不能为空\" valFun=\"setEmptyCheck\"  onkeyup=\"clearNoNum(this)\"></span><span id="Waste_sysView_spanId#no#">{Waste}</span>');
+	 //含矸率  Refuserate
+	map.put("Refuserate:SYS_FIELDS",'<span id="Refuserate_sysEdit_spanId#no#"><input type=\"text\" name=\"Refuserate#no#\" value=\"{Refuserate}\" size=\"8\"   check=\"2"\ tip=\"原煤不能为空\" valFun=\"setEmptyCheck\"  onkeyup=\"clearNoNum(this)\"></span><span id="Refuserate_sysView_spanId#no#">{Refuserate}</span>');
+    //原煤  Rawcoal
+	map.put("Rawcoal:SYS_FIELDS",'<span id="Rawcoal_sysEdit_spanId#no#"><input type=\"text\" name=\"Rawcoal#no#\" value=\"{Rawcoal}\" size=\"8\"   check=\"2"\ tip=\"原煤不能为空\" valFun=\"setEmptyCheck\"  onkeyup=\"clearNoNum(this)\"></span><span id="Rawcoal_sysView_spanId#no#">{Rawcoal}</span>');
+	//核子称  Nuclearsay
+	map.put("Nuclearsay:SYS_FIELDS",'<span id="Nuclearsay_sysEdit_spanId#no#"><input type=\"text\" name=\"Nuclearsay#no#\" value=\"{Nuclearsay}\" size=\"8\"   check=\"2"\ tip=\"核子称不能为空\" valFun=\"setEmptyCheck\"  onkeyup=\"clearNoNum(this)\"></span><span id="Nuclearsay_sysView_spanId#no#">{Nuclearsay}</span>');	
+	//灰分  GreyBranch
+	map.put("GreyBranch:SYS_FIELDS",'<span id="GreyBranch_sysEdit_spanId#no#"><input type=\"text\" name=\"GreyBranch#no#\" value=\"{GreyBranch}\" size=\"8\"   check=\"2"\ tip=\"灰分不能为空\" valFun=\"setEmptyCheck\"  onkeyup=\"clearNoNum(this)\"></span><span id="GreyBranch_sysView_spanId#no#">{GreyBranch}</span>');
+    //水分  WaterBranch
+	map.put("WaterBranch:SYS_FIELDS",'<span id="WaterBranch_sysEdit_spanId#no#"><input type=\"text\" name=\"WaterBranch#no#\" value=\"{WaterBranch}\" size=\"8\"   check=\"2"\ tip=水分名称不能为空\" valFun=\"setEmptyCheck\"  onkeyup=\"clearNoNum(this)\"></span><span id="WaterBranch_sysView_spanId#no#">{WaterBranch}</span>');
+	//煤块率  Lumpcoal 
+	map.put("Lumpcoal:SYS_FIELDS",'<span id="Lumpcoal_sysEdit_spanId#no#"><input type=\"text\" name=\"Lumpcoal#no#\" value=\"{Lumpcoal}\" size=\"8\"   check=\"2"\ tip=\"煤块率不能为空\" valFun=\"setEmptyCheck\"  onkeyup=\"clearNoNum(this)\"></span><span id="Lumpcoal_sysView_spanId#no#">{Lumpcoal}</span>');
+	//发热量  Calorific
+	map.put("Calorific:SYS_FIELDS",'<span id="Calorific_sysEdit_spanId#no#"><input type=\"text\" name=\"Calorific#no#\" value=\"{Calorific}\" size=\"8\"   check=\"2"\ tip=\"发热量不能为空\" valFun=\"setEmptyCheck\"  onkeyup=\"clearNoNum(this)\"></span><span id="Calorific_sysView_spanId#no#">{Calorific}</span>');
+	//标煤量  Standardcoal
+	map.put("Standardcoal:SYS_FIELDS",'<span id="Standardcoal_sysEdit_spanId#no#"><input type=\"text\" name=\"Standardcoal#no#\" value=\"{Standardcoal}\" size=\"8\"   check=\"2"\ tip=\"标煤量不能为空\" valFun=\"setEmptyCheck\"  onkeyup=\"clearNoNum(this)\"></span><span id="Standardcoal_sysView_spanId#no#">{Standardcoal}</span>');
+	//灰分量  GreyBranchmeasure
+	map.put("GreyBranchmeasure:SYS_FIELDS",'<span id="GreyBranchmeasure_sysEdit_spanId#no#"><input type=\"text\" name=\"GreyBranchmeasure#no#\" value=\"{GreyBranchmeasure}\" size=\"8\"   check=\"2"\ tip=\"灰分量不能为空\" valFun=\"setEmptyCheck\"  onkeyup=\"clearNoNum(this)\"></span><span id="GreyBranchmeasure_sysView_spanId#no#">{GreyBranchmeasure}</span>');
+	//水分量  WaterBranchmeasure
+	map.put("WaterBranchmeasure:SYS_FIELDS",'<span id="WaterBranchmeasure_sysEdit_spanId#no#"><input type=\"text\" name=\"WaterBranchmeasure#no#\" value=\"{WaterBranchmeasure}\" size=\"8\"   check=\"2"\ tip=\"水分量不能为空\" valFun=\"setEmptyCheck\"  onkeyup=\"clearNoNum(this)\"></span><span id="WaterBranchmeasure_sysView_spanId#no#">{WaterBranchmeasure}</span>');
+	//块煤量  Lumpcoalmeasure
+	map.put("Lumpcoalmeasure:SYS_FIELDS",'<span id="Lumpcoalmeasure_sysEdit_spanId#no#"><input type=\"text\" name=\"Lumpcoalmeasure#no#\" value=\"{Lumpcoalmeasure}\" size=\"8\"   check=\"2"\ tip=\"块煤量不能为空\" valFun=\"setEmptyCheck\"  onkeyup=\"clearNoNum(this)\"></span><span id="Lumpcoalmeasure_sysView_spanId#no#">{Lumpcoalmeasure}</span>');
+
+
+
+	//map.put("Other:SYS_FIELDS",'<span id="Other_sysEdit_spanId#no#"><input type=\"text\" name=\"Other#no#\" value=\"{Other}\" size=\"8\" check=\"2"\ tip=\"名称不能为空\" valFun=\"setEmptyCheck\"></span><span id="Other_sysView_spanId#no#">{Other}</span>');
+	
+	// map中的按钮数组     '{editshow_show}'判断是否可以双击
+	var btnArray=['{editshow}','{saveshow}','{delshow}']; 
+	map.put("operate",OperateForRealValue(btnArray),'{editshow_show}');
+	//map.put("operate",'<a href=\"javascript:dblEdit(#no#)\">编辑&nbsp;<a href=\"javascript:ajax_save(#no#);\">保存</a>&nbsp;&nbsp;<a href=\"javascript:DelCurrentRow(#no#,1,1);\">删除</a>');
+	
+	
+
+
+
+	if('{sNo}'==""){
+
+		AddRow(map,'blank');
+	}else{
+		
+		AddRow(map,'data');
+	}
+	
+	{row}
+	
+}
+
+
+
+function clearNoNum(obj){
+
+		//先把非数字的都替换掉，除了数字和.
+		obj.value = obj.value.replace(/[^\d.]/g,"");
+		//必须保证第一个为数字而不是.
+		obj.value = obj.value.replace(/^\./g,"");
+		//保证只有出现一个.而没有多个.
+		obj.value = obj.value.replace(/\.{2,}/g,".");
+		//保证.只出现一次，而不能出现两次以上
+		obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+
+		 //如果第一位是负号，则允许添加   如果不允许添加负号 可以把这块注释掉
+	
+	}
+
+
+</script>
+<body >
+  <form name="form1" action="" method="post">
+    <input type="hidden" name="tableName" value="{tableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" name="actorCount" value="{actorCount}">
+	<input type="hidden" name="worry_type" value="{$TABLEKEYWORD2}">
+
+	<input type="hidden" name="OrderBy" value="{OrderBy}">	
+	<input type="hidden" name="OrderKey" value="{OrderKey}">
+	
+	<input type="hidden" name="clickValue" value="N1">
+	<input type="hidden" name="firstUrl" value="null">
+	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+	<input name="dblclick" type="hidden" value="" /><!--已上报禁止双击编辑-->
+
+	<input type="hidden" name="field1" value="BirthDate|日期|DAT|50|">
+
+
+
+	<input type="hidden" name="j" value="">
+
+  <div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1}</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp;{$TABLEKEYWORD2}>列表页面</div>
+  </div>
+  <!--多选搜索 4 begin-->
+		<div class="line_list_mulitSelect" style="display:none">
+			<select name="selSetCon" multiple="multiple">
+				<option value="1">日期：</option>
+			</select>
+		</div>
+		<!--多选搜索 4 end-->
+		<div class="line_list_left">
+		 <ul id="ul_search">
+
+		    <li id="li_search1">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="1">&nbsp;日期&nbsp;：
+				<input name="BirthDate_start" style="width:70px;" onchange="checkChange(this,'1')"  class="input_txt" onclick="WdatePicker()"/>至<input name="BirthDate_end" style="width:70px;" onchange="checkChange(this,'1')" class="input_txt" onclick="WdatePicker()"/>
+			</li>
+
+		   <li id="li_search_btn">
+				&nbsp;
+				<input type="button"  value="查询" class="btn" onClick="setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');"/>
+				<input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','374',' 产量、煤质情况');"/>
+		  </li>
+		  </ul>
+	   </div>
+	<div class="line_list">
+	   <li>{delmanyshow}</li>
+	   <li>{addshow}</li>
+    </div>
+		
+<div class="a_box">	
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+      <tr>
+	    <th width="1%"><input type="checkbox" name="roleCheck" value="" onClick="selectAllRole(form1);"></th>
+            <th width="5%">日期</th> 
+			<th width="3%">班次</th>
+			<th width="3%">毛煤量</th>
+			<th width="3%">矸石量</th>
+			<th width="3%">含矸率</th>
+			<th width="3%">原煤</th>
+			<th width="3%">核子称</th> 
+			<th width="2%">灰分</th> 
+			<th width="2%">水分</th> 
+			<th width="2%">煤块率</th> 
+			<th width="3%">发热量</th> 
+			<th width="3%">标煤量</th> 
+			<th width="3%">灰分量</th> 
+			<th width="3%">水分量</th> 
+			<th width="3%">块煤量</th> 
+			<th width="3%" id="YC">基本操作</th>
+      </tr>
+    </thead>
+	
+  </table>
+
+   <table width="100%">
+	<tr>
+     {page}
+    </tr>
+   </table>
+
+  </div>
+</form>
+</body>
+</html>

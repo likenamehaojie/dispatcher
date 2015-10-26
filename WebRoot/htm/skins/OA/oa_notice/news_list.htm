@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta http-equiv="Content-Type" content="text/html; charset=GBK" />
+    <title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]</title>
+
+    <link rel="stylesheet" type="text/css" href="newFrame/Styles/formui.css" /><link rel="stylesheet" type="text/css" href="newFrame/Styles/base.css"/>
+    <link rel="stylesheet" type="text/css" href="newFrame/Styles/admin-all.css" />
+	<link rel="stylesheet" type="text/css" href="css/index.css" />
+    <script type="text/javascript" src="newFrame/Scripts/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="newFrame/Scripts/jquery-ui-1.8.22.custom.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="newFrame/Styles/ui-lightness/jquery-ui-1.8.22.custom.css" /> 
+    <script type="text/javascript" src="newFrame/Scripts/tb.js"></script>
+    <script type="text/javascript" src="newFrame/Scripts/acc.js"></script>
+
+	<link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/loadingInfo.js"></script>
+	<script src="/js/My97DatePicker/WdatePicker.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+
+<script type="text/javascript" src="js/changeto.js"></script>
+<script src="/js/ajaxMod.js"></script>
+</head>
+<script>	
+document.onkeydown=function(e){   
+    e = e ? e : event;  
+    if(e.keyCode == 13){   
+        setCondition();
+    }   
+}  
+
+function setCondition(){//单表高级搜索
+	var cV=checkValue_sql();
+	if(cV!=''){
+		//alert(cV);
+		document.all("searchByMoreFieldName").value=" and "+cV;
+		showMessage();
+		searchInfo();
+	}
+}
+
+</script>
+<script type="text/javascript">
+
+function deleteUpdateNum(ids){ //删除时把number的值更新
+   
+ 	   //alert(ids);
+	if(ids==''){
+	  return false;
+	}
+	else{
+	   if(confirm('确认删除吗？')){
+         ajax_pro_updateRecords('63',ids);
+	   }else{
+	  return false;
+	  }
+	}
+	
+}
+
+
+</script>
+
+<body>
+<form name="form1" action="" method="post">
+<input type="hidden" name="tableName" value="{tableName}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+<input type="hidden"  name="keyWords" value="{$TABLEKEYWORD}">
+<input type="hidden" name="curPage" value="{curPage}">
+
+
+<input type="hidden"  name="OrderBy" value="{OrderBy}">	
+<input type="hidden"  name="OrderKey" value="{OrderKey}">
+<input type="hidden"  name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+
+
+<input type="hidden" name="clickValue" value="N1">
+<input type="hidden" name="firstUrl" value="null">
+<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+
+
+<input type="hidden" name="field1" value="Title|标题|TXT|50|">
+<input type="hidden" name="field2" value="content|内容|TXT|2000|">
+<input type="hidden" name="field3" value="NEWS_TYPE|专业类型|OPT|50|">
+<input type="hidden" name="field4" value="publishtime|发布时间|DAT|50|"> 
+
+   <div class="path"><img src="images/index/path_ico.gif" /> {$TABLEKEYWORD1} &gt;{$TABLEKEYWORD2}</div>
+	<div class="line_list">
+	 <li><a href="#" onclick="delRecord('1');"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l">删除</span></a></li>
+	 <li><a href="#" onclick="addRecord();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l">添加</span></a></li>
+	</div>
+   <div class="s_box">
+  <table border="0" cellspacing="0" cellpadding="0" class="search_table">
+ 
+		 <tr>
+
+			<td class="t_r"><input type="checkbox" name="f_id" value="1">标题：</td>
+			<td class="t_l"><input name="Title" type="text" class="input_txt" onChange="checkChange(this,'1')">
+				</td>
+			
+			<td class="t_r"><input type="checkbox" name="f_id" value="3">专业类型：</td>
+			<td class="t_l"><select name="NEWS_TYPE"  class="select" onChange="checkChange(this,'3')"><option>--请选择--</option>{filterOptions1}</select> 
+				</td>
+			<td class="t_r"><input type="checkbox" name="f_id" value="4" >发布时间：</td>
+			<td class="t_l"><input type="text" name="publishtime_start" class="input_txt"  onClick="WdatePicker()" onChange="checkChange(this,'4')" />至<input type="text" class="input_txt" name="publishtime_end" onClick="WdatePicker()"  onChange="checkChange(this,'4')"/>
+
+				
+				<input type="button" class="btn" onFocus="this.blur()" onMouseOver="this.className='btn'" onMouseOut="this.className='btn'" value="搜 索" onClick="setCondition()"></td>
+				</tr>
+    </table>
+	</div>
+    <table border="0" cellspacing="0" cellpadding="0" class="table_list">
+
+        <tr>
+<th width="2%"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>	
+<th width="15%" style="cursor:hand;" onClick="orderByInfo_new('Title','{OrderKey}','{OrderBy}')">标题<span id="TitleOrder" class="STYLE1">↑</span></th>
+<th width="15%" style="cursor:hand;" onClick="orderByInfo_new('NEWS_TYPE','{OrderKey}','{OrderBy}')">专业类型<span id="NEWS_TYPEOrder" class="STYLE1">↑</span></th>
+<th width="15%" style="cursor:hand;" onClick="orderByInfo_new('publishtime','{OrderKey}','{OrderBy}')">发布时间<span id="publishtimeOrder" class="STYLE1">↑</span></th>
+<th width="15%" style="cursor:hand;">附件1</th>
+<th width="15%" style="cursor:hand;">附件2</th>
+<th width="15%" class="disappear" {operateShow}>操作</th>
+
+        </tr>
+	{row}
+        <tr>
+			<td>{id}&nbsp;</td>
+			<td><a href={href}>{Title}&nbsp;</a></td>
+			<td>{NEWS_TYPE}&nbsp;</td>
+			<td>{publishtime}&nbsp;</td>
+			<td>{fildone}&nbsp;</td>
+			<td>{fildtwo}&nbsp;</td>
+			<td id="operate_div{sNo}" class="disappear" {operateShow}>
+			<input class="btn btn-mini btnedit" type="button" value="编辑" onClick="singleEditRecord('{recordId}')"/>&nbsp;
+			 <input class="btn btn-mini btnedit" type="button" value="删除" onClick="singleDelRecord('1','{recordId}')"/>
+			</td>
+		</tr>
+				<script>
+
+		if('{sNo}'==""){
+			document.getElementById("operate_div{sNo}").innerHTML="&nbsp;";
+		}
+	</script>
+	{row}
+      
+ 
+     
+    </table>
+
+ <div class="page"><table><tr>{page}</tr></table>
+  </div>
+	
+</form>
+</body>
+</html>
+<script language="javascript"> 
+ LoadOrder("{OrderKey}","{OrderBy}");
+</script>
+

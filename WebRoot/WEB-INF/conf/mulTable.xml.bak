@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="GBK"?>
+<!--  说明:主从表配置模板
+1,mulId模板标识，名字可以主表名加_sub；realDel表示删除是否真正删除，y表示物理删除，n表示逻辑删除（更新del=1）；isHaveWf定义该表示是否有流程，y表示有，n表示没有；
+2,<mainTable 中，mainTableName为主表名；fields为主表字段列表；unique为主表的唯一字段；><subTable中，subTableName为从表名；fields为从表字段列表；subRecordIsSaveByField为控制从表是否保存，也就是说该字段有信息才保存对应的一笔记录；
+3,defValueList的配置跟之前的配置文件一样；
+4,mainSaveAutoGetValues表示主表保存的时候，需要动态获取的值；通过一个sql得到，可以带参数（主表字段和默认字段）；
+5,subSaveAutoGetValuess表示从表保存的时候，需要动态获取的值；通过一个sql得到，可以带参数（主表字段和从表字段及默认字段）；
+6,mulTableSaveToDo保存成功后需要处理的动作，例如启动流程，parameterList为参数列表；
+7，页面上添加记录可以带参数todo，不带的情况下不执行mulTableSaveToDo；为1的时候执行；
+8，页面上添加记录可以带参数returnCurPage，不带的情况，保存后返回list页面，带的话返回对应的页面，页面命名为edit_goAdd.html（returnCurPage的value为goAdd的情况），可以保留上一笔记录的信息，继续保存；
+9，页面上修改的时候可以带参数isAddSub，不带的情况默认替换原有从表的记录；如果带且值为1的情况每次修改都会把页面的所有从表记录追加到从表里面；
+10，主表数据库定义需要增加6个默认字段，且有del字段；从表数据库定义的话，需要有字段main_id，flag，Date_created；修改和删除带curPage；
+-->
+<tables>	
+	<!-- 隐患管理 begin-->
+	<mulTable mulId ="DThtrecord_main_sub" 
+	addHtml = "skins/Default/htrecord/htrecord_info_add.html" 
+	editHtml = "skins/Default/htrecord/htrecord_info_edit.html" realDel="y" isHaveWf="y">
+	    <mainTable mainTableName="DThtrecord_main" fields="class_man,class_situation,flag,code,check_main_branch,check_branch,ht_community,check_date,checktype,check_man,acc_man,route,check_class,dingqiDongtai" unique="code"></mainTable>
+		<subTable subTableName="DThtrecord_sub" fields="number,ht_branch,address,ht_content,ht_type,ht_typesub,ht_level,alter_time,alter_status,explanation,ht_depth,duty_officer,penalty_dy,penalty,measure,jyfsFlag,jyfsId,dangerousSource,DTRisk_bankId,DTExam_basis_identify,DTExam_basis_index,warningLevel,curWarningLevel,numberBD" subRecordIsSaveByField="ht_content"></subTable>
+		<defValueList>
+		<defaultValue field="check_class|OPT|1"><![CDATA[select value,name from field_option where field='check_class' and table_name='DThtrecord_main' and communityId in(1,'$COMMUNITYID') order by orderId]]></defaultValue>
+		<defaultValue field="dingqiDongtai|OPT|1"><![CDATA[select value,name from field_option where field='dingqiDongtai' and table_name='DThtrecord_main' and communityId='$COMMUNITYID' order by orderId]]></defaultValue>
+		<defaultValue field="checktype|OPT|1"><![CDATA[ select value,name from field_option where field='checkType' and table_name='DThtrecord_main' and communityId in(1,'$COMMUNITYID') order by orderId]]></defaultValue>
+		<defaultValue field="ht_level|OPT|1"><![CDATA[ select value,name from field_option where field='ht_level' and table_name='DThtrecord_sub' and communityId in(1,'$COMMUNITYID') order by orderId]]></defaultValue>
+		<defaultValue field="ht_type|OPT|1"><![CDATA[ select value,name from field_option where field='types' and table_name='DTtranscribe' and communityId='$COMMUNITYID' order by orderId]]></defaultValue>
+		<defaultValue field="ht_typesub|OPT|1"><![CDATA[select value,name from field_option where  description='风险预控基础数据维护' and communityId in(1,'$COMMUNITYID') and description_sub like '%隐患类别%' order by orderId]]></defaultValue>
+		<defaultValue field="alter_status|OPT|1"><![CDATA[ select value,name from field_option where field='alter_status' and table_name='DThtrecord_sub' and communityId in(1,'$COMMUNITYID') order by orderId]]></defaultValue>
+		<defaultValue field="ht_community|OPT|1"><![CDATA[ select cShortName,cShortName from community where del=0 and (community_id='$COMMUNITYID' or (select community_id from community where community_id='$COMMUNITYID')=1) order by community_id]]></defaultValue>
+		<defaultValue field="check_date|TXT|1"><![CDATA[ select convert(varchar(10),getdate(),20)]]></defaultValue>
+		<defaultValue field="alter_time|TXT|1"><![CDATA[ select convert(varchar(10),getdate()+3,20)]]></defaultValue>
+		<defaultValue field="check_branch2|OPT|1"><![CDATA[exec proc_DTHtrecord_mainForCheckBranchByMain '$SHORTNAME','$COMMUNITYID']]></defaultValue>
+		<defaultValue field="check_branch3|OPT|1"><![CDATA[exec proc_DTHtrecord_mainForCheckBranchByMain '上级单位','$COMMUNITYID']]></defaultValue>
+		<defaultValue field="ht_depth|OPT|1"><![CDATA[select value,name from FIELD_OPTION    where field='ht_depth' and table_name='DTht_depth' and communityId='$COMMUNITYID' order by orderId]]></defaultValue>
+		<defaultValue field="class_situation|OPT|1"><![CDATA[select value,name from field_option where field='class_situation' and table_name='wf_htrecord_info' and communityId in(1,'$COMMUNITYID') order by orderId]]></defaultValue>
+	   </defValueList>
+	   <mainSaveAutoGetValues>
+		  <mainSaveAutoGetValue field="code" parameterList="">
+		  <![CDATA[EXEC PROC_Number 'DTUpdateNotify','$COMMUNITYID']]>
+		  </mainSaveAutoGetValue>
+	   </mainSaveAutoGetValues>
+	   <subSaveAutoGetValues>
+		  <subSaveAutoGetValue field="number" parameterList="ht_branch|check_date">
+		  <![CDATA[EXEC PROC_Number_sub '$ht_branch','$check_date','$COMMUNITYID']]>
+		  </subSaveAutoGetValue>
+	   </subSaveAutoGetValues>
+	   <mulTableSaveToDo parameterList=""><![CDATA[exec PROC_wf_htrecord_mulTableSaveToDo '$main_id']]></mulTableSaveToDo>
+	</mulTable>
+	<!-- 隐患管理 end-->
+
+	
+</tables>
