@@ -90,7 +90,7 @@ function iniList(){
     map.put("workTcontent:SYS_FIELDS",'<span id="workTcontent_sysEdit_spanId#no#"><TEXTAREA type=\"text\" name=\"workTcontent#no#\"   size=\"13\"  check=\"2"\ tip=\"分管主要工作不能为空\" valFun=\"setEmptyCheck\" >'+workTcontent_str+'\</TEXTAREA></span><span id="workTcontent_sysView_spanId#no#">{workTcontent}</span>');
 	
     //联系方式
-	map.put("call:SYS_FIELDS",'<span id="call_sysEdit_spanId#no#"><input type=\"text\" name=\"call#no#\" value=\"'+call_str+'\"  size=\"13\"  check=\"2"\ tip=\"联系方式不能为空\" valFun=\"setEmptyCheck\"></span><span id="call_sysView_spanId#no#">{call}</span>');
+	map.put("call:SYS_FIELDS",'<span id="call_sysEdit_spanId#no#"><input type=\"text\" name=\"call#no#\" value=\"'+call_str+'\"  size=\"13\"  check=\"2"\  ></span><span id="call_sysView_spanId#no#">{call}</span>');
 
 	
 
@@ -112,6 +112,17 @@ function iniList(){
 function re_setCondition(){
 		document.getElementsByName("$TABLEKEYWORD")[0].value="{$TABLEKEYWORD}";
 		setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');
+}
+
+function excelIport(){ //excel导入
+   var certificate=document.getElementsByName('certificate')[0].value;
+	if (certificate==''){
+		alert('请添加EXCEL附件');
+	}else{       
+		document.form1.action="/excelImportSingleDoServlet?action=excelImport&excelName=DTParam_kldInfo&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}";
+		document.form1.encoding="multipart/form-data";
+		document.form1.submit();
+	     }
 }
 
 </script>
@@ -184,7 +195,7 @@ function re_setCondition(){
 			<li id="li_search_btn">
 				&nbsp;
 				<input type="button"  value="查询" class="btn" onClick="re_setCondition();"/>
-				
+				<input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','442','班子成员基本信息维护表');"/>
 			</li>
 		</ul>
 	</div>
@@ -193,13 +204,17 @@ function re_setCondition(){
 
 		    <li id="YC" >{delmanyshow}</li>
 		   <li  id="YC1">{addshow}</li>
-
+           <li id="sendMany_liId" class="pian" style="margin-left:60%" >EXCEL导入:&nbsp;&nbsp;<input type="file" style="width:100px;" name="certificate" size="20">
+		   <input type="button" style="width:50px;" name="excel" class="btn" onClick="excelIport()" value="导入">
+		   <input type="submit" style="width:70px;" name="getTem" class="btn" value="下载模版" onClick="window.open('/downloadAppServlet?&amp;ITNO={ITNO}&amp;docName=htm\\excelTemplateDown&amp;fName=班子成员基本信息维护表.xls','_blank','left=160,width=700,height=630,toolbar=no, menubar=no,resizable=yes,scrollbars=yes')" >
+		   <font color="red"></font>
+		   </li>
         </div>
   <div class="a_box">	
   <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
     <thead>
       <tr>
-		 <th><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
+		 <th width="2%"><input type="checkbox"  name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
 		<th style="cursor:hand;" onClick="orderByInfo_new('name','{OrderKey}','{OrderBy}')" width="20%">姓名<span id="YearAndMouthOrder" class="orderNo"></span></th> 
 		<th width="20%">职务</td>
 		<th width="20%">分管主要工作</td>

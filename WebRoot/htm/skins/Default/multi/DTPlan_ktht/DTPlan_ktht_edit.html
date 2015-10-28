@@ -51,8 +51,8 @@ function AddRow(maxLength){
 	
 	
 	//操作
-	map.put("operate",'c <li><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l">添加 &nbsp;</span></a></li>   <li><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l">删除</span></a></li></div>'); 
-
+	map.put("operate",' <div style =\'width:55%;margin:0 auto\'> <li style="float:left"><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif" />添加 &nbsp;</span></a></li>   <li style="float:left"><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif" />删除</span></a></li></div>'); 
+//map.put("operate",'<div style =\'width:55%;margin:0 auto\'> <li style="float:left" ><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"/>添加 &nbsp;</span></a></li>   <li style="float:left"><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif" />删除</span></a></li></div>');
 	//所在单位 用于存储过程
 	map.put("COMPANY_TYPE:SYS_FIELDS:SYS_HIDDEN",'<span id="COMPANY_TYPE_sysEdit_spanId#no#"><TEXTAREA NAME=\"COMPANY#no#\">{$SHORTNAME}</TEXTAREA></span><span id="CONFERENCE_TYPE_sysView_spanId#no#">{$SHORTNAME}</span>');
 
@@ -90,7 +90,7 @@ function AddRow_MR(){
 		obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); 
 
 	}
-	function checkzz(){
+/* 	function checkzz(){
 		var main_name=document.getElementsByName("MAIN_NAME")[0].value
 		var plan_time=document.getElementsByName("PLAN_TIME")[0].value
 		var main_id=document.getElementsByName("main_id")[0].value
@@ -104,7 +104,7 @@ function AddRow_MR(){
 		alert('项目名称和年份必须唯一')
 		return false;
 		}
-	}
+	} */
 </script>
 
 
@@ -204,7 +204,7 @@ function AddRow_MR(){
 	<td style="display:none"><input name="communityName{flag}" type="text" value="{communityName}" size="5"/></td>
 	<td style="display:none"><input name="communityId{flag}" type="text" value="{communityId}" size="5"/></td>
 
-    <td align="center"> <div style ="width:55%;margin:0 auto"><li><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l">添加 &nbsp;</span></a></li>   <li><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l">删除</span></a></li></div></td>
+    <td align="center"> <div style ="width:55%;margin:0 auto"><li style="float:left"><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif" />添加 &nbsp;</span></a></li>   <li style="float:left"><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif" />删除</span></a></li></div></td>
 	
   </tr>
 

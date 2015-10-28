@@ -1,6 +1,6 @@
 var req;
 function checkUnique(tableName,fieldName,fieldValue) {
-    //alert("tableName = "+tableName+" fieldName = "+fieldName+" fieldValue = "+fieldValue);
+ 
 	req = newXMLHttpRequest();
 
 	var url="/ajaxcheckunique?tableName="+tableName+"&fieldName="+fieldName+"&fieldValue="+fieldValue+"&time="+ Math.random();

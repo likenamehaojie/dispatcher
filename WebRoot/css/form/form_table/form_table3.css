@@ -80,7 +80,7 @@ input{ vertical-align:middle;}
 .set_action li span a:hover{color:#b2b2b2;}
 .set_action img{ vertical-align:middle; margin-top:4px;}
 
-.path{  text-align:left; text-indent:12px;padding-top:10px;}
+.path{  text-align:left; text-indent:12px;padding-top:10px;  border:1px solid #FF0000;}
 .path img{ padding-right:10px;}
 
 .leftbar{ float:left; width:197px; overflow:auto;background:url(../../../images/index/leftbar_bg.jpg) repeat-y;}
@@ -178,9 +178,9 @@ le_list tbody tr.table_hover_bg td{background:#EEF1F8;}
 .activeRow{background-color:#d8e4f0;}
 .clickRow{background-color: ;}
 
-.table_list{margin:10px auto 0;width:100%; height:auto; border:1px solid #d4d4d4; border-bottom:1px solid #fff;color:#000; border-right:none;}
+.table_list{margin:10px auto 0;width:100%;height:auto; border-bottom:1px solid #fff;color:#000; border-right:none; border-left:1px solid #d9e5ee; border-top:1px solid #d9e5ee; }
 .table_list th{background-color:#d8e8f0;text-align:center;color:#333333;font-size:14px; height:33px; line-height:33px;}
-.table_list td{ text-align:center;padding:5px 6px 7px;border-bottom:1px solid #c7d5e1;border-right:1px solid #d9e5ee;line-height: 32px}
+.table_list td{ text-align:center;padding:5px 6px 7px;border-bottom:1px solid #c7d5e1;border-right:1px solid #d9e5ee;line-height: 32px;}
 
 #top {
     width:98%; 
@@ -303,3 +303,4 @@ le_list tbody tr.table_hover_bg td{background:#EEF1F8;}
 	
 }
 
+#wxd{ width:98%; padding-bottom:65px;  }

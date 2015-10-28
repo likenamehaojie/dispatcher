@@ -242,7 +242,22 @@
     <artifactId>freemarker</artifactId>
     <version>2.3.21</version>
 </dependency>
-
+<dependency>
+    <groupId>org.codehaus.groovy</groupId>
+    <artifactId>groovy-backports-compat23</artifactId>
+    <version>2.4.5</version>
+  <dependency>
+    <groupId>org.codehaus.groovy</groupId>
+    <artifactId>groovy</artifactId>
+    <version>2.4.5</version>
+</dependency>
+  
+</dependency>
+  <dependency>  
+        <groupId>org.codehaus.groovy</groupId>  
+        <artifactId>groovy-eclipse-compiler</artifactId>  
+        <version>2.6.0-01</version>  
+      </dependency>
   </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -251,16 +266,23 @@
         <directory>src</directory>
         <excludes>
           <exclude>**/*.java</exclude>
+        
         </excludes>
       </resource>
     </resources>
     <plugins>
+ 
+    
+    
+    
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.3.2</version>
         <configuration>
           <source>1.7</source>
           <target>1.7</target>
+   <!--     <compilerId>groovy-eclipse-compiler</compilerId>  
+       <verbose>true</verbose>   -->
         </configuration>
       </plugin>
       <plugin>

@@ -24,8 +24,8 @@
   <script src="/js/ajaxSearchInfo.js"></script>
 
 
-
-
+  <SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+    <SCRIPT language="javascript" src="/js/upload/upload.js"></SCRIPT>
 
 </head>
 <script type="text/javascript">
@@ -52,7 +52,7 @@ function AddRow(maxLength){
 
 	
 	//操作<a  href=\"javascript:AddRow_MR()\">添加</a><br/><a href=\"javascript:DelCurrentRow(#no#);\">删除</a>
-	map.put("operate",'<div style =\'width:55%;margin:0 auto\'> <li style="float:left" ><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"/>添加 &nbsp;</span></a></li>   <li style="float:left"><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif" />删除</span></a></li></div>'); 
+	map.put("operate",'<div style =\'width:55%;margin:0 auto\'> <li><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l">添加 &nbsp;</span></a></li>   <li><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l">删除</span></a></li></div>'); 
 
 	//所在单位 用于存储过程
 	map.put("COMPANY_TYPE:SYS_FIELDS:SYS_HIDDEN",'<span id="COMPANY_TYPE_sysEdit_spanId#no#"><TEXTAREA NAME=\"COMPANY#no#\">{$SHORTNAME}</TEXTAREA></span><span id="CONFERENCE_TYPE_sysView_spanId#no#">{$SHORTNAME}</span>');
@@ -74,9 +74,9 @@ $(document).ready(function(){
 	AddRow_MR();
 
 	//获取当前年月
-//	var now = new Date(); 
-	//var nowStr = now.format("yyyy年");
-	//document.getElementsByName("PLAN_TIME")[0].value=nowStr
+	var now = new Date(); 
+	var nowStr = now.format("yyyy年");
+	document.getElementsByName("PLAN_TIME")[0].value=nowStr
 	//setCombineUnique("MAIN_NAME:PLAN_TIME");
 	//setUnique("MAIN_NAME");
 	//searchList();
@@ -105,7 +105,7 @@ function AddRow_MR(){
 		obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); 
 
 	}
-/* 	function checkzz(){
+	function checkzz(){
 		var main_name=document.getElementsByName("MAIN_NAME")[0].value
 		var plan_time=document.getElementsByName("PLAN_TIME")[0].value
 		var ceshi=getInfoBySqlNo_noHidden(279,main_name+'|'+plan_time)
@@ -118,7 +118,7 @@ function AddRow_MR(){
 		alert('项目名称和年份必须唯一')
 		return false;
 		}
-	} */
+	}
 
 
 </script>
@@ -130,9 +130,7 @@ function AddRow_MR(){
     <input type="hidden" name="subTableName" value="{subTableName}">
     <input type="hidden" name="CDNO" value="{CDNO}">
     <input type="hidden" name="ITNO" value="{ITNO}">
-	<input type="hidden" name="combinationUnique" value="yearandmonth,communityId,work_teamID;年月,区队">
-   <input type="hidden" name="yearandmonth,communityId,work_teamID" value="">
-   <input type="hidden" name="communityId" value="{$COMMUNITYID}">
+	
     <input type="hidden" name="listUrl" value="{listUrl}">
     <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
     <input type="hidden" name="curPage" value="{curPage}">
@@ -173,13 +171,12 @@ function AddRow_MR(){
     <td colspan="3"><input type="text" class="input_txt"  name="target_plan" ></td>
    </tr>
   
-</tbody></table>
+</tbody>
+</table>
 
 
 </div>
-  
-
-<div >
+ <div >
   <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
     <thead>
       <tr>
@@ -193,13 +190,11 @@ function AddRow_MR(){
       </tr>
     </thead>
 
-  </div>
-  
-</div>
 
-<div class="path">
+  </table>
+
   
-  <table width="98%">
+ <table width="98%">
     <tr>
       <td id='wxts_tdId' align="left">
           <span class="font3">&nbsp 温馨提示：</span>
@@ -217,7 +212,7 @@ function AddRow_MR(){
 
 
 
-  <table style="width:98%;padding-bottom:65px">
+  <table id='wxd'>
     <tr>
       <td colspan="4" align="center">
         <input type="submit" value="保存" class="btn" onclick="return check_subTable()" />
@@ -225,15 +220,6 @@ function AddRow_MR(){
       </td>
     </tr>
   </table>
-  
-  
- 
-  
-  
-  
-  
-  
-  
 
 </form>
 </body>

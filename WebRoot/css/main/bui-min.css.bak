@@ -472,7 +472,7 @@ table.x-datepicker-inner th span {
 	overflow-x: hidden;
 	overflow-y: auto;
 	padding: 0 0px;
-	height: 100%;background: url(../../images/main/bennvy.jpg) repeat-y;
+	height: 100%;background:#f1f1f1 url(../../images/main/bennvy.jpg) repeat-y;
 	text-align: left;
 }
 

@@ -73,13 +73,16 @@ function re_setCondition(){
 
 function excelIport(){ //excel导入
    var certificate=document.getElementsByName('certificate')[0].value;
+   
 	if (certificate==''){
 		alert('请添加EXCEL附件');
-	}else{       
-		document.form1.action="/excelImportSingleDoServlet?action=excelImport&excelName=DTDuty_zbb_main_sub&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}";
+	}else{
+		
+		document.form1.action="/excelImportMultiDoServlet?action=excelImport&excelName=DTDuty_zbb_main_sub&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}";
 		document.form1.encoding="multipart/form-data";
 		document.form1.submit();
-	     }
+
+	}
 }
 
 </script>
@@ -142,9 +145,9 @@ function excelIport(){ //excel导入
 		   <li>{delmanyshow}</li>
 
 		   <li>{addshow}</li>
-		   	 <li id="sendMany_liId" class="pian" style=" margin-left:200px;" >EXCEL导入:&nbsp;&nbsp;<input type="file" name="certificate" size="20">
-		   <input type="button" name="excel" class="btn" onClick="excelIport()" value="导入">
-		   <input type="submit" name="getTem" class="btn" value="下载模版" onClick="window.open('/downloadAppServlet?&amp;ITNO={ITNO}&amp;docName=htm\\excelTemplateDown&amp;fName=值班表.xls','_blank','left=160,width=700,height=630,toolbar=no, menubar=no,resizable=yes,scrollbars=yes')" >
+		   <li id="sendMany_liId" class="pian"  style="margin-left:60%" >EXCEL导入:&nbsp;&nbsp;<input type="file" style="width:200px;" name="certificate" size="20">
+		   <input type="button" style="width:50px;" name="excel" class="btn" onClick="excelIport()" value="导入">
+		   <input type="submit" style="width:60px;" name="getTem" class="btn" value="下载模版" onClick="window.open('/downloadAppServlet?&amp;ITNO={ITNO}&amp;docName=htm\\excelTemplateDown&amp;fName=值班表.xls','_blank','left=160,width=700,height=630,toolbar=no, menubar=no,resizable=yes,scrollbars=yes')" >
 		   <font color="red"></font>
 		   </li>
         </div>
@@ -153,13 +156,13 @@ function excelIport(){ //excel导入
   <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
     <thead>
       <tr>
-	    <th width="1%"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
-		<th width="5%">年月</th>
-		<th width="3%">单位</th>
-		<th width="3%">发布日期</th>
-		<th width="3%">备注</th>
-		<th width="4%">发布部门</th>
-        <th id='YC4' width="5%">操作</th>
+	    <th width="2%"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
+		<th >年月</th>
+		<th >单位</th>
+		<th >发布日期</th>
+		<th >备注</th>
+		<th >发布部门</th>
+        <th id='YC4' >操作</th>
       </tr>
     </thead>
 	{row}

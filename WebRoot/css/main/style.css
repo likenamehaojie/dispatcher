@@ -67,7 +67,7 @@ h2{font-weight:normal;}
 
 /*default*/
 .more1{float:right; font-weight:normal;color:#307fb1; padding-right:17px;}
-.listtitle{ background:#FF0000 url(../../images/main/arrowbei.png) repeat-x; height:30px; line-height:28px; text-indent:14px; font-weight:bold; font-size:14px;}
+.listtitle{ background:url(../../images/main/arrowbei.png) repeat-x; height:30px; line-height:28px; text-indent:14px; font-weight:bold; font-size:14px;}
 .mainbox{  
      
 	position:relative; margin-left:8px; padding-right:8px; padding-bottom:8px; top:10px;

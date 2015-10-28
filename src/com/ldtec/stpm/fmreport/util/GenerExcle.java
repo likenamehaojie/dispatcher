@@ -1,5 +1,6 @@
 package com.ldtec.stpm.fmreport.util;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,6 +25,8 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.Region;
 
 import com.ldtec.base.DB.DBControl;
@@ -130,7 +133,7 @@ public class GenerExcle {
 		try {
 			out = new FileOutputStream(name);
 			wb.write(out);
-			System.out.println(out);
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -200,15 +203,15 @@ public class GenerExcle {
 
 	public StringBuffer excleToHtml() {
 		ExcelShower es = new ExcelShower();
-		StringBuffer excleToHtml = es.excleToHtml(this.wb, "red", null, null,null);
+		StringBuffer excleToHtml = es.excleToHtml(this.wb, "red", null, null,null,0);
 		return excleToHtml;
 
 	}
 
 	public StringBuffer excleToHtml(String color, List<String> style,
-			String flag,HashMap<String,String> rowStyles) {
+			String flag,HashMap<String,String> rowStyles, int _temMax) {
 		ExcelShower es = new ExcelShower();
-		StringBuffer excleToHtml = es.excleToHtml(this.wb, color, style, flag,rowStyles);
+		StringBuffer excleToHtml = es.excleToHtml(this.wb, color, style, flag,rowStyles,_temMax);
 		//StringBuffer excleToHtml = es.excleToHtmlHasStyle(this.wb, color, style, flag);
 		return excleToHtml;
 
@@ -261,11 +264,12 @@ public class GenerExcle {
 		}
    
 		ge.mergeCellInRowRange("-999");
-
-		if(sd.getIsGenerateReportHeader()!=null&&sd.getIsGenerateReportHeader().equals("false"))
-			ge.removeHeader(max);
-
-		StringBuffer excleToHtml = ge.excleToHtml(color, style, flag,rowStyles);
+		int _temMax = 0;
+		if(sd.getIsGenerateReportHeader()!=null&&sd.getIsGenerateReportHeader().equals("false")){
+			//ge.removeHeader(max);
+			_temMax = max;
+		}
+       StringBuffer excleToHtml = ge.excleToHtml(color, style, flag,rowStyles,_temMax);
 		// 保存所生成的excel
 		String uuid = UUID.randomUUID().toString();
 		//如果是可以生成报表名称则加上
@@ -295,11 +299,19 @@ public class GenerExcle {
 		}
 		}
 		root.put("uuid", uuid);
+		int _tem = 0;
+		if(sd.getIsExportHeader()!=null&&sd.getIsExportHeader().equals("false")){
+			_tem = max;
+		}else{
+			_tem = 0;
+		}
+		
 		if(root.containsKey("uuids"))
-		   root.put("uuids",root.get("uuids")+"_"+uuid);
-		else
-           root.put("uuids",uuid);
-
+		   root.put("uuids",root.get("uuids")+"_"+uuid+"|"+_tem);
+		else{
+			
+           root.put("uuids",uuid+"|"+_tem);
+		}
 
 		return excleToHtml.toString();
 
@@ -327,7 +339,7 @@ public class GenerExcle {
 		int yFrom = 0;
 		int yTo = 0;
 	     int physicalNumberOfRows = sheet.getPhysicalNumberOfRows();
-	        System.out.println(physicalNumberOfRows);
+	     
 	        List<int []> pointList = new ArrayList<>();
 	        for(int rowPoint = 0;rowPoint<physicalNumberOfRows;rowPoint++){
 	        	HSSFRow row = sheet.getRow(rowPoint);
@@ -340,7 +352,7 @@ public class GenerExcle {
 	        			}else{
 	        				String _temCellValue =cell.getRichStringCellValue().toString();
 	        				if(_temCellValue.startsWith("-999")){
-	        					System.out.println(_temCellValue);
+	        					
 	        					
 	        				    int [] am = new int[]{rowPoint,cellPoint};
 	        				    if(pointList!=null&&pointList.size()>0){
@@ -363,7 +375,7 @@ public class GenerExcle {
 	        		
 	        		
 	        	}
-	        	System.out.println(physicalNumberOfCells);
+	     
 	   
 	        	
 	        }
@@ -384,79 +396,6 @@ public class GenerExcle {
 	
 
 
-    //在一行内（以行区域为分界线进行指定数据的合并）
-	private void mergeCellInRowRange1(String string) {
-		   int numMergedRegions = sheet.getNumMergedRegions();
-	   int physicalNumberOfRows = sheet.getPhysicalNumberOfRows();
-	   int yFrom = 0;
-	   int yTo = 0;
-	   for(int i = 0;i<physicalNumberOfRows;i++){
-			int xFrom = 0;
-			int xTo = 0;
-		   HSSFRow row = sheet.getRow(i);
-            String _t = row.getCell(0).getStringCellValue();
-            if(_t.equals("安装队")||_t.equals("抽放队")){
-            	xTo+=10;
-            }
-		   int physicalNumberOfCells = row.getPhysicalNumberOfCells();
-		   for(int j=0;j<physicalNumberOfCells;j++){
-			   HSSFCell cell = row.getCell(j);
-			   System.out.println(cell.getStringCellValue());
-			   if(cell.getStringCellValue().equals("安装队")){
-				   System.out.println();
-			   }
-			   if(cell.getStringCellValue().equals(string)){
-			   if(xFrom==0){
-				   xFrom = j;
-			   }
-			   xTo += j;
-			   row.removeCell(cell);
-			   row.createCell(j);
-	//   cell.setCellValue("");
-			  
-			   }
-			   
-		   }
-		   
-		//   this.mergeCell(startRow, startCell, endRow, endCell, leve, cellMove, content);
-		   if(xTo!=0){
-			   
-			   	for(int m = 0;m<numMergedRegions;m++){
-			   		Region mm = sheet.getMergedRegionAt(m);
-			   
-			   		if(mm.getRowFrom()==i){
-			   			mm.setColumnFrom((short)xFrom);
-			   			mm.setColumnTo((short)xTo);
-			   			sheet.addMergedRegion(mm);
-			  
-			   		}
-			   		
-			   	}
-			   
-			     Region r = new Region(i, (short) xFrom, i,
-					(short) xTo);
-			     
-		  
-		  // for(int ii = xFrom;ii<=xTo;ii++)
-		   //row.removeCell(row.getCell(ii));
-		//    sheet.addMergedRegion(r);
-		    
-		   HSSFCell createCell = row.createCell(xFrom);
-		    HSSFCell cell = row.getCell(0);
-		    HSSFCell leftCell = row.getCell(xFrom-1);
-		    if(cell.getStringCellValue().equals("年计划")){
-		    	System.out.println(cell.getStringCellValue());
-		    }
-	
-		    createCell.setCellValue("");
-		   }
-	
-	   }
-	   
-	   
-	   
-		
-	}
 
 	/**
 	 * 获取合并信息
@@ -696,7 +635,7 @@ public class GenerExcle {
 			realMove.put("point", 0);
 			List<String> _temList = queryDataReturnListWithOutMap.get(i);
 			for(int j = 0;j<_temList.size();j++){
-				System.out.println("J的值"+j);
+				
 				// 添加一行数据
 				ge.fillDataS(max, _temList.get(j), j,0,realMove,hasCustomCol);
 				
@@ -824,19 +763,13 @@ public class GenerExcle {
 			com_name="-999";
 			
 		}
-/*		boolean matches = com_name.matches("^[0-9]+\\.*[0-9]+$");
-		if(matches){
-			
-			double parseDouble = Double.parseDouble(com_name);
-			com_name = String.format("%.2f",parseDouble);
-			
-		}*/
+
 		//拿到该列的列头信息
 		HSSFRow rowHeader = sheet.getRow(0);
 		String info  = "";
 		if(rowHeader!=null){
 		int physicalNumberOfCells = rowHeader.getPhysicalNumberOfCells();
-		System.out.println("physicalNumberOfCells:"+physicalNumberOfCells);
+	
 		HSSFCell cellHeader = rowHeader.getCell(realMoveUp.get("point"));
 		while(cellHeader==null){
 			cellHeader=	rowHeader.getCell(i);
@@ -1204,4 +1137,173 @@ public static int converObjToInt(Object o){
     	  return this.maxCell;
 
       }
+
+	public void removeSpecRow(int i,String name) {
+		name = "F:/Test/like11.xls";
+		try {
+			HSSFWorkbook wbs = new HSSFWorkbook(new FileInputStream(name));
+			HSSFSheet sheetAt = wbs.getSheetAt(0);
+    	//	this.removeRow(sheetAt, 0);
+		//    this.removeRow(sheetAt, 1);
+			sheetAt.removeRow(sheetAt.getRow(0));
+			sheetAt.removeRow(sheetAt.getRow(1));
+			int lastRowNum = sheetAt.getLastRowNum();
+
+		     List<Integer> mergedRegionIndex = getMergedRegionIndex(sheetAt, 0, 0);
+		     for(int j=0;mergedRegionIndex!=null&&j<mergedRegionIndex.size();j++){
+		    	 sheetAt.removeMergedRegion(mergedRegionIndex.get(j));
+		    	 
+		    	 
+		     }
+		     List<Integer> mergedRegionIndex1 = getMergedRegionIndex(sheetAt, 1, 0);
+		     for(int j=0;mergedRegionIndex1!=null&&j<mergedRegionIndex1.size();j++){
+		    	 sheetAt.removeMergedRegion(mergedRegionIndex1.get(j));
+		    	 
+		    	 
+		     }
+			
+			
+			sheetAt.shiftRows(3, lastRowNum, -3,true,false);
+			wbs.write(new FileOutputStream("F:/Test/demo.xls"));
+
+	
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/*name = "F:/Test/like11.xls";
+		 sheet.removeRow(sheet.getRow(0));
+		 sheet.removeRow(sheet.getRow(1));
+
+		 sheet.shiftRows(1, 2, -1);*/
+	
+	//	this.removeRow(this.sheet, 0);
+		//this.removeRow(this.sheet, 1);
+	//	this.removeRow(this.sheet, 0);
+	}
+	
+	
+	
+	 /**
+	 * Remove a row by its index
+	 * @param sheet a Excel sheet
+	 * @param rowIndex a 0 based index of removing row
+	 */
+	public static void removeRow(HSSFSheet sheet, int rowIndex) {
+	    int lastRowNum=sheet.getLastRowNum();
+	    if(rowIndex>=0&&rowIndex<lastRowNum)
+	        sheet.shiftRows(rowIndex+1,lastRowNum,-1);//将行号为rowIndex+1一直到行号为lastRowNum的单元格全部上移一行，以便删除rowIndex行
+	    if(rowIndex==lastRowNum){
+	        HSSFRow removingRow=sheet.getRow(rowIndex);
+	        if(removingRow!=null)
+	            sheet.removeRow(removingRow);
+	    }
+	}
+	
+	public static void delteRow(){
+		 try{
+	            FileInputStream is = new FileInputStream("d://1.xls");
+	            HSSFWorkbook workbook = new HSSFWorkbook(is);
+	            HSSFSheet sheet = workbook.getSheetAt(0);
+	            int ls=sheet.getLastRowNum();
+	            sheet.shiftRows(1, ls, -1);
+	            Row row=sheet.getRow(ls);
+	            sheet.removeRow(row);
+	            FileOutputStream os = new FileOutputStream("d://3.xls");
+	            workbook.write(os);
+	            is.close();
+	            os.close();
+	        } catch(Exception e) { 
+	            e.printStackTrace();
+	        }
+	}
+	
+	
+	
+	
+	
+	
+	/**
+
+	 * 获取区域 Region
+
+	 * @param sheet
+
+	 * @param row
+
+	 * @param column
+
+	 * @return
+
+	*/
+
+	public static List<Integer>  getMergedRegionIndex(Sheet sheet, int row, int column) { 
+
+		List<Integer> _temI = new ArrayList<Integer>();
+	int sheetMergeCount = sheet.getNumMergedRegions(); 
+
+
+
+	for (int i = 0; i < sheetMergeCount; i++) { 
+
+
+
+	org.apache.poi.ss.util.CellRangeAddress ca = sheet.getMergedRegion(i); 
+
+
+
+	int firstColumn = ca.getFirstColumn(); 
+
+
+
+	int lastColumn = ca.getLastColumn(); 
+
+
+
+	int firstRow = ca.getFirstRow(); 
+
+
+
+	int lastRow = ca.getLastRow(); 
+
+
+
+
+
+	if (row >= firstRow && row <= lastRow) { 
+
+
+
+
+/*	if (column >= firstColumn && column <= lastColumn) { 
+
+
+
+
+
+	return i; 
+
+
+
+
+	}*/
+		 _temI.add(i);
+
+
+	}
+
+
+	}
+
+
+	return _temI;
+
+
+	}
+	
+	
+	
+	
 }

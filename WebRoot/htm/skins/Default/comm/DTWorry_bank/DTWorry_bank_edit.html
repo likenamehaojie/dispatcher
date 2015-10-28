@@ -76,7 +76,7 @@ function AddRow_MR(){
 
 </script>
 
-
+<body style="padding-bottom:0px;">
 <form name="form1" action="/genericmultableservlet?action=saveEditRecord" method="post">
 <input type="hidden" name="tableName" value="{mulId}">
 
@@ -96,8 +96,8 @@ function AddRow_MR(){
 
 
 <input type="hidden" name="main_id" value="{main_id}">
-    <input type="hidden" name="field.validateValue" value="Bigtitle|大标题|OPT|100|1|yn|">	
-   <input type="hidden" name="field.validateValue" value="Smalltitle|小标题|TXT|100|1|yn|">
+    <input type="hidden" name="field.validateValue" value="Bigtitle|应急处置卡|OPT|100|1|yn|">	
+   <input type="hidden" name="field.validateValue" value="Smalltitle|应急救援分类|TXT|100|1|yn|">
 
 
    <input type="hidden" name="field.validateValue_sub" value="Dispatch|调度人员|TXT|100|1|yn|">
@@ -116,9 +116,9 @@ function AddRow_MR(){
 <table width="100%" class="tabtap" style="border-collapse:collapse;" cellspacing="0" cellpadding="0">
   <tbody>
 	<tr>
-		<td class="tad"><img src="images/form/mi.GIF">&nbsp;大标题&nbsp;:</td>
+		<td class="tad"><img src="images/form/mi.GIF">&nbsp;应急处置卡&nbsp;:</td>
 		<td><select name="Bigtitle" onchange="checkChange(this,'2')"><option>--------请选择--------</option>{Bigtitle}</select></td>
-        <td class="tad"><img src="images/form/mi.GIF">&nbsp;小标题&nbsp;:</td>
+        <td class="tad"><img src="images/form/mi.GIF">&nbsp;应急救援分类&nbsp;:</td>
 		<td><textarea   type="text"  name="Smalltitle" rows="2" cols="50" value="{Smalltitle}" />{Smalltitle}</textarea></td>
 	<tr>
 </tbody></table>
@@ -132,7 +132,7 @@ function AddRow_MR(){
     <thead>
     <tr >
     	<th align="center" >序号</th>
-	    <th align="center" >调度人员</th>
+	    <th align="center" >责任主体</th>
     	<th align="center" >步骤</th>
 		<th align="center" >步骤内容</th>
     	<th align="center" >操作</th>
@@ -163,7 +163,7 @@ function AddRow_MR(){
 
 	
 
-    <td align="center"> <div style ="margin:0 auto"><li><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l">添加 &nbsp;</span></a></li>   <li><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l">删除</span></a></li></div></td>
+    <td align="center"> <div style ="margin:0 auto"><li><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l">添加 &nbsp;</span></a></li>   <li><a href="#" onclick="javascript:DelCurrentRow({flag});"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l">删除</span></a></li></div></td>
 	
   </tr>
 <script>
@@ -184,11 +184,11 @@ $("#shijitianshu").setAvg({setId:alls,pjIds:avgs});
     </tbody>
   </table>
 </div>
-  <table width="98%">
+  <table width="98%" >
     <tr>
       <td colspan="4" align="center">
-        <input type="submit" value="保存" class="btn" onclick="return check_subTable();" />
-        <input type="button" value="返回" class="btn m_l15" onclick="window.history.go(-1)"/>
+        <input type="submit" value="保存" class="btn" onclick="return true;" />
+        <input type="button" value="返回" class="btn" onclick="window.history.go(-1)"/>
       </td>
     </tr>
   </table>

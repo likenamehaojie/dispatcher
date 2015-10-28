@@ -16,6 +16,8 @@ public class SectionData {
 	  
 	  private String isIncludeReportName;//导出excel报表时 是否包含 报表名称
 	  
+	 
+	  
 	  private String isMegreBody;//该section是否是合并主体
 	  
 	  private String isConvertColToRow;
@@ -23,7 +25,17 @@ public class SectionData {
 	  private String isUseDataBaseMegreRule;
 	  
 	  private String isGenerateReportHeader;
-	  public String getIsGenerateReportHeader() {
+	  
+	  private String isExportHeader;
+	  public String getIsExportHeader() {
+		return isExportHeader;
+	}
+
+	public void setIsExportHeader(String isExportHeader) {
+		this.isExportHeader = isExportHeader;
+	}
+
+	public String getIsGenerateReportHeader() {
 		return isGenerateReportHeader;
 	}
 

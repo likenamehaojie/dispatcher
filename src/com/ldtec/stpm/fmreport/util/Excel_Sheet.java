@@ -35,7 +35,8 @@ public class Excel_Sheet {
 			for(int i = 0; i<filesname.length;i++){
 				POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(filesname[i]));
 				HSSFWorkbook wb = new HSSFWorkbook(fs);
-				wbt = copyRowsInSameSheet(wb, wbt, _caFont, _caHSSFCellStyle);
+				//wbt = copyRowsInSameSheet(wb, wbt, _caFont, _caHSSFCellStyle);
+				wbt = copyRowsInSameSheetTest(wb, wbt, _caFont, _caHSSFCellStyle,i);
 			}
 			
 			
@@ -66,6 +67,164 @@ public class Excel_Sheet {
 	
 	
 	
+	@SuppressWarnings("deprecation")
+	public static HSSFWorkbook copyRowsInSameSheetTest(HSSFWorkbook wb,
+			HSSFWorkbook pTargetWb, Map<String, Font> _caFont,
+			Map<String, HSSFCellStyle> _caHSSFCellStyle, int index) {
+
+		int pStartRow = 0; // 开始行
+		int pEndRow = 0; // 结束行
+		int pPosition = 0; // 位置
+		String pSourceSheetName = "";
+		String pTargetSheetName = "";
+		HSSFRow sourceRow = null;
+		HSSFRow targetRow = null;
+		HSSFCell sourceCell = null;
+		HSSFCell targetCell = null;
+		HSSFSheet sourceSheet = null;
+		HSSFSheet targetSheet = null;
+		Region region = null;
+		int cType;
+		int i;
+		short j;
+
+		int targetRowFrom;
+		int targetRowTo;
+		int targetColFrom;
+		int targetColTO;
+		if ((pStartRow == -1) || (pEndRow == -1)) {
+			return null;
+		}
+		pSourceSheetName = wb.getSheetName(0);
+		pTargetSheetName = pSourceSheetName;
+		int pTargetSheetNumber = pTargetWb.getNumberOfSheets() + 1;
+		if (pTargetWb.getSheet(pTargetSheetName) != null) {
+			pTargetSheetName = pTargetSheetName + pTargetSheetNumber;
+		}
+		pTargetWb.createSheet(pTargetSheetName);
+		sourceSheet = wb.getSheet(pSourceSheetName);
+		// targetSheet = pTargetWb.getSheet(pTargetSheetName);
+		targetSheet = pTargetWb.getSheetAt(0);
+		pPosition = targetSheet.getPhysicalNumberOfRows();
+		pEndRow = sourceSheet.getPhysicalNumberOfRows();
+		HSSFFont font = pTargetWb.createFont();
+		// 拷贝合并的单元格
+		for (i = 0; i < sourceSheet.getNumMergedRegions(); i++) {
+			region = sourceSheet.getMergedRegionAt(i);
+			int _tt = 0;
+			if ((region.getRowFrom() >= pStartRow) && (region.getRowTo() <= pEndRow)) {
+				
+				if(index!=0){
+					_tt = index;
+					if(region.getRowFrom()<index){
+						continue;
+					}
+				}
+				if(region.getRowFrom() ==region.getRowTo()&&region.getColumnFrom() == region.getColumnTo()){
+					continue;
+				}
+				
+				targetRowFrom = region.getRowFrom() - pStartRow-_tt + pPosition;
+				targetRowTo = region.getRowTo() - pStartRow-_tt + pPosition;
+				region.setRowFrom(targetRowFrom);
+				region.setRowTo(targetRowTo);
+				targetColFrom = region.getColumnFrom();
+				targetColTO = region.getColumnTo();
+				region.setColumnFrom((short) targetColFrom);
+				region.setColumnTo((short) targetColTO);
+				targetSheet.addMergedRegion(region);
+			}
+		}
+		// pStartRow = targetSheet.getLastRowNum();
+		// 设置列宽
+		for (i = pStartRow; i <= pEndRow + targetSheet.getLastRowNum(); i++) {
+			sourceRow = sourceSheet.getRow(i);
+			if (sourceRow != null) {
+				for (j = sourceRow.getLastCellNum(); j > sourceRow.getFirstCellNum(); j--) {
+					targetSheet.setColumnWidth(j, sourceSheet.getColumnWidth(j));
+					targetSheet.setColumnHidden(j, false);
+				}
+				break;
+			}
+		}
+
+		// 拷贝行并填充数据
+		for (; i <= pEndRow; i++) {
+			sourceRow = sourceSheet.getRow(i+index);
+
+			if (sourceRow == null) {
+				continue;
+			}
+			targetRow = targetSheet.createRow(i + pPosition);
+			targetRow.setHeight(sourceRow.getHeight());
+			short firstCellNum = sourceRow.getFirstCellNum();
+			int physicalNumberOfCells = sourceRow.getPhysicalNumberOfCells();
+			System.out.println(firstCellNum + "----->" + physicalNumberOfCells);
+			for (j = sourceRow.getFirstCellNum(); j < sourceRow.getPhysicalNumberOfCells() + firstCellNum; j++) {
+				int _j = j;
+				sourceCell = sourceRow.getCell(j);
+				/*
+				 * while(sourceCell == null){ sourceRow.getCell(j++); }
+				 */
+
+				if (sourceCell == null) {
+					sourceRow.createCell(j);
+					sourceCell = sourceRow.getCell(j);
+					// continue;
+				}
+				System.out.println("源文件中的值:" + sourceCell.getStringCellValue());
+				targetCell = targetRow.createCell(j);
+				// targetCell.setEncoding(sourceCell);
+				// targetCell.setCellStyle(sourceCell.getCellStyle());
+				/*
+				 * 这里的表样式需要另外处理，否则不同的Excel的样式不同，会引起错误。 This Style does not
+				 * belong to the supplied Workbook. Are you trying to assign a
+				 * style from one workbook to the cell of a differnt workbook
+				 */
+				String sCellstyle = getCellStyle(sourceCell, wb);
+				// System.out.println(sCellstyle);
+				HSSFFont font1 = pTargetWb.getFontAt((short) 0);
+				pTargetWb.getNumberOfFonts();
+
+				// pTargetWb.
+				targetCell.setCellStyle(createCellStyle(pTargetWb, sCellstyle, font, _caFont, _caHSSFCellStyle));
+				cType = sourceCell.getCellType();
+
+				// 对表的列宽做处理
+				int maxColmunSize = sourceSheet.getColumnWidth((short) j);
+				if (targetSheet.getColumnWidth(j) <= maxColmunSize)
+					targetSheet.setColumnWidth(j, maxColmunSize);
+
+				targetCell.setCellType(cType);
+				switch (cType) {
+				case HSSFCell.CELL_TYPE_BOOLEAN:
+					targetCell.setCellValue(sourceCell.getBooleanCellValue());
+					break;
+				case HSSFCell.CELL_TYPE_ERROR:
+					targetCell.setCellErrorValue(sourceCell.getErrorCellValue());
+					break;
+				case HSSFCell.CELL_TYPE_FORMULA:
+					// parseFormula这个函数的用途在后面说明
+					targetCell.setCellFormula(parseFormula(sourceCell.getCellFormula()));
+					break;
+				case HSSFCell.CELL_TYPE_NUMERIC:
+					targetCell.setCellValue(sourceCell.getNumericCellValue());
+					break;
+				case HSSFCell.CELL_TYPE_STRING:
+					targetCell.setCellValue(sourceCell.getRichStringCellValue());
+					break;
+				}
+				j = (short) _j;
+			}
+		}
+		return pTargetWb;
+
+	}
+
+
+
+
+
 	/*
 	 * 示例，在d盘放两个示例Excel文件（单个Sheet）。 生成后会在D盘产生一个合并好Sheet的Excel文件。exlsample_2.xls
 	 */

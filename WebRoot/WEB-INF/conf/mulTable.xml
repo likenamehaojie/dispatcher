@@ -52,7 +52,7 @@
 <mulTable mulId ="DTPlan_ktht_main_sub" 
 	addHtml = "skins/Default/multi/DTPlan_ktht/DTPlan_ktht_add.html" 
 	editHtml = "skins/Default/multi/DTPlan_ktht/DTPlan_ktht_edit.html" realDel="y" isHaveWf="n">
-	    <mainTable mainTableName="DTPlan_ktht_main" fields="yearandmonth,work_teamID,target_plan" unique=""></mainTable>
+	    <mainTable mainTableName="DTPlan_ktht_main" fields="yearandmonth,work_teamID,target_plan" unique="yearandmonth"></mainTable>
 		<subTable subTableName="DTPlan_ktht_sub" fields="jobcut_id,job_plan,worktype,iskeyproject,isvalid" subRecordIsSaveByField="jobcut_id"></subTable>
 		<defValueList>
 		
@@ -92,7 +92,7 @@
 
 	<!--下井跟值班管理-值班表 end-->
 
-
+	 <!--应急预案—处置卡-->
 	<mulTable mulId ="DTWorry_bank_main_sub" 
 	addHtml = "skins/Default/comm/DTWorry_bank/DTWorry_bank_add.html" 
 	editHtml = "skins/Default/comm/DTWorry_bank/DTWorry_bank_edit.html" realDel="y" isHaveWf="n">
@@ -102,4 +102,7 @@
        <defaultValue field="Bigtitle|OPT|1"><![CDATA[select VALUE,NAME from FIELD_OPTION  where description_sub = '处置卡']]></defaultValue>
 	    </defValueList>
         </mulTable>
+	<!--应急预案—处置卡 end-->	
+	
+
 </tables>

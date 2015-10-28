@@ -69,11 +69,11 @@
 	<condition name="$DTRecord_file" ><![CDATA[ where worry_type='$TABLEKEYWORD2' and communityId='$COMMUNITYID']]></condition>
 	<!-- 支架安装回撤记录及台账 -->
 	<condition name="$azhc" ><![CDATA[ where communityId='$COMMUNITYID' and azhctype='$TABLEKEYWORD3'  ]]></condition>
-    <condition name="$azhc_branch" ><![CDATA[ where  and azhctype='$TABLEKEYWORD3' and workGroupId='$WORKGROUPID' ]]></condition>
+    <condition name="$azhc_branch" ><![CDATA[ where  azhctype='$TABLEKEYWORD3' and workGroupId='$WORKGROUPID' ]]></condition>
 	
  	
   	<!-- 生产计划 -->
-	<condition name = "$DTPlan_produce_main"><![CDATA[ where 1=1]]></condition>
+	<condition name = "$DTPlan_produce_main"><![CDATA[ where communityId='$COMMUNITYID']]></condition>
 	<!-- 底抽底板 -->
 	<condition name="$BK" ><![CDATA[ where communityId='$COMMUNITYID' and jc_type='$TABLEKEYWORD3' ]]></condition>
 	<!-- 底抽底板 -->
@@ -91,7 +91,38 @@
 
 	<!-- 早调会会议调用——已结束 -->
 	<condition name="$yjs" ><![CDATA[where next_step='END' and  exists(select id from wf_DTBank_meeting_task where DTBank_meeting_task.id=wf_DTBank_meeting_task.record_id and wf_DTBank_meeting_task.Created_by='$USERID')]]></condition>
-	
-	
+
+
+	<!-- 查看未上报 自己  begin-->
+	<condition name="$SBGN" ><![CDATA[ where communityId='$COMMUNITYID' and isUpload = '0' and workGroupId = '$WORKGROUPID']]></condition>
+	<!-- 查看未上报 end-->
+
+	<!-- 查看已上报 begin-->
+	<condition name="$WSBGN" ><![CDATA[ where communityId='$COMMUNITYID' and isUpload = '1' and workGroupId = '$WORKGROUPID']]></condition>
+	<!-- 查看已上报 end-->
+
+
+	<!-- 查看未上报 自己 begin-->
+	<condition name="$WSB" ><![CDATA[ where communityId='$COMMUNITYID' and isUpload = '0' and jc_type = '$TABLEKEYWORD2' and workGroupId = '$WORKGROUPID']]></condition>
+	<!-- 查看未上报 end-->
+
+	<!-- 查看已上报 begin-->
+	<condition name="$YSB" ><![CDATA[ where communityId='$COMMUNITYID' and isUpload = '1' and jc_type = '$TABLEKEYWORD2' and workGroupId = '$WORKGROUPID']]></condition>
+	<!-- 查看已上报 end-->
+
+	<!-- 查看未上报 全部  begin-->
+	<condition name="$QSBGN" ><![CDATA[ where communityId='$COMMUNITYID' and isUpload = '0' ]]></condition>
+	<!-- 查看未上报 end-->
+
+	<!-- 查看已上报 全部 begin-->
+	<condition name="$QWSBGN" ><![CDATA[ where communityId='$COMMUNITYID' and isUpload = '1' ]]></condition>
+	<!-- 查看已上报 end-->
+	<!-- 查看未上报  begin-->
+	<condition name="$QWSB" ><![CDATA[ where communityId='$COMMUNITYID' and isUpload = '0' and jc_type = '$TABLEKEYWORD2' ]]></condition>
+	<!-- 查看未上报 end-->
+
+	<!-- 查看已上报 全部begin-->
+	<condition name="$QYSB" ><![CDATA[ where communityId='$COMMUNITYID' and isUpload = '1' and jc_type = '$TABLEKEYWORD2' ]]></condition>
+	<!-- 查看已上报 end-->
 
 </tableConditions>

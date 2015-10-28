@@ -27,51 +27,22 @@
 
 
   <SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
-  <script>
-  
-   (function($){
-    	$.fn.autoTextarea = function(options) {
-    	var defaults={
-    	maxHeight:null,//文本框是否自动撑高，默认：null，不自动撑高；如果自动撑高必须输入数值，该值作为文本框自动撑高的最大高度
-    	minHeight:$(this).height() //默认最小高度，也就是文本框最初的高度，当内容高度小于这个高度的时候，文本以这个高度显示
-    	};
-    	var opts = $.extend({},defaults,options);
-    	return $(this).each(function() {
-    	$(this).bind("paste cut keydown keyup focus blur",function(){
-    	var height,style=this.style;
-    	this.style.height = opts.minHeight + 'px';
-    	if (this.scrollHeight > opts.minHeight) {
-    	if (opts.maxHeight && this.scrollHeight > opts.maxHeight) {
-    	height = opts.maxHeight;
-    	style.overflowY = 'scroll';
-    	} else {
-    	height = this.scrollHeight;
-    	style.overflowY = 'hidden';
-    	}
-    	style.height = height + 'px';
-    	}
-    	});
-    	});
-    	};
-    	})(jQuery);
-  
-  
-  </script>
 
 </head>
 <script type="text/javascript">
 //添加条件行 
 function AddRow(maxLength){ 
 	var map=new Map();
+	//填写日期
+	map.put("tDate",'<input  class=\"input_txt\" onClick="WdatePicker()" type=\"text\" value="{newDate}" id="tDate#no#"  name=\"tDate#no#\" value=\"\" />');
 
-	//调度人员
-	map.put("Dispatch",'<input  class=\"input_txt\"  type=\"text\" id="Dispatch#no#"  name=\"Dispatch#no#\" value=\"\" />');	
-	//步骤
-	map.put("Step",'<input   class=\"input_txt\"  type=\"text\" id="Step#no#" name=\"Step#no#\" value=\"\" />');	
+	//主值班
+	map.put("zzb",'<input  class=\"input_txt\"  type=\"text\" id="zzb#no#"  name=\"zzb#no#\" value=\"\" />');	
+	//副值班（矿领导）
+	map.put("kldfzb",'<input   class=\"input_txt\"  type=\"text\" id="kldfzb#no#" name=\"kldfzb#no#\" value=\"\" />');	
 
-	//步骤内容
-	map.put("StepContent",'<textarea   type=\"text\"  name=\"StepContent#no#\" rows="2" cols="50" value=\"\" /></textarea>');
-	
+	//副值班（科室人员）
+	map.put("ksfzb",'<textarea   type=\"text\"  name=\"ksfzb#no#\" rows="2" cols="50" value=\"\" /></textarea>');	
 	                 
 	//操作<a  href=\"javascript:AddRow_MR()\">添加</a><br/><a href=\"javascript:DelCurrentRow(#no#);\">删除</a>
 	map.put("operate",' <div style =\'width:60%;margin:0 auto\'><li><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l" >添加 &nbsp;</span></a></li>   <li><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l" style="line-height:32px">删除</span></a></li></div>'); 
@@ -84,23 +55,15 @@ function AddRow(maxLength){
 $(document).ready(function(){
 	//添加三行空白记录
 	AddRow(1);
-	$("textarea[name^='StepContent']").each(function(){
-	$(this).autoTextarea({maxHeight:2200,minHeight:30});
-  
-  })
 
 
-
-
-
+	var yearAndMonth=new Date().format("yyyy年MM月");
+	document.getElementsByName("yearAndMonth")[0].value=yearAndMonth;
  });
 
   function AddRow_MR(){
 	
 	AddRow(1);
-	$("textarea[name^='StepContent']").each(function(){
-	$(this).autoTextarea({maxHeight:2200,minHeight:30});
-  })
 	$("#procedure_in_month"+sys_j).setAvg({setId:"avg_procedure_in_day"+sys_j});
 	
 	var alls = "procedure_in_month"+sys_j;
@@ -132,18 +95,21 @@ $(document).ready(function(){
 
  
 
-    <input type="hidden" name="field.validateValue" value="Bigtitle|应急处置卡|OPT|100|1|yn|">	
-   <input type="hidden" name="field.validateValue" value="Smalltitle|应急救援分类|TXT|100|1|yn|">
+ 
+   <input type="hidden" name="field.validateValue" value="yearAndMonth|年月|TXT|100|1|yn|">	
+   <input type="hidden" name="field.validateValue" value="Company|单位|TXT|100|1|yn|">
 
+   <input type="hidden" name="field.validateValue" value="fDate|发布日期|DAT|100|1|yn|">
+   <input type="hidden" name="field.validateValue" value="ReBranch|发布部门|TXT|100|1|yn|">
 
-   <input type="hidden" name="field.validateValue_sub" value="Dispatch|调度人员|TXT|100|1|yn|">
-   <input type="hidden" name="field.validateValue_sub" value="Step|步骤|TXT|100|1|yn|">
-   <input type="hidden" name="field.validateValue_sub" value="StepContent|步骤内容|TXT|100|1|yn|">
-
+   <input type="hidden" name="field.validateValue_sub" value="zzb|主值班|TXT|100|1|yn|">
+   <input type="hidden" name="field.validateValue_sub" value="tDate|填写日期|TXT|100|1|yn|">
+   <input type="hidden" name="field.validateValue_sub" value="kldfzb|副值班(矿领导)|TXT|100|1|yn|">
+   <input type="hidden" name="field.validateValue_sub" value="ksfzb|副值班(科室人员)|TXT|100|1|yn|">
 
 <div id="top">
    <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
-   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 录入页面</div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 录入页面66</div>
 
   <div style = "clear:both;"></div>
   
@@ -154,10 +120,23 @@ $(document).ready(function(){
 
   <tr>
   
-        <td class="tad"><img src="images/form/mi.GIF">&nbsp;应急处置卡&nbsp;：</td>
-		<td><select name="Bigtitle" onchange="checkChange(this,'2')"><option>--------请选择--------</option>{Bigtitle}</select></td>
-        <td class="tad"><img src="images/form/mi.GIF">&nbsp;应急救援分类&nbsp;：</td>
-		<td><textarea   type="text"  name="Smalltitle" rows="2" cols="50" value="" /></textarea></td>
+        <td class="tad"><img src="images/form/mi.GIF">&nbsp;年月&nbsp;:</td>
+    <td> <input name="yearAndMonth" type="text" value="" class="input_txt"   readonly/></td>
+         <td class="tad"><img src="images/form/mi.GIF">&nbsp;单位&nbsp;:</td>
+    <td> <input name="Company" type="text" value="{$SHORTNAME}" class="input_txt" id ="Company" readonly/></td>
+  </tr>
+  <tr>
+           <td class="tad"><img src="images/form/mi.GIF">&nbsp;发布日期&nbsp;:</td>
+    <td> <input name="fDate" type="text" value="{newDate}" class="input_txt" onClick="WdatePicker({maxDate:'%y-%M-%d'})"/></td>
+
+             <td class="tad"><img src="images/form/mi.GIF">&nbsp;发布部门&nbsp;:</td>
+    <td> <input name="ReBranch" type="text" value="{$WORKGROUP}" class="input_txt" readonly/></td>
+
+   </tr>
+  <tr >
+             <td class="tad">&nbsp;备注&nbsp;:</td>
+    <td  colspan="3"><textarea name="remark" rows="5" cols="110"/></textarea>&nbsp;</td>
+ 
   </tr>
 </tbody></table>
 
@@ -169,10 +148,11 @@ $(document).ready(function(){
   <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
     <thead>
     <tr  >
-    	<th align="center" >序号</th>
-	    <th align="center" >责任主体</th>
-    	<th align="center" >步骤</th>
-		<th align="center" >步骤内容</th>
+    	<th  align="center" >序号</th>
+    	<th   align="center">填写日期</th>
+	    <th   align="center" >主值班</th>
+    	<th align="center"  >副值班(矿领导)</th>
+		<th align="center"  >副值班(科室人员)</th>
     	<th align="center" width="10%">操作</th>
     </tr>
 
@@ -194,6 +174,8 @@ $(document).ready(function(){
           &nbsp 2.点击操作下的"删除"可删除错误或多余的记录。
           <br>
           &nbsp 3.点击"保存"按钮前，请把空白或错误的记录删除掉。
+          <br>
+          &nbsp 4.副值班(科室人员)若为多人可用"，"(逗号)隔开。
           <br>
       </td>
     </tr>

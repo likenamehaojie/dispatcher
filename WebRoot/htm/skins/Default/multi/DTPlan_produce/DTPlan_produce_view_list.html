@@ -149,10 +149,19 @@
     <tr>
       <td colspan="4" align="center">
           <input type="submit" value="¹Ø±Õ" class="btn" onclick="javascript:window.close();" />
+          <input type="button"  value="µ¼³öexcel" class="btn" onClick="exportMuitlExcel();"/>
       </td>
     </tr>
   </table>
+<script>
+function exportMuitlExcel(){
 
+window.location = "/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTPlan_produce_main&recordId={recordId}&ITNO=1_excel&$TABLEKEYWORD={$TABLEKEYWORD}&listUrl=excelTemplate&xiazaiwenjian=y";
+
+}
+
+
+</script>
 </form>
 </body>
 </html>

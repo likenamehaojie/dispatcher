@@ -95,25 +95,20 @@ function re_setCondition(){
 	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
 
 	<input name="dblclick" type="hidden" value="" /><!--已上报禁止双击编辑-->	
-	<input type="hidden" name="field1" value="name|姓名|TXT|50|">
-	<input type="hidden" name="field2" value="sex|性别|OPT|50|">
-	<input type="hidden" name="field3" value="Cid|身份证号|TXT|50|">
-	<input type="hidden" name="field4" value="Place|籍贯|TXT|50|">
-	<input type="hidden" name="field5" value="BirthDate|出生时间|DAT|50|">
+	<input type="hidden" name="field1" value="Bigtitle|大标题|TXT|50|">
+	<input type="hidden" name="field2" value="Smalltitle|小标题|TXT|50|">
+
 
 <div id="top">
-   <div class="haer"><span id="tans"><strong>人员基本档案</strong></span></div>
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1}</strong></span></div>
    <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt;列表页面</div>
   </div>
 
 		<!--多选搜索 4 begin-->
 		<div class="line_list_mulitSelect" style="display:none">
 			<select name="selSetCon" multiple="multiple">
-				<option value="1">姓名</option>
-				<option value="2">性别</option>
-				<option value="3">身份证号</option>
-				<option value="4">籍贯</option>
-				<option value="5">出生时间</option>
+				<option value="1">应急处置卡</option>
+				<option value="2">应急救援分类</option>
 
 			</select>
 		</div>
@@ -124,32 +119,14 @@ function re_setCondition(){
 		 <ul id="ul_search">
 			<li id="li_search1">
 				&nbsp;
-				<input type="checkbox" name="f_id" value="1">&nbsp;姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:
-				<input name="name" onkeyup="checkChange(this,'1')" class="input_txt" style="width:156px;"/>
+				<input type="checkbox" name="f_id" value="1">&nbsp;应急处置卡：<select name="Bigtitle" onchange="checkChange(this,'1')">{filterOptions1}</select>
 			</li>
-			
-
 			<li id="li_search2">
 				&nbsp;
-				<input type="checkbox" name="f_id" value="2">&nbsp;性别:<select name="sex" onchange="checkChange(this,'2')"><option value="">--请选择--</option><option value="男">男</option><option value="女">女</option></select>
-				
+				<input type="checkbox" name="f_id" value="2">&nbsp;应急救援分类：
+				<input name="Smalltitle" onkeyup="checkChange(this,'2')" class="input_txt" style="width:156px;"/>
 			</li>
-			<li id="li_search3">
-				&nbsp;
-				<input type="checkbox" name="f_id" value="3">&nbsp;身份证号:
-				<input name="Cid" onkeyup="checkChange(this,'3')" class="input_txt"/>
-			</li>
-			<li id="li_search4">
-				&nbsp;
-				<input type="checkbox" name="f_id" value="4">&nbsp;籍贯:
-				<input name="Place" onkeyup="checkChange(this,'4')" class="input_txt"/>
-			</li>
-			<li id="li_search5">
-				&nbsp;
-				<input type="checkbox" name="f_id" value="5">&nbsp;出生时间:
-				<input name="BirthDate" style="width:156px;" onchange="checkChange(this,'5')"  class="input_txt" onclick="WdatePicker()"/>
-
-			</li>
+			
 			<li id="li_search_btn">
 				&nbsp;
 				<input type="button"  value="查询" class="btn" onClick="re_setCondition();"/>
@@ -169,8 +146,8 @@ function re_setCondition(){
     <thead>
       <tr >
 	    <th width="3%"><input type="checkbox" name="recordId" value="checkbox" onClick="selectAllBranch(form1);"></th>
-		<th width="40%"  style="cursor:hand;" onClick="orderByInfo_new('Bigtitle','{OrderKey}','{OrderBy}')">大标题<span id="workGroupNameOrder" class="orderNo"></span></th> 
-        <th width="40%" style="cursor:hand;" onClick="orderByInfo_new('Smalltitle','{OrderKey}','{OrderBy}')">小标题<span id="workGroupNameOrder" class="orderNo"></span></th>
+		<th width="40%"  style="cursor:hand;" onClick="orderByInfo_new('Bigtitle','{OrderKey}','{OrderBy}')">应急处置卡<span id="workGroupNameOrder" class="orderNo"></span></th> 
+        <th width="40%" style="cursor:hand;" onClick="orderByInfo_new('Smalltitle','{OrderKey}','{OrderBy}')">应急救援分类<span id="workGroupNameOrder" class="orderNo"></span></th>
 		<th style="cursor:hand;" >启动</th>
 
         <th id='YC4' width="8%">操作</th>
@@ -191,7 +168,8 @@ function re_setCondition(){
 	
 	
 	 
-	 <td id="YC5"><img src="images/zTree/treeEdit.gif" width="16" height="16" /><a href="#" onClick="multiEditRecord('DTWorry_bank_main_sub','{recordId}');">编辑</a>{delshow}</td>
+	 <td id="YC5"><img src="images/zTree/treeEdit.gif" width="16" height="16" /><a href="#" onClick="multiEditRecord('DTWorry_bank_main_sub','{recordId}');">编辑</a>
+	 <img src="images/zTree/treeDel.gif" width="16" height="16" /><a href="#" onClick="multiDelRecord('DTWorry_bank_main_sub','{recordId}');">删除</a></td>
 	</tr>
     <script language="javascript">
 		

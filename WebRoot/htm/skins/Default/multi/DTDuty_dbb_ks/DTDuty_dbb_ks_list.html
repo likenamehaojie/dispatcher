@@ -81,14 +81,14 @@ function iniList(){
 	map.put("yearAndMonth:SYS_FIELDS",'<span id="yearAndMonth_sysEdit_spanId#no#"><input type=\"text\" name=\"yearAndMonth#no#\" defaultValue=\"'+fDateSTR+'\" value=\"'+yearAndMonth_str+'"   onclick=\"WdatePicker()\" size=\"16\"  check=\"2"\ tip=\"日期不能为空\" valFun=\"setEmptyCheck\" ></span><span id="yearAndMonth_sysView_spanId#no#">{yearAndMonth}</span>');
 	
 	//早班主带班A
-    map.put("AzdbA:SYS_FIELDS",'<span id="AzdbA_sysEdit_spanId#no#"><input type=\"text\" name=\"AzdbA#no#\"  value="{AzdbA}" size=\"13\"  check=\"2"\ tip=\"早班不能为空\" valFun=\"setEmptyCheck\" ></span><span id="AzdbA_sysView_spanId#no#">{AzdbA}</span>');
+    map.put("AzdbA:SYS_FIELDS",'<span id="AzdbA_sysEdit_spanId#no#"><input type=\"text\" name=\"AzdbA#no#\"  value="{AzdbA}" size=\"13\"  check=\"2"\ tip=\"主带班不能为空\" valFun=\"setEmptyCheck\" ></span><span id="AzdbA_sysView_spanId#no#">{AzdbA}</span>');
 
     //早班副带班B
-	map.put("AzdbB:SYS_FIELDS",'<span id="AzdbB_sysEdit_spanId#no#"><input type=\"text\" name=\"AzdbB#no#\" value="{AzdbB}"  size=\"13\"  check=\"2"\ tip=\"中班不能为空\" valFun=\"setEmptyCheck\"></span><span id="AzdbB_sysView_spanId#no#">{AzdbB}</span>');
+	map.put("AzdbB:SYS_FIELDS",'<span id="AzdbB_sysEdit_spanId#no#"><input type=\"text\" name=\"AzdbB#no#\" value="{AzdbB}"  size=\"13\"  check=\"2"\ tip=\"副带班不能为空\" valFun=\"setEmptyCheck\"></span><span id="AzdbB_sysView_spanId#no#">{AzdbB}</span>');
 
 
  	//早班副带班A
-    map.put("AfdbA:SYS_FIELDS",'<span id="AfdbA_sysEdit_spanId#no#"><input type=\"text\" name=\"AfdbA#no#\"  value="{AfdbA}" size=\"13\"  check=\"2"\ tip=\"夜班不能为空\" valFun=\"setEmptyCheck\"></span><span id="AfdbA_sysView_spanId#no#">{AfdbA}</span>');
+    map.put("AfdbA:SYS_FIELDS",'<span id="AfdbA_sysEdit_spanId#no#"><input type=\"text\" name=\"AfdbA#no#\"  value="{AfdbA}" size=\"13\"  check=\"2"\ tip=\"副带班不能为空\" valFun=\"setEmptyCheck\"></span><span id="AfdbA_sysView_spanId#no#">{AfdbA}</span>');
 	
 
 	//中班主带班A
@@ -201,7 +201,7 @@ function excelIport(){ //excel导入
   <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
     <thead>
       <tr>
-		 <th width="3%" rowspan="2"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
+		 <th width="2%" rowspan="2"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
 		<th  rowspan="2" align="center">日期</th> 
 		<th  colspan="3" align="center">早班</td>
 		<th  colspan="3" align="center">中班</td>

@@ -61,10 +61,6 @@ $(document).ready(function(){
 });
 
 
-function begin_HS(id){
-	window.open('/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTWorry_bank_record_main&recordId='+id+'&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}');
-}
-
 function qidong_HS(id){
 	window.open('/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTWorry_bank_record_qidong&recordId='+id+'&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}');
 }
@@ -73,7 +69,19 @@ function re_setCondition(){
 		document.getElementsByName("$TABLEKEYWORD")[0].value="{$TABLEKEYWORD}";
 		setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');
 }
+function set_stpe(buzhou,id,Currentstep){
 
+	if(Currentstep=='1'&&buzhou=='up'){
+		alert("当前步骤为最前：1");
+	}
+
+	var submitFlag=true;
+	if(submitFlag){
+		submitFlag=false;
+		ajax_pro(392,buzhou+'|'+id+'|'+Currentstep);
+	}
+	window.location.reload();
+}
 
 
 </script>
@@ -97,25 +105,23 @@ function re_setCondition(){
 	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
 
 	<input name="dblclick" type="hidden" value="" /><!--已上报禁止双击编辑-->	
-	<input type="hidden" name="field1" value="name|姓名|TXT|50|">
-	<input type="hidden" name="field2" value="sex|性别|OPT|50|">
-	<input type="hidden" name="field3" value="Cid|身份证号|TXT|50|">
-	<input type="hidden" name="field4" value="Place|籍贯|TXT|50|">
-	<input type="hidden" name="field5" value="BirthDate|出生时间|DAT|50|">
+	<input type="hidden" name="field1" value="Currentdate|时间|DAT|50|">
+	<input type="hidden" name="field2" value="Bigtitle|大标题|TXT|50|">
+	<input type="hidden" name="field3" value="Smalltitle|小标题|TXT|50|">
+	<input type="hidden" name="field4" value="Currentstep|步骤|TXT|50|">
 
 <div id="top">
-   <div class="haer"><span id="tans"><strong>人员基本档案</strong></span></div>
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1}</strong></span></div>
    <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt;列表页面</div>
   </div>
 
 		<!--多选搜索 4 begin-->
 		<div class="line_list_mulitSelect" style="display:none">
 			<select name="selSetCon" multiple="multiple">
-				<option value="1">姓名</option>
-				<option value="2">性别</option>
-				<option value="3">身份证号</option>
-				<option value="4">籍贯</option>
-				<option value="5">出生时间</option>
+				<option value="1">时间</option>
+				<option value="2">应急处置卡</option>
+				<option value="3">应急救援分类</option>
+				<option value="4">步骤</option>
 
 			</select>
 		</div>
@@ -125,32 +131,25 @@ function re_setCondition(){
 	 <div class="line_list_left">
 		 <ul id="ul_search">
 			<li id="li_search1">
-				&nbsp;
-				<input type="checkbox" name="f_id" value="1">&nbsp;姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:
-				<input name="name" onkeyup="checkChange(this,'1')" class="input_txt" style="width:156px;"/>
+				<input type="checkbox" name="f_id" value="1">&nbsp;时间&nbsp;：
+				<input name="Currentdate_start" style="width:70px;" onchange="checkChange(this,'1')"  class="input_txt" onclick="WdatePicker()"/>至<input name="Currentdate_end" style="width:70px;" onchange="checkChange(this,'1')" class="input_txt" onclick="WdatePicker()"/>
 			</li>
 			
 
 			<li id="li_search2">
 				&nbsp;
-				<input type="checkbox" name="f_id" value="2">&nbsp;性别:<select name="sex" onchange="checkChange(this,'2')"><option value="">--请选择--</option><option value="男">男</option><option value="女">女</option></select>
+				<input type="checkbox" name="f_id" value="2">&nbsp;应急处置卡：<select name="Bigtitle" onchange="checkChange(this,'2')">{filterOptions1}</select>
 				
 			</li>
 			<li id="li_search3">
 				&nbsp;
-				<input type="checkbox" name="f_id" value="3">&nbsp;身份证号:
-				<input name="Cid" onkeyup="checkChange(this,'3')" class="input_txt"/>
+				<input type="checkbox" name="f_id" value="3">&nbsp;应急救援分类：
+				<input name="Smalltitle" onkeyup="checkChange(this,'3')" class="input_txt"/>
 			</li>
 			<li id="li_search4">
 				&nbsp;
-				<input type="checkbox" name="f_id" value="4">&nbsp;籍贯:
-				<input name="Place" onkeyup="checkChange(this,'4')" class="input_txt"/>
-			</li>
-			<li id="li_search5">
-				&nbsp;
-				<input type="checkbox" name="f_id" value="5">&nbsp;出生时间:
-				<input name="BirthDate" style="width:156px;" onchange="checkChange(this,'5')"  class="input_txt" onclick="WdatePicker()"/>
-
+				<input type="checkbox" name="f_id" value="4">&nbsp;步骤：
+				<input name="Currentstep" onkeyup="checkChange(this,'4')" class="input_txt"/>
 			</li>
 			<li id="li_search_btn">
 				&nbsp;
@@ -166,12 +165,11 @@ function re_setCondition(){
     <thead>
       <tr >
 	    <th width="3%"><input type="checkbox" name="recordId" value="checkbox" onClick="selectAllBranch(form1);"></th>
-		<th width="20%"  style="cursor:hand;" onClick="orderByInfo_new('Currentdate','{OrderKey}','{OrderBy}')">日期<span id="workGroupNameOrder" class="orderNo"></span></th> 
-		<th width="20%"  style="cursor:hand;" onClick="orderByInfo_new('Bigtitle','{OrderKey}','{OrderBy}')">大标题<span id="workGroupNameOrder" class="orderNo"></span></th> 
-        <th width="20%" style="cursor:hand;" onClick="orderByInfo_new('Smalltitle','{OrderKey}','{OrderBy}')">小标题<span id="workGroupNameOrder" class="orderNo"></span></th>
-		<th style="cursor:hand;" >步骤</th>
+		<th width="20%"  style="cursor:hand;" onClick="orderByInfo_new('Currentdate','{OrderKey}','{OrderBy}')">时间<span id="workGroupNameOrder" class="orderNo"></span></th> 
+		<th width="20%"  style="cursor:hand;" onClick="orderByInfo_new('Bigtitle','{OrderKey}','{OrderBy}')">应急处置卡<span id="workGroupNameOrder" class="orderNo"></span></th> 
+        <th width="20%" style="cursor:hand;" onClick="orderByInfo_new('Smalltitle','{OrderKey}','{OrderBy}')">应急救援分类<span id="workGroupNameOrder" class="orderNo"></span></th>
+		<th width="8%"  style="cursor:hand;" >步骤</th>
 		<th width="8%" >下一步</th>
-        <th width="8%">查看详情</th>
 
       </tr>
     </thead>
@@ -183,8 +181,9 @@ function re_setCondition(){
 	 <td >{Bigtitle}&nbsp;</td>
 	 <td >{Smalltitle}&nbsp;</td>
 	 <td >{Currentstep}&nbsp;</td>
-	 <td ><a href="javascript:void(0)" onclick="qidong_HS('{recordId}');">下一步</a></td>
-	 <td ><a href="javascript:void(0)" onclick="begin_HS('{recordId}');">查看详情</a></td>
+	 <td ><a href="javascript:void(0)" onclick="set_stpe('up','{recordId}','{Currentstep}');">上一步</a>|
+	 <a href="javascript:void(0)" onclick="qidong_HS('{recordId}');">查看</a>|
+	 <a href="javascript:void(0)" onclick="set_stpe('down','{recordId}','{Currentstep}');">下一步</a></td>
 
    	 
 	{row}

@@ -97,7 +97,7 @@ iframe {
 }
 
 .header,.dl-main-nav {
-	background: url('../img/main-nav-bg.png') repeat-x 0 0 #204077;
+	background:#f1f1f1;
 }
 
 .header {
@@ -176,7 +176,7 @@ background:#092348 url(../../images/main/top.jpg)  repeat-x;
 
 .dl-main-nav .nav-list {
 	border-bottom: 1px solid #FFF;
-	overflow: hidden; float:right; margin-right:20px;
+	overflow: hidden; float: right ; margin-right:10px;
 	border-width: 0;
 }
 
@@ -185,7 +185,7 @@ background:#092348 url(../../images/main/top.jpg)  repeat-x;
 	font-size: 14px;
 	color: white;
 	position: relative;
-	padding:2px 0 0 8px;
+	padding:2px 0 0 5px;
 	cursor: pointer;
 }
 
@@ -208,7 +208,7 @@ background:#092348 url(../../images/main/top.jpg)  repeat-x;
 
 .nav-item-inner {
     font-weight:bold;
-	padding: 0px 20px 0 20px;
+	padding: 0px 10px 0 10px;
 	height: 32px; line-height:32px;
 	border: 1px solid transparent;
 	_border: none;
@@ -337,7 +337,7 @@ a{ text-decoration:none; }
 	float:left;
 	width:180px;
 	position:relative;
-	padding-top:0px;
+	padding-top:20px;
 	background-color:#E8E9EE;
 }
 .dl-inner-tab .dl-tab-nav {
@@ -371,13 +371,13 @@ a{ text-decoration:none; }
 }
 .dl-second-slib {
 	position:absolute;
-	height:100%;
+	height:100%;color:#fff;
 	width:6px;
-	cursor:pointer;
+	cursor:pointer; 
 	top:22px;
 	border-left: 1px solid #C3C3D6;
 	border-radius: 2px;
-	background:url('../../Images/main/left-slib.gif') no-repeat 0 center transparent;
+	background:url(../../images/main/left-slib.gif) no-repeat 0 center transparent;
 }
 .dl-collapse .dl-second-slib {
 	background-position:-6px center;

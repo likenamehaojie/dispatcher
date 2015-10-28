@@ -17,6 +17,7 @@
 	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
 	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
+		  <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
 	<!--多选搜索 1 end-->
 
 
@@ -41,8 +42,37 @@
 
   <script>
 $(document).ready(function(){
+	if('{$combName}' =='管理'){
+		$('#stair1,#stair2').css('display','none');
+		$('#YC,.YC1,#YC2,#YC3,#YC4,#TS').css('display','none');
+		$("#GoBack").show();
+	}
+	if('{editshow_show}'=="none"){
+		document.getElementsByName("dblclick")[0].value="true";
+	}
 	
 	
+	//改变未上报 已上报样式 隐藏已上报页面 添加 上报 批量删除 操作  
+	if ('{$TABLEKEYWORD3}'=="已上报"){
+	   document.getElementById("stair2").className="active";
+	   $('#YC,.YC1,#YC2,#YC3,#YC4,#TS').css('display','none');
+	   document.getElementsByName("dblclick")[0].value="true";
+		$("#stair2").attr("href","/generictableservlet?action=recordList&ITNO=366_YSB&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|已上报|{$TABLEKEYWORD4}");
+	   if('{$TABLEKEYWORD4}'=='block'){
+		$("#GoBack").show();
+		//$("#YC3").html('<span class="f_l">请选择撤销方式：</span><select id="select1" onchange="dat()"><option value="1">按勾选撤销</option><option value="2">按时间撤销</option></select>')
+	   }
+	   
+		
+	} 
+	else{
+	   document.getElementById("stair1").className="active";
+	} 
+	
+	$("a[id^=sys_a_id]").each(function(){
+		if($(this).attr("realvalue")=='{$TABLEKEYWORD4}')$(this).attr("class","active");
+	
+	})
 	
 	//初始化row数据
 	iniList();
@@ -58,6 +88,7 @@ $(document).ready(function(){
 	//初始化多选菜单
 	iniMultOptions('{tableName}','{ITNO}','{$USERID}');
 	
+
 });
 
 
@@ -91,7 +122,10 @@ function iniList(){
 
 
 	//区队
-	map.put("branchName:SYS_FIELDS",'<span id="branchName_sysEdit_spanId#no#"><select name=\"branchName#no#\" realValue=\"{branchName}\"  check=\"2"\ valFun=\"setEmptyCheck\">{filterOptions1}</select></span><span id="branchName_sysView_spanId#no#">'+branchName_Str+'</span>');
+	if('{editshow_show}'=="block")map.put("branchName:SYS_FIELDS",'<span id="branchName_sysEdit_spanId#no#"><input type=\"text\"  name=\"branchName#no#\" value=\"{branchName}\" defaultValue=\"{$WORKGROUP}\"></span><span id="branchName_sysView_spanId#no#">{$WORKGROUP}</span>');	
+	else{
+		map.put("branchName:SYS_FIELDS",'<span id="branchName_sysEdit_spanId#no#"><input type=\"text\"  name=\"branchName#no#\" value=\"{branchName}\" defaultValue=\"{$WORKGROUP}\"></span><span id="branchName_sysView_spanId#no#">{branchName}</span>');	
+	}
 
     //作业地点
 	map.put("workPlace:SYS_FIELDS",'<span id="workPlace_sysEdit_spanId#no#"><select name=\"workPlace#no#\" realValue=\"'+workPlace_Str+'\"  check=\"2"\ valFun=\"setEmptyCheck\"><option value="" >请选择</option>{filterOptions4}</select></span><span id="workPlace_sysView_spanId#no#">'+workPlace_Str+'</span>');
@@ -109,21 +143,25 @@ function iniList(){
 	//有效进尺 EffectiveFootage
 	map.put("EffectiveFootage:SYS_FIELDS",'<span id="EffectiveFootage_sysEdit_spanId#no#"><input type=\"text\" name=\"EffectiveFootage#no#\" value=\"{EffectiveFootage}\" size=\"8\" check=\"2"\ tip=\"有效进尺不能为空\" valFun=\"setEmptyCheck\"onkeyup=\"clearNoNum(this)\"></span><span id="EffectiveFootage_sysView_spanId#no#">{EffectiveFootage}</span>');
 	//是否重点工程
-	map.put("iskeyproject:SYS_FIELDS",'<span id="iskeyproject_sysEdit_spanId#no#"><select name=\"iskeyproject#no#\" realValue=\"{iskeyproject}\"  check=\"2"\ valFun=\"setEmptyCheck\">{filterOptions3}</select></span><span id="iskeyproject_sysView_spanId#no#">{iskeyproject}</span>');
+	//map.put("iskeyproject:SYS_FIELDS",'<span id="iskeyproject_sysEdit_spanId#no#"><select name=\"iskeyproject#no#\" realValue=\"{iskeyproject}\"  check=\"2"\ valFun=\"setEmptyCheck\">{filterOptions3}</select></span><span id="iskeyproject_sysView_spanId#no#">{iskeyproject}</span>');
 	//其他工作量及生产等信息
 	map.put("Other:SYS_FIELDS",'<span id="Other_sysEdit_spanId#no#"><textarea name=\"Other#no#\" value=\"{Other}\" size=\"8\" check=\"2"\ tip=\"其他工作量及生产等信息不能为空\" valFun=\"setEmptyCheck\"></textarea></span><span id="Other_sysView_spanId#no#">{Other}</span>');
 	
 	//map.put("Other:SYS_FIELDS",'<span id="Other_sysEdit_spanId#no#"><input type=\"text\" name=\"Other#no#\" value=\"{Other}\" size=\"8\" check=\"2"\ tip=\"名称不能为空\" valFun=\"setEmptyCheck\"></span><span id="Other_sysView_spanId#no#">{Other}</span>');
 	
 	// map中的按钮数组     '{editshow_show}'判断是否可以双击
-	var btnArray=['{editshow}','{saveshow}','{delshow}']; 
-	map.put("operate",OperateForRealValue(btnArray),'{editshow_show}');
+	//var btnArray=['{editshow}','{saveshow}','{delshow}']; 
+	//map.put("operate",OperateForRealValue(btnArray),'{editshow_show}');
 	//map.put("operate",'<a href=\"javascript:dblEdit(#no#)\">编辑&nbsp;<a href=\"javascript:ajax_save(#no#);\">保存</a>&nbsp;&nbsp;<a href=\"javascript:DelCurrentRow(#no#,1,1);\">删除</a>');
-	
-	
+	if('{$TABLEKEYWORD3}'!="已上报"){	
+		if('{editshow_show}'=="none"){
+		}
+		else{
 
-
-
+			var btnArray=['{editshow}','{saveshow}','{delshow}']; 
+			map.put("operate",OperateForRealValue(btnArray),'{editshow_show}');
+		}
+	}
 	if('{sNo}'==""){
 
 		AddRow(map,'blank');
@@ -154,6 +192,70 @@ function clearNoNum(obj){
 	}
 
 
+function isUpload()
+{	
+	var type=$('#select1 option:selected').val();
+	if(type=='1')
+	{		
+		var recordRealId=getManyObject();
+		if(recordRealId.length>0)
+		{
+			if(confirm("确定要上报吗？")){
+			app_windows_close(395,"{tableName}"+"|charindex('',''a62bcast(id as nvarchar(200))a62b'','' , '',"+recordRealId+",'')>0");
+			window.location.reload();
+			}
+		}
+
+	}
+	else if(type=='2')
+		{	
+			var	begin_time=document.getElementById('time_start').value;
+			var	end_time=document.getElementById('time_end').value;
+				if(confirm("确定要上报吗？")){
+					app_windows_close(395,"{tableName}"+"|BirthDate between ''"+begin_time+" 00:00:00.000'' AND ''"+end_time+" 23:59:59.997'' and communityId=''$COMMUNITYID''" );
+				window.location.reload();
+				}
+		}
+	  
+}
+function dat(){
+
+	var type=$('#select1 option:selected').val();
+	if(type!='2'){
+		document.getElementById("li_id_1").style.display="none"; 
+	}
+	else{
+		//初始化上报时间
+		iniUploadDate();
+		document.getElementById("li_id_1").style.display="block";
+	}
+}
+function isUpload_Revoke()
+{	
+	var type=$('#select1 option:selected').val();
+	if(type=='1')
+	{		
+		var recordRealId=getManyObject();
+		if(recordRealId.length>0)
+		{
+			if(confirm("确定要撤销吗？")){
+			app_windows_close(396,"{tableName}"+"|charindex('',''a62bcast(id as nvarchar(200))a62b'','' , '',"+recordRealId+",'')>0");
+			window.location.reload();
+			}
+		}
+
+	}
+	else if(type=='2')
+		{	
+			var	begin_time=document.getElementById('time_start').value;
+			var	end_time=document.getElementById('time_end').value;
+				if(confirm("确定要撤销吗？")){
+					app_windows_close(396,"{tableName}"+"|BirthDate between ''"+begin_time+" 00:00:00.000'' AND ''"+end_time+" 23:59:59.997'' and communityId=''$COMMUNITYID''" );
+				window.location.reload();
+				}
+		}
+	  
+}
 </script>
 <body >
   <form name="form1" action="" method="post">
@@ -177,8 +279,7 @@ function clearNoNum(obj){
 
 	<input type="hidden" name="field1" value="BirthDate|日期|DAT|50|">
     <input type="hidden" name="field2" value="workPlace|作业地点|TXT|50|">
-    <input type="hidden" name="field3" value="branchName|区队|TXT|50|">
-    <input type="hidden" name="field4" value="Shift|班次|TXT|50|">
+    <input type="hidden" name="field3" value="Shift|班次|TXT|50|">
 
 
 	<input type="hidden" name="j" value="">
@@ -192,8 +293,7 @@ function clearNoNum(obj){
 			<select name="selSetCon" multiple="multiple">
 				<option value="1">日期：</option>
 				<option value="2">作业地点：</option>
-				<option value="3">区队：</option>
-				<option value="4">班次：</option>
+				<option value="3">班次：</option>
 				
 			</select>
 		</div>
@@ -213,17 +313,9 @@ function clearNoNum(obj){
 			</li>
 			<li id="li_search3">
 				&nbsp;
-				<!--<input type="checkbox" name="f_id" value="3" >区队&nbsp;：
-				<input name="branchName" onkeyup="checkChange(this,'3')" value="" class="input_txt"/>
-				<select name="branchName" ><option value="">--请选择--</option>{branchName}</select>-->
-				<input type="checkbox" name="f_id" value="3">&nbsp;区队：<select name="branchName" onchange="checkChange(this,'3')">{filterOptions1}</select>
-			</li>
-			
-			<li id="li_search4">
-				&nbsp;
 				<!--<input type="checkbox" name="f_id" value="4" >班次&nbsp;：
 				<input name="Shift" onkeyup="checkChange(this,'4')" value="" class="input_txt"/>-->
-				<input type="checkbox" name="f_id" value="4">&nbsp;班次：<select name="Shift" onchange="checkChange(this,'4')">{filterOptions2}</select>
+				<input type="checkbox" name="f_id" value="3">&nbsp;班次：<select name="Shift" onchange="checkChange(this,'3')">{filterOptions2}</select>
 			</li>
 		   <li id="li_search_btn">
 				&nbsp;
@@ -231,10 +323,31 @@ function clearNoNum(obj){
 				<input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','366',' 掘进进尺');"/>
 		  </li>
 	</div>
-	<div class="line_list">
-	   <li>{delmanyshow}</li>
-	   <li>{addshow}</li>
-    </div>
+	 	<div class="line_list" style="display:{editshow_show}">
+	   <li class="YC1">{delmanyshow}</li>
+	   <li class="YC1">{addshow}</li>
+	   <li id="GoBack" style="display:none"><input type="button" value="撤销" class="btn" onclick="isUpload_Revoke()" /></li>
+		  <li class="pian">
+                <div id="navMenu">
+				   <a id="stair1" href="/generictableservlet?action=recordList&ITNO=366&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|未上报" class="">
+                       <span>
+                        未上报
+                       </span>
+                    </a>
+                    <a id="stair2" href="/generictableservlet?action=recordList&ITNO=366_YSB&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|已上报|{GoBack_show}" class="">
+						<span>
+                       已上报
+                       </span>
+					   </a>
+				</div>
+		
+           </li>
+
+		   <li  id="YC2"><input type="button"  value="上报" class="btn" onClick="isUpload()"/>&nbsp;<!--<input type="button"  value="一键保存" class="btn" onClick="ajax_batchSave()"/>--></li>
+		   <li id="li_id_1" style="display:none"><input id="time_start" type="text"  style="width:70px;" onclick="WdatePicker()"  class="input_txt" readonly="readonly" />至<input id="time_end"style="width:70px;" type="text" class="input_txt" onclick="WdatePicker()" readonly="readonly"/>&nbsp;&nbsp;&nbsp;</li>
+		   <li  id="YC3"><span class="f_l">请选择上报方式：</span><select id="select1" onchange="dat()"><option value="1">按勾选上报</option><option value="2">按时间上报</option></select>&nbsp;</li>
+			 
+        </div>
 		
 <div class="a_box">	
   <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
@@ -249,9 +362,9 @@ function clearNoNum(obj){
 			<th width="2%">计划进尺</th> 
 			<th width="2%">实际进尺</th> 
 			<th width="3%">有效进尺</th> 
-			<th width="3%">是否重点工程</th> 
+			<!--<th width="3%">是否重点工程</th> -->
 			<th width="3%">其他工作量及生产等信息</th> 
-			<th width="3%" id="YC">基本操作</th>
+			<th id="YC4" width="5%" style="display:{editshow_show}">基本操作</th>
       </tr>
     </thead>
 	

@@ -13,13 +13,24 @@
 <multiExcels>
 	<multiExcel excelName = "TestImport" excelTitle="你好TestImport" titleCoordinate="0,0" beginCoordinate="1,3" paramUrl="$a,$b">
 		<excelFields excelMainfields="c|1|1|yn,d|3|1|yn"></excelFields>
-		<mainTable mainTableName="ExcelTest_main" mainFields="a|$a,b|$b,c,d,e|$WORKGROUP" conditionMainFields="a|$a,b|$b,c,d,e|$WORKGROUP">
+		<mainTable mainTableName="ExcelTest_main" mainFields="a|$a,b|$b,c,d,e|$WORKGROUP" conditionMainFields="a|$a,b|$b,c ,d,e|$WORKGROUP">
 		</mainTable>
 
 		<subTable subTableName="ExcelTest_sub" subFields="a,b,c" mrFields="1,2" dateFields="" intFields="" doubleFields="" >
-		</subTable>		
+		</subTable>	
 	</multiExcel>
 
+	<!-- 导入值班表  wk 2015/10/16 begin -->
+	<multiExcel excelName = "DTDuty_zbb_main_sub" excelTitle="值班表" titleCoordinate="0,0" beginCoordinate="0,7" paramUrl="">
+		<excelFields excelMainfields="yearAndMonth|1|2|yy,fDate|1|3|yy,remark|1|4|yy">
+		</excelFields>
 
+		<mainTable mainTableName="DTDuty_zbb_main" mainFields="yearAndMonth,Company|$SHORTNAME,fDate,ReBranch|$WORKGROUP,remark" conditionMainFields="communityid|$COMMUNITYID,yearAndMonth">
+		</mainTable>
+
+		<subTable subTableName="DTDuty_zbb_sub" subFields="tDate,zzb,kldfzb,ksfzb" mrFields="1,2,3" dateFields="0" intFields="" doubleFields="" >
+		</subTable>	
+	</multiExcel>
+     <!-- 导入值班表wk 2015/10/16  end -->
 
 </multiExcels>

@@ -37,15 +37,15 @@
 
 
 	<tableKeyWord name="$364"><![CDATA[生产汇报|支架安装回撤记录及台账|安装]]></tableKeyWord>
-	<tableKeyWord name="$365"><![CDATA[生产汇报|采煤工作面|工作面]]></tableKeyWord>
-	<tableKeyWord name="$366"><![CDATA[生产汇报|掘进进尺|工作面]]></tableKeyWord>
+	<tableKeyWord name="$365"><![CDATA[生产汇报|采煤工作面]]></tableKeyWord>
+	<tableKeyWord name="$366"><![CDATA[生产汇报|掘进进尺]]></tableKeyWord>
 	<tableKeyWord name="$367"><![CDATA[生产汇报|底抽巷进尺|底抽巷进尺]]></tableKeyWord>
 	<tableKeyWord name="$368"><![CDATA[生产汇报|开拓进尺|开拓进尺]]></tableKeyWord>
 	<tableKeyWord name="$369"><![CDATA[生产汇报|巷修进尺|巷修进尺]]></tableKeyWord>
 	<tableKeyWord name="$370"><![CDATA[生产汇报|底板改造钻孔进尺|底板改造钻孔进尺]]></tableKeyWord>
-	<tableKeyWord name="$371"><![CDATA[生产汇报|抽放钻孔进尺|工作面]]></tableKeyWord>
-	<tableKeyWord name="$373"><![CDATA[生产汇报|运输队|工作面]]></tableKeyWord>
-	<tableKeyWord name="$374"><![CDATA[生产汇报|产量、媒质情况|工作面]]></tableKeyWord>
+	<tableKeyWord name="$371"><![CDATA[生产汇报|抽放钻孔进尺]]></tableKeyWord>
+	<tableKeyWord name="$373"><![CDATA[生产汇报|运输队]]></tableKeyWord>
+	<tableKeyWord name="$374"><![CDATA[生产汇报|产量、媒质情况]]></tableKeyWord>
 	<tableKeyWord name="$375"><![CDATA[生产报表|日报表|汇总页面]]></tableKeyWord>
 	<tableKeyWord name="$377"><![CDATA[生产报表|全月生产情况|汇总页面]]></tableKeyWord>
 	<tableKeyWord name="$378"><![CDATA[生产报表|采掘工作面生产情况|汇总页面]]></tableKeyWord>
@@ -55,6 +55,8 @@
 	<tableKeyWord name="$382"><![CDATA[生产报表|抽放队进尺情况|汇总页面]]></tableKeyWord>
 	<tableKeyWord name="$383"><![CDATA[生产报表|巷修进尺情况|汇总页面]]></tableKeyWord>
 	<tableKeyWord name="$385"><![CDATA[生产报表|月汇总|汇总页面]]></tableKeyWord>
+	<tableKeyWord name="$446"><![CDATA[生产报表|日报表|汇总页面]]></tableKeyWord>
+	<tableKeyWord name="$447"><![CDATA[生产报表|日报表|汇总页面]]></tableKeyWord>
 	<tableKeyWord name="$431"><![CDATA[调度档案管理|早调会会议纪要|工作面]]></tableKeyWord>
 	<tableKeyWord name="$347"><![CDATA[调度档案管理|调度人员档案|工作面]]></tableKeyWord>
 	<tableKeyWord name="$426"><![CDATA[调度档案管理|矿井基本信息|工作面]]></tableKeyWord>
@@ -70,6 +72,7 @@
 	<tableKeyWord name="$389"><![CDATA[生产台账|打钻异常情况台账]]></tableKeyWord>
 	<tableKeyWord name="$388"><![CDATA[生产台账|重点工程台账]]></tableKeyWord>
 	<tableKeyWord name="$390"><![CDATA[生产台账|月度生产计划完成情况]]></tableKeyWord>
-
+    <tableKeyWord name="$408"><![CDATA[应急预案管理|应急处置卡]]></tableKeyWord>
+	<tableKeyWord name="$410"><![CDATA[应急预案管理|应急记录]]></tableKeyWord>
   
 </tableKeyWords>

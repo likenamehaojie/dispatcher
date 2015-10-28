@@ -21,6 +21,9 @@ function getDataByDate(){
 	var year=document.getElementsByName("year")[0].value;
 	if(year=="")return
 	//showMessage();
+	var str = "/report.mv?flag=dispatcher_day_report&ITNO=375&action=getReport&title1=${title1}&title2=${title2}&cName=${cname}&dayInMonth="+year+"&commId=${commid}&tablekeyword=$375";
+	//alert(str)
+	//return
     window.location="/report.mv?flag=dispatcher_day_report&ITNO=375&action=getReport&title1=${title1}&title2=${title2}&cName=${cname}&dayInMonth="+year+"&commId=${commid}&tablekeyword=$375";
     //window.close();
 }
@@ -29,15 +32,30 @@ function getDataByDate(){
 
 function getExcel(){
 	window.location="/report.mv?ITNO=1&action=exportAllReport&exportName=${exportName}&uuids=${uuids}&exportModel=allInOne";
+//	window.location="/report.mv?ITNO=1&action=exportAllReport&exportName=${exportName}&uuids=${uuids}";
 }
+
+function preview() 
+{ 
+ bdhtml=window.document.body.innerHTML;    
+        sprnstr="<!--startprint-->";    
+        eprnstr="<!--endprint-->";    
+        prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);    
+        prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));    
+        window.document.body.innerHTML=prnhtml; 
+        window.print();    
+
+
+} 
+
 </script>
 
 
-<body>
+<body style="padding-bottom:60px;">
 <div id="top">
    <div class="haer"><span id="tans"><strong>${TABLEKEYWORD1}</strong></span></div>
    <div class="bottom">&nbsp;&nbsp; ${TABLEKEYWORD2} &gt;${TABLEKEYWORD3}</div>
-</div>
+</div> 
 
 
 <form name="form1" action="" method="post">
@@ -48,14 +66,22 @@ function getExcel(){
       <td>
 		<div class="line_list_center">
           <li><b>年份：<input name="year" type="text" value="${dayinmonth}" class="input_txt" style="width:70px"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked:function(){getDataByDate()}})"/>&nbsp;&nbsp;&nbsp;&nbsp;</b>
-		 <input type="button"  value="导出excel" class="btn" onClick="getExcel()"/></li>
+		 <input type="button"  value="导出excel" class="btn" onClick="getExcel()"/><button onClick = "preview()">打印</button></li>
         </div>
 	   </td>
     </tr>
   </table>
-		${allinone}
+		
+	
 	
   </div>
 </form>
+<div id="printBody">
+<!--startprint--><!--注意要加上html里star和end的这两个标记，之前没加，一直没效果，谁叫咱们菜呢~-->
+
+${allinone}
+<!--endprint-->
+</div>
+
 </body>
 </html>

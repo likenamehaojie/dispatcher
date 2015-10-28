@@ -113,8 +113,8 @@ function setAllChecked(checkObj,operateId){
 		for(var i=0;i<100;i++){
 			operateNames='s;'
 			if(document.getElementsByName("s"+operateId+"_"+i)[0]){
-				btnHiddenStr=document.getElementsByName("btnHiddenStr"+operateId+"_"+i)[0].value;
-				operateNames=operateNames+btnHiddenStr;
+				//btnHiddenStr=document.getElementsByName("btnHiddenStr"+operateId+"_"+i)[0].value;
+				//operateNames=operateNames+btnHiddenStr;
 				for(var j=0;j<operateNames.split(";").length;j++){
 					if(document.getElementsByName(operateNames.split(";")[j]+operateId+"_"+i)[0]){
 						if(checkObj.checked==true){

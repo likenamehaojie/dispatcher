@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+   
+</head>
+
+
+
+
+
+
+<div id="top">
+
+
+
+<div class='toolbar'>
+<table border="1" width="100%" font:font-family:'微软雅黑';" class="tabtap" style="border-collapse:collapse;" cellspacing="0" cellpadding="0">
+
+  <tbody>
+<td colspan="5" align="center"  class=vwTitleName2><h3>开掘巷探计划</h3></td>
+  <tr>
+    <td align="center" colspan="1">&nbsp;区队&nbsp;:</td>
+    <td align="center" colspan="2">{work_team}</td>
+     <td align="center"colspan="1">&nbsp;年月&nbsp;:</td>
+    <td align="center" colspan="1"> {yearandmonth}</td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2">&nbsp;目标计划(吨/米)&nbsp;:</td>
+    <td  align="center" colspan="3">{target_plan}</td>
+   </tr>
+  
+</tbody></table>
+
+
+</div>
+
+
+
+  <table border="1"width="100%" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+
+	   <tr>
+        <th align="center">序号</th>
+		<th align="center">工作面</th>
+        <th align="center">作业计划(吨/米)</th>
+		<th align="center">是否是有效进尺</th>
+		<th align="center">是否是重点工程</th>
+		
+
+      </tr>
+    
+    </thead>
+    <tbody>
+	{row}
+	<script>
+	//添加一行新数据获取option值
+		var UNIT;
+		if('{flag}'==1){
+			UNIT='{UNIT}';
+			
+		}
+		   jobcut_id_optstr  ='{jobcut_id}';
+		   iskeyproject_optstr = '{iskeyproject}';
+		   </script>
+	<tr id="{flag}">
+    <td id="xuhao{flag}" align="center">{flag}</td>
+    <td align="center">{jobcut_name}
+	<td align="center">{job_plan}</td>
+	 <td align="center">{valid}</select></td>
+	<td align="center">{name}</select></td>
+   
+  </tr>
+
+{row}
+       
+    </tbody>
+  </table>
+
+
+
+</form>
+</body>
+</html>

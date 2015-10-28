@@ -26,12 +26,12 @@
   <script src="/js/ajaxSearchInfo.js"></script>
 
 
-
+  <SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
 
 </head>
 <script type="text/javascript">
 var jobcut_id_optstr='';
-document.getElementsByName
+
 //添加条件行 
 function AddRow(maxLength){ 
 
@@ -54,7 +54,7 @@ function AddRow(maxLength){
 	
 
 	//操作<a  href=\"javascript:AddRow_MR()\">添加</a><br/><a href=\"javascript:DelCurrentRow(#no#);\">删除</a>
-	map.put("operate",' <div style =\'width:60%;margin:0 auto\'><li style = "float:left" ><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif" />添加 &nbsp;</span></a></li>   <li style="float:left"><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif" />删除</span></a></li></div>'); 
+	map.put("operate",' <div style =\'width:60%;margin:0 auto\'><li><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l" >添加 &nbsp;</span></a></li>   <li><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l" style="line-height:32px">删除</span></a></li></div>'); 
 
 	//所在单位 用于存储过程
 	map.put("COMPANY_TYPE:SYS_FIELDS:SYS_HIDDEN",'<span id="COMPANY_TYPE_sysEdit_spanId#no#"><TEXTAREA NAME=\"COMPANY#no#\">{$SHORTNAME}</TEXTAREA></span><span id="CONFERENCE_TYPE_sysView_spanId#no#">{$SHORTNAME}</span>');
@@ -130,7 +130,7 @@ function AddRow_MR(){
 		obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); 
 
 	}
-/* 	function checkzz(){
+	function checkzz(){
 		var main_name=document.getElementsByName("MAIN_NAME")[0].value
 		var plan_time=document.getElementsByName("PLAN_TIME")[0].value
 		var ceshi=getInfoBySqlNo_noHidden(279,main_name+'|'+plan_time)
@@ -143,7 +143,7 @@ function AddRow_MR(){
 		alert('项目名称和年份必须唯一')
 		return false;
 		}
-	} */
+	}
 
 
 </script>
@@ -164,7 +164,7 @@ function AddRow_MR(){
     <input type="hidden" name="FINISH" value="">    
 	<input type="hidden" name="realFileName" value="">
 	
-   <input type="hidden" name="combinationUnique" value="yearandmonth,communityId;年月,所属煤矿">
+   <input type="hidden" name="combinationUnique" value="yearandmonth,communityId;年月,值别班次">
    <input type="hidden" name="yearandmonth,communityId" value="">
    <input type="hidden" name="communityId" value="{$COMMUNITYID}">
    <input type="hidden" name="field.validateValue" value="mtcl|煤炭产量|TXT|100|1|yn|">	
@@ -188,7 +188,7 @@ function AddRow_MR(){
 
 <div id="top">
    <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
-   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 录入页面</div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 录入页面55</div>
 
   <div style = "clear:both;"></div>
   
@@ -268,9 +268,8 @@ function AddRow_MR(){
 
 
 </div>
-  
+  <div >
 
-<div >
   <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
     <thead>
     <tr  >
@@ -292,13 +291,10 @@ function AddRow_MR(){
       </tr>
     </thead>
 
-  </div>
-  
-</div>
-
  
-  
-  <table width="98%">
+
+
+ <table width="98%">
     <tr>
       <td id='wxts_tdId' align="left">
           <span class="font3">&nbsp 温馨提示：</span>
@@ -316,7 +312,7 @@ function AddRow_MR(){
 
 
 
-  <table style="width:98%;padding-bottom:65px">
+  <table width="98%" >
     <tr>
       <td colspan="4" align="center">
         <input type="submit" value="保存" class="btn" onclick="return check_subTable()" />
@@ -325,6 +321,8 @@ function AddRow_MR(){
     </tr>
   </table>
 
+
+ </table>
 </form>
 </body>
 </html>

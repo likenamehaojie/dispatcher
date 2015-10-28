@@ -161,6 +161,18 @@ public class TestJunit
 	}
 	
 	
+	@Test public void tes(){
+		String name = "f:/Test/leve3.xls";
+		GenerExcle ge = new GenerExcle(null);
+		ge.removeSpecRow(2,name);
+		
+	}
+	@Test public void removeSpceRow(){
+		
+		
+		
+	}
+	
 	
 	
 	
@@ -236,8 +248,9 @@ public class TestJunit
 				"union all\n" + 
 				"select '掘一队',  '2316上,下巷硐室',      'm',  130,5.2,255,  4.0 ,  -1.2,   40.8,'沿空留巷第107次注浆（4m），累计332m，中班18:00-19:10装药放炮61个眼，割煤2刀，夜班3:50- 4:58装药放炮61个眼，割煤2刀，瓦斯最大值：工作面0.4%、回风0.32%、充填作业道0.39%'\n" + 
 				"union all\n" + 
-				"select '掘一队',  '小计',      'm',  130,5.2,255,  4.0 ,  -1.2,   40.8,'沿空留巷第107次注浆（4m），累计332m，中班18:00-19:10装药放炮61个眼，割煤2刀，夜班3:50- 4:58装药放炮61个眼，割煤2刀，瓦斯最大值：工作面0.4%、回风0.32%、充填作业道0.39%'";
-
+				"select '掘一队',  '小计',      'm',  130,5.2,255,  4.0 ,  -1.2,   40.8,'沿空留巷第107次注浆（4m），累计332m，中班18:00-19:10装药放炮61个眼，割煤2刀，夜班3:50- 4:58装药放炮61个眼，割煤2刀，瓦斯最大值：工作面0.4%、回风0.32%、充填作业道0.39%'"+
+	         	"union all\n" + 
+		"select '安装队',  '-999',      '-999',  -999,-999,-999, -999 ,-999,   -999,'-999'";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection connection = null;
@@ -264,7 +277,7 @@ public class TestJunit
 	   ge.mergeCellBySameContent(0, max,0,mergeCellBySameContentInfo,0);
 		int maxCell2 = ge.getMaxCell();
 		System.out.println(maxCell2);
-		String string = ge.excleToHtml("red", null, "id='test'",null).toString();
+		String string = ge.excleToHtml("red", null, "id='test'",null,0).toString();
 		System.out.println(string);
 		ge.saveAaSpecName(name);
 		 ge.excleToHtml();
@@ -306,9 +319,12 @@ public class TestJunit
 		GenerExcle ge = new GenerExcle(null);
 		// ge.testAll();
 	
-		int reportId = 1;
-		GenerExcle.getReportHeaderById(ge, reportId, null);
+		int reportId = 852;
+	//	GenerExcle.getReportHeaderById(ge, reportId, null);
 		int max = 3;
+	//	ge.removeSpecRow(2);
+		ge.removeSpecRow(2, name);
+		
 		ge.saveAaSpecName(name);
 		
 	}
@@ -407,7 +423,7 @@ public class TestJunit
 	//	ge.mergeReportNameArea(0, 0, 1, maxCell2-1, "车集煤矿调度日报表");
 		System.out.println(maxCell2);
 
-		String string = ge.excleToHtml("red", null, "id='test'",null).toString();
+		String string = ge.excleToHtml("red", null, "id='test'",null,0).toString();
 		System.out.println(string);
 
 		ge.saveAaSpecName("f:/like11.xls");

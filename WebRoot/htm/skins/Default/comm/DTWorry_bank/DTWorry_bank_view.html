@@ -39,8 +39,14 @@ function winOpenWH(id,no){
 }
 
 function save_bc(){
+	
 	var Sending	= document.getElementsByName("Sending")[0].value;
-	var sub_id=$("#id_td1").html();
+	if(Sending.length==0){
+		alert("请选择发送人员！");
+		return false;
+	}
+	var sub_id='{recordId}';
+
 	var submitFlag=true;
 	if(submitFlag){
 		submitFlag=false;
@@ -86,9 +92,9 @@ function save_bc(){
 
   <tr>
   
-        <td class="tad"><img src="images/form/mi.GIF">&nbsp;大标题&nbsp;:</td>
+        <td class="tad">&nbsp;大标题&nbsp;:</td>
 		<td>{Bigtitle}</td>
-        <td class="tad"><img src="images/form/mi.GIF">&nbsp;小标题&nbsp;:</td>
+        <td class="tad">&nbsp;小标题&nbsp;:</td>
 		<td>{Smalltitle}</td>
   </tr>
 </tbody></table>
@@ -110,37 +116,22 @@ function save_bc(){
 	<tr>
 	 <td style="display:none" id="id_td{sNo}">{sub_id}</td>
 	 <td >{Dispatch}&nbsp;</td>
-	 <td >{Step}&nbsp;</td>
+	 <td >{Step}</td>
 	 <td >{StepContent}&nbsp;</td>
-	 <td><textarea   type="text" name="Sending" rows="2" cols="50" value="" onclick ="winOpenWH('{recordId}','{sNo}');"/></textarea></td>
+	 <td id="Sending{sNo}"><textarea   type="text" name="Sending" rows="2" cols="50" value="" onclick ="winOpenWH('{recordId}','{sNo}');"/></textarea></td>
 	 </tr>
+	 <script>
+		if('{Step}'!=1)
+		{
+			$("#Sending{sNo}").html("<textarea name='Sending' rows='2' cols='50' value='' style='display:none'></textarea>&nbsp;");
+		}
+	  </script>
 	 {row}
     </thead>
 
   </div>
 
 <div class="path">
-  
-  <table width="98%">
-    <tr>
-      <td id='wxts_tdId' align="left">
-          <span class="font4">&nbsp 温馨提示：</span>
-          <br>
-          &nbsp 1.点击操作下的"添加"可增加录入的条数。
-          <br>
-          &nbsp 2.点击操作下的"删除"可删除错误或多余的记录。
-          <br>
-          &nbsp 3.点击"保存"按钮前，请把空白或错误的记录删除掉。
-          <br>
-          &nbsp 4.副值班(科室人员)若为多人可用"，"(逗号)隔开。
-          <br>
-      </td>
-    </tr>
-  
-   </table>
-
-
-
   <table width="98%">
     <tr>
       <td colspan="4" align="center">
@@ -149,6 +140,7 @@ function save_bc(){
       </td>
     </tr>
   </table>
+</div>
 
 </form>
 </body>
