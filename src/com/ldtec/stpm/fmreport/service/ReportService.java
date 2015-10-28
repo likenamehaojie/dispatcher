@@ -1,8 +1,5 @@
 package com.ldtec.stpm.fmreport.service;
 
-import groovy.DemoGroovy;
-import groovy.GenerExcleGrooy;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -95,17 +92,16 @@ public class ReportService {
 					string=string.replaceAll("</table>", "");
 					sb.append(string);
 				}else if(i==_list.size()-1 ){
-					string = string.substring(string.indexOf(">")+1).replaceAll("<table>", "");
+					string = string.substring(string.indexOf(">")+1).replaceAll("</table>", "");
 					sb.append(string);
 				}else{
-					string=string.substring(string.indexOf(">")+1,string.length()-8);
+					string=string.substring(string.indexOf(">")+1);
 					sb.append(string);
 				}
 			}
 			
 			
 		}
-
 		
 		}
 		root.put(Constants.ALLINONENAME, sb.toString());
@@ -268,10 +264,9 @@ public class ReportService {
 			
 			generExcleFinal = GenerExcle.generExcleFinal(reportId, 1, mColumns,
 					color, styles, flag, request, root,reportName,rowStyles,refCol,movePoint,sd,queryDataReturnListWithOutMap);
-			/*	
-			generExcleFinal = GenerExcleGrooy.generExcleFinal(reportId, 1, mColumns,
-					color, styles, flag, request, root,reportName,rowStyles,refCol,movePoint,sd,queryDataReturnListWithOutMap);
-			*/
+			
+			
+			
 			root.put(sd.getSectionName()+"_"+"uuid", root.get("uuid").toString());
 			root.put("exportName", sd.getExportName());
 			if(root.containsKey("uuid"))
@@ -308,11 +303,5 @@ public class ReportService {
 			System.out.println("…æ≥˝”√¡À£∫"+(System.currentTimeMillis()-_tt));
 	
 	}
-		public String opeOtherExtend(){
-			DemoGroovy dg = new DemoGroovy();
-			return dg.getString("like");
-			
-			
-			
-		}
+
 }

@@ -11,7 +11,6 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -100,14 +99,9 @@ public class DispatherReportServlet{
 		Map<String,HSSFCellStyle> _caHSSFCellStyle = new HashMap<String, HSSFCellStyle>();
 		try {
 			for(int i = 0;i<uuidArray.length;i++){
-				String _temStr = uuidArray[i];
-				String[] sStr = _temStr.split("\\|");
-				String fileName = sStr[0];
-				int flagExportHeader = Integer.parseInt(sStr[1]);
-				
-				POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(downPath+fileName+".xls"));
+				POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(downPath+uuidArray[i]+".xls"));
 				HSSFWorkbook wb = new HSSFWorkbook(fs);
-				wbt= Excel_Sheet.copyRowsInSameSheetTest(wb, wbt,_caFont,_caHSSFCellStyle,flagExportHeader);
+				wbt= Excel_Sheet.copyRowsInSameSheet(wb, wbt,_caFont,_caHSSFCellStyle);
 				
 			}
 			
@@ -117,9 +111,7 @@ public class DispatherReportServlet{
 				wbt= Excel_Sheet.copyRowsInSameSheet(wb, wbt,_caFont,_caHSSFCellStyle);
 			
 		}*/
-			String _uuids = UUID.randomUUID().toString();
-			
-			FileOutputStream fileOut = new FileOutputStream(downPath+_uuids+".xls");
+			FileOutputStream fileOut = new FileOutputStream(downPath+uuids+".xls");
 			wbt.write(fileOut);
 			fileOut.flush();
 			fileOut.close();
@@ -137,7 +129,7 @@ public class DispatherReportServlet{
 			response.setDateHeader("Expires", 0);
 			try {
 				outputStream = response.getOutputStream();
-				inputStream = new FileInputStream(downPath + _uuids + ".xls");
+				inputStream = new FileInputStream(downPath + uuids + ".xls");
 				byte[] buffer = new byte[1024];
 				int i = -1;
 				while ((i = inputStream.read(buffer)) != -1) {
@@ -189,17 +181,12 @@ public class DispatherReportServlet{
 		Map<String,HSSFCellStyle> _caHSSFCellStyle = new HashMap<String, HSSFCellStyle>();
 		try {
 		for (String fileName : uuidArray) {
-			
-			String[] sStr = fileName.split("\\|");
-			String ffileName = sStr[0];
-
-				POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(downPath+ffileName+".xls"));
+				POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(downPath+fileName+".xls"));
 				HSSFWorkbook wb = new HSSFWorkbook(fs);
 				wbt= Excel_Sheet.copyRows(wb, wbt,_caFont,_caHSSFCellStyle);
 			
 		}
-		String _uuids = UUID.randomUUID().toString();
-			FileOutputStream fileOut = new FileOutputStream(downPath+_uuids+".xls");
+			FileOutputStream fileOut = new FileOutputStream(downPath+uuids+".xls");
 			wbt.write(fileOut);
 			fileOut.flush();
 			fileOut.close();
@@ -217,7 +204,7 @@ public class DispatherReportServlet{
 			response.setDateHeader("Expires", 0);
 			try {
 				outputStream = response.getOutputStream();
-				inputStream = new FileInputStream(downPath + _uuids + ".xls");
+				inputStream = new FileInputStream(downPath + uuids + ".xls");
 				byte[] buffer = new byte[1024];
 				int i = -1;
 				while ((i = inputStream.read(buffer)) != -1) {
@@ -332,10 +319,7 @@ public class DispatherReportServlet{
 		root.put("ITNO",ITNO);
 		root.put("tablekeyword",tablekeyword);
 		root.put("dateformat", dateformat);
-	    //System.out.println(rs.opeOtherExtend());
-	
 		rs.generReportByNew(reportFlag, req, root);
-		System.out.println(root.get("allinone"));
 		String view = root.get("templatename").toString();
 		ModelAndView mav = new ModelAndView(view);
 		mav.addAllObjects(root);

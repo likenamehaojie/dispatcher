@@ -29,29 +29,15 @@ function getDataByDate(){
 
 function getExcel(){
 	window.location="/report.mv?ITNO=1&action=exportAllReport&exportName=${exportName}&uuids=${uuids}&exportModel=allInOne";
-//	window.location="/report.mv?ITNO=1&action=exportAllReport&exportName=${exportName}&uuids=${uuids}";
 }
-
-function preview() 
-{ 
-bdhtml=window.document.body.innerHTML; 
-sprnstr="<!--startprint-->"; 
-eprnstr="<!--endprint-->"; 
-prnhtml=document.getElementById("printBody").innerHTML;
-
-window.document.body.innerHTML=prnhtml; 
-window.print(); 
-
-} 
-
 </script>
 
 
-<body style="padding-bottom:60px;">
+<body>
 <div id="top">
    <div class="haer"><span id="tans"><strong>${TABLEKEYWORD1}</strong></span></div>
    <div class="bottom">&nbsp;&nbsp; ${TABLEKEYWORD2} &gt;${TABLEKEYWORD3}</div>
-</div> 
+</div>
 
 
 <form name="form1" action="" method="post">
@@ -62,19 +48,14 @@ window.print();
       <td>
 		<div class="line_list_center">
           <li><b>年份：<input name="year" type="text" value="${dayinmonth}" class="input_txt" style="width:70px"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd',onpicked:function(){getDataByDate()}})"/>&nbsp;&nbsp;&nbsp;&nbsp;</b>
-		 <input type="button"  value="导出excel" class="btn" onClick="getExcel()"/><button onClick = "preview()">打印</button></li>
+		 <input type="button"  value="导出excel" class="btn" onClick="getExcel()"/></li>
         </div>
 	   </td>
     </tr>
   </table>
-		
-	
+		${allinone}
 	
   </div>
 </form>
-<div id="printBody">
-${allinone}
-</div>
-
 </body>
 </html>

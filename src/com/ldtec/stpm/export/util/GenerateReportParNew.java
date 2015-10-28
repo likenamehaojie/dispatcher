@@ -50,8 +50,7 @@ public class GenerateReportParNew {
 	private static String ISMEGREBODY="isMegreBody";
 	
 	private static String ISINCLUDEREPORTNAME = "isIncludeReportName";
-    
-   private static String ISEXPORTHEADER = "isExportHeader";
+
 
 	private static String HEADERINFO = "headerinfo";
 
@@ -163,7 +162,6 @@ public class GenerateReportParNew {
 			SectionData vdata = new SectionData();
 			Element tableEle = (Element) table.next();
 			vdata.setMegrePointLose(tableEle.getAttributeValue(MEGREPOINTLOSE));
-			vdata.setIsExportHeader(tableEle.getAttributeValue(ISEXPORTHEADER));
 			vdata.setIsConvertColToRow(tableEle.getAttributeValue(ISCONVERTCOLTOROW));
 			vdata.setIsUseDataBaseMegreRule(tableEle.getAttributeValue(ISUSEDATABASEMEGRERULE));
 			vdata.setIsGenerateReportHeader(tableEle.getAttributeValue(ISGENERATEREPORTHEADER));

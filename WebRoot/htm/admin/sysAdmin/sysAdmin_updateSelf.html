@@ -5,12 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 
 <title>个人资料修改</title>
- <link rel="stylesheet" type="text/css" href="css/index.css" />
-  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
-  <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
-   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
-  <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+<LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
 
 <script type="text/javascript" src="js/changeto.js"></script>
 
@@ -49,40 +45,37 @@
 
 <input type="hidden" name="admin_name" value="{admin_name}"/>
 
-<div id="top">
-   <div class="haer"><span id="tans"><strong>查看</strong></span></div>
-   <div class="bottom">&nbsp;&nbsp; 登录人信息查看</div>
-  </div>
+ <div class="path"> <img src="images/index/path_ico.gif" />您当前的位置 &gt; 个人资料修改</div>	
     <div class="a_box">
 	   <table border="0" cellspacing="0" cellpadding="0" class="view_table">
           <tr>
-			<td class="tad">用户名称：</td>
+			<td class="t_r">用户名称：</td>
 			<td class="t_l b_cf">&nbsp;{admin_name}</td>
-			<td class="tad">真实姓名：</td>
+			<td class="t_r">真实姓名：</td>
 			<td class="t_l b_cf"><input name="realname" type="text" class="input_txt" value="{realname}" tip="真实姓名不能为空" check="2"/>&nbsp;*</td>
 		  </tr>
 		  <tr>
-			<td class="tad">密&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
+			<td class="t_r">密&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
 			<td class="t_l b_cf"><input name="admin_pwd" type="password" class="input_txt" value="{admin_pwd}" tip="密码不能为空" check="2"/>&nbsp;*</td>	
-			<td class="tad">确认密码：</td>
+			<td class="t_r">确认密码：</td>
 			<td class="t_l b_cf"><input name="admin_pwdOK" type="password" class="input_txt" value="{admin_pwd}" tip="确认密码不能为空" check="2"/>&nbsp;*</td>
 		  </tr>
 		   <tr>
-			<td class="tad">联系电话：</td>
+			<td class="t_r">联系电话：</td>
 			<td class="t_l b_cf"><input name="mobile" type="text" class="input_txt" value="{mobile}" /></td>	
-			<td class="tad">电子邮件：</td>
+			<td class="t_r">电子邮件：</td>
 			<td class="t_l b_cf"><input name="email" type="text" class="input_txt" value="{email}" /></td>
 		  </tr>
 		   <tr>
-			<td class="tad">家庭住址：</td>
+			<td class="t_r">家庭住址：</td>
 			<td class="t_l b_cf" colspan="3"><input name="address" type="text" class="input_txt" value="{address}" /></td>
 		  </tr>		  
 		   <tr>
-			<td class="tad">备注：</td>
+			<td class="t_r">备注：</td>
 			<td class="t_l b_cf" colspan="3"><textarea name="about" rows="3"  class="textarea_txt" cols="80">{about}</textarea>
 			</td>
 		  </tr>
-		  <tr class="tad">                  
+		  <tr>                  
 			<td class="STYLE_submit" colspan="4" align="center"> 
 				<input type="submit" name="save" class="btn" onMouseOver="this.className='btn'"
 				onMouseOut="this.className='btn'" onClick="return reValidate()" value="保 存">

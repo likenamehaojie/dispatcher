@@ -62,11 +62,6 @@ function setSysNav(value){
 		window.location="/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTRecord_cfd&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}&$KEYWORD="+value;
 }
 
-function   Dexcel(){
-      var timevalue=$("#dattime").val();
-	window.open("/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTRecord_cfd&recordId={recordId}&ITNO=1_excel&$TABLEKEYWORD={$TABLEKEYWORD}&xiazaiwenjian=y&$KEYWORD="+timevalue);
-}
-
 </script>
 
   <form name="form1" action="" method="post">
@@ -94,8 +89,7 @@ function   Dexcel(){
   </div>
 <div class="line_list_left">
 <li style="float:left">
-			&nbsp;&nbsp;&nbsp;&nbsp;查&nbsp;询&nbsp;日&nbsp;期：&nbsp;&nbsp;<input name="time" id='dattime' onclick="WdatePicker({onpicked:function(){setSysNav(this.value);},dateFmt:'yyyy-MM-dd'})" value='{dattime}' class="input_txt" style="width:80px;"/>&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="button"  value="导出excel" class="btn" onClick="Dexcel()"/>
+			&nbsp;&nbsp;&nbsp;&nbsp;查&nbsp;询&nbsp;日&nbsp;期：&nbsp;&nbsp;<input name="time" id='dattime' onclick="WdatePicker({onpicked:function(){setSysNav(this.value);},dateFmt:'yyyy-MM-dd'})" value='{dattime}' class="input_txt" style="width:80px;"/>
 	</li>	
 </div>
 <div class="a_box">

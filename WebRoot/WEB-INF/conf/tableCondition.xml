@@ -69,11 +69,11 @@
 	<condition name="$DTRecord_file" ><![CDATA[ where worry_type='$TABLEKEYWORD2' and communityId='$COMMUNITYID']]></condition>
 	<!-- 支架安装回撤记录及台账 -->
 	<condition name="$azhc" ><![CDATA[ where communityId='$COMMUNITYID' and azhctype='$TABLEKEYWORD3'  ]]></condition>
-    <condition name="$azhc_branch" ><![CDATA[ where  azhctype='$TABLEKEYWORD3' and workGroupId='$WORKGROUPID' ]]></condition>
+    <condition name="$azhc_branch" ><![CDATA[ where  and azhctype='$TABLEKEYWORD3' and workGroupId='$WORKGROUPID' ]]></condition>
 	
  	
   	<!-- 生产计划 -->
-	<condition name = "$DTPlan_produce_main"><![CDATA[ where communityId='$COMMUNITYID']]></condition>
+	<condition name = "$DTPlan_produce_main"><![CDATA[ where 1=1]]></condition>
 	<!-- 底抽底板 -->
 	<condition name="$BK" ><![CDATA[ where communityId='$COMMUNITYID' and jc_type='$TABLEKEYWORD3' ]]></condition>
 	<!-- 底抽底板 -->

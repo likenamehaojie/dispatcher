@@ -99,10 +99,9 @@ public class ExcelShower {
 	 * @param color
 	 * @param style
 	 * @param flag
-	 * @param _temMax 
 	 * @return
 	 */
-	public StringBuffer excleToHtml(HSSFWorkbook workbook,String color,List<String> style,String flag,HashMap<String,String> rowStyles, int _temMax){
+	public StringBuffer excleToHtml(HSSFWorkbook workbook,String color,List<String> style,String flag,HashMap<String,String> rowStyles){
 		if(style==null){
 			style = new ArrayList<String>();
 		}
@@ -120,7 +119,7 @@ public class ExcelShower {
 				if (workbook.getSheetAt(sheetIndex) != null) {
 					sheet = workbook.getSheetAt(sheetIndex);// 获得不为空的这个sheet
 					if (sheet != null) {
-						int firstRowNum = sheet.getFirstRowNum()+_temMax; // 第一行
+						int firstRowNum = sheet.getFirstRowNum(); // 第一行
 						int lastRowNum = sheet.getLastRowNum(); // 最后一行
 						// 构造Table
 						lsb.append("<table "+flag+">");
@@ -216,7 +215,7 @@ public class ExcelShower {
 													+ cellReginCol
 													+ "\" rowspan=\""
 													+ cellReginRow + "\"");
-											lsb.append(">" + (getCellValue(cell)==null||getCellValue(cell).toString().trim().equals("")?"&nbsp;":getCellValue(cell))
+											lsb.append(">" + getCellValue(cell)
 													+ "</td>");
 											
 										}

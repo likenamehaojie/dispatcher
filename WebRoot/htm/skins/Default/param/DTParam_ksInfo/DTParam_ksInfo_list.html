@@ -89,10 +89,10 @@ function iniList(){
 
 	
 	//年龄
-    map.put("age:SYS_FIELDS",'<span id="age_sysEdit_spanId#no#"><input type=\"text\" name=\"age#no#\"   size=\"13\"  value=\"'+age_str+'\" check=\"2"\ tip=\"年龄不能为空\" valFun=\"setEmptyCheck\" ></span><span id="age_sysView_spanId#no#">{age}</span>');
+    map.put("age:SYS_FIELDS",'<span id="age_sysEdit_spanId#no#"><input type=\"text\" name=\"age#no#\"   size=\"13\"  value=\"'+age_str+'\" check=\"2"\ tip=\"年龄不能为空\" valFun=\"setEmptyCheck\" ></span><span id="age_sysView_spanId#no#"></span>');
 
 	//工龄
-    map.put("workTime:SYS_FIELDS",'<span id="workTime_sysEdit_spanId#no#"><input type=\"text\" name=\"workTime#no#\"   size=\"13\"  value=\"'+workTime_str+'\" check=\"2"\ tip=\"工龄不能为空\" valFun=\"setEmptyCheck\" ></span><span id="workTime_sysView_spanId#no#">{workTime}</span>');
+    map.put("workTime:SYS_FIELDS",'<span id="workTime_sysEdit_spanId#no#"><input type=\"text\" name=\"workTime#no#\"   size=\"13\"  value=\"'+workTime_str+'\" check=\"2"\ tip=\"工龄不能为空\" valFun=\"setEmptyCheck\" ></span><span id="workTime_sysView_spanId#no#"></span>');
 
 	//文化程度
     map.put("education:SYS_FIELDS",'<span id="education_sysEdit_spanId#no#"><input type=\"text\" name=\"education#no#\"  value=\"'+education_str+'\" size=\"13\"  check=\"2"\ tip=\"文化程度不能为空\" valFun=\"setEmptyCheck\" ></span><span id="education_sysView_spanId#no#">{education}</span>');
@@ -126,16 +126,6 @@ function re_setCondition(){
 		setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');
 }
 
-function excelIport(){ //excel导入
-   var certificate=document.getElementsByName('certificate')[0].value;
-	if (certificate==''){
-		alert('请添加EXCEL附件');
-	}else{       
-		document.form1.action="/excelImportSingleDoServlet?action=excelImport&excelName=DTParam_ksInfo&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}";
-		document.form1.encoding="multipart/form-data";
-		document.form1.submit();
-	     }
-}
 </script>
 
   <form name="form1" action="" method="post">
@@ -232,7 +222,7 @@ function excelIport(){ //excel导入
 			<li id="li_search_btn">
 				&nbsp;
 				<input type="button"  value="查询" class="btn" onClick="re_setCondition();"/>
-				<input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','443','科室成员基本信息维护表');"/>
+				
 			</li>
 		</ul>
 	</div>
@@ -241,11 +231,7 @@ function excelIport(){ //excel导入
 
 		    <li id="YC" >{delmanyshow}</li>
 		   <li  id="YC1">{addshow}</li>
-		   <li id="sendMany_liId" class="pian" style="margin-left:60%" >EXCEL导入:&nbsp;&nbsp;<input type="file" style="width:100px;" name="certificate" size="20">
-		   <input type="button" style="width:50px;" name="excel" class="btn" onClick="excelIport()" value="导入">
-		   <input type="submit" style="width:70px;" name="getTem" class="btn" value="下载模版" onClick="window.open('/downloadAppServlet?&amp;ITNO={ITNO}&amp;docName=htm\\excelTemplateDown&amp;fName=科室成员基本信息维护表.xls','_blank','left=160,width=700,height=630,toolbar=no, menubar=no,resizable=yes,scrollbars=yes')" >
-		   <font color="red"></font>
-		   </li>
+
         </div>
   <div class="a_box">	
   <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
@@ -259,7 +245,7 @@ function excelIport(){ //excel导入
 		<th width="12%">文化程度</td>	
 		<th width="14%">职务</td>
 		<th width="16%">联系方式</td>
-		<th id="oprear_th" width="14%">操作</th>
+		<th id="oprear_th" width="12%">操作</th>
       </tr>
     </thead>
   </table>

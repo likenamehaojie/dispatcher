@@ -78,12 +78,10 @@ border:0px;
        var nodes = '{ id:0, pId:-1, name:"{$SHORTNAME}",isHide:0,isJobCut:1,haschild:0}';
 		
 	{row}
-	if('{sNo}'!=''){
 	nodes+=',{ id:{id}, pId:{pid}, name:"{name}",isHide:{ishide},isJobCut:{isjobcut},haschild:{haschild}}';
-		}
 	{row}
 	var recordId
-	 
+	
 		var zNodes=eval('['+nodes+']');
 	
 	
@@ -233,11 +231,11 @@ border:0px;
 			
 			
 			if(treeNode.isHide ==1){
-				$("#info").val("工作面屏蔽中......");
+				$("#info").html("工作面屏蔽中......");
 			$("#hideBtn").text("显示工作面");
 			}
 			else{
-				$("#info").val("     ");
+				$("#info").html("     ");
 			
 			$("#hideBtn").text("屏蔽工作面");
 			}
@@ -290,19 +288,19 @@ border:0px;
 			var defaultNode = treeObj.getNodeByParam("id",id);
 			treeObj.selectNode(defaultNode,true);
 			
-		
+			
 			
 			if(statu =="屏蔽工作面"){
 				statu ="hide";
 				$("#hideBtn").text("显示工作面");
-				$("#info").val("工作面屏蔽中......");
+				$("#info").html("工作面屏蔽中......");
 				defaultNode.isHide = 1;
 				
 				
 			}else{
 				statu = "other";
 				$("#hideBtn").text("屏蔽工作面");
-				$("#info").val("         ");
+				$("#info").html("         ");
 				defaultNode.isHide = 0;
 			}
 			
@@ -546,10 +544,6 @@ border:0px;
 						<td class="tad" width="20%">构造详情：</td>
 						<td class="t_l b_cf" width="60%"><input name="Details" id="Details" size="5" type="text" class="input_txt"/></input></td>
 					  </tr>	
-					  	<tr>
-						<td class="tad" width="20%">工作面状态：</td>
-						<td class="t_l b_cf" width="60%"><input name="Details" id="info" size="5" type="text" class="input_txt"/></input></td>
-					  </tr>	
 					<tr>
 						<td class="tad" width="20%">备注：</td>
 						<td class="t_l b_cf" width="60%"><input name="remark" id="remark" size="5" type="text" class="input_txt"/></input></td>
@@ -558,13 +552,6 @@ border:0px;
 						  <td class="t_l b_cf" width="60%" colspan="2" style="text-align:center">
 							 {saveshow}
 						  </td>
-						  <tr>
-
-						  <button id = "hideBtn" onClick ="hideNode(this)" class="btn" style="display:none"></button>
-						   <span id = "info1" style="color:red;font-size:18px"></span> 
-						 <input  type="hidden" id= "hideId"/>
-
-						 </tr>
 					  </tr>		
 					  
       <td class="t_l b_cf" id="wxts_tdId" align="left" colspan="4">
@@ -582,12 +569,5 @@ border:0px;
              </tbody>
 </table>
 </div>
-
-
-
-   
-</div>
-
 </body>
-
 </html>

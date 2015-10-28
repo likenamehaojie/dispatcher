@@ -28,41 +28,19 @@
 
   <SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
   <script>
-function qidong_HS(id,step){
-	
-	window.open('/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTWorry_bank_record_huizhi&recordId='+id+'&$KEYWORD='+step+'&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}');
-}
+
 function winOpenWH(id,no){
 	$("#DTWorry_bank_main_id").val(id)
 	$("#sNo").val(no);
 	window.open("/loadAdminServlet.do?action=getUserList&listUrl=YB","newwindow","width=850,height=400,location=yes,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no");
 	
 }
-
-function save_bc(){
-	var i = '{Currentstep}';
-	
-	var j =parseInt(i)-1
-	
-
-	var Sending	= document.getElementsByName("Sending")[j].value;
-	var Step =  document.getElementById("Step"+i).innerHTML;
-	var sub_id='{id}';
-
-	var submitFlag=true;
-	if(submitFlag){
-		submitFlag=false;
-		ajax_pro(394,Sending+'|'+sub_id+'|'+Step);
-		window.location='/generictableservlet?action=recordList&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}';
-	}
-}
-
 </script>
 
 </head>
 <script type="text/javascript"></script>
 
-   <form name="form1" action="" method="post">
+   <form name="form1" action="/genericmultableservlet?action=saveAddRecord" method="post">
     <input type="hidden" name="mulId" value="DTWorry_bank_main_sub">
 	<input type="hidden" name="tableName" value="{mainTableName}">
     <input type="hidden" name="mainTableName" value="{mainTableName}">
@@ -115,28 +93,18 @@ function save_bc(){
 	 <tr  >
 	    <th align="center" width="15%" >操作人员</th>
 		<th align="center" width="30%" >步骤内容</th>
-		<th align="center" width="15%" >接收信息人</th>
 		<th align="center" width="15%" >步骤</th>
 		<th align="center" width="15%" >回复内容</th>
 		<th align="center" width="15%" >选择发送人</th>
     </tr>
 	{row}
 	<tr>
-	<td style="display:none" id="id_td{sNo}">{main_id}</td>
 	 <td >{Dispatch}&nbsp;</td>
 	 <td >{StepContent}&nbsp;</td>
-	 <td >{Sending}&nbsp;</td>
-	 <td id="Step{sNo}">{Step}</td>
-	 <td ><a href="javascript:void(0)" onclick="qidong_HS('{recordId}','{Step}');">回执信息</a></td>
-	 <td id="Sending{sNo}"><textarea   type="text" name="Sending" rows="2" cols="30" value="" onclick ="winOpenWH('{recordId}','{sNo}');"/>{Sending}</textarea></td>
-
+	 <td >{Step}&nbsp;</td>
+	 <td><textarea   type="text" id="Replycontent" name="Replycontent" rows="2" cols="30" value="" />{Replycontent}</textarea></td>
+	 <td><textarea   type="text" name="Sending" rows="2" cols="30" value="" onclick ="winOpenWH('{recordId}','{sNo}');"/></textarea></td>
 	</tr>
-	 <script>
-		if('{Currentstep}'!='{Step}')
-		{
-			$("#Sending{sNo}").html("<textarea name='Sending' rows='2' cols='30' value='' readonly='readonly'></textarea>");
-		}
-	  </script>
 	 {row}
     </thead>
 
@@ -167,7 +135,7 @@ function save_bc(){
   <table width="98%">
     <tr>
       <td colspan="4" align="center">
-        <input type="button" value="保存" class="btn" onclick="save_bc()" />
+        <input type="submit" value="保存" class="btn" onclick="return true)" />
         <input type="button" value="返回" class="btn m_l15" onclick="window.close();"/>
       </td>
     </tr>

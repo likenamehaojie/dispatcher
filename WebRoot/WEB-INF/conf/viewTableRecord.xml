@@ -209,7 +209,7 @@
 
 	
 	<!--打钻异常情况台账 2015/09/29-->
-	<viewTableRecordTemplate tid="DTRecord_cfd" downFileTitle="打钻异常台账表" singleness="skins\Default\comm\DTTaizhang_abnormal\DTTaizhang_abnormal_list.html">
+	<viewTableRecordTemplate tid="DTRecord_cfd" singleness="skins\Default\comm\DTTaizhang_abnormal\DTTaizhang_abnormal_list.html">
 	  <table tableName="DTRecord_cfd" attList="" rowName="row"  fields="id,workPlace,Shift,BirthDate,Exceptions,created_by,Exceptionsstring">
 	  <![CDATA[select id,workPlace,Shift,BirthDate,Exceptions,dbo.getShortFieldIfLong(Exceptions,40) as Exceptionsstring,(select realname from admin where id=451 and communityId=444) AS created_by from DTRecord_cfd where communityId='$COMMUNITYID' and BirthDate=(case '$KEYWORD1' when '当前日' then convert(nvarchar(10),getdate(),120) else '$KEYWORD1' end) AND Exceptions IS  NOT NULL and  Exceptions!='' ]]></table>
 	   <table tableName="DTRecord_cfd" attList="" rowName="" fields="dattime"><![CDATA[select  (case '$KEYWORD1' when '当前日' then convert(nvarchar(10),getdate(),120) else '$KEYWORD1' end) as dattime]]></table>
@@ -217,7 +217,7 @@
 	<!--打钻异常情况台账 2015/09/29-->
 
 		<!--重点工程台账 2015/10/8-->
-	<viewTableRecordTemplate tid="DTTaizhang_emphasis_zdgctz" downFileTitle="重点工程台账表" singleness="skins\Default\comm\DTTaizhang_emphasis\DTTaizhang_emphasis_list.html"> 
+	<viewTableRecordTemplate tid="DTTaizhang_emphasis_zdgctz" singleness="skins\Default\comm\DTTaizhang_emphasis\DTTaizhang_emphasis_list.html"> 
       <table tableName="DTParam_workPlaceInfo" attList="" rowName="" fields="jobcut_namea"><![CDATA[select jobcut_name as jobcut_namea from DTParam_workPlace where id='$KEYWORD2' and communityId = '$COMMUNITYID']]></table>
 
 	  <table tableName="" attList="" rowName="row_select" fields="valueid,jobcut_name"><![CDATA[select id as valueid,jobcut_name from DTParam_workPlace  where communityId = '$COMMUNITYID' and isJobCut = 0]]></table>
@@ -228,7 +228,7 @@
 	<!--重点工程台账 2015/10/8-->
 
 		<!--月度生产计划完成情况 2015/10/12-->
-	<viewTableRecordTemplate tid="DTTaizhang_planFact"  downFileTitle="月度生产计划完成情况表"
+	<viewTableRecordTemplate tid="DTTaizhang_planFact"
 	singleness="skins\Default\comm\DTTaizhang_planFact\DTTaizhang_planFact_list.html"> 
 	  <table tableName="DTTaizhang_emphasis" attList="" rowName="row" fields="dmonth,MJBmtcl,JJBjjzjcl,KJBktjc,MJLmtcl,JJLjjzjc,KJLktjc,JSBaf,KSBaf,MSBdp,JSLaf,KSLaf,MSLdp"><![CDATA[exec DTTaizhang_planFact '$KEYWORD1' , '$COMMUNITYID']]></table>
 	  <table tableName="" attList="" rowName="" fields="dattime"><![CDATA[select (case '$KEYWORD1' when '当前月' then replace(convert(nvarchar(7),GETDATE(),120),'-','年')+'月' else '$KEYWORD1' end) as dattime]]></table>
@@ -270,10 +270,10 @@
 
 	<!--应急记录——启动2015/10/18-->
 	<viewTableRecordTemplate tid="DTWorry_bank_record_qidong" singleness="skins/Default/comm/DTWorry_bank_record/DTWorry_bank_record_view1.html">
-	  <table tableName="DTWorry_bank_record_main" attList="" rowName=""  fields="id,Bigtitle,Smalltitle,Currentstep">
-	  <![CDATA[select id,Bigtitle,Smalltitle,Currentstep from DTWorry_bank_record_main ]]></table>
+	  <table tableName="DTWorry_bank_record" attList="" rowName=""  fields="id,Bigtitle,Smalltitle,Currentstep">
+	  <![CDATA[select id,Bigtitle,Smalltitle,Currentstep from DTWorry_bank_record ]]></table>
 
-	  <table tableName="DTWorry_bank_record_sub" attList="" rowName="row" fields="id,main_id,Step,StepContent,Dispatch,Sending"><![CDATA[ select id,main_id,Step,StepContent,Dispatch,Sending from DTWorry_bank_record_sub where main_id='$RECORDID' ]]></table>
+	  <table tableName="DTWorry_bank_record_step" attList="" rowName="row" fields="id,Dispatch,Step,StepContent,Replycontent"><![CDATA[ select id,Dispatch,Step,StepContent,Replycontent from DTWorry_bank_record_step where record_id='$RECORDID' ]]></table>
 	
 	</viewTableRecordTemplate>
 	<!--应急记录——启动2015/10/08-->
@@ -283,7 +283,7 @@
 	  <table tableName="DTWorry_bank_record" attList="" rowName=""  fields="id,Bigtitle,Smalltitle,Currentstep">
 	  <![CDATA[select id,Bigtitle,Smalltitle,Currentstep from DTWorry_bank_record ]]></table>
 
-	  <table tableName="DTWorry_bank_record_sub_step" attList="" rowName="row" fields="id,sub_id,Dispatch,Step,StepContent,Replycontent,Operation"><![CDATA[ select id,id as sub_id,Dispatch,Step,StepContent,Replycontent,Operation from DTWorry_bank_record_sub_step where record_id='$RECORDID' and Typename='不显示' and Step='$KEYWORD1']]></table>
+	  <table tableName="DTWorry_bank_record_step" attList="" rowName="row" fields="id,sub_id,Dispatch,Step,StepContent,Replycontent"><![CDATA[ select id,id as sub_id,Dispatch,Step,StepContent,Replycontent from DTWorry_bank_record_step where record_id='$RECORDID' ]]></table>
 	
 	</viewTableRecordTemplate>
 	<!--应急记录——回执信息2015/10/08-->

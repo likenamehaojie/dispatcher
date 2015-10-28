@@ -257,7 +257,7 @@
 	<!-- 生产汇报 生产记录  wk2015/09/18 end -->
 
 
-	<!-- 开掘巷探生产计划 -->
+		<!-- 开掘巷探生产计划 -->
 	<table tableName = "DTPlan_ktht_main" attList = "" viewTemplateId="" addHtml = "" editHtml = "" viewHtml = "" listHtml = "skins/Default/multi/DTPlan_ktht/DTPlan_ktht_list.html">
 		<filterSql><![CDATA[select b.id,b.branch_name from branch b ,DTParam_branchType tp where communityId = '$COMMUNITYID'  and tp.id = b.bType  and tp.typeName = '区队' order by id ]]></filterSql>
 		<recordList fields="id,yearandmonth,work_teamid,work_team,target_plan,date_created"  sqlClos="id,yearandmonth,work_teamid,dbo.f_DTPlan_ktht(work_teamid,'$COMMUNITYID') as work_team,target_plan,convert(nvarchar(10),date_created,120) as date_created" sqlTables="DTPlan_ktht_main" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(1) from DTPlan_ktht_main]]></recordList>
@@ -281,7 +281,7 @@
 	</addRecord>
 	      <editRecord  fields="time,class,number,count,remark,recording,iskeyproject,workFace">
 	  </editRecord>
-		<recordList fields="id,time,class,number,count,remark,recording,workFace,iskeyproject,isKeyProject_str,workFace_str,remarkstring"  sqlClos="id,time,class,number,dbo.f_field_option_workPlace(workFace) as workFace_str,count,dbo.getShortFieldIfLong(remark,15) as remarkstring,remark,recording,iskeyproject,dbo.f_field_option_isKeyProject(iskeyproject,$COMMUNITYID) as isKeyProject_str,workFace" sqlTables="DTRecord_azhc" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(1) from DTRecord_azhc]]></recordList>
+		<recordList fields="id,time,class,number,count,remark,recording,workFace,iskeyproject,isKeyProject_str,workFace_str,remarkstring"  sqlClos="id,time,class,number,dbo.f_field_option_workPlace(workFace) as workFace_str,count,dbo.getShortFieldIfLong(remark,15) as remarkstring,remark,recording,iskeyproject,dbo.f_field_option_isKeyProject(iskeyproject) as isKeyProject_str,workFace" sqlTables="DTRecord_azhc" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(1) from DTRecord_azhc]]></recordList>
 
 	</table>
 
@@ -289,11 +289,11 @@
 	<!-- 生产汇报 采煤工作面  2015/09/22 -->
 		<table tableName = "DTRecord_cmd" realTableName="" attList = "" viewTemplateId="" addHtml = "" editHtml = "" viewHtml = "" listHtml = "skins\Default\comm\DTRecord_cmd\DTRecord_cmd_list.html">
 		<filterSql><![CDATA[select branch_name,branch_name from branch where communityId='$COMMUNITYID'  and bType=(select id from DTParam_branchType where typeName='区队' and commId='$COMMUNITYID') order by id ]]></filterSql>
-		<filterSql><![CDATA[select distinct VALUE from FIELD_OPTION where description_sub = '班次'and communityId='$COMMUNITYID' ]]></filterSql>
+		<filterSql><![CDATA[select VALUE from FIELD_OPTION where description_sub = '班次' ]]></filterSql>
 		<filterSql><![CDATA[select value,name from FIELD_OPTION where description = '参数设置' and description_sub='生产计划-重点工程' and communityId='$COMMUNITYID' ]]></filterSql>
 		<filterSql><![CDATA[select d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></filterSql>
 		<recordList fields="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanDigital,ActualDigital,SAdvance,Xdvance,Dayproduction,iskeyproject,Other,isKeyProject_str,workPlace_str"
-					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanDigital,ActualDigital,SAdvance,Xdvance,Dayproduction,iskeyproject,Other,dbo.f_field_option_isKeyProject(iskeyproject,$COMMUNITYID) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str" sqlTables="DTRecord_cmd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_cmd]]></recordList>
+					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanDigital,ActualDigital,SAdvance,Xdvance,Dayproduction,iskeyproject,Other,dbo.f_field_option_isKeyProject(iskeyproject) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str" sqlTables="DTRecord_cmd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_cmd]]></recordList>
 	
 	</table>
 	<!-- 生产汇报 采煤工作面  2015/09/22 end -->
@@ -301,33 +301,33 @@
 	<!-- 生产汇报 掘进进尺  2015/09/23 -->
 		<table tableName = "DTRecord_jjd" realTableName="" attList = "" viewTemplateId="" addHtml = "" editHtml = "" viewHtml = "" listHtml = "skins\Default\comm\DTRecord_jjd/DTRecord_jjd_list.html">
 		<filterSql><![CDATA[select branch_name,branch_name from branch where communityId='$COMMUNITYID'  and bType=(select id from DTParam_branchType where typeName='区队' and commId='$COMMUNITYID') order by id ]]></filterSql>
-		<filterSql><![CDATA[select VALUE from FIELD_OPTION where description_sub = '班次' and communityId='$COMMUNITYID']]></filterSql>
+		<filterSql><![CDATA[select VALUE from FIELD_OPTION where description_sub = '班次' ]]></filterSql>
 		<filterSql><![CDATA[select value,name from FIELD_OPTION where description = '参数设置' and description_sub='生产计划-重点工程' and communityId='$COMMUNITYID' ]]></filterSql>
 		<filterSql><![CDATA[select d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></filterSql>
 		<recordList fields="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,EffectiveFootage,iskeyproject,Other,isKeyProject_str,workPlace_str"
-					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,EffectiveFootage,iskeyproject,Other,dbo.f_field_option_isKeyProject(iskeyproject,$COMMUNITYID) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str" sqlTables="DTRecord_jjd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_jjd]]></recordList>
+					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,EffectiveFootage,iskeyproject,Other,dbo.f_field_option_isKeyProject(iskeyproject) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str" sqlTables="DTRecord_jjd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_jjd]]></recordList>
 	</table>
 	<!-- 生产汇报 掘进进尺  2015/09/23 end -->
 	
 	<!-- 生产汇报 底抽巷进尺  2015/09/23 -->
 		<table tableName = "DTRecord_dch" realTableName="" attList = "" viewTemplateId="" addHtml = "" editHtml = "" viewHtml = "" listHtml = "skins\Default\comm\DTRecord_dch/DTRecord_dch_list.html">
 		<filterSql><![CDATA[select branch_name,branch_name from branch where communityId='$COMMUNITYID'  and bType=(select id from DTParam_branchType where typeName='区队' and commId='$COMMUNITYID') order by id ]]></filterSql>
-		<filterSql><![CDATA[select VALUE from FIELD_OPTION where description_sub = '班次' and communityId='$COMMUNITYID' ]]></filterSql>
+		<filterSql><![CDATA[select VALUE from FIELD_OPTION where description_sub = '班次' ]]></filterSql>
 		<filterSql><![CDATA[select value,name from FIELD_OPTION where description = '参数设置' and description_sub='生产计划-重点工程' and communityId='$COMMUNITYID' ]]></filterSql>
 		<filterSql><![CDATA[select d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></filterSql>
 		<recordList fields="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,iskeyproject,jc_type,Other,isKeyProject_str,workPlace_str"
-					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,iskeyproject,jc_type,Other,dbo.f_field_option_isKeyProject(iskeyproject,$COMMUNITYID) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str" sqlTables="DTRecord_dch" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_dch]]></recordList>
+					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,iskeyproject,jc_type,Other,dbo.f_field_option_isKeyProject(iskeyproject) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str" sqlTables="DTRecord_dch" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_dch]]></recordList>
 	</table>
 	<!-- 生产汇报 底抽巷进尺  2015/09/23 end -->
 
 	<!-- 生产汇报 开拓进尺  2015/09/23 -->
 		<table tableName = "DTRecord_ktd" realTableName="" attList = "" viewTemplateId="" addHtml = "" editHtml = "" viewHtml = "" listHtml = "skins\Default\comm\DTRecord_ktd/DTRecord_ktd_list.html">
 		<filterSql><![CDATA[select branch_name,branch_name from branch where communityId='$COMMUNITYID'  and bType=(select id from DTParam_branchType where typeName='区队' and commId='$COMMUNITYID') order by id ]]></filterSql>
-		<filterSql><![CDATA[select VALUE from FIELD_OPTION where description_sub = '班次' and communityId='$COMMUNITYID']]></filterSql>
+		<filterSql><![CDATA[select VALUE from FIELD_OPTION where description_sub = '班次' ]]></filterSql>
 		<filterSql><![CDATA[select value,name from FIELD_OPTION where description = '参数设置' and description_sub='生产计划-重点工程' and communityId='$COMMUNITYID' ]]></filterSql>
 		<filterSql><![CDATA[select d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></filterSql>
 		<recordList fields="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,EffectiveFootage,AnchorBarMeasure,AnchorCableMeasure,RockMeasure,SprayMeasure,iskeyproject,jc_type,Other,isKeyProject_str,workPlace_str"
-					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,EffectiveFootage,AnchorBarMeasure,AnchorCableMeasure,RockMeasure,SprayMeasure,iskeyproject,jc_type,Other,dbo.f_field_option_isKeyProject(iskeyproject,$COMMUNITYID) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str" sqlTables="DTRecord_ktd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_ktd]]></recordList>
+					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,EffectiveFootage,AnchorBarMeasure,AnchorCableMeasure,RockMeasure,SprayMeasure,iskeyproject,jc_type,Other,dbo.f_field_option_isKeyProject(iskeyproject) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str" sqlTables="DTRecord_ktd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_ktd]]></recordList>
 	</table>
 	<!-- 生产汇报 开拓进尺  2015/09/23 end -->
 
@@ -336,32 +336,30 @@
 	<!-- 生产汇报 抽放钻孔进尺  2015/09/23 -->
 		<table tableName = "DTRecord_cfd" realTableName="" attList = "" viewTemplateId="" addHtml = "" editHtml = "" viewHtml = "" listHtml = "skins\Default\comm\DTRecord_cfd/DTRecord_cfd_list.html">
 		<filterSql><![CDATA[select branch_name,branch_name from branch where communityId='$COMMUNITYID'  and bType=(select id from DTParam_branchType where typeName='区队' and commId='$COMMUNITYID') order by id ]]></filterSql>
-		<filterSql><![CDATA[select VALUE from FIELD_OPTION where description_sub = '班次' and communityId='$COMMUNITYID']]></filterSql>
+		<filterSql><![CDATA[select VALUE from FIELD_OPTION where description_sub = '班次' ]]></filterSql>
 		<filterSql><![CDATA[select value,name from FIELD_OPTION where description = '参数设置' and description_sub='生产计划-重点工程' and communityId='$COMMUNITYID' ]]></filterSql>
 		<filterSql><![CDATA[select d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></filterSql>
 		<recordList fields="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,DrainageMeasure,Exceptions,iskeyproject,Other,isKeyProject_str,workPlace_str"
-					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,DrainageMeasure,Exceptions,iskeyproject,Other,dbo.f_field_option_isKeyProject(iskeyproject,$COMMUNITYID) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str" sqlTables="DTRecord_cfd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_cfd]]></recordList>
+					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,DrainageMeasure,Exceptions,iskeyproject,Other,dbo.f_field_option_isKeyProject(iskeyproject) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str" sqlTables="DTRecord_cfd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_cfd]]></recordList>
 	</table>
 	<!-- 生产汇报 抽放钻孔进尺  2015/09/23 end -->
 
 	<!-- 生产汇报 运输队  2015/09/23 -->
 		<table tableName = "DTRecord_ysd" realTableName="" attList = "" viewTemplateId="" addHtml = "" editHtml = "" viewHtml = "" listHtml = "skins\Default\comm\DTRecord_ysd/DTRecord_ysd_list.html">
 		<filterSql><![CDATA[select branch_name,branch_name from branch where communityId='$COMMUNITYID'  and bType=(select id from DTParam_branchType where typeName='区队' and commId='$COMMUNITYID') order by id ]]></filterSql>
-		<filterSql><![CDATA[select VALUE from FIELD_OPTION where description_sub = '班次' and communityId='$COMMUNITYID']]></filterSql>
+		<filterSql><![CDATA[select VALUE from FIELD_OPTION where description_sub = '班次' ]]></filterSql>
 		<filterSql><![CDATA[select value,name from FIELD_OPTION where description = '参数设置' and description_sub='生产计划-重点工程' and communityId='$COMMUNITYID' ]]></filterSql>
 		<filterSql><![CDATA[select VALUE,NAME from FIELD_OPTION where description_sub = '车类' ]]></filterSql>
 		<filterSql><![CDATA[select d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></filterSql>
 		<recordList fields="id,branchName,workPlace,BirthDate,Shift,Attendance,Category,Number,iskeyproject,Other,isKeyProject_str,workPlace_str"
-					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,Category,Number,iskeyproject,Other,dbo.f_field_option_isKeyProject(iskeyproject,$COMMUNITYID) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str" sqlTables="DTRecord_ysd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_ysd]]></recordList>
+					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,Category,Number,iskeyproject,Other,dbo.f_field_option_isKeyProject(iskeyproject) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str" sqlTables="DTRecord_ysd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_ysd]]></recordList>
 	</table>
 	<!-- 生产汇报 运输队  2015/09/23 end -->
 
 	<!-- 生产汇报 产量、煤质情况  2015/09/24 -->
 		<table tableName = "DTRecord_common" realTableName="" attList = "" viewTemplateId="" addHtml = "" editHtml = "" viewHtml = "" listHtml = "skins\Default\comm\DTRecord_common/DTRecord_common_list.html">
-		<filterSql><![CDATA[  select VALUE from FIELD_OPTION where description_sub = '班次'and communityId='$COMMUNITYID' ]]></filterSql>
-		<recordList fields="id,BirthDate,Shift,MaoMei,Waste,Refuserate,Rawcoal,Nuclearsay,GreyBranch,WaterBranch,Lumpcoal,Calorific,Standardcoal,GreyBranchmeasure,WaterBranchmeasure,Lumpcoalmeasure"
-		sqlClos="id,BirthDate,Shift,MaoMei,Waste,Refuserate,Rawcoal,Nuclearsay,GreyBranch,WaterBranch,Lumpcoal,Calorific,Standardcoal,GreyBranchmeasure,WaterBranchmeasure,Lumpcoalmeasure" 
-		sqlTables="DTRecord_common" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_common]]></recordList>
+		<recordList fields="id,BirthDate,MaoMei,Waste,Refuserate,Rawcoal,Nuclearsay,GreyBranch,WaterBranch,Lumpcoal,Calorific,Standardcoal,GreyBranchmeasure,WaterBranchmeasure,Lumpcoalmeasure"
+					sqlClos="id,BirthDate,MaoMei,Waste,Refuserate,Rawcoal,Nuclearsay,GreyBranch,WaterBranch,Lumpcoal,Calorific,Standardcoal,GreyBranchmeasure,WaterBranchmeasure,Lumpcoalmeasure" sqlTables="DTRecord_common" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_common]]></recordList>
 	</table>
 	<!-- 生产汇报 产量、煤质情况  2015/09/24 end -->
 
@@ -397,7 +395,7 @@
 	</table>
 
 	<!-- 调度档案 早调会会议纪要  2015/09/25 -->
-		<table tableName = "DTBank_meeting" realTableName="DTBank_meeting" attList = "" viewTemplateId="" addHtml = "" editHtml = "" viewHtml = "" listHtml = "skins\Default\comm\DTBank_meeting\DTBank_meeting_list.html">
+		<table tableName = "DTBank_meeting" realTableName="DTBank_meeting" attList = "" viewTemplateId="" addHtml = "" editHtml = "" viewHtml = "" listHtml = "skins\Default\comm\DTBank_meeting/DTBank_meeting_list.html">
 		<recordList fields="id,PeriodNumber,BirthDate,Addresss,Host,Participants,SMeetingAbstract,MeetingAbstract,realFileName"
 					sqlClos="id,PeriodNumber,BirthDate,Addresss,Host,Participants,dbo.getShortFieldIfLong(MeetingAbstract,15) as SMeetingAbstract,MeetingAbstract,realFileName" sqlTables="DTBank_meeting" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTBank_meeting]]></recordList>
 	</table>
@@ -440,18 +438,17 @@
 	<!--  -->
 
 		 <!-- 调度管理人员基本档案-->
-	<table tableName = "DTBank_mineInfo" attList = "" viewTemplateId="" addHtml = "skins/Default/comm/DTBank_mineInfo/DTBank_mineInfo_add.html" editHtml = "skins/Default/comm/DTBank_mineInfo/DTBank_mineInfo_edit.html" viewHtml = "" listHtml = "skins/Default/comm/DTBank_mineInfo/DTBank_mineInfo_list_view.html">
-		<filterSql><![CDATA[select id,id from DTBank_mineInfo where communityId='$COMMUNITYID']]></filterSql>
-		<addRecord fields="Contents" unique="" ></addRecord>
+	<table tableName = "DTBank_mineInfo" attList = "" viewTemplateId="" addHtml = "" editHtml = "skins/Default/comm/DTBank_mineInfo/DTBank_mineInfo_edit.html" viewHtml = "" listHtml = "skins/Default/comm/DTBank_mineInfo/DTBank_mineInfo_list_view.html">
+		
 		<editRecord fields="Contents"  returnPar="" returnUrl="/generictableservlet?action=recordList&amp;ITNO=426&amp;$TABLEKEYWORD=$426"></editRecord>
 
 		<recordList sqlClos="id,Contents" sqlTables="DTBank_mineInfo" pageSize="15" IKey="id" OKey="id" OType="desc" >
-		<![CDATA[select count(id) from DTBank_mineInfo ]]>
+		<![CDATA[select count(id) from DTBank_mineInfo]]>
 		</recordList>
 	</table>
 	<!--  -->
 
-	<!-- 调度管理人员基本档案-->
+			 <!-- 调度管理人员基本档案-->
 	<table tableName = "DTWorry_bank_main" attList = "" viewTemplateId="" addHtml = "" editHtml = "" viewHtml = "" listHtml = "skins/Default/comm/DTWorry_bank/DTWorry_bank_list.html">
 		<recordList sqlClos="id,Bigtitle,Smalltitle" sqlTables="DTWorry_bank_main" pageSize="15" IKey="id" OKey="id" OType="desc" >
 		<![CDATA[select count(id) from DTWorry_bank_main]]>
@@ -460,9 +457,9 @@
 	<!--  -->
 
 	<!-- 调度管理人员基本档案-->
-	<table tableName = "DTWorry_bank_record_main" attList = "" viewTemplateId="" addHtml = "" editHtml = "" viewHtml = "" listHtml = "skins/Default/comm/DTWorry_bank_record/DTWorry_bank_record_list.html">
-		<recordList sqlClos="id,Currentdate,Bigtitle,Smalltitle,Currentstep" sqlTables="DTWorry_bank_record_main" pageSize="15" IKey="id" OKey="id" OType="desc" >
-		<![CDATA[select count(id) from DTWorry_bank_record_main]]>
+	<table tableName = "DTWorry_bank_record" attList = "" viewTemplateId="" addHtml = "" editHtml = "" viewHtml = "" listHtml = "skins/Default/comm/DTWorry_bank_record/DTWorry_bank_record_list.html">
+		<recordList sqlClos="id,Currentdate,Bigtitle,Smalltitle,Currentstep" sqlTables="DTWorry_bank_record" pageSize="15" IKey="id" OKey="id" OType="desc" >
+		<![CDATA[select count(id) from DTWorry_bank_record]]>
 		</recordList>
 	</table>
 	<!--  -->

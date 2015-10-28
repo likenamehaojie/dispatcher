@@ -57,7 +57,9 @@ $(document).ready(function(){
 	hideLastCol('actor_table');
 	//记忆搜索条件  第六步：取cookie 解析cookie
 	iniCookie('{tableName}','{ITNO}','{$USERID}');
-	
+	//初始化多选菜单
+	iniMultOptions('{tableName}','{ITNO}','{$USERID}');	
+
 
 });
   
@@ -75,14 +77,6 @@ function setvalue(){
 	}
 	
 	
-}
-
-function   Dexcel(){
-      var optionvalue=$("#test") .val();
-      var dattimevalue=$("#time").val();
-	  var name=$("#test").find("option:selected").text();
-
-	window.open("/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTTaizhang_emphasis_zdgctz&recordId={recordId}&ITNO=1_excel&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|"+dattimevalue+"|"+name+"|{$TABLEKEYWORD5}&xiazaiwenjian=y&$KEYWORD="+dattimevalue+"|"+optionvalue);
 }
 
 </script>
@@ -123,7 +117,6 @@ function   Dexcel(){
 	</li>
    <li>
    <input type="button"  value="查询" class="btn" onClick="setvalue()"/>
-   <input type="button"  value="导出excel" class="btn" onClick="Dexcel()"/>
    </li>
 </div>
 

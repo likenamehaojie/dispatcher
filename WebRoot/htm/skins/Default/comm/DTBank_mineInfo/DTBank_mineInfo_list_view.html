@@ -41,20 +41,8 @@
 	<script type="text/javascript" src="js/titleInfo.js"></script>
 
 <script>
-	$(document).ready(function(){
-		var filterOptions='{filterOptions1}';
-		if(filterOptions==''){
-		$("#edit_td").html('<input type="button" name="edit" class="btn" onClick="add_DTBank_mineInfo()" value="添加">')
-		}
-		
-
-	})
-	function add_DTBank_mineInfo(){
-		 document.form1.action="/generictableservlet?action=addRecord";
-		 document.form1.submit()
-			
-	}
 	function ready(id){
+
 		document.form1.action='/generictableservlet?action=editRecord&recordId='+id
 		document.form1.submit()
 	}
@@ -78,11 +66,10 @@
 	{row}
 	<tr>
 		<td  align="center"><h1 >矿井基本信息</h1></td>
-		
-		<td id="edit_td"><input type="button" name="edit" class="btn" onClick="ready({recordId})" value="编辑"><td>
+		<td><input type="button" name="edit" class="btn" onClick="ready({recordId})" value="编辑"><td>
 	</tr>
 	<tr>
-		<td  style="padding-left:75px">{Contents}</td>
+		<td class="t_l b_cf_noRed" colspan="1" >{Contents}</td>
 	</tr>
 	{row}
  </table>

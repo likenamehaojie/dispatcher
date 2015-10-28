@@ -39,14 +39,8 @@ function winOpenWH(id,no){
 }
 
 function save_bc(){
-	
 	var Sending	= document.getElementsByName("Sending")[0].value;
-	if(Sending.length==0){
-		alert("请选择发送人员！");
-		return false;
-	}
-	var sub_id='{recordId}';
-
+	var sub_id=$("#id_td1").html();
 	var submitFlag=true;
 	if(submitFlag){
 		submitFlag=false;
@@ -116,16 +110,10 @@ function save_bc(){
 	<tr>
 	 <td style="display:none" id="id_td{sNo}">{sub_id}</td>
 	 <td >{Dispatch}&nbsp;</td>
-	 <td >{Step}</td>
+	 <td >{Step}&nbsp;</td>
 	 <td >{StepContent}&nbsp;</td>
-	 <td id="Sending{sNo}"><textarea   type="text" name="Sending" rows="2" cols="50" value="" onclick ="winOpenWH('{recordId}','{sNo}');"/></textarea></td>
+	 <td><textarea   type="text" name="Sending" rows="2" cols="50" value="" onclick ="winOpenWH('{recordId}','{sNo}');"/></textarea></td>
 	 </tr>
-	 <script>
-		if('{Step}'!=1)
-		{
-			$("#Sending{sNo}").html("<textarea name='Sending' rows='2' cols='50' value='' readonly='readonly'></textarea>");
-		}
-	  </script>
 	 {row}
     </thead>
 

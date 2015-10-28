@@ -160,16 +160,7 @@ function iniList(){
 	$("input[name=timeLength"+no+"]").val(d2-d1);
  }
   
- function excelIport(){ //excel导入
-   var certificate=document.getElementsByName('certificate')[0].value;
-	if (certificate==''){
-		alert('请添加EXCEL附件');
-	}else{       
-		document.form1.action="/excelImportSingleDoServlet?action=excelImport&excelName=DTAcc_record&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}";
-		document.form1.encoding="multipart/form-data";
-		document.form1.submit();
-	     }
-}
+ 
 
 </script>
 
@@ -227,7 +218,6 @@ function iniList(){
 			<li id="li_search_btn">
 				&nbsp;
 				<input type="button"  value="查询" class="btn" onClick="setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');"/>
-				<input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','401',' 事故影响记录表');"/>
 		  </li>
 	   </ul>
    </div>
@@ -235,27 +225,23 @@ function iniList(){
 
 		    <li id="YC" >{delmanyshow}</li>
 		   <li  id="YC1">{addshow}</li>
-           <li id="sendMany_liId" class="pian" style="margin-left:60%" >EXCEL导入:&nbsp;&nbsp;<input type="file" style="width:100px;" name="certificate" size="20">
-		   <input type="button" style="width:50px;" name="excel" class="btn" onClick="excelIport()" value="导入">
-		   <input type="submit" style="width:70px;" name="getTem" class="btn" value="下载模版" onClick="window.open('/downloadAppServlet?&amp;ITNO={ITNO}&amp;docName=htm\\excelTemplateDown&amp;fName=事故影响记录表.xls','_blank','left=160,width=700,height=630,toolbar=no, menubar=no,resizable=yes,scrollbars=yes')" >
-		   <font color="red"></font>
-		   </li>
+
      </div>
 
   <div class="a_box">
   <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
     <thead>
       <tr>
-		 <th width="2%"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
+		 <th width="3%"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
 		<th >事故性质</th> 
 		<th >事故类型</td>
 		<th >事故地点</td>
-		<th width="10%">发生时间</td>
-		<th width="10%">结束时间</td>
+		<th >发生时间</td>
+		<th >结束时间</td>
 		<th >影响时长/min</td>
 		<th >责任单位</td>
 		<th >事故描述</td>
-		<th width="15%">备注</td>
+		<th >备注</td>
 		<th id="oprear_th" width="12%">操作</th>
       </tr>
     </thead>

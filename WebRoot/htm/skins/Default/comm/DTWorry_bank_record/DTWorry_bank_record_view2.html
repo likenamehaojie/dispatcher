@@ -38,16 +38,18 @@
 			
 		
 		})
+		alert(id)
+		alert(Replycontent)
 
-		var submitFlag=true;
+		/*var submitFlag=true;
 	if(submitFlag){
 		submitFlag=false;
-		ajax_pro(393,Replycontent+'|'+id);
+		ajax_pro(392,Replycontent+'|'+id);
 		window.location='/generictableservlet?action=recordList&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}';
 	}
 	
-	//var Replycontent= document.getElementsByName("Replycontent")[0].value;
-	//*/
+	var Replycontent= document.getElementsByName("Replycontent")[0].value;
+	*/
 }
 </script>
 
@@ -69,7 +71,6 @@
     <input type="hidden" name="FINISH" value="">    
 	<input type="hidden" name="realFileName" value="">
 	<input type="hidden" name="record_id" value="{id}">
-	<input type="hidden" id="sNo" value="">
 
  
 
@@ -88,14 +89,12 @@
     <thead>
 	 <tr  >
 	   <th align="center" width="15%" >发送人员</th>
-	   <th align="center" width="15%" >操作人员</th>
-	   <th align="center" width="15%" >回执信息</th>
+		<th align="center" width="15%" >回执信息</th>
     </tr>
 	{row}
 	<tr>
 	 <td style="display:none" id="id_td{sNo}">{sub_id}</td>
 	 <td >{Dispatch}&nbsp;</td>
-	 <td >{Operation}&nbsp;</td>
 	 <td><textarea   type="text" id="Replycontent{sNo}" name="Replycontent" rows="2" cols="50" value="" />{Replycontent}</textarea></td>
 	</tr>
 	 {row}

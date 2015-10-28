@@ -109,7 +109,7 @@ function iniList(){
 	//有效进尺 EffectiveFootage
 	map.put("EffectiveFootage:SYS_FIELDS",'<span id="EffectiveFootage_sysEdit_spanId#no#"><input type=\"text\" name=\"EffectiveFootage#no#\" value=\"{EffectiveFootage}\" size=\"8\" check=\"2"\ tip=\"有效进尺不能为空\" valFun=\"setEmptyCheck\"onkeyup=\"clearNoNum(this)\"></span><span id="EffectiveFootage_sysView_spanId#no#">{EffectiveFootage}</span>');
 	//是否重点工程
-	//map.put("iskeyproject:SYS_FIELDS",'<span id="iskeyproject_sysEdit_spanId#no#"><select name=\"iskeyproject#no#\" realValue=\"{iskeyproject}\"  check=\"2"\ valFun=\"setEmptyCheck\">{filterOptions3}</select></span><span id="iskeyproject_sysView_spanId#no#">{iskeyproject}</span>');
+	map.put("iskeyproject:SYS_FIELDS",'<span id="iskeyproject_sysEdit_spanId#no#"><select name=\"iskeyproject#no#\" realValue=\"{iskeyproject}\"  check=\"2"\ valFun=\"setEmptyCheck\">{filterOptions3}</select></span><span id="iskeyproject_sysView_spanId#no#">{iskeyproject}</span>');
 	//其他工作量及生产等信息
 	map.put("Other:SYS_FIELDS",'<span id="Other_sysEdit_spanId#no#"><textarea name=\"Other#no#\" value=\"{Other}\" size=\"8\" check=\"2"\ tip=\"其他工作量及生产等信息不能为空\" valFun=\"setEmptyCheck\"></textarea></span><span id="Other_sysView_spanId#no#">{Other}</span>');
 	
@@ -249,7 +249,7 @@ function clearNoNum(obj){
 			<th width="2%">计划进尺</th> 
 			<th width="2%">实际进尺</th> 
 			<th width="3%">有效进尺</th> 
-			<!--<th width="3%">是否重点工程</th> -->
+			<th width="3%">是否重点工程</th> 
 			<th width="3%">其他工作量及生产等信息</th> 
 			<th width="3%" id="YC">基本操作</th>
       </tr>

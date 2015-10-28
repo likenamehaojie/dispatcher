@@ -119,7 +119,7 @@ function iniList(){
 	map.put("SprayMeasure:SYS_FIELDS",'<span id="SprayMeasure_sysEdit_spanId#no#"><input type=\"text\" name=\"SprayMeasure#no#\" value=\"{SprayMeasure}\" size=\"8\" check=\"2"\ tip=\"喷浆量不能为空\" valFun=\"setEmptyCheck\"onkeyup=\"clearNoNum(this)\"></span><span id="SprayMeasure_sysView_spanId#no#">{SprayMeasure}</span>');
 
 	//是否重点工程
-	//map.put("iskeyproject:SYS_FIELDS",'<span id="iskeyproject_sysEdit_spanId#no#"><select name=\"iskeyproject#no#\" realValue=\"{iskeyproject}\"  check=\"2"\ valFun=\"setEmptyCheck\">{filterOptions3}</select></span><span id="iskeyproject_sysView_spanId#no#">{iskeyproject}</span>');
+	map.put("iskeyproject:SYS_FIELDS",'<span id="iskeyproject_sysEdit_spanId#no#"><select name=\"iskeyproject#no#\" realValue=\"{iskeyproject}\"  check=\"2"\ valFun=\"setEmptyCheck\">{filterOptions3}</select></span><span id="iskeyproject_sysView_spanId#no#">{iskeyproject}</span>');
 	//其他工作量及生产等信息
 	map.put("Other:SYS_FIELDS",'<span id="Other_sysEdit_spanId#no#"><textarea name=\"Other#no#\" value=\"{Other}\" size=\"8\" check=\"2"\ tip=\"其他工作量及生产等信息不能为空\" valFun=\"setEmptyCheck\"></textarea></span><span id="Other_sysView_spanId#no#">{Other}</span>');
 	
@@ -266,7 +266,7 @@ function clearNoNum(obj){
 			<th width="2%">打锚索量</th>
 			<th width="2%">出矸量</th>
 			<th width="2%">喷浆量</th>
-			<!--<th width="3%">是否重点工程</th> -->
+			<th width="3%">是否重点工程</th> 
 			<th width="3%">其他工作量及生产等信息</th> 
 			<th width="3%" id="YC">基本操作</th>
       </tr>

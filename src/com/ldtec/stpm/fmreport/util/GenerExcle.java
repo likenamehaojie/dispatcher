@@ -1,6 +1,5 @@
 package com.ldtec.stpm.fmreport.util;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,8 +24,6 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.Region;
 
 import com.ldtec.base.DB.DBControl;
@@ -203,15 +200,15 @@ public class GenerExcle {
 
 	public StringBuffer excleToHtml() {
 		ExcelShower es = new ExcelShower();
-		StringBuffer excleToHtml = es.excleToHtml(this.wb, "red", null, null,null,0);
+		StringBuffer excleToHtml = es.excleToHtml(this.wb, "red", null, null,null);
 		return excleToHtml;
 
 	}
 
 	public StringBuffer excleToHtml(String color, List<String> style,
-			String flag,HashMap<String,String> rowStyles, int _temMax) {
+			String flag,HashMap<String,String> rowStyles) {
 		ExcelShower es = new ExcelShower();
-		StringBuffer excleToHtml = es.excleToHtml(this.wb, color, style, flag,rowStyles,_temMax);
+		StringBuffer excleToHtml = es.excleToHtml(this.wb, color, style, flag,rowStyles);
 		//StringBuffer excleToHtml = es.excleToHtmlHasStyle(this.wb, color, style, flag);
 		return excleToHtml;
 
@@ -264,12 +261,11 @@ public class GenerExcle {
 		}
    
 		ge.mergeCellInRowRange("-999");
-		int _temMax = 0;
-		if(sd.getIsGenerateReportHeader()!=null&&sd.getIsGenerateReportHeader().equals("false")){
-			//ge.removeHeader(max);
-			_temMax = max;
-		}
-       StringBuffer excleToHtml = ge.excleToHtml(color, style, flag,rowStyles,_temMax);
+
+		if(sd.getIsGenerateReportHeader()!=null&&sd.getIsGenerateReportHeader().equals("false"))
+			ge.removeHeader(max);
+
+		StringBuffer excleToHtml = ge.excleToHtml(color, style, flag,rowStyles);
 		// 保存所生成的excel
 		String uuid = UUID.randomUUID().toString();
 		//如果是可以生成报表名称则加上
@@ -299,19 +295,11 @@ public class GenerExcle {
 		}
 		}
 		root.put("uuid", uuid);
-		int _tem = 0;
-		if(sd.getIsExportHeader()!=null&&sd.getIsExportHeader().equals("false")){
-			_tem = max;
-		}else{
-			_tem = 0;
-		}
-		
 		if(root.containsKey("uuids"))
-		   root.put("uuids",root.get("uuids")+"_"+uuid+"|"+_tem);
-		else{
-			
-           root.put("uuids",uuid+"|"+_tem);
-		}
+		   root.put("uuids",root.get("uuids")+"_"+uuid);
+		else
+           root.put("uuids",uuid);
+
 
 		return excleToHtml.toString();
 
@@ -1216,173 +1204,4 @@ public static int converObjToInt(Object o){
     	  return this.maxCell;
 
       }
-
-	public void removeSpecRow(int i,String name) {
-		name = "F:/Test/like11.xls";
-		try {
-			HSSFWorkbook wbs = new HSSFWorkbook(new FileInputStream(name));
-			HSSFSheet sheetAt = wbs.getSheetAt(0);
-    	//	this.removeRow(sheetAt, 0);
-		//    this.removeRow(sheetAt, 1);
-			sheetAt.removeRow(sheetAt.getRow(0));
-			sheetAt.removeRow(sheetAt.getRow(1));
-			int lastRowNum = sheetAt.getLastRowNum();
-
-		     List<Integer> mergedRegionIndex = getMergedRegionIndex(sheetAt, 0, 0);
-		     for(int j=0;mergedRegionIndex!=null&&j<mergedRegionIndex.size();j++){
-		    	 sheetAt.removeMergedRegion(mergedRegionIndex.get(j));
-		    	 
-		    	 
-		     }
-		     List<Integer> mergedRegionIndex1 = getMergedRegionIndex(sheetAt, 1, 0);
-		     for(int j=0;mergedRegionIndex1!=null&&j<mergedRegionIndex1.size();j++){
-		    	 sheetAt.removeMergedRegion(mergedRegionIndex1.get(j));
-		    	 
-		    	 
-		     }
-			
-			
-			sheetAt.shiftRows(3, lastRowNum, -3,true,false);
-			wbs.write(new FileOutputStream("F:/Test/demo.xls"));
-
-	
-			
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		/*name = "F:/Test/like11.xls";
-		 sheet.removeRow(sheet.getRow(0));
-		 sheet.removeRow(sheet.getRow(1));
-
-		 sheet.shiftRows(1, 2, -1);*/
-	
-	//	this.removeRow(this.sheet, 0);
-		//this.removeRow(this.sheet, 1);
-	//	this.removeRow(this.sheet, 0);
-	}
-	
-	
-	
-	 /**
-	 * Remove a row by its index
-	 * @param sheet a Excel sheet
-	 * @param rowIndex a 0 based index of removing row
-	 */
-	public static void removeRow(HSSFSheet sheet, int rowIndex) {
-	    int lastRowNum=sheet.getLastRowNum();
-	    if(rowIndex>=0&&rowIndex<lastRowNum)
-	        sheet.shiftRows(rowIndex+1,lastRowNum,-1);//将行号为rowIndex+1一直到行号为lastRowNum的单元格全部上移一行，以便删除rowIndex行
-	    if(rowIndex==lastRowNum){
-	        HSSFRow removingRow=sheet.getRow(rowIndex);
-	        if(removingRow!=null)
-	            sheet.removeRow(removingRow);
-	    }
-	}
-	
-	public static void delteRow(){
-		 try{
-	            FileInputStream is = new FileInputStream("d://1.xls");
-	            HSSFWorkbook workbook = new HSSFWorkbook(is);
-	            HSSFSheet sheet = workbook.getSheetAt(0);
-	            int ls=sheet.getLastRowNum();
-	            sheet.shiftRows(1, ls, -1);
-	            Row row=sheet.getRow(ls);
-	            sheet.removeRow(row);
-	            FileOutputStream os = new FileOutputStream("d://3.xls");
-	            workbook.write(os);
-	            is.close();
-	            os.close();
-	        } catch(Exception e) { 
-	            e.printStackTrace();
-	        }
-	}
-	
-	
-	
-	
-	
-	
-	/**
-
-	 * 获取区域 Region
-
-	 * @param sheet
-
-	 * @param row
-
-	 * @param column
-
-	 * @return
-
-	*/
-
-	public static List<Integer>  getMergedRegionIndex(Sheet sheet, int row, int column) { 
-
-		List<Integer> _temI = new ArrayList<Integer>();
-	int sheetMergeCount = sheet.getNumMergedRegions(); 
-
-
-
-	for (int i = 0; i < sheetMergeCount; i++) { 
-
-
-
-	org.apache.poi.ss.util.CellRangeAddress ca = sheet.getMergedRegion(i); 
-
-
-
-	int firstColumn = ca.getFirstColumn(); 
-
-
-
-	int lastColumn = ca.getLastColumn(); 
-
-
-
-	int firstRow = ca.getFirstRow(); 
-
-
-
-	int lastRow = ca.getLastRow(); 
-
-
-
-
-
-	if (row >= firstRow && row <= lastRow) { 
-
-
-
-
-/*	if (column >= firstColumn && column <= lastColumn) { 
-
-
-
-
-
-	return i; 
-
-
-
-
-	}*/
-		 _temI.add(i);
-
-
-	}
-
-
-	}
-
-
-	return _temI;
-
-
-	}
-	
-	
-	
-	
 }

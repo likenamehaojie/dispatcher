@@ -23,38 +23,20 @@
 		
 	</singleExcel>
     <!-- 导入科室隐患表wk 2015/8/4  end --> 
-	
-	
-			<!-- 带班表  wk 2015/10/19 begin -->
+
+			<!-- 导入带班表  wk 2015/10/16 begin -->
 	<singleExcel excelName = "DTDuty_dbb_ks" excelTitle="带班表" titleCoordinate="0,0" beginCoordinate="0,4" >
-		<table tableName="DTDuty_dbb_ks" fields="yearAndMonth,AzdbA,AzdbB,AfdbA,MzdbA,MzdbB,MfdbA,EzdbA,EzdbB,EfdbA,remark" excelFields="" defaultFields="" conditionFields="COMMUNITYID|$COMMUNITYID,yearAndMonth|1"   mrFields="0" dateFields="0" intFields="" doubleFields="" filterOPTFields="" >
-		</table>
-		
+		<table tableName="DTDuty_dbb_ks" fields="yearAndMonth,AzdbA,AzdbB,AfdbA,MzdbA,MzdbB,MfdbA,EzdbA,EzdbB,EfdbA,remark" excelFields="" defaultFields="" conditionFields=""   mrFields="" dateFields="" intFields="" doubleFields="" filterOPTFields="" >
+		</table>		
 	</singleExcel>
-    <!-- 带班表wk 2015/10/19  end --> 
+    <!-- 导入值班表wk 2015/10/16  end -->
 
-	<!-- 班子成员基本信息维护  wk 2015/10/19 begin -->
-	<singleExcel excelName = "DTParam_kldInfo" excelTitle="班子成员基本信息维护表" titleCoordinate="0,0" beginCoordinate="0,2" >
-		<table tableName="DTParam_kldInfo" fields="name,post,workTcontent,call" excelFields="" defaultFields="" conditionFields="COMMUNITYID|$COMMUNITYID,name|1"   mrFields="0" dateFields="" intFields="" doubleFields="" filterOPTFields="" >
-		</table>
-		
+	<!-- 导入带班表  wk 2015/10/16 begin -->
+	<singleExcel excelName = "DTDuty_zbb_main_sub" excelTitle="带班表" titleCoordinate="0,0" beginCoordinate="0,3" >
+		<table tableName="DTDuty_zbb_main" fields="yearAndMonth,Company,fDate,ReBranch,remark" excelFields="" defaultFields="" conditionFields=""   mrFields="" dateFields="" intFields="" doubleFields="" filterOPTFields="" >
+		<table tableName="DTDuty_zbb_sub" fields="tDate,zzb,kldfzb,ksfzb" excelFields="" defaultFields="" conditionFields=""   mrFields="" dateFields="" intFields="" doubleFields="" filterOPTFields="" >
+		</table>		
 	</singleExcel>
-    <!-- 班子成员基本信息维护 2015/10/19  end --> 
-
-	<!-- 科室成员基本信息维护导入  wk 2015/10/20 begin -->
-	<singleExcel excelName = "DTParam_ksInfo" excelTitle="科室成员基本信息维护表" titleCoordinate="0,0" beginCoordinate="0,2" >
-		<table tableName="DTParam_ksInfo" fields="manBranch,name,age,workTime,education,post,call" excelFields="" defaultFields="" conditionFields="COMMUNITYID|$COMMUNITYID,name|2"   mrFields="1" dateFields="" intFields="" doubleFields="" filterOPTFields="" >
-		</table>
-		
-	</singleExcel>
-    <!-- 科室成员基本信息维护 2015/10/20  end --> 
-
-		<!-- 事故影响记录导入  wk 2015/10/21 begin -->
-	<singleExcel excelName = "DTAcc_record" excelTitle="事故影响记录表" titleCoordinate="0,0" beginCoordinate="0,2" >
-		<table tableName="DTAcc_record" fields="AccidentCharacter,AccidentType,AccidentSite,startTime,endTime,RBranch,AccidentDescription,remark" excelFields="" defaultFields="" conditionFields="COMMUNITYID|$COMMUNITYID,name|2"   mrFields="" dateFields="3,4" intFields="" doubleFields="" filterOPTFields="" >
-		</table>
-	</singleExcel>
-    <!-- 事故影响记录导入 2015/10/21  end --> 
-
+    <!-- 导入值班表wk 2015/10/16  end -->
 
 </singleExcels>

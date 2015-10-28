@@ -102,7 +102,4 @@
        <defaultValue field="Bigtitle|OPT|1"><![CDATA[select VALUE,NAME from FIELD_OPTION  where description_sub = '´¦ÖÃ¿¨']]></defaultValue>
 	    </defValueList>
         </mulTable>
-
-	
-
 </tables>
