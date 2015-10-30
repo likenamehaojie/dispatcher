@@ -17,6 +17,7 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -32,6 +33,7 @@ import org.apache.poi.ss.util.Region;
 import com.ldtec.base.DB.DBControl;
 import com.ldtec.stpm.export.dao.GenerExcelDao;
 import com.ldtec.stpm.export.data.SectionData;
+import com.ldtec.stpm.login.UserSession;
 
 /**
  *
@@ -277,7 +279,13 @@ public class GenerExcle {
 		ge.insertRowInSpecRow(0, 2);
 //		// ge.saveAaSpecName("e:/today1.xls");
 		int maxCell2 = ge.getMaxCell();
-		ge.mergeReportNameArea(0, 0, 1, maxCell2-1,reportName);
+		
+		UserSession session=  SqlReplaceUseSysStrUtil.getUserSessionByRequest(request);
+		 String exportName = sd.getExportName();
+		 exportName= SqlReplaceUseSysStrUtil.replaceSql(sd.getExportName(), session);
+		 
+		 
+		ge.mergeReportNameArea(0, 0, 1, maxCell2-1,exportName);
 		}
 	//	String realPath = request.getServletContext().getRealPath("/WEB-INF");
 		String realPath = request.getSession().getServletContext().getRealPath("/");
@@ -322,7 +330,6 @@ public class GenerExcle {
 
 	
 
-	
 	
 	
 	

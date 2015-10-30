@@ -68,7 +68,7 @@ text-align:center;
 function updateRight(){
 //根据左侧选取的值更新右侧的值
 var leftSelect=$("#selectable .ui-selected").attr("value");
-document.all("description_sub").value=leftSelect;
+document.getElementsByName("description_sub")[0].value=leftSelect;
 var rightStr=getOnlyOPtionListBySqlNo_upId(6,'{$TABLEKEYWORD3}|'+leftSelect);
 	rightStr=rightStr.replace(/\OPTION/g,'li').replace(/\\n/g,'').replace(/value/g,'class="ui-widget-content" value');
 	document.getElementById("selectableB").innerHTML=rightStr;
@@ -106,7 +106,7 @@ var endOrder='';
 		var temp=$(this).attr("value");
 		endOrder+=temp+"-";
 	});
-var description_sub=document.all("description_sub").value;
+var description_sub=document.getElementsByName("description_sub")[0].value;
 
 ajax_pro_bat('7','{$TABLEKEYWORD3}|'+description_sub+'|'+endOrder.substr(0,endOrder.length-1));
 window.location.reload();
@@ -177,7 +177,7 @@ document.write(leftStr);
 //初始化左侧选中项，同时根据左侧选中项初始化右侧数据
 $("#selectable li:eq(0)").addClass("ui-selected");
 var selectValue=$("#selectable li:eq(0)").attr("value");
-document.all("description_sub").value=selectValue;
+document.getElementsByName("description_sub")[0].value=selectValue;
 var rightStr=getOnlyOPtionListBySqlNo_upId(6,'{$TABLEKEYWORD3}|'+selectValue);
 rightStr=rightStr.replace(/\OPTION/g,'li').replace(/\\n/g,'').replace(/value/g,'class="ui-widget-content" value');
   document.getElementById("selectableB").innerHTML=rightStr;

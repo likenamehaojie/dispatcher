@@ -52,10 +52,10 @@
     function zTreeOnClick(event, treeId, treeNode) {
       if(treeNode.id==0){
 		return;
-       // document.all("description_sub").value='';
+       // document.getElementsByName("description_sub").value='';
       }else{
-        document.all("description_sub").value=treeNode.name;
-		document.all("$TABLEKEYWORD").value="{$TABLEKEYWORD1}|{$TABLEKEYWORD2}|"+document.all("description_sub").value;
+        document.getElementsByName("description_sub")[0].value=treeNode.name;
+		document.getElementsByName("$TABLEKEYWORD")[0].value="{$TABLEKEYWORD1}|{$TABLEKEYWORD2}|"+document.getElementsByName("description_sub")[0].value;
 		
       }
       
@@ -74,11 +74,11 @@
 			node = treeObj.getNodeByParam("name", '{$TABLEKEYWORD3}');
 		}
 		treeObj.selectNode(node,false);
-		document.all("description_sub").value=treeObj.getSelectedNodes()[0].name;
+		document.getElementsByName("description_sub")[0].value=treeObj.getSelectedNodes()[0].name;
 
-		var description_sub=document.all("description_sub").value;
+		var description_sub=document.getElementsByName("description_sub")[0].value;
 		
-		document.all("$TABLEKEYWORD").value="{$TABLEKEYWORD1}|{$TABLEKEYWORD2}|"+description_sub;
+		document.getElementsByName("$TABLEKEYWORD")[0].value="{$TABLEKEYWORD1}|{$TABLEKEYWORD2}|"+description_sub;
 	
 		//alert(treeObj.getSelectedNodes()[0].name);
 
@@ -120,7 +120,7 @@
 
     
     function setSequence(){
-		 var description_sub=document.all("description_sub").value;
+		 var description_sub=document.getElementsByName("description_sub")[0].value;
       window.open ('/generictableservlet?action=recordList&ITNO=1_FIELD_OPTION&$TABLEKEYWORD=基本参数设置|参数排序|{$TABLEKEYWORD1}|'+description_sub,'newwindow','height=600,width=850,top=50,left=150,toolbar=no,menubar=no,scrollbars=no, resizable=yes,location=no, status=no') 
     }
 

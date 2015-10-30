@@ -46,6 +46,7 @@ $(document).ready(function(){
 		$('#stair1,#stair2').css('display','none');
 		$('#YC,.YC1,#YC2,#YC3,#YC4,#TS').css('display','none');
 		$("#GoBack").show();
+		
 	}
 	if('{editshow_show}'=="none"){
 		document.getElementsByName("dblclick")[0].value="true";
@@ -308,7 +309,7 @@ function isUpload_Revoke()
 		  </li>
 		  </ul>
 	   </div>
-		<div class="line_list" style="display:{editshow_show}">
+		<div class="line_list">
 	   <li class="YC1">{delmanyshow}</li>
 	   <li class="YC1">{addshow}</li>
 	   <li id="GoBack" style="display:none"><input type="button" value="撤销" class="btn" onclick="isUpload_Revoke()" /></li>
@@ -340,21 +341,21 @@ function isUpload_Revoke()
       <tr>
 	    <th width="1%"><input type="checkbox" name="roleCheck" value="" onClick="selectAllRole(form1);"></th>
             <th width="5%">日期</th> 
-			<th width="3%">班次</th>
-			<th width="3%">毛煤量</th>
-			<th width="3%">矸石量</th>
-			<th width="3%">含矸率</th>
-			<th width="3%">原煤</th>
-			<th width="3%">核子称</th> 
-			<th width="2%">灰分</th> 
-			<th width="2%">水分</th> 
-			<th width="2%">煤块率</th> 
-			<th width="3%">发热量</th> 
-			<th width="3%">标煤量</th> 
-			<th width="3%">灰分量</th> 
-			<th width="3%">水分量</th> 
-			<th width="3%">块煤量</th> 
-			<th id="YC4" width="5%" style="display:{editshow_show}">基本操作</th>
+			<th width="5%">班次</th>
+			<th width="5%">毛煤量</th>
+			<th width="5%">矸石量</th>
+			<th width="5%">含矸率</th>
+			<th width="5%">原煤</th>
+			<th width="5%">核子称</th> 
+			<th width="5%">灰分</th> 
+			<th width="5%">水分</th> 
+			<th width="5%">煤块率</th> 
+			<th width="5%">发热量</th> 
+			<th width="5%">标煤量</th> 
+			<th width="5%">灰分量</th> 
+			<th width="5%">水分量</th> 
+			<th width="5%">块煤量</th> 
+			<th id="YC4" width="50%" >基本操作</th>
       </tr>
     </thead>
 	

@@ -20,7 +20,34 @@
 
 <link rel="stylesheet" href="css/zTree/demo_COMMUNITY.css" type="text/css">
 <link rel="stylesheet" href="css/zTree/zTreeStyle/zTreeStyle.css" type="text/css">
-
+<script >
+ (function($){
+    	$.fn.autoTextarea = function(options) {
+    	var defaults={
+    	maxHeight:null,//文本框是否自动撑高，默认：null，不自动撑高；如果自动撑高必须输入数值，该值作为文本框自动撑高的最大高度
+    	minHeight:$(this).height() //默认最小高度，也就是文本框最初的高度，当内容高度小于这个高度的时候，文本以这个高度显示
+    	};
+    	var opts = $.extend({},defaults,options);
+    	return $(this).each(function() {
+    	$(this).bind("paste cut keydown keyup focus blur",function(){
+    	var height,style=this.style;
+    	this.style.height = opts.minHeight + 'px';
+    	if (this.scrollHeight > opts.minHeight) {
+    	if (opts.maxHeight && this.scrollHeight > opts.maxHeight) {
+    	height = opts.maxHeight;
+    	style.overflowY = 'scroll';
+    	} else {
+    	height = this.scrollHeight;
+    	style.overflowY = 'hidden';
+    	}
+    	style.height = height + 'px';
+    	}
+    	});
+    	});
+    	};
+    	})(jQuery);
+    
+</script>
 <style type="text/css">
 .ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
 #pageContent td{
@@ -211,13 +238,14 @@ border:0px;
 			var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
 			var defaultNode = treeObj.getNodeByParam("id",'0');
 			treeObj.expandNode(defaultNode,true)
-			
+			$("#Details").autoTextarea({maxHeight:2200,minHeight:10});
+			$("#remark").autoTextarea({maxHeight:2200,minHeight:10})
 		
 		});
 
 
 		function zTreeOnClick(event, treeId, treeNode) {
-			document.all("curTreeId").value=treeNode.id;
+			document.getElementsByName("curTreeId")[0].value=treeNode.id;
 			
 			//判断是否有子节点
 			
@@ -227,7 +255,7 @@ border:0px;
 			$("#hideBtn").attr("style","display:block");
 			}else{
 				$("#hideBtn").attr("style","display:none");
-				$("#info").html("         ");
+				//$("#info").html("         ");
 				return;
 			}
 			
@@ -252,14 +280,14 @@ border:0px;
 	
 	//转换json为对象
 	json=eval(json);
-	
+	   if(json.length>0){
 		$("#Specifications").val(json[0].Specifications);
 		$("#NetSection").val(json[0].NetSection);
 		$("#length").val(json[0].length);
 		$("#Details").val(json[0].Details);
 		$("#remark").val(json[0].remark);
 		recordId=json[0].id;
-		
+	   }
 	
 
 	//hiddenOtherComm(json[0].commId,"none");
@@ -544,7 +572,7 @@ border:0px;
 					  </tr>	
 					<tr>
 						<td class="tad" width="20%">构造详情：</td>
-						<td class="t_l b_cf" width="60%"><textarea name="Details" id="Details" size="5" type="text" class="input_txt"/></textarea></td>
+						<td class="t_l b_cf" width="60%"><textarea  name="Details" id="Details" size="5" type="text" class="input_txt"/></textarea></td>
 					  </tr>	
 					  	<tr>
 						<td class="tad" width="20%">工作面状态：</td>

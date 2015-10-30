@@ -56,5 +56,10 @@
 	</singleExcel>
     <!-- 事故影响记录导入 2015/10/21  end --> 
 
-
+	<!-- 调度人员档案表导入  wk 2015/10/28 begin -->
+	<singleExcel excelName = "DTBank_dispatcher" excelTitle="调度人员档案表" titleCoordinate="0,0" beginCoordinate="0,3" >
+		<table tableName="DTBank_dispatcher" fields="name,sex,BirthDate,Nation,Addres,Place,partyDate,workDate,EntryDate,Nature,Healthy,Family,Cid,phone" excelFields="" defaultFields="" conditionFields=""   mrFields="0,1,2,8" dateFields="2,6,7,8" intFields="" doubleFields="" filterOPTFields="" >
+		</table>
+	</singleExcel>
+    <!-- 调度人员档案表导入 2015/10/28  end --> 
 </singleExcels>

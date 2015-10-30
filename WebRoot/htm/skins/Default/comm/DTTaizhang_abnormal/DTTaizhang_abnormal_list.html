@@ -92,6 +92,15 @@ function   Dexcel(){
    <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
    <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 列表页面</div>
   </div>
+
+  		<!--多选搜索 4 begin-->
+		<div class="line_list_mulitSelect" style="display:none">
+			<select name="selSetCon" multiple="multiple">
+				<option value="1">日期</option>
+			
+			</select>
+		</div>
+
 <div class="line_list_left">
 <li style="float:left">
 			&nbsp;&nbsp;&nbsp;&nbsp;查&nbsp;询&nbsp;日&nbsp;期：&nbsp;&nbsp;<input name="time" id='dattime' onclick="WdatePicker({onpicked:function(){setSysNav(this.value);},dateFmt:'yyyy-MM-dd'})" value='{dattime}' class="input_txt" style="width:80px;"/>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -122,9 +131,8 @@ function   Dexcel(){
 	</tr>
 	<script language="javascript">
 		
-		if('{sNo}'==''){
-			document.getElementById("YC{sNo}").innerHTML="&nbsp;";
-		}else{
+		if('{sNo}'！=''){
+			
 		    var title='{title}'.replace(/<[^>].*?>/g,'');
 			$("#title{sNo}").attr('title',title)
 

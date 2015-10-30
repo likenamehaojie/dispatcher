@@ -31,7 +31,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ldtec.stpm.fmreport.service.ReportService;
 import com.ldtec.stpm.fmreport.util.Constants;
 import com.ldtec.stpm.fmreport.util.Excel_Sheet;
+import com.ldtec.stpm.fmreport.util.SqlReplaceUseSysStrUtil;
 import com.ldtec.stpm.genericTable.util.XMLTableKeyWordPar;
+import com.ldtec.stpm.login.UserSession;
 
 import freemarker.core.ParseException;
 import freemarker.template.Configuration;
@@ -127,6 +129,8 @@ public class DispatherReportServlet{
 			//开始响应页面
 			OutputStream outputStream = null;
 			InputStream inputStream = null;
+			UserSession session=  SqlReplaceUseSysStrUtil.getUserSessionByRequest(this.request);
+			humanCanRead = SqlReplaceUseSysStrUtil.replaceSql(humanCanRead,session);
 			humanCanRead+=".xls";
 			response.reset();
 			response.setContentType("application/vnd.ms-excel; charset=GBK");

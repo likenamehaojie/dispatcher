@@ -34,7 +34,7 @@
 function AddRow(maxLength){ 
 	var map=new Map();
 	//填写日期
-	map.put("tDate",'<input  class=\"input_txt\" onClick="WdatePicker()" type=\"text\" value="{newDate}" id="tDate#no#"  name=\"tDate#no#\" value=\"\" />');
+	map.put("tDate",'<input  class=\"input_txt\" onClick="WdatePicker({minDate:\'%y-%M-01\',maxDate:\'%y-%M-%ld\'})" type=\"text\" value="{newDate}" id="tDate#no#"  name=\"tDate#no#\" value=\"\" />');
 
 	//主值班
 	map.put("zzb",'<input  class=\"input_txt\"  type=\"text\" id="zzb#no#"  name=\"zzb#no#\" value=\"\" />');	
@@ -73,8 +73,32 @@ $(document).ready(function(){
 	$("td[id^=COMPANY_td]").css('display','none')
 }
 
-
-
+function checkzz(){
+	var actorCount=document.getElementsByName("actorCount")[0].value;
+    var yearAndMonth=document.getElementsByName("yearAndMonth")[0].value;
+	var Company=document.getElementsByName("Company")[0].value;
+    var cesshi=getInfoBySqlNo_noHidden(397,Company+"|"+yearAndMonth);
+	var tDate='';
+	if (cesshi != 0){
+		  alert("该月数据已保存！")
+	      return false
+	  }
+	     else{
+		for(var i=1;i<=actorCount;i++){
+		   tDate=document.getElementById("tDate"+i).value		 
+		   for(var a=i+1;a<=actorCount;a++){
+		     pDate=document.getElementById("tDate"+a).value
+		     if(tDate==pDate){
+			   alert("填写日期不能重复！") 	
+			   return false
+			   }else{
+	            return check_subTable();
+			   }
+		  }
+		}
+      }
+    
+}
 </script>
 
    <form name="form1" action="/genericmultableservlet?action=saveAddRecord" method="post">
@@ -187,7 +211,7 @@ $(document).ready(function(){
   <table width="98%">
     <tr>
       <td colspan="4" align="center">
-        <input type="submit" value="保存" class="btn" onclick="return check_subTable()" />
+        <input type="submit" value="保存" class="btn" onclick="return checkzz()" />
         <input type="button" value="返回" class="btn m_l15" onclick="window.history.go(-1)"/>
       </td>
     </tr>

@@ -52,11 +52,11 @@
 <mulTable mulId ="DTPlan_ktht_main_sub" 
 	addHtml = "skins/Default/multi/DTPlan_ktht/DTPlan_ktht_add.html" 
 	editHtml = "skins/Default/multi/DTPlan_ktht/DTPlan_ktht_edit.html" realDel="y" isHaveWf="n">
-	    <mainTable mainTableName="DTPlan_ktht_main" fields="yearandmonth,work_teamID,target_plan" unique="yearandmonth"></mainTable>
+	    <mainTable mainTableName="DTPlan_ktht_main" fields="yearandmonth,work_teamID,target_plan" unique=""></mainTable>
 		<subTable subTableName="DTPlan_ktht_sub" fields="jobcut_id,job_plan,worktype,iskeyproject,isvalid" subRecordIsSaveByField="jobcut_id"></subTable>
 		<defValueList>
 		
-	   <defaultValue field="work_teamID|OPT|1"><![CDATA[select b.id,b.branch_name from branch b ,DTParam_branchType tp where communityId = '$COMMUNITYID'  and tp.id = b.bType  and tp.typeName = '区队' order by id ]]></defaultValue>
+	   <defaultValue field="work_teamID|OPT|1"><![CDATA[select b.id,b.branch_name from branch b ,DTParam_branchType tp where communityId = '$COMMUNITYID'  and tp.id = b.bType  and tp.typeName = '区队' order by branch_sort ]]></defaultValue>
 	   <defaultValue field="jobcut_id|OPT|1"><![CDATA[select d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></defaultValue>
 	   <defaultValue field="iskeyproject|OPT|1"><![CDATA[select value,name from FIELD_OPTION where description = '参数设置' and description_sub='生产计划-重点工程' and communityId='$COMMUNITYID' ]]></defaultValue>
 	  <defaultValue field="isvalid|OPT|1"><![CDATA[select '是','是'  union all select '否','否' ]]></defaultValue>
@@ -73,7 +73,7 @@
 		<subTable subTableName="DTPlan_produce_sub" fields="procedure_in_month,avg_procedure_in_day,target_procedure_in_month,valid_leap_in_month,unit_id" subRecordIsSaveByField="unit_id"></subTable>
 		<defValueList>
 		
-	   <defaultValue field="unit_id|OPT|1"><![CDATA[select b.id,b.branch_name from branch b ,DTParam_branchType tp where communityId = '$COMMUNITYID'  and tp.id = b.bType  and tp.typeName = '区队' union all select 0,'掘进煤']]></defaultValue>
+	   <defaultValue field="unit_id|OPT|1"><![CDATA[select o.id,o.branch_name from (select b.id,b.branch_name,b.branch_sort from branch b ,DTParam_branchType tp where communityId = '$COMMUNITYID'  and tp.id = b.bType  and tp.typeName = '区队' union all select 0,'掘进煤',0) o order by o.branch_sort]]></defaultValue>
 	   </defValueList>
        </mulTable>
 	<!--生产计划 end-->

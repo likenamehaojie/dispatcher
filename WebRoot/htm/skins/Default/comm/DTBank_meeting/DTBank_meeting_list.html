@@ -74,11 +74,15 @@ function iniList(){
 
 	var BirthDate_Str='{BirthDate}'.replace(/<[^>].*?>/g,'');
 
+	var PeriodNumber_Str='{PeriodNumber}'.replace(/<[^>].*?>/g,'');
+
 	var branchName_Str='{branchName}'.replace(/<[^>].*?>/g,'');
 
 	var workPlace_Str='{workPlace_str}'.replace(/<[^>].*?>/g,'');
 
 	var Shift_Str='{Shift}'.replace(/<[^>].*?>/g,'');
+	var Addresss_Str='{Addresss}'.replace(/<[^>].*?>/g,'');
+	var Host_Str='{Host}'.replace(/<[^>].*?>/g,'');
 
 	
 	map.clear();
@@ -92,13 +96,13 @@ function iniList(){
 
 
 	//编号/期数 PeriodNumber
-	map.put("PeriodNumber:SYS_FIELDS",'<span id="PeriodNumber_sysEdit_spanId#no#"><input type=\"text\" name=\"PeriodNumber#no#\" value=\"{PeriodNumber}\" size=\"15\"   check=\"2"\ tip=\"出勤人数不能为空\" valFun=\"setEmptyCheck\"></span><span id="PeriodNumber_sysView_spanId#no#">{PeriodNumber}</span>');
+	map.put("PeriodNumber:SYS_FIELDS",'<span id="PeriodNumber_sysEdit_spanId#no#"><input type=\"text\" name=\"PeriodNumber#no#\" value='+PeriodNumber_Str+'            size=\"15\"   check=\"2"\ tip=\"出勤人数不能为空\" valFun=\"setEmptyCheck\"></span><span id="PeriodNumber_sysView_spanId#no#">'+PeriodNumber_Str+'</span>');
     //时间 BirthDate
-	map.put("BirthDate:SYS_FIELDS",'<span id="BirthDate_sysEdit_spanId#no#"><input type=\"text\" id="time#no#" name=\"BirthDate#no#\" value=\"{BirthDate}\"  size=\"8\" check=\"2"\ tip=\"区队不能为空\" valFun=\"setEmptyCheck\" onclick=WdatePicker()></span><span id="BirthDate_sysView_spanId#no#">'+BirthDate_Str+'</span>');
+	map.put("BirthDate:SYS_FIELDS",'<span id="BirthDate_sysEdit_spanId#no#"><input type=\"text\" id="time#no#" name=\"BirthDate#no#\" value='+BirthDate_Str+ '  size=\"8\" check=\"2"\ tip=\"区队不能为空\" valFun=\"setEmptyCheck\" onclick=WdatePicker()></span><span id="BirthDate_sysView_spanId#no#">'+BirthDate_Str+'</span>');
 	//地点	Addresss
-	map.put("Addresss:SYS_FIELDS",'<span id="Addresss_sysEdit_spanId#no#"><input type=\"text\" name=\"Addresss#no#\" value=\"{Addresss}\" size=\"15\"   check=\"2"\ tip=\"出勤人数不能为空\" valFun=\"setEmptyCheck\" ></span><span id="Addresss_sysView_spanId#no#">{Addresss}</span>');
+	map.put("Addresss:SYS_FIELDS",'<span id="Addresss_sysEdit_spanId#no#"><input type=\"text\" name=\"Addresss#no#\" value='+Addresss_Str+' size=\"15\"   check=\"2"\ tip=\"出勤人数不能为空\" valFun=\"setEmptyCheck\" ></span><span id="Addresss_sysView_spanId#no#">'+Addresss_Str+'</span>');
 	//主持人	Host
-	map.put("Host:SYS_FIELDS",'<span id="Host_sysEdit_spanId#no#"><input type=\"text\" name=\"Host#no#\" value=\"{Host}\" size=\"8\"   check=\"2"\ tip=\"出勤人数不能为空\" valFun=\"setEmptyCheck\" ></span><span id="Host_sysView_spanId#no#">{Host}</span>');
+	map.put("Host:SYS_FIELDS",'<span id="Host_sysEdit_spanId#no#"><input type=\"text\" name=\"Host#no#\" value='+Host_Str+' size=\"8\"   check=\"2"\ tip=\"出勤人数不能为空\" valFun=\"setEmptyCheck\" ></span><span id="Host_sysView_spanId#no#">'+Host_Str+'</span>');
     //参加人员	Participants
 	map.put("Participants:SYS_FIELDS",'<span id="Participants_sysEdit_spanId#no#"><TEXTAREA NAME=\"Participants#no#\" tip=\"会议摘要不能为空\" check=\"2"\ valFun=\"setEmptyCheck\">{Participants}</TEXTAREA></span><span id="Participants_sysView_spanId#no#" title=\"{Participants}\">{Participants}</span>');
 	// 会议摘要	MeetingAbstract
@@ -252,7 +256,6 @@ function shanchu(no){
 		   <li id="li_search_btn">
 				&nbsp;
 				<input type="button"  value="查询" class="btn" onClick="setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');"/>
-				<input type="button"  value="导出excel" class="btn" onClick="exportExcel('{tableName}','{CDNO}','{ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}','{$TABLEKEYWORD3}');"/>
 		  </li>
 	</div>
 	<div class="line_list">
@@ -266,7 +269,7 @@ function shanchu(no){
       <tr>
 	    <th width="2%"><input type="checkbox" name="roleCheck" value="" onClick="selectAllRole(form1);"></th>
             <th width="10%" style="cursor:hand;"  onClick="orderByInfo_new('branchName','{OrderKey}','{OrderBy}')">编号/期数<span id="timeOrder" class="orderNo"></th> 
-            <th width="10%">时间</th> 
+            <th width="10%">日期</th> 
 			<th width="10%">地点</th>
 			<th width="10%">主持人</th> 
 			<th width="10%">参加人员</th> 

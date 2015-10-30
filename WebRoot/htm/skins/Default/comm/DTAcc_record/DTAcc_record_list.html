@@ -125,6 +125,7 @@ function iniList(){
 }
  //计算时间的分钟差
  function calMinus(no,nameType){
+	
 	var minutes = 1000*60;//分钟
 	var hours = minutes*60;//小时
 	var days = hours*24;//天
@@ -144,10 +145,14 @@ function iniList(){
 			$("input[name=endTime"+no+"]").val('');
 		return;
 	}
+	//把YYYY-MM-DD格式修改成YYYY/MM/DD格式
+	d1=d1.replace('-','/').replace('-','/');
+	d2=d2.replace('-','/').replace('-','/');
 	//格式化两个时间的值
+	
 	d1=new Date(d1);
 	d2=new Date(d2);
-
+	
 	//获取两个时间的毫秒
 	d1=d1.getTime();
 	d2=d2.getTime();
@@ -156,7 +161,7 @@ function iniList(){
 	d1=d1/minutes;
 	d2=d2/minutes;
 	
-
+	
 	$("input[name=timeLength"+no+"]").val(d2-d1);
  }
   
@@ -191,6 +196,7 @@ function iniList(){
 	<input type="hidden" name="field1" value="AccidentCharacter|事故性质|OPT|50|">
 	<input type="hidden" name="field2" value="RBranch|责任单位|TXT|50|">
 	<input type="hidden" name="field3" value="AccidentType|事故类型|TXT|50|">
+    <input type="hidden" name="field3" value="startTime|发生时间|DAT|50|">
   <div id="top">
    <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
    <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 列表页面</div>
@@ -201,7 +207,7 @@ function iniList(){
 				<option value="1">事故性质：</option>
 				<option value="2">责任单位：</option>
 				<option value="3">事故类型：</option>
-				
+				<option value="4">发生时间：</option>
 			</select>
 		</div>
 	 	<!--多选搜索 4 end-->
@@ -224,10 +230,15 @@ function iniList(){
 				<input type="checkbox" name="f_id" value="2">&nbsp;责任单位&nbsp;：
 				<input name="RBranch" onchange="checkChange(this,'2')"/>
 			</li>
+			<li id="li_search4">
+			&nbsp;
+			<input type="checkbox" name="f_id" value="4">&nbsp;发生时间&nbsp;：
+			<input name="startTime" onchange="checkChange(this,'4')" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
+			</li>
 			<li id="li_search_btn">
 				&nbsp;
 				<input type="button"  value="查询" class="btn" onClick="setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');"/>
-				<input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','401',' 事故影响记录表');"/>
+				<input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','347',' 事故影响记录表');"/>
 		  </li>
 	   </ul>
    </div>

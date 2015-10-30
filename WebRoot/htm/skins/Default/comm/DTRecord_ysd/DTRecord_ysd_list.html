@@ -42,7 +42,7 @@
 
   <script>
 $(document).ready(function(){
-	if('{$combName}' =='管理'){
+	if('{$combName}' =='查看本矿'){
 		$('#stair1,#stair2').css('display','none');
 		$('#YC,.YC1,#YC2,#YC3,#YC4,#TS').css('display','none');
 		$("#GoBack").show();
@@ -118,9 +118,9 @@ function iniList(){
 
 
 	//区队
-		if('{editshow_show}'=="block")map.put("branchName:SYS_FIELDS",'<span id="branchName_sysEdit_spanId#no#"><input type=\"text\"  name=\"branchName#no#\" value=\"{branchName}\" defaultValue=\"{$WORKGROUP}\"></span><span id="branchName_sysView_spanId#no#">{$WORKGROUP}</span>');	
+		if('{editshow_show}'=="block")map.put("branchName:SYS_FIELDS",'<span id="branchName_sysEdit_spanId#no#"><input type=\"text\"  name=\"branchName#no#\" value=\"{branchName}\" defaultValue=\"{$WORKGROUP}\"size=\"8\" check=\"2\ "></span><span id="branchName_sysView_spanId#no#">{$WORKGROUP}</span>');	
 	else{
-		map.put("branchName:SYS_FIELDS",'<span id="branchName_sysEdit_spanId#no#"><input type=\"text\"  name=\"branchName#no#\" value=\"{branchName}\" defaultValue=\"{$WORKGROUP}\"></span><span id="branchName_sysView_spanId#no#">{branchName}</span>');	
+		map.put("branchName:SYS_FIELDS",'<span id="branchName_sysEdit_spanId#no#"><input type=\"text\"  name=\"branchName#no#\" value=\"{branchName}\" defaultValue=\"{$WORKGROUP}\"size=\"8\" check=\"2\ "></span><span id="branchName_sysView_spanId#no#">{branchName}</span>');	
 	}
 
     //作业地点
@@ -270,8 +270,8 @@ function isUpload_Revoke()
 	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
 	<input name="dblclick" type="hidden" value="" /><!--已上报禁止双击编辑-->
 
-	<input type="hidden" name="field1" value="BirthDate|日期|DAT|50|">
-    <input type="hidden" name="field2" value="workPlace|作业地点|TXT|50|">
+	<input type="hidden" name="field1" value="workPlace|作业地点|TXT|50|">
+	<input type="hidden" name="field2" value="BirthDate|日期|DAT|50|">
     <input type="hidden" name="field3" value="Shift|班次|TXT|50|">
 
 
@@ -284,8 +284,8 @@ function isUpload_Revoke()
   <!--多选搜索 4 begin-->
 		<div class="line_list_mulitSelect" style="display:none">
 			<select name="selSetCon" multiple="multiple">
-				<option value="1">日期：</option>
-				<option value="2">作业地点：</option>
+				<option value="1">作业地点：</option>
+				<option value="2">日期：</option>
 				<option value="3">班次：</option>
 				
 			</select>
@@ -293,16 +293,14 @@ function isUpload_Revoke()
 		<!--多选搜索 4 end-->
 		<div class="line_list_left">
 		 <ul id="ul_search">
-
-		    <li id="li_search1">
+			<li id="li_search1">
 				&nbsp;
-				<input type="checkbox" name="f_id" value="1">&nbsp;日期&nbsp;：
-				<input name="BirthDate_start" style="width:70px;" onchange="checkChange(this,'1')"  class="input_txt" onclick="WdatePicker()"/>至<input name="BirthDate_end" style="width:70px;" onchange="checkChange(this,'1')" class="input_txt" onclick="WdatePicker()"/>
+				<input type="checkbox" name="f_id" value="1">&nbsp;作业地点:<select name="workPlace" onchange="checkChange(this,'1')">{filterOptions5}</select>
 			</li>
-
-			<li id="li_search2">
+		    <li id="li_search2">
 				&nbsp;
-				<input type="checkbox" name="f_id" value="2">&nbsp;作业地点:<select name="workPlace" onchange="checkChange(this,'2')">{filterOptions5}</select>
+				<input type="checkbox" name="f_id" value="2">&nbsp;日期&nbsp;：
+				<input name="BirthDate_start" style="width:70px;" onchange="checkChange(this,'2')"  class="input_txt" onclick="WdatePicker()"/>至<input name="BirthDate_end" style="width:70px;" onchange="checkChange(this,'2')" class="input_txt" onclick="WdatePicker()"/>
 			</li>
 			<li id="li_search3">
 				&nbsp;
@@ -316,7 +314,7 @@ function isUpload_Revoke()
 				<input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','373',' 运输队');"/>
 		  </li>
 	</div>
-		<div class="line_list" style="display:{editshow_show}">
+		<div class="line_list" >
 	   <li class="YC1">{delmanyshow}</li>
 	   <li class="YC1">{addshow}</li>
 	   <li id="GoBack" style="display:none"><input type="button" value="撤销" class="btn" onclick="isUpload_Revoke()" /></li>
@@ -356,7 +354,7 @@ function isUpload_Revoke()
 			<th width="2%">数量</th> 
 			<!--<th width="3%">是否重点工程</th>--> 
 			<th width="3%">其他工作量及生产等信息</th> 
-				<th id="YC4" width="5%" style="display:{editshow_show}">基本操作</th>
+				<th id="YC4" width="5%">基本操作</th>
       </tr>
     </thead>
 	

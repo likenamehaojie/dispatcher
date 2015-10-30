@@ -41,8 +41,7 @@
 
   <script>
 $(document).ready(function(){
-	//初始化row数据
-	iniList();
+
 	//如果操作列没有权限  隐藏操作列
 	hideLastCol('actor_table');
 
@@ -87,6 +86,15 @@ $(document).ready(function(){
    <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
    <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 列表页面</div>
   </div>
+
+  		<!--多选搜索 4 begin-->
+		<div class="line_list_mulitSelect" style="display:none">
+			<select name="selSetCon" multiple="multiple">
+				<option value="1">日期</option>
+			
+			</select>
+		</div>
+
 	 	<!--多选搜索 4 end-->
 	 <div class="line_list_left">
 		 <ul id="ul_search">

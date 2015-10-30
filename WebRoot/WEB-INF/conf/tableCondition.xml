@@ -68,8 +68,8 @@
 	<!-- 四大体系 应急救援 矿-->
 	<condition name="$DTRecord_file" ><![CDATA[ where worry_type='$TABLEKEYWORD2' and communityId='$COMMUNITYID']]></condition>
 	<!-- 支架安装回撤记录及台账 -->
-	<condition name="$azhc" ><![CDATA[ where communityId='$COMMUNITYID' and azhctype='$TABLEKEYWORD3'  ]]></condition>
-    <condition name="$azhc_branch" ><![CDATA[ where  azhctype='$TABLEKEYWORD3' and workGroupId='$WORKGROUPID' ]]></condition>
+	<condition name="$azhc" ><![CDATA[ where communityId='$COMMUNITYID' and azhctype='$TABLEKEYWORD3' and isUpload=1]]></condition>
+    <condition name="$azhc_branch" ><![CDATA[ where  azhctype='$TABLEKEYWORD3' and workGroupId='$WORKGROUPID' and (('$TABLEKEYWORD4'='已上报' and isUpload=1) or ('$TABLEKEYWORD4'='未上报' and isUpload=0)) ]]></condition>
 	
  	
   	<!-- 生产计划 -->

@@ -738,7 +738,6 @@ function iniMultOptions(tableName,ITNO,USERID){
 	//记忆搜索条件  第二步：声明数组
 	var myLi=getCookieValue("searchField_"+ITNO+'_'+USERID+'_end');
 	var selSetConLength=document.getElementsByName("selSetCon")[0].options.length;
-
 	if(myLi==null || myLi==""){
 		myLi=new Array(selSetConLength);
 	}else{

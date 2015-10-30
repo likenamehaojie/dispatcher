@@ -59,14 +59,7 @@ a,img{border:0;}
      <a href="javascript:logout()" title="退出系统" class="topalb">[退出]</a>
      </div>
 	 <br>
-	 <div style="float:right;font-size:12px;">
-	 <select name="loginNames" onchange="changeLoginName(this)">
-		<option value="">---请选择用户---</option>
-		{row_login}
-			<option value="{admin_pwd}">{admin_name}</option>
-		{row_login}
-	 <select>
-	 &nbsp;<a class="yslt" href="javascript:updateSelf()">{$REALNAME}-{$SHORTNAME}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+	 <div style="float:right;font-size:12px;"><a class="yslt" href="javascript:updateSelf()">{$REALNAME}-{$SHORTNAME}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 
   </div>
 </div>
@@ -297,18 +290,7 @@ BUI.use('common/main',function(){
 //更新自己
 function updateSelf(){
 	window.open('/generictableservlet?action=editRecord&recordId={USERID}&ITNO=1_updateSelf','main','');
-	
 }
-
-//切换用户
-function changeLoginName(selObj){
-	if(selObj.value!=""){
-		var loginName=selObj.options[selObj.selectedIndex].text;
-		loginName=loginName.substring(0,loginName.indexOf("---"));
-		window.location="/adminlogin.do?action=login&loginCommId={$COMMUNITYID}&loginName="+loginName+"&loginPass="+selObj.value;
-	}
-}
-
 
 //帮助  更新配置文件
 var pageii;

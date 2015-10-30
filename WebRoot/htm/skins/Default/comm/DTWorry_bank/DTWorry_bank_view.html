@@ -41,6 +41,7 @@ function winOpenWH(id,no){
 function save_bc(){
 	
 	var Sending	= document.getElementsByName("Sending")[0].value;
+	var branch_realId	= document.getElementsByName("branch_realId")[0].value;
 	if(Sending.length==0){
 		alert("请选择发送人员！");
 		return false;
@@ -50,8 +51,8 @@ function save_bc(){
 	var submitFlag=true;
 	if(submitFlag){
 		submitFlag=false;
-		ajax_pro(391,Sending+'|'+sub_id);
-		window.location='/generictableservlet?action=recordList&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}';
+	ajax_pro(391,Sending+'|'+sub_id+'|'+branch_realId);
+	window.location='/generictableservlet?action=recordList&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}';
 	}
 }
 
@@ -76,6 +77,7 @@ function save_bc(){
 	<input type="hidden" name="realFileName" value="">
 	<input type="hidden" id="DTWorry_bank_main_id" value="">
 	<input type="hidden" id="sNo" value="">
+	<input type="hidden" name="branch_realId" value="">
 
  
 

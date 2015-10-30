@@ -94,7 +94,7 @@ function checkFileType() {
         <table border="0" cellspacing="0" cellpadding="0" class="view_table">
           <tr>
 
-			<td class="tad" > 姓名:</td>
+			<td class="tad" > 姓名:</td>&nbsp;*
 			<td class = "t_l b_cf"  colspan="1"><input name="name" type="text" class="input_txt" value="{name}" style="width:200px;" tip="姓名不能为空" check="2"/></td>
 			
 			<td class="tad" width="20%">性别:</td>
@@ -161,8 +161,8 @@ function checkFileType() {
 		  </tr>
 
 		  <tr>
-			<td class="tad" width="20%">照片附件:</td>
-			<td id="fileTdId" class="t_l b_cf" width="20%" value="{file1}" colspan="3">
+			<td class="tad" >照片附件:</td>
+			<td id="fileTdId" class="t_l b_cf" value="{file1}" colspan="3">
 			<input type="file" name="file1" size="40" maxlength="500"  onChange="checkFileType()" ></td>
 		  </tr>
     </table>

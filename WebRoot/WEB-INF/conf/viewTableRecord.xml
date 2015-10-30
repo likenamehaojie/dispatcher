@@ -44,7 +44,7 @@
 
 	  <table tableName="DTIndex_nav" attList="" rowName="row_nav"  fields="purview_ad_id,pur_name,url,identify,community_id"><![CDATA[select purview_ad_id,pur_name,url,identify,community_id from dbo.admin_purview_$COMMUNITYTYPE where iparent=0 and identify in(select identify from adrole_purview_$COMMUNITYTYPE where role_ad_id='$ROLEID') and pur_name!='无节点模块' order by sequence]]></table> 
 
-	 <table tableName="DTIndex_left" attList="" rowName=""  fields="leftStr"><![CDATA[exec proc_createLeftStr $COMMUNITYTYPE,$ROLEID]]></table> 
+	 <table tableName="DTIndex_left" attList="" rowName=""  fields="leftStr"><![CDATA[exec proc_createLeftStr '$COMMUNITYTYPE','$ROLEID','$COMMUNITYID']]></table> 
 
 	
 	<!-- 待办 -->
@@ -68,6 +68,12 @@
 
 	<!-- 生产日报 -->
 	  <table tableName="DTRecord" attList="" rowName="row_record"  fields="workDes,dateDes,date_created"><![CDATA[exec proc_DTRecord_view '$COMMUNITYID']]></table> 
+
+
+	<!-- 用户列表 -->
+	  <table tableName="DTRecord" attList="" rowName="row_login"  fields="admin_name,admin_pwd"><![CDATA[select admin_name+'---'+realname as admin_name,admin_pwd from sysAdmin where communityId='$COMMUNITYID']]></table> 
+
+
 
 </viewTableRecordTemplate>
 <!--首页index 2012/12/6-->
@@ -273,7 +279,7 @@
 	  <table tableName="DTWorry_bank_record_main" attList="" rowName=""  fields="id,Bigtitle,Smalltitle,Currentstep">
 	  <![CDATA[select id,Bigtitle,Smalltitle,Currentstep from DTWorry_bank_record_main ]]></table>
 
-	  <table tableName="DTWorry_bank_record_sub" attList="" rowName="row" fields="id,main_id,Step,StepContent,Dispatch,Sending"><![CDATA[ select id,main_id,Step,StepContent,Dispatch,Sending from DTWorry_bank_record_sub where main_id='$RECORDID' ]]></table>
+	  <table tableName="DTWorry_bank_record_sub" attList="" rowName="row" fields="id,sub_id,main_id,Step,StepContent,Dispatch,Sending"><![CDATA[ select id,id as sub_id,main_id,Step,StepContent,Dispatch,Sending from DTWorry_bank_record_sub where main_id='$RECORDID' ]]></table>
 	
 	</viewTableRecordTemplate>
 	<!--应急记录——启动2015/10/08-->

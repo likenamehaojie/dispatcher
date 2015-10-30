@@ -209,9 +209,11 @@ function submitDestList() {
     valDest = valDest +','+ destList.options[i].value
 	}
   }
-//alert(strDest)
-//alert(valDest)
-//ajax_pro(391,strDest+'|'+DTWorry_bank_main_id)
+  var Currentstep=window.opener.document.getElementById("Currentstep").innerHTML;
+  var DTWorry_bank_main_id=window.opener.document.getElementById("DTWorry_bank_main_id").value;
+  alert(Currentstep)
+
+	ajax_pro(394,strDest+'|'+DTWorry_bank_main_id+'|'+Currentstep+'|'+valDest)
 
 		
 	//	tableName=window.opener.document.getElementsByName("tableName")[0].value;
@@ -222,22 +224,21 @@ function submitDestList() {
 
 	//window.opener.location.reload();
 	
-	/*
+
 	if(window.dialogArguments){
 		window.dialogArguments.location.reload();
 	}else{
 		window.opener.location.reload();
-	}*/
+	}
 	
 	 //window.close();
-	var no=window.opener.document.getElementById("sNo").value;
-		no=parseInt(no)-1;
-  if(window.dialogArguments){
-	  window.dialogArguments.document.getElementById("Sending").value = strDest;
-  }else{
-	  window.opener.document.getElementsByName("Sending")[no].value = strDest;
-	  window.opener.document.getElementsByName("branch_realId")[no].value = valDest;
-  }
+	//var no=window.opener.document.getElementById("sNo").value;
+	//	no=parseInt(no)-1;
+  //if(window.dialogArguments){
+	//  window.dialogArguments.document.getElementById("Sending").value = strDest;
+ // }else{
+	//  window.opener.document.getElementsByName("Sending")[no].value = strDest;
+ // }
   window.close();
 	
  

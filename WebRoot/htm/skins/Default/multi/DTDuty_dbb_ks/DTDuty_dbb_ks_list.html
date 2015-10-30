@@ -78,7 +78,7 @@ function iniList(){
 	map.put("xuhao:SYS_HIDDEN",'{sNo}');
 
 	//日期
-	map.put("yearAndMonth:SYS_FIELDS",'<span id="yearAndMonth_sysEdit_spanId#no#"><input type=\"text\" name=\"yearAndMonth#no#\" defaultValue=\"'+fDateSTR+'\" value=\"'+yearAndMonth_str+'"   onclick=\"WdatePicker()\" size=\"16\"  check=\"2"\ tip=\"日期不能为空\" valFun=\"setEmptyCheck\" ></span><span id="yearAndMonth_sysView_spanId#no#">{yearAndMonth}</span>');
+	map.put("yearAndMonth:SYS_FIELDS",'<span id="yearAndMonth_sysEdit_spanId#no#"><input type=\"text\" name=\"yearAndMonth#no#\" defaultValue=\"'+fDateSTR+'\" value=\"'+yearAndMonth_str+'"   onclick=\"WdatePicker()\" size=\"16\"  check=\"2"\ tip=\"日期不能为空\" valFun=\"setCombineUnique\" ></span><span id="yearAndMonth_sysView_spanId#no#">{yearAndMonth}</span>');
 	
 	//早班主带班A
     map.put("AzdbA:SYS_FIELDS",'<span id="AzdbA_sysEdit_spanId#no#"><input type=\"text\" name=\"AzdbA#no#\"  value="{AzdbA}" size=\"13\"  check=\"2"\ tip=\"主带班不能为空\" valFun=\"setEmptyCheck\" ></span><span id="AzdbA_sysView_spanId#no#">{AzdbA}</span>');
@@ -167,8 +167,16 @@ function excelIport(){ //excel导入
 	<input type="hidden" name="titleCount" value="2">
   <div id="top">
    <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
-   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 列表页面</div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 列表页面00</div>
   </div>
+
+  		<!--多选搜索 4 begin-->
+		<div class="line_list_mulitSelect" style="display:none">
+			<select name="selSetCon" multiple="multiple">
+				<option value="1">日期</option>
+			
+			</select>
+		</div>
 	 	<!--多选搜索 4 end-->
 	 <div class="line_list_left">
 		 <ul id="ul_search">

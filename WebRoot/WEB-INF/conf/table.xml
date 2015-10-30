@@ -349,7 +349,7 @@
 		<filterSql><![CDATA[select branch_name from branch ]]></filterSql>
 		<filterSql><![CDATA[select VALUE from FIELD_OPTION where description_sub = '班次' and communityId='$COMMUNITYID']]></filterSql>
 		<filterSql><![CDATA[select value,name from FIELD_OPTION where description = '参数设置' and description_sub='生产计划-重点工程' and communityId='$COMMUNITYID' ]]></filterSql>
-		<filterSql><![CDATA[select VALUE,NAME from FIELD_OPTION where description_sub = '车类' ]]></filterSql>
+		<filterSql><![CDATA[select VALUE,NAME from FIELD_OPTION where description_sub = '车类' and communityId = '$COMMUNITYID' ]]></filterSql>
 		<filterSql><![CDATA[select d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></filterSql>
 		<recordList fields="id,branchName,workPlace,BirthDate,Shift,Attendance,Category,Number,iskeyproject,Other,isKeyProject_str,workPlace_str"
 					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,Category,Number,iskeyproject,Other,dbo.f_field_option_isKeyProject(iskeyproject,$COMMUNITYID) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str" sqlTables="DTRecord_ysd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_ysd]]></recordList>
@@ -406,7 +406,7 @@
 
 	<!-- 调度档案 早调会会议纪要任务  2015/09/25 -->
 		<table tableName = "DTBank_meeting_task" realTableName="" attList = "" viewTemplateId="" addHtml = "" editHtml = "" viewHtml = "" listHtml = "skins\Default\comm\DTBank_meeting_task/DTBank_meeting_task_list.html">
-		<filterSql><![CDATA[select id , name from DTParam_kldInfo where communityId = '$COMMUNITYID']]></filterSql>
+		<filterSql><![CDATA[select realname from admin where communityId = '$COMMUNITYID' and workGroupId = '$WORKGROUPID']]></filterSql>
 		<filterSql><![CDATA[SELECT branch_name from sysBranch  where communityId = '$COMMUNITYID']]></filterSql>
 		<filterSql><![CDATA[SELECT wf_status from DTBank_meeting_task  where communityId = '$COMMUNITYID']]></filterSql>
 		<recordList fields="id,Meetingid,Leader,ArrangeWork,ResponsibilityId,ResponsibilityName,step,next_step,wf_status,Leader_str"
@@ -419,8 +419,8 @@
 
 		<!-- 事故信息管理 事故影响记录  2015/09/28 -->
 		<table tableName = "DTAcc_record" realTableName="" attList = "" viewTemplateId="" addHtml = "" editHtml = "" viewHtml = "" listHtml = "skins\Default\comm\DTAcc_record\DTAcc_record_list.html">
-		<filterSql><![CDATA[select value,name from FIELD_OPTION where description = '事故性质'  and communityId='$COMMUNITYID']]></filterSql>
-		<filterSql><![CDATA[select value,name from FIELD_OPTION where description = '事故类型'  and communityId='$COMMUNITYID']]></filterSql>
+		<filterSql><![CDATA[select value,name from FIELD_OPTION where description_sub = '事故性质'  and communityId='$COMMUNITYID']]></filterSql>
+		<filterSql><![CDATA[select value,name from FIELD_OPTION where description_sub = '事故类型'  and communityId='$COMMUNITYID']]></filterSql>
 		<recordList fields="id,AccidentCharacter,CasualtyStatistics,AccidentType,NCasualtyStatistics,AccidentSite,startTime,endTime,timeLength,RBranch,AccidentDescription,remarkstring,remark,AccidentDescriptionString"
 					sqlClos="id,AccidentCharacter,CasualtyStatistics,AccidentType,NCasualtyStatistics,AccidentSite,convert(nvarchar(16),startTime,120) as startTime,convert(nvarchar(16),endTime,120) as endTime,timeLength,RBranch,AccidentDescription,remark,dbo.getShortFieldIfLong(remark,15) as remarkstring,dbo.getShortFieldIfLong(AccidentDescription,15) as AccidentDescriptionString" sqlTables="DTAcc_record" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTAcc_record]]></recordList>
 	</table>
@@ -439,7 +439,7 @@
 	</table>
 	<!--  -->
 
-		 <!-- 调度管理人员基本档案-->
+	<!-- 调度管理人员基本档案-->
 	<table tableName = "DTBank_mineInfo" attList = "" viewTemplateId="" addHtml = "skins/Default/comm/DTBank_mineInfo/DTBank_mineInfo_add.html" editHtml = "skins/Default/comm/DTBank_mineInfo/DTBank_mineInfo_edit.html" viewHtml = "" listHtml = "skins/Default/comm/DTBank_mineInfo/DTBank_mineInfo_list_view.html">
 		<filterSql><![CDATA[select id,id from DTBank_mineInfo where communityId='$COMMUNITYID']]></filterSql>
 		<addRecord fields="Contents" unique="" ></addRecord>

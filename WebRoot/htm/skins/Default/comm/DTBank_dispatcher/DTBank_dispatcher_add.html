@@ -90,14 +90,16 @@ function checkFileType() {
    <div class="haer"><span id="tans"><strong>调度人员档案 </strong></span></div>
    <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 录入页面</div>
   <div style = "clear:both;"></div>
+    
     <div class="a_box">
         <table border="0" cellspacing="0" cellpadding="0" class="view_table">
           <tr>
 
+			
 			<td class="tad" > 姓名:</td>
 			<td class="t_l b_cf"  colspan="1"><input name="name" type="text" class="input_txt" value="" style="width:200px;" tip="姓名不能为空" check="2"/>&nbsp;*</td>
 			
-			<td class="tad" width="20%">性别:</td>
+			<td class="tad" >性别:</td>
 			<td class="t_l b_cf " width="200px">
 				<select name="sex">
 					<option value="">请选择</option>
@@ -105,52 +107,49 @@ function checkFileType() {
 					<option value="女">女</option>
 				</select> &nbsp;*
 			</td>
-		  </tr>
-		  <tr>
-			<td class="tad">出生日期:</td>
-			<td class = "t_l b_cf"><input name="BirthDate" style="width:200px;" readonly="readonly"  class="input_txt" onclick="WdatePicker()"/>&nbsp;*</td>
+			</tr>
 
-			<td class="tad" > 民族:</td>
-			<td class="t_l b_cf"  colspan="1"><input name="Nation" type="text" class="input_txt" value="汉" style="width:200px;" tip="民族不能为空" check="2"/>&nbsp;*</td>
+			<tr>
+				<td class="tad">出生日期:</td>
+				<td class = "t_l b_cf"><input name="BirthDate" style="width:200px;" readonly="readonly"  class="input_txt" onclick="WdatePicker()"/>&nbsp;*</td>
+
+				<td class="tad" > 民族:</td>
+				<td class="t_l b_cf"  colspan="1"><input name="Nation" type="text" class="input_txt" value="汉" style="width:200px;" tip="民族不能为空" check="2"/>&nbsp;*</td>
+				
+			</tr>
+			<tr>
+				<td class="tad">出生地址:</td>
+				<td class = "t_l b_cf" colspan="1"><input name="Addres" type="text" class="input_txt" value="" style="width:200px;" tip="地址不能为空" check="2"/>&nbsp;*</td>
+
+				<td class="tad" > 籍贯:</td>
+				<td class = "t_l b_cf""  colspan="1"><input name="Place" type="text" class="input_txt" value="河南省" style="width:200px;" tip="籍贯不能为空" check="2"/>&nbsp;*</td>
+			
+			</tr>
+
+			<tr>
+				<td class="tad">入党时间:</td>
+				<td class = "t_l b_cf"><input name="partyDate" style="width:200px;" readonly="readonly" class="input_txt" onclick="WdatePicker()"/>&nbsp;*</td>
+
+				<td class="tad" > 参加工作时间:</td>
+				<td class = "t_l b_cf"><input name="workDate" style="width:200px;"  readonly="readonly" class="input_txt" onclick="WdatePicker()"/>&nbsp;*</td>
+				
+			</tr>
+			<tr>
+				<td class="tad">入职时间:</td>
+				<td class = "t_l b_cf"><input name="EntryDate" style="width:200px;"  readonly="readonly" class="input_txt" onclick="WdatePicker()"/>&nbsp;*</td>
+
+				<td class="tad" > 工作性质:</td>
+				<td class = "t_l b_cf"  colspan="1"><input name="Nature" type="text" class="input_txt" value="" style="width:200px;" tip="工作性质不能为空" check="2"/>&nbsp;*</td>
 			
 		  </tr>
-
 		  <tr>
-			<td class="tad">出生地址:</td>
-			<td class = "t_l b_cf" colspan="1"><input name="Addres" type="text" class="input_txt" value="" style="width:200px;" tip="地址不能为空" check="2"/>&nbsp;*</td>
+				<td class="tad">健康情况:</td>
+				<td class = "t_l b_cf" colspan="1"><input name="Healthy" type="text" class="input_txt" value="优" style="width:200px;" tip="健康情况不能为空" check="2"/>&nbsp;*</td>
 
-			<td class="tad" > 籍贯:</td>
-			<td class = "t_l b_cf""  colspan="1"><input name="Place" type="text" class="input_txt" value="河南省" style="width:200px;" tip="籍贯不能为空" check="2"/>&nbsp;*</td>
-			
+				<td class="tad" > 家庭住址:</td>
+				<td class = "t_l b_cf"  colspan="1"><input name="Family" type="text" class="input_txt" value="河南省永城市" style="width:200px;" tip="家庭住址不能为空" check="2"/>&nbsp;*</td>
+				
 		  </tr>
-
-		  <tr>
-			<td class="tad">入党时间:</td>
-			<td class = "t_l b_cf"><input name="partyDate" style="width:200px;" readonly="readonly" class="input_txt" onclick="WdatePicker()"/>&nbsp;*</td>
-
-			<td class="tad" > 参加工作时间:</td>
-			<td class = "t_l b_cf"><input name="workDate" style="width:200px;"  readonly="readonly" class="input_txt" onclick="WdatePicker()"/>&nbsp;*</td>
-			
-		  </tr>
-		  
-		  <tr>
-			<td class="tad">入职时间:</td>
-			<td class = "t_l b_cf"><input name="EntryDate" style="width:200px;"  readonly="readonly" class="input_txt" onclick="WdatePicker()"/>&nbsp;*</td>
-
-			<td class="tad" > 工作性质:</td>
-			<td class = "t_l b_cf"  colspan="1"><input name="Nature" type="text" class="input_txt" value="" style="width:200px;" tip="工作性质不能为空" check="2"/>&nbsp;*</td>
-			
-		  </tr>
-
-		  <tr>
-			<td class="tad">健康情况:</td>
-			<td class = "t_l b_cf" colspan="1"><input name="Healthy" type="text" class="input_txt" value="优" style="width:200px;" tip="健康情况不能为空" check="2"/>&nbsp;*</td>
-
-			<td class="tad" > 家庭住址:</td>
-			<td class = "t_l b_cf"  colspan="1"><input name="Family" type="text" class="input_txt" value="河南省永城市" style="width:200px;" tip="家庭住址不能为空" check="2"/>&nbsp;*</td>
-			
-		  </tr>
-
 		  <tr>
 			<td class="tad">身份证号:</td>
 			<td class = "t_l b_cf" colspan="1"><input name="Cid" type="text" class="input_txt" value="" style="width:200px;" tip="身份证号不能为空" check="2"/>&nbsp;*</td>
@@ -160,11 +159,16 @@ function checkFileType() {
 			
 		  </tr>
 
-		  <tr>
-			<td class="tad" width="20%">照片附件:</td>
-			<td id="fileTdId" class="t_l b_cf" width="20%" colspan="3">
+		   <tr>
+			<td class="tad">照片附件:</td>
+			<td  class="t_l b_cf" colspan="">
 			<input type="file" name="file1" size="40" maxlength="500" onChange="checkFileType()" ></td>
+			<td  class="tad">&nbsp;</td>
+			<td   class="t_l b_cf">&nbsp;</td>
 		  </tr>
+
+		  
+
     </table>
   </div>
   <div>

@@ -175,8 +175,6 @@ function iniList(){
 	
 }
 
-
-
 function clearNoNum(obj){
 
 		//先把非数字的都替换掉，除了数字和.
@@ -190,7 +188,7 @@ function clearNoNum(obj){
 
 		 //如果第一位是负号，则允许添加   如果不允许添加负号 可以把这块注释掉
 	
-	}
+}
 
 
 
@@ -210,7 +208,7 @@ function layer_div(num){
 			}
 		});
 
-	var oldValue=";"+$("TEXTAREA[name=ResponsibilityId"+num).val();
+	var oldValue=";"+$("TEXTAREA[name=ResponsibilityId"+num+"]").val();
 	$("input[name=zrBranch]").each(function(){
 		if(oldValue.indexOf(";"+$(this).val()+";")>-1){
 			$(this).attr("checked",true);
@@ -235,7 +233,7 @@ function queding(num){
 		
 	})
 
-	$("TEXTAREA[name=ResponsibilityId"+num).val(zrBranchIds);
+	$("TEXTAREA[name=ResponsibilityId"+num+"]").val(zrBranchIds);
 	$("#operate_zrBranch_spanId"+num).html(zrBranchNames);
 	$("TEXTAREA[name=ResponsibilityName"+num+"]").val(zrBranchNames);
 
@@ -246,19 +244,31 @@ function queding(num){
 
 }
 function openWfPage(no){
+
+
+
+	var sNo=$("#recordId_td"+no).find("input").val();
+	if (sNo!=""){
+		
+		var recordId=document.getElementById("recordId_td"+no).getElementsByTagName("INPUT")[0].value;
+		var next_step=document.getElementById("next_step_sysView_spanId"+no).innerHTML;
+		if(next_step=='')next_step=2
+		
+		 document.form1.target='_blank';
+		 document.getElementsByName("recordId")[0].value=recordId;
+		 document.getElementsByName("step")[0].value=next_step;
+		 document.form1.action="/wfservlet?action=processInfo";
+		 document.form1.submit();
+		 document.form1.target='';
+		 document.form1.action='';
+
+	}
+	else{
+	alert("请保存后在点击")
+	}	
+
+
 	
-	
-	var recordId=document.getElementById("recordId_td"+no).getElementsByTagName("INPUT")[0].value;
-	var next_step=document.getElementById("next_step_sysView_spanId"+no).innerHTML;
-	if(next_step=='')next_step=2
-	
-	 document.form1.target='_blank';
-	 document.getElementsByName("recordId")[0].value=recordId;
-	 document.getElementsByName("step")[0].value=next_step;
-	 document.form1.action="/wfservlet?action=processInfo";
-     document.form1.submit();
-	 document.form1.target='';
-	 document.form1.action='';
 
 
  
@@ -308,7 +318,7 @@ function sys_fun_save(tableName,oType,newId,sNo){
    <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1}</strong></span></div>
    <div class="bottom">&nbsp;&nbsp;{$TABLEKEYWORD2}>列表页面>待处理</div>
   </div>
-  <br><br>
+  <br>
 	<div class="line_list">
 			 <li class="pian">
                  <div id="navMenu">
