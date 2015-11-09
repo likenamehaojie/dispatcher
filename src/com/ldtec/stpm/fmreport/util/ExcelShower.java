@@ -25,6 +25,8 @@ import org.apache.poi.hssf.util.Region;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.util.CellRangeAddress;
 
+import com.ldtec.stpm.export.data.ReportInfoData;
+
 /**
  * @author like
  **/
@@ -115,7 +117,7 @@ public class ExcelShower {
 		
 
 			for (int sheetIndex = 0; sheetIndex < workbook.getNumberOfSheets(); sheetIndex++) {
-				sheet = workbook.getSheetAt(sheetIndex);// 获所有的sheet
+				sheet = workbook.getSheetAt(sheetIndex);// 获所有的sheet 
 				String sheetName = workbook.getSheetName(sheetIndex); // sheetName
 				if (workbook.getSheetAt(sheetIndex) != null) {
 					sheet = workbook.getSheetAt(sheetIndex);// 获得不为空的这个sheet
@@ -266,7 +268,7 @@ public class ExcelShower {
 						int firstRowNum = sheet.getFirstRowNum(); // 第一行
 						int lastRowNum = sheet.getLastRowNum(); // 最后一行
 						// 构造Table
-						lsb.append("<table "+flag+"width=\"100%\" style=\"background-color:"+color+";border:1px solid #000;border-width:1px 0 0 1px;margin:2px 0 2px 0;border-collapse:collapse;\">");
+						lsb.append("<table "+flag+"width=\"100%\" class = 'table table-bordered' style=\"background-color:"+color+";border:1px solid #000;border-width:1px 0 0 1px;margin:2px 0 2px 0;border-collapse:collapse;\">");
 						for (int rowNum = firstRowNum; rowNum <= lastRowNum; rowNum++) {
 							if (sheet.getRow(rowNum) != null) {// 如果行不为空，
 								HSSFRow row = sheet.getRow(rowNum);
@@ -383,7 +385,26 @@ public class ExcelShower {
 	    	 return value;
 	     }
 		if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
-			value = cell.getRichStringCellValue().toString();
+			value = cell.getRichStringCellValue().toString().replace("\n", "<br/>");
+			if(value.toString().contains("\r")){
+			value  = value.toString().replace("\r", "");
+			String _tem = "<textarea disabled=\"disabled\" style=\"width: 100%;\" class=\"canedit  noedit\" rows=\"3\" >"+value+"</textarea>";
+			value = _tem;
+			}
+			if(value.toString().contains("\b")){
+				String _tem = "<input disabled=\"disabled\"  class=\"canedit\" value="+value+" />";
+				value = _tem;
+			}
+			//如果该单元格包含可执行项
+			if(value.toString().endsWith("operCan")){
+				String _tem = value.toString().replace("operCan","");
+				String colNames = _tem.substring(0,_tem.lastIndexOf(","));
+				String id = _tem.substring(_tem.lastIndexOf(",")+1);
+				String ope = "<input type=\"hidden\" id=col"+id+" value ="+colNames+" /><button class = 'button' type=\"button\" name=\"edit\" id="+id+">编辑</button><button class='button' type=\"button\" name=\"save\" id="+id+">保存</button>";
+				value = ope;
+				
+			}
+			
 		} else if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
 			if (HSSFDateUtil.isCellDateFormatted(cell)) {
 				Date date = cell.getDateCellValue();
@@ -404,6 +425,7 @@ public class ExcelShower {
 		if (cell.getCellType() == HSSFCell.CELL_TYPE_BLANK) {
 			value = "";
 		}
+	
 		return value;
 	}
 
@@ -546,6 +568,141 @@ public class ExcelShower {
 			break;
 		}
 		return valign;
+	}
+
+	public StringBuffer excleToHtml(HSSFWorkbook workbook,String color,List<String> style,String flag,HashMap<String,String> rowStyles, int _temMax, ReportInfoData rif) {
+		if(style==null){
+			style = new ArrayList<String>();
+		}
+		HSSFSheet sheet;
+		StringBuffer lsb = new StringBuffer();
+		try {
+			
+	
+			
+		
+
+			for (int sheetIndex = 0; sheetIndex < workbook.getNumberOfSheets(); sheetIndex++) {
+				sheet = workbook.getSheetAt(sheetIndex);// 获所有的sheet
+				String sheetName = workbook.getSheetName(sheetIndex); // sheetName
+				if (workbook.getSheetAt(sheetIndex) != null) {
+					sheet = workbook.getSheetAt(sheetIndex);// 获得不为空的这个sheet
+					if (sheet != null) {
+						int firstRowNum = sheet.getFirstRowNum()+_temMax; // 第一行
+						int lastRowNum = sheet.getLastRowNum(); // 最后一行
+						// 构造Table
+						lsb.append("<table "+flag+">");
+						for (int rowNum = firstRowNum; rowNum <= lastRowNum; rowNum++) {
+							if (sheet.getRow(rowNum) != null) {// 如果行不为空，
+								HSSFRow row = sheet.getRow(rowNum);
+								short firstCellNum = row.getFirstCellNum(); // 该行的第一个单元格
+//								int lastCellNum = row.getPhysicalNumberOfCells(); // 该行的最后一个单元格
+								int lastCellNum = row.getLastCellNum(); // 该行的最后一个单元格
+								int height = (int) (row.getHeight() / 15.625); // 行的高度
+								if(rowStyles!=null&&rowStyles.containsKey(rowNum+""))
+									lsb.append("<tr style = "+rowStyles.get(rowNum+"")+">");
+								else
+									lsb.append("<tr>");
+								for (short cellNum = firstCellNum; cellNum <= lastCellNum; cellNum++) { // 循环该行的每一个单元格
+									HSSFCell cell = row.getCell(cellNum);
+									
+								
+									if (cell != null) {
+										if(cell.getStringCellValue().equals("安装队")){
+											System.out.println(cell.getStringCellValue());
+										}
+										
+										
+										if (cell.getCellType() == HSSFCell.CELL_TYPE_BLANK) {
+											continue;
+										} else {
+											StringBuffer tdStyle  = null;
+											if(rowNum != lastRowNum){
+												 tdStyle = new StringBuffer(
+												//		"<td style=\""+style.get(cellNum)+"border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0; ");
+											  // 	"<td style=\"border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0; ");
+														 "<td style=\""+(cellNum>=style.size()?"":style.get(cellNum)));
+												}
+												else{
+													// tdStyle = new StringBuffer("<td style=\""+(cellNum>=style.size()?"":style.get(cellNum))+"border:1px solid #000; border-width:0 1px 1px 0;margin:2px 0 2px 0; ");
+												tdStyle = new StringBuffer("<td style=\""+(cellNum>=style.size()?"":style.get(cellNum)));
+												}
+											HSSFCellStyle cellStyle = cell
+													.getCellStyle();
+											HSSFPalette palette = workbook
+													.getCustomPalette(); // 类HSSFPalette用于求颜色的国际标准形式
+											HSSFColor hColor = palette
+													.getColor(cellStyle
+															.getFillForegroundColor());
+											HSSFColor hColor2 = palette
+													.getColor(cellStyle
+															.getFont(workbook)
+															.getColor());
+
+											String bgColor = convertToStardColor(hColor);// 背景颜色
+											short boldWeight = cellStyle
+													.getFont(workbook)
+													.getBoldweight(); // 字体粗细
+											short fontHeight = (short) (cellStyle
+													.getFont(workbook)
+													.getFontHeight() / 2); // 字体大小
+											String fontColor = convertToStardColor(hColor2); // 字体颜色
+											if (bgColor != null
+													&& !"".equals(bgColor
+															.trim())) {
+												tdStyle.append(" background-color:"
+														+ bgColor + "; ");
+											}
+											if (fontColor != null
+													&& !"".equals(fontColor
+															.trim())) {
+												tdStyle.append(" color:"
+														+ fontColor + "; ");
+											}
+											tdStyle.append(" font-weight:"
+													+ boldWeight + "; ");
+											tdStyle.append(" font-size: "
+													+ fontHeight + "%;");
+											lsb.append(tdStyle + "\"");
+
+											int width = (int) (sheet
+													.getColumnWidth(cellNum) / 35.7); //
+											int cellReginCol = getMergerCellRegionCol(
+													sheet, rowNum, cellNum); // 合并的列（solspan）
+											int cellReginRow = getMergerCellRegionRow(
+													sheet, rowNum, cellNum);// 合并的行（rowspan）
+											String align = convertAlignToHtml(cellStyle
+													.getAlignment()); //
+											String vAlign = convertVerticalAlignToHtml(cellStyle
+													.getVerticalAlignment());
+
+											lsb.append(" align=\"" + align
+													+ "\" valign=\"" + vAlign
+													
+													+ "\" ");
+											lsb.append(" colspan=\""
+													+ cellReginCol
+													+ "\" rowspan=\""
+													+ cellReginRow + "\"");
+											lsb.append(">" + (getCellValue(cell)==null||getCellValue(cell).toString().trim().equals("")?"&nbsp;":getCellValue(cell))
+													+ "</td>");
+											
+										}
+									}
+								}
+								lsb.append("</tr>");
+							}
+						}
+					}
+				}
+			}
+		} catch (FileNotFoundException e) {
+
+		} catch (IOException e) {
+
+		}
+		lsb.append("</table>");
+		return lsb;
 	}
 
 }

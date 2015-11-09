@@ -23,10 +23,49 @@
   <script src="/js/map.js"></script>
   <SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
   
-   
+   <script>
+  
+   (function($){
+    	$.fn.autoTextarea = function(options) {
+    	var defaults={
+    	maxHeight:null,//文本框是否自动撑高，默认：null，不自动撑高；如果自动撑高必须输入数值，该值作为文本框自动撑高的最大高度
+    	minHeight:$(this).height() //默认最小高度，也就是文本框最初的高度，当内容高度小于这个高度的时候，文本以这个高度显示
+    	};
+    	var opts = $.extend({},defaults,options);
+    	return $(this).each(function() {
+    	$(this).bind("paste cut keydown keyup focus blur",function(){
+    	var height,style=this.style;
+    	this.style.height = opts.minHeight + 'px';
+    	if (this.scrollHeight > opts.minHeight) {
+    	if (opts.maxHeight && this.scrollHeight > opts.maxHeight) {
+    	height = opts.maxHeight;
+    	style.overflowY = 'scroll';
+    	} else {
+    	height = this.scrollHeight;
+    	style.overflowY = 'hidden';
+    	}
+    	style.height = height + 'px';
+    	}
+    	});
+    	});
+    	};
+    	})(jQuery);
+  
+  
+  </script>
+
 </head>
 
+ <script>
+	$(document).ready(function(){
+	//添加三行空白记录
+	AddRow(1);
+	$("textarea[name^='StepContent']").each(function(){
+	$(this).autoTextarea({maxHeight:2200,minHeight:30});
+  
+  })
 
+ </script>
  <script type="text/javascript">
 
  var unit_id_optstr='';
@@ -38,12 +77,11 @@ function AddRow(maxLength){
 	var map=new Map();
 	//调度人员
 	map.put("Dispatch",'<input  class=\"input_txt\"  type=\"text\" id="Dispatch#no#"  name=\"Dispatch#no#\" value=\"\" />');	
-	//步骤
-	map.put("Step",'<input   class=\"input_txt\"  type=\"text\" id="Step#no#" name=\"Step#no#\" value=\"\" />');	
 
 	//步骤内容
 	map.put("StepContent",'<textarea   type=\"text\"  name=\"StepContent#no#\" rows="2" cols="50" value=\"\" /></textarea>');	
-	                 
+
+	                 	
 
 	//操作<a  href=\"javascript:AddRow_MR()\">添加</a><br/><a href=\"javascript:DelCurrentRow(#no#);\">删除</a>
 	map.put("operate",'<div style =\'width:60%;margin:0 auto\'><li><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l">添加 &nbsp;</span></a></li>   <li><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l">删除</span></a></li></div>'); 
@@ -76,7 +114,7 @@ function AddRow_MR(){
 
 </script>
 
-<body style="padding-bottom:0px;">
+
 <form name="form1" action="/genericmultableservlet?action=saveEditRecord" method="post">
 <input type="hidden" name="tableName" value="{mulId}">
 
@@ -96,13 +134,14 @@ function AddRow_MR(){
 
 
 <input type="hidden" name="main_id" value="{main_id}">
-    <input type="hidden" name="field.validateValue" value="Bigtitle|应急处置卡|OPT|100|1|yn|">	
+   <<input type="hidden" name="field.validateValue" value="Bigtitle|应急处置卡|OPT|100|1|yn|">	
    <input type="hidden" name="field.validateValue" value="Smalltitle|应急救援分类|TXT|100|1|yn|">
 
 
    <input type="hidden" name="field.validateValue_sub" value="Dispatch|调度人员|TXT|100|1|yn|">
    <input type="hidden" name="field.validateValue_sub" value="Step|步骤|TXT|100|1|yn|">
    <input type="hidden" name="field.validateValue_sub" value="StepContent|步骤内容|TXT|100|1|yn|">
+
 
 
 
@@ -120,23 +159,19 @@ function AddRow_MR(){
 		<td><select name="Bigtitle" onchange="checkChange(this,'2')"><option>--------请选择--------</option>{Bigtitle}</select></td>
         <td class="tad"><img src="images/form/mi.GIF">&nbsp;应急救援分类&nbsp;:</td>
 		<td><textarea   type="text"  name="Smalltitle" rows="2" cols="50" value="{Smalltitle}" />{Smalltitle}</textarea></td>
-	<tr>
-</tbody></table>
-
-
+  </tr>
+ </tbody>
+</table>
 </div>
 
 
   <div>
   <table border="0"width="100%" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
     <thead>
-    <tr >
-    	<th align="center" >序号</th>
+     	<th align="center" >步骤</th>
 	    <th align="center" >责任主体</th>
-    	<th align="center" >步骤</th>
 		<th align="center" >步骤内容</th>
     	<th align="center" >操作</th>
-    </tr>
     </thead>
     <tbody>
 	{row}
@@ -158,12 +193,9 @@ function AddRow_MR(){
 	<tr id="{flag}">
     <td id="xuhao{flag}" align="center">{flag}</td>
 	<td align="center"><input    id="Dispatch{flag}" name="Dispatch{flag}" value="{Dispatch}"/></td>
-	<td align="center"><input  " id="Step{flag}" name="Step{flag}" value="{Step}"/></td>
 	<td align="center"><textarea    name="StepContent{flag}" id="StepContent{flag}" rows="2" cols="50" value="{StepContent}{flag}" />{StepContent}</textarea></td>
 
-	
-
-    <td align="center"> <div style ="margin:0 auto"><li><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l">添加 &nbsp;</span></a></li>   <li><a href="#" onclick="javascript:DelCurrentRow({flag});"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l">删除</span></a></li></div></td>
+    <td align="center"> <div style ="width:60%;margin:0 auto"><li><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l">添加 &nbsp;</span></a></li>   <li><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l">删除</span></a></li></div></td>
 	
   </tr>
 <script>
@@ -184,11 +216,11 @@ $("#shijitianshu").setAvg({setId:alls,pjIds:avgs});
     </tbody>
   </table>
 </div>
-  <table width="98%" >
+  <table width="98%">
     <tr>
       <td colspan="4" align="center">
-        <input type="submit" value="保存" class="btn" onclick="return true;" />
-        <input type="button" value="返回" class="btn" onclick="window.history.go(-1)"/>
+        <input type="submit" value="保存" class="btn" onclick="return check_subTable();" />
+        <input type="button" value="返回" class="btn m_l15" onclick="window.history.go(-1)"/>
       </td>
     </tr>
   </table>

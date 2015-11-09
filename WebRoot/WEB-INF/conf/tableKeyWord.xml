@@ -25,7 +25,7 @@
 	<tableKeyWord name="$83"><![CDATA[公告信息|公告管理|sys_a_id1|当前矿]]></tableKeyWord>
 	<tableKeyWord name="$332"><![CDATA[公告管理|公告查看]]></tableKeyWord>
 	<tableKeyWord name="$429"><![CDATA[调度档案管理|专题汇报材料]]></tableKeyWord>
-	<tableKeyWord name="$436"><![CDATA[参数设置|工作面维护]]></tableKeyWord>
+	<tableKeyWord name="$436"><![CDATA[参数设置|工作地点维护]]></tableKeyWord>
 	<tableKeyWord name="$412"><![CDATA[生产汇报|采掘工作面接续情况]]></tableKeyWord>
 	<tableKeyWord name="$413"><![CDATA[生产汇报|初未次放顶预报]]></tableKeyWord>
 	<tableKeyWord name="$414"><![CDATA[生产汇报|巷道贯通预报]]></tableKeyWord>
@@ -36,7 +36,7 @@
     <tableKeyWord name="$421"><![CDATA[生产计划|开掘巷探计划]]></tableKeyWord>
 
 
-	<tableKeyWord name="$364"><![CDATA[生产汇报|支架安装回撤记录及台账|安装|未上报]]></tableKeyWord>
+	<tableKeyWord name="$364"><![CDATA[生产汇报|支架安装回撤记录及台账|全部|未上报]]></tableKeyWord>
 	<tableKeyWord name="$365"><![CDATA[生产汇报|采煤工作面]]></tableKeyWord>
 	<tableKeyWord name="$366"><![CDATA[生产汇报|掘进进尺]]></tableKeyWord>
 	<tableKeyWord name="$367"><![CDATA[生产汇报|底抽巷进尺|底抽巷进尺]]></tableKeyWord>
@@ -59,7 +59,7 @@
 	<tableKeyWord name="$447"><![CDATA[生产报表|日报表|汇总页面]]></tableKeyWord>
 	<tableKeyWord name="$431"><![CDATA[调度档案管理|早调会会议纪要|工作面]]></tableKeyWord>
 	<tableKeyWord name="$347"><![CDATA[调度档案管理|调度人员档案|工作面]]></tableKeyWord>
-	<tableKeyWord name="$426"><![CDATA[调度档案管理|矿井基本信息|工作面]]></tableKeyWord>
+	<tableKeyWord name="$426"><![CDATA[矿井基本信息|矿井概况|工作面]]></tableKeyWord>
 
 
     <tableKeyWord name="$420"><![CDATA[生产计划|生产经营计划]]></tableKeyWord>
@@ -72,7 +72,14 @@
 	<tableKeyWord name="$389"><![CDATA[生产台账|打钻异常情况台账]]></tableKeyWord>
 	<tableKeyWord name="$388"><![CDATA[生产台账|重点工程台账]]></tableKeyWord>
 	<tableKeyWord name="$390"><![CDATA[生产台账|月度生产计划完成情况]]></tableKeyWord>
+
     <tableKeyWord name="$408"><![CDATA[应急预案管理|应急处置卡]]></tableKeyWord>
 	<tableKeyWord name="$410"><![CDATA[应急预案管理|应急记录]]></tableKeyWord>
-  
+	<tableKeyWord name="$450"><![CDATA[生产计划|生产计划]]></tableKeyWord>
+	<tableKeyWord name="$451"><![CDATA[掘进计划|掘进计划]]></tableKeyWord>
+	<tableKeyWord name="$448"><![CDATA[下井跟值班管理|值班表]]></tableKeyWord>
+	<tableKeyWord name="$449"><![CDATA[下井跟值班管理|带班表]]></tableKeyWord>
+    <tableKeyWord name="$452"><![CDATA[事故信息管理|安全事故统计表]]></tableKeyWord>
+	<tableKeyWord name="$453"><![CDATA[生产台账|入井升井台帐]]></tableKeyWord>
+
 </tableKeyWords>

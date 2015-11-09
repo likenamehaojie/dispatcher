@@ -7,7 +7,10 @@
 <title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]-编辑页面</title>
 <link rel="stylesheet" type="text/css" href="css/index.css" />
 <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+ <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
 	<!--日期控件 begin-->
 	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
 	<!--日期控件 end-->
@@ -57,20 +60,20 @@
 <input type="hidden" name="dispatching_unit" value="{$WORKGROUP}">
 <input name="ZERO_TYPE" type="hidden" value="{$TABLEKEYWORD2}" />
 <div id="top">
-   <div class="haer"><span id="tans"><strong>矿井基本信息</strong></span></div>
-   <div class="bottom">&nbsp;&nbsp;{$TABLEKEYWORD1}&gt;{$TABLEKEYWORD2} &gt;列表页面</div>
+   <div class="haer"><span id="tans"><strong>矿井概况</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp;调度档案管理>&gt;矿井概况 &gt;编辑页面</div>
   </div>
     <div class="a_box">
         <table border="0" cellspacing="0" cellpadding="0" class="view_table">
           <tr>
 
-			<td class="tad" >标题：</td>
-			<td class="t_l b_cf"  colspan="3"><input name="title" readOnly="true" type="text" class="input_txt" value="矿井基本信息" style="width:500px;" tip="事故地点不能为空"check="2"/>&nbsp;*</td>
+			<td class="tad" > 标题：</td>
+			<td class = "t_l b_cf"><input name="title" readOnly="true" type="text" class="input_txt" value="矿井基本信息" style="width:500px;" tip="事故地点不能为空"check="2"/>&nbsp;*</td>
 			
 		  </tr>
 		<tr>
-			<td class="tad" width="20%">公告内容：</td>
-			<td class="t_l b_cf" colspan="3"><textarea id="Contents" name="Contents" style="width:900px;height:300px;">{Contents}</textarea></td>
+			<td class="tad">公告内容：</td>
+			<td class="t_l b_cf" ><textarea id="Contents" name="Contents" rows="35" cols="200">{Contents}</textarea></td>
 		 </tr>
 		  
     </table>
@@ -80,6 +83,7 @@
 		<tr>                  
 			<td colspan="8" align="center">
 				<input type="submit" name="save" class="btn" onMouseOver="this.className='btn'" onMouseOut="this.className='btn'" onClick="return true" value="保 存">
+				<input type="button" value="返回" class="btn m_l15" onclick="window.history.go(-1)"/>
 				&nbsp;&nbsp;&nbsp;&nbsp;
 			</td>
 		      </tr>

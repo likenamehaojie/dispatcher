@@ -97,12 +97,43 @@
 	addHtml = "skins/Default/comm/DTWorry_bank/DTWorry_bank_add.html" 
 	editHtml = "skins/Default/comm/DTWorry_bank/DTWorry_bank_edit.html" realDel="y" isHaveWf="n">
 	    <mainTable mainTableName="DTWorry_bank_main" fields="Bigtitle,Smalltitle" sqlClos="Bigtitle,Smalltitle"  unique=""></mainTable>
-		<subTable subTableName="DTWorry_bank_sub" fields="Dispatch,Step,StepContent" subRecordIsSaveByField="Dispatch"></subTable>
+		<subTable subTableName="DTWorry_bank_sub" fields="Dispatch,StepContent" subRecordIsSaveByField="Dispatch"></subTable>
       	<defValueList>
        <defaultValue field="Bigtitle|OPT|1"><![CDATA[select VALUE,NAME from FIELD_OPTION  where description_sub = '处置卡']]></defaultValue>
 	    </defValueList>
         </mulTable>
 	<!--应急预案—处置卡 end-->	
-	
 
+	<!--生产计划-->
+	<mulTable mulId ="DTPlan_produce_cj_sub" 
+	addHtml = "skins/Default/multi/DTPlan_produce_cj/DTPlan_produce_cj_add.html" 
+	editHtml = "skins/Default/multi/DTPlan_produce_cj/DTPlan_produce_cj_edit.html" realDel="y" isHaveWf="n">
+	    <mainTable mainTableName="DTPlan_produce_cj_main" fields="yearandmonth,Title" unique=""></mainTable>
+		<subTable subTableName="DTPlan_produce_cj_sub" fields="Company,FaceName,Basicplan,Coalwas,Remarks" subRecordIsSaveByField="Basicplan"></subTable>
+		<defValueList>
+       <defaultValue field="FaceName|OPT|1"><![CDATA[select d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></defaultValue>
+	    </defValueList>
+	</mulTable>
+	<!--生产计划 end-->
+
+	<!--掘进计划-->
+	<mulTable mulId ="DTPlan_ktht_cj_sub" 
+	addHtml = "skins/Default/multi/DTPlan_ktht_cj/DTPlan_ktht_cj_add.html" 
+	editHtml = "skins/Default/multi/DTPlan_ktht_cj/DTPlan_ktht_cj_edit.html" realDel="y" isHaveWf="n">
+	    <mainTable mainTableName="DTPlan_ktht_cj_main" fields="yearandmonth,Title,Remar" unique=""></mainTable>
+		<subTable subTableName="DTPlan_ktht_cj_sub" fields="Company,Unit,FaceName,category,Specifications,Netsection,Supporting,Basicplan,Coalwas,Remarks" subRecordIsSaveByField="Basicplan"></subTable>
+		<defValueList>
+       <defaultValue field="FaceName|OPT|1"><![CDATA[select d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></defaultValue>
+	    </defValueList>
+	</mulTable>
+	<!--掘进计划 end-->
+	
+    <!--安全事故统计表-->
+<mulTable mulId ="DTAcc_record_cj_sub_main" 
+	addHtml = "skins\Default\comm\DTAcc_record\DTAcc_record_cj_add.html" 
+	editHtml = "skins\Default\comm\DTAcc_record\DTAcc_record_cj_edit.html" realDel="y" isHaveWf="n">
+	    <mainTable mainTableName="DTAcc_record_cj_main" fields="yearAndMonth"  sqlClos="yearAndMonth" unique=""></mainTable>
+		<subTable subTableName="DTAcc_record_cj_sub" fields="FK,tDate,taddress,tcontenet,hurtman,reportman,reporttime,remark" subRecordIsSaveByField="FK"></subTable>
+        </mulTable>
+	<!--安全事故统计表 end-->
 </tables>

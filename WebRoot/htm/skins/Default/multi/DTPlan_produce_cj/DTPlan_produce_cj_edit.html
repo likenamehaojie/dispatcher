@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+     <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  
+  <script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+  <script src="/js/ajax1.js"></script>
+  <script src="/js/ajaxCheckUnique.js"></script>
+  <SCRIPT src="/js/checkout.js"></SCRIPT>
+  <SCRIPT src="/js/checkout_subTable.js"></SCRIPT>
+  <script src="/js/ajaxAutoInfo.js"></script>
+  <script src="/js/ajaxGetOptions.js"></script>
+  <script src="/js/jQuery.js"></script>
+  <script src="/js/mainSub.js"></script>
+  <script src="/js/ajaxMod.js"></script>
+  <script src="/js/map.js"></script>
+  <SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+  
+   <script>
+  
+   (function($){
+    	$.fn.autoTextarea = function(options) {
+    	var defaults={
+    	maxHeight:null,//文本框是否自动撑高，默认：null，不自动撑高；如果自动撑高必须输入数值，该值作为文本框自动撑高的最大高度
+    	minHeight:$(this).height() //默认最小高度，也就是文本框最初的高度，当内容高度小于这个高度的时候，文本以这个高度显示
+    	};
+    	var opts = $.extend({},defaults,options);
+    	return $(this).each(function() {
+    	$(this).bind("paste cut keydown keyup focus blur",function(){
+    	var height,style=this.style;
+    	this.style.height = opts.minHeight + 'px';
+    	if (this.scrollHeight > opts.minHeight) {
+    	if (opts.maxHeight && this.scrollHeight > opts.maxHeight) {
+    	height = opts.maxHeight;
+    	style.overflowY = 'scroll';
+    	} else {
+    	height = this.scrollHeight;
+    	style.overflowY = 'hidden';
+    	}
+    	style.height = height + 'px';
+    	}
+    	});
+    	});
+    	};
+    	})(jQuery);
+  
+  
+  </script>
+</head>
+
+
+ <script type="text/javascript">
+
+ var jobcut_id_optstr='';
+ var iskeyproject_optstr='';
+ var  defaultselect = '<option value = \"是\" selected  = \"selected\">是</option><option value = \"否\" >否</option>';
+//添加条件行 
+function AddRow(maxLength){ 
+	
+	//UNIT=UNIT.replace('selected','')
+	
+	var map=new Map();
+//单位
+	map.put("Company",'<input  class=\"input_txt\"  type=\"text\"  name=\"Company#no#\" value=\"\" />');	
+
+	//工作面名称
+	map.put("FaceName:SYS_FIELDS",'<span id="FaceName_sysEdit_spanId#no#"><select name=\"FaceName#no#\" realValue=\"{FaceName}\"  check=\"2"\ > <option value="" ></option>{filterOptions1}</select></span>');
+
+	//基本计划
+	map.put("Basicplan",'<input  class=\"input_txt\"  type=\"text\"  name=\"Basicplan#no#\" value=\"\" />');	
+
+	//块煤率
+	map.put("Coalwas",'<input  class=\"input_txt\"  type=\"text\"  name=\"Coalwas#no#\" value=\"\" />');	
+	
+	//备注
+	map.put("Remarks",'<textarea   type=\"text\"  name=\"Remarks#no#\" rows="2" cols="50" value=\"\" /></textarea>');
+	
+	
+	//操作
+	//map.put("operate",' <div style =\'width:55%;margin:0 auto\'> <li style="float:left"><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif" />添加 &nbsp;</span></a></li>   <li style="float:left"><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif" />删除</span></a></li></div>'); 
+//map.put("operate",'<div style =\'width:55%;margin:0 auto\'> <li style="float:left" ><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"/>添加 &nbsp;</span></a></li>   <li style="float:left"><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif" />删除</span></a></li></div>');
+	//所在单位 用于存储过程
+	map.put("COMPANY_TYPE:SYS_FIELDS:SYS_HIDDEN",'<span id="COMPANY_TYPE_sysEdit_spanId#no#"><TEXTAREA NAME=\"COMPANY#no#\">{$SHORTNAME}</TEXTAREA></span><span id="CONFERENCE_TYPE_sysView_spanId#no#">{$SHORTNAME}</span>');
+
+	//矿名 用于存储过程
+	map.put("communityName:SYS_FIELDS:SYS_HIDDEN",'<span id="communityName_sysEdit_spanId#no#"><TEXTAREA NAME=\"communityName#no#\">{$SHORTNAME}</TEXTAREA></span><span id="communityName_TYPE_sysView_spanId#no#">{$SHORTNAME}</span>');
+
+	//矿id 用于存储过程
+	map.put("communityId:SYS_FIELDS:SYS_HIDDEN",'<span id="communityId_sysEdit_spanId#no#"><TEXTAREA NAME=\"communityId#no#\">{$COMMUNITYID}</TEXTAREA></span><span id="communityId_TYPE_sysView_spanId#no#">{$COMMUNITYID}</span>');
+		
+	for(var i=1;i<=maxLength;i++){  
+		AddRow_sys(map);
+	}
+	map.clear();
+} 
+$(document).ready(function(){
+	//添加空白记录
+	AddRow_MR();
+	$("textarea[name^='Remarks']").each(function(){
+	$(this).autoTextarea({maxHeight:2200,minHeight:30});
+  
+  });
+})
+function AddRow_MR(){
+	
+	AddRow();
+	$("td[id^=COMPANY_td]").css('display','none')
+	
+}
+
+	function clearNoNumZS(obj){
+		//只能输入正整数
+		obj.value = obj.value.replace(/[^\d]/g,"");
+	}
+	function clearNoNum(obj){
+		//先把非数字的都替换掉，除了数字和.
+		obj.value = obj.value.replace(/[^\d.]/g,"");
+		//必须保证第一个为数字而不是.
+		obj.value = obj.value.replace(/^\./g,"");
+		//保证只有出现一个.而没有多个.
+		obj.value = obj.value.replace(/\.{2,}/g,".");
+		//保证.只出现一次，而不能出现两次以上
+		obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+		//小数点后只能输入两位
+		obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); 
+
+	}
+/* 	function checkzz(){
+		var main_name=document.getElementsByName("MAIN_NAME")[0].value
+		var plan_time=document.getElementsByName("PLAN_TIME")[0].value
+		var main_id=document.getElementsByName("main_id")[0].value
+		var ceshi=getInfoBySqlNo_noHidden(280,main_name+'|'+plan_time+'|'+main_id)
+		if (ceshi==0)
+		{
+			return check_subTable();
+		}
+		else
+		{
+		alert('项目名称和年份必须唯一')
+		return false;
+		}
+		<td align="center"> <div style ="width:55%;margin:0 auto"><li style="float:left"><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif" />添加 &nbsp;</span></a></li>   <li style="float:left"><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif" />删除</span></a></li></div></td>
+	} */
+</script>
+
+
+<form name="form1" action="/genericmultableservlet?action=saveEditRecord" method="post">
+<input type="hidden" name="tableName" value="{mulId}">
+
+<input type="hidden" name="recordId" value="{recordId}">
+<input type="hidden" name="CDNO" value="{CDNO}">
+<input type="hidden" name="ITNO" value="{ITNO}">
+
+<input type="hidden" name="listUrl" value="{listUrl}">
+<input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+<input type="hidden" name="curPage" value="{curPage}">
+<input type="hidden" name="mulId" value="{mulId}">
+<input type="hidden" id="actorCount" name="actorCount" value="{actorCount}">
+<input type="hidden" name="flag" value="{flag}">
+
+<input type="hidden" name="realFileName" value="{realFileName}">
+
+
+<input type="hidden" name="main_id" value="{main_id}">
+
+
+
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp;  {$TABLEKEYWORD2} &gt; 修改页面</div>
+     <div style = "clear:both;"></div>
+<div class='toolbar'>
+<table width="100%" class="tabtap" style="border-collapse:collapse;" cellspacing="0" cellpadding="0">
+  <tbody>
+
+  <tr>
+    <td class="tad">&nbsp;年月&nbsp;:</td>
+    <td> <input name="yearandmonth" type="text" value="{yearandmonth}" class="input_txt"  onClick="WdatePicker({dateFmt:'yyyy年MM月'})" style = "width:220px;" readonly/></td>
+	<td class="tad">&nbsp;标题&nbsp;:</td>
+    <td> <input name="Title" type="text" value="{Title}" class="input_txt" style = "width:220px;"/></td>
+  </tr>
+  
+</tbody></table>
+
+
+</div>
+
+
+  <div>
+  <table border="0"width="100%" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+      <tr>
+        <th align="center">序号</th>
+		<th align="center">单位</th>
+        <th align="center">工作面名称</th>
+		<th align="center">产量计划（万吨）</th>
+		<th align="center">块煤率(%)</th>
+		<th align="center">备注</th>
+		
+      </tr>
+	 
+    </thead>
+    <tbody>
+	{row}
+	
+	<tr id="{flag}">
+    <td id="xuhao{flag}" align="center">{flag}</td>
+    <td align="center"><input  class="input_txt" type="text" name="Company{flag}" value="{Company}"/></td>
+	<td align="center"><span ><select name="FaceName{flag}"> <option value="" >{FaceName}</option></select></span></td>
+	<td align="center"><input  class="input_txt" type="text" name="Basicplan{flag}" value="{Basicplan}"/></td>
+	<td align="center"><input  class="input_txt" type="text" name="Coalwas{flag}" value="{Coalwas}"/></td>
+	<td align="center"><textarea   type="text"  name="Remarks{flag}" rows="2" cols="50" value="{Remarks}" /></textarea></td>
+
+	<td style="display:none"><input name="FINISH{flag}" type="text" value="{FINISH}" size="5"/></td>
+	<td style="display:none"><input name="REMARK_F{flag}" type="text" value="{REMARK_F}" size="5"/></td>
+	<td style="display:none"><input name="COMPANY{flag}" type="text" value="{COMPANY}" size="5"/></td>
+	<td style="display:none"><input name="communityName{flag}" type="text" value="{communityName}" size="5"/></td>
+	<td style="display:none"><input name="communityId{flag}" type="text" value="{communityId}" size="5"/></td>
+	
+
+    
+	
+  </tr>
+
+{row}
+       
+    </tbody>
+  </table>
+</div>
+  <table width="98%">
+    <tr>
+      <td colspan="4" align="center">
+        <input type="submit" value="保存" class="btn" onclick="return check_subTable();" />
+        <input type="button" value="返回" class="btn m_l15" onclick="window.history.go(-1)"/>
+      </td>
+    </tr>
+  </table>
+
+</form>
+</body>
+</html>

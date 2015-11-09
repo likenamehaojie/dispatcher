@@ -116,8 +116,8 @@ function iniList(){
 
 	
     //矿领导 Leader
-	if(publishingTasks=='block')map.put("Leader:SYS_FIELDS",'<span id="Leader_sysEdit_spanId#no#"><select name=\"Leader#no#\" realValue=\"{Leader_str}\"  check=\"2"\ valFun=\"setEmptyCheck\">{filterOptions1}</select></span><span id="Leader_sysView_spanId#no#">{Leader_str}</span>');
-	else map.put("Leader:SYS_FIELDS",'<span id="Leader_sysView_spanId#no#">{Leader_str}"><select name=\"Leader#no#\" realValue=\"{Leader_str}\">{filterOptions1}</select> </span>');
+	if(publishingTasks=='block')map.put("Leader:SYS_FIELDS",'<span id="Leader_sysEdit_spanId#no#"><select name=\"Leader#no#\" realValue=\"{Leader}\"  check=\"2"\ valFun=\"setEmptyCheck\">{filterOptions1}</select></span><span id="Leader_sysView_spanId#no#">{Leader}</span>');
+	else map.put("Leader:SYS_FIELDS",'<span id="Leader_sysView_spanId#no#">{Leader}"><select name=\"Leader#no#\" realValue=\"{Leader}\">{filterOptions1}</select> </span>');
 
 	//安排工作内容	ArrangeWork
 	if(publishingTasks=='block')map.put("ArrangeWork:SYS_FIELDS",'<span id="ArrangeWork_sysEdit_spanId#no#"><TEXTAREA NAME=\"ArrangeWork#no#\" tip=\"会议摘要不能为空\" check=\"2"\ valFun=\"setEmptyCheck\">{ArrangeWork}</TEXTAREA></span><span id="ArrangeWork_sysView_spanId#no#" title=\"{ArrangeWork}\">{ArrangeWork}</span>');

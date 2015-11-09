@@ -11,10 +11,159 @@
 <script type="text/javascript" src="js/multiSelect/jquery.js"></script>
 <link rel="stylesheet" type="text/css" href="css/index_htrecordAdd.css" />
 <script src="js/layer/layer.min.js"></script>
+<style>
+.noedit{  
+    border:0;  
+    background-color:transparent; 
+	outline:none;  
+    overflow: hidden; 
+    color: #000;  
+    height: auto;  
+}
+.button { 
+display: inline-block;
+background-color:transparent;
+zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */ 
+*display: inline; 
+vertical-align: baseline; 
+margin: 0 2px; 
+border:0; 
+cursor: pointer; 
+text-align: center; 
+outline:none; 
+font: 14px/100% Arial, Helvetica, sans-serif; 
+padding: .55em 2em .55em;  
+
+} 
+
+
+
+</style>
 </head>
 
 
 <script>
+
+$(function(){
+
+
+$("button[name='edit']").each(function(){
+$(this).bind("click", function(){
+   //拿到当前td所在的行（父行tr）
+  var trObj =  $(this).parent();
+  var $that = $(this);
+
+ // alert($(this))
+    $(trObj).parent().children().each(function(){
+ 
+ 		$(this).children(".canedit").each(function(){
+ 		 var btval = $that.text();
+ 	
+ 		 if(btval=="编辑"){
+ 		
+ 		 $(this).attr("disabled",false);
+ 		 $(this).removeClass("noedit")
+ 		 
+ 		
+ 		}else{
+ 			 $(this).attr("disabled","disabled");
+ 		 $(this).addClass("noedit")
+ 		
+ 		
+ 		}
+ 		
+ 		})
+ 
+ 
+ 
+  });
+    var obtval = $that.text();
+  if(obtval=="编辑"){
+  $that.text("锁定");
+  }else{
+    $that.text("编辑");
+  }
+  
+});
+
+});
+
+$("button[name='save']").each(function(){
+$(this).bind("click", function(){
+
+var valueCol  = "";
+
+		//拿到要更改记录的唯一标识
+		var id = $(this).attr("id");
+          //获取要对哪些列做更改
+   var cols =  $("#col"+id).val();
+   //拿到当前td所在的行（父行tr）
+  var trObj =  $(this).parent()
+  
+ // alert($(trObj).parent().children(".canedit").text());
+  $(trObj).parent().children().each(function(){
+ 
+ 		$(this).children(".canedit").each(function(){
+ 		var _temValue = $(this).val();
+ 		valueCol+=_temValue+'&';
+ 		
+ 		
+ 		
+ 		
+ 		
+ 		})
+ 
+ 
+ 
+  });
+   
+   
+   
+
+   	$.ajax({
+						cache : true,
+						type : "POST",
+						url : "/fillReport.mv",
+						data : {
+							colNames : cols,
+							values : valueCol,
+							id:id,
+							ITNO:'${ITNO}',
+							canFillReportTableName:'${canFillReportTableName}'
+							
+						},
+						async : false,
+						error : function(data) {
+							   alert("保存失败！")
+						},
+						success : function(data) {
+						   if(data==true){
+						   	alert("保存成功！")
+						   	getDataByDate();
+						   }else{
+						   alert("保存失败!")
+						   }
+							
+						}
+					});
+   
+   
+   
+   
+   
+   
+   
+
+});
+
+});
+
+
+});
+
+
+
+
 
 function getDataByDate(){
 	layer.load('数据加载中,请稍等...',-1); //风格二
@@ -34,6 +183,7 @@ function getExcel(){
 
 
 <body>
+${canFillReportTableName}
 <div id="top">
    <div class="haer"><span id="tans"><strong>${TABLEKEYWORD1}</strong></span></div>
    <div class="bottom">&nbsp;&nbsp; ${TABLEKEYWORD2} &gt;${TABLEKEYWORD3}</div>
@@ -44,7 +194,7 @@ function getExcel(){
 
 	
    <table border="0" cellspacing="0" cellpadding="0"  width="100%">
-    <tr>
+   <tr>
       <td>
 		<div class="line_list_center">
           <li><b>日期：<input name="year" type="text" value="${dayinmonth}" class="input_txt" style="width:70px"  onClick="WdatePicker({dateFmt:'${dateformat}',onpicked:function(){getDataByDate()}})"/>&nbsp;&nbsp;&nbsp;&nbsp;</b>

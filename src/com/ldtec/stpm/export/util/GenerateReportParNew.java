@@ -77,7 +77,7 @@ public class GenerateReportParNew {
 
 	private static String NAME = "name";
 
-	private static HashMap WfTableTemplates = null; // 保存每个社区配置文件内容
+	private static HashMap Templates = null; // 保存每个社区配置文件内容
 
 	private static String ROWSTYLE = "rowStyle";
 
@@ -90,6 +90,18 @@ public class GenerateReportParNew {
 	private static String ISCONVERTCOLTOROW = "isConvertColToRow";
 	private static String ISUSEDATABASEMEGRERULE = "isUseDataBaseMegreRule";
 	private static String ISGENERATEREPORTHEADER ="isGenerateReportHeader";
+	private static String ISGENERATELITETITTLE = "isGenerateLiteTittle";
+	private static String CONNECTPOINT = "connectPoint";
+	private static String TITTLEGENERRULE = "tittleGenerRule";
+	private static String HEADERWIDTH = "headerWidth";
+	private static String DATEHASNOBODER = "dateHasNoBoder";
+	private static String AVGHIGHT = "avgHight";
+	
+	
+	
+	///////////reportInfo 新增规则 ///////////////////
+	private static String CANFILLREPORT = "canFillReport";
+	private static String TABLENAME = "tableName";
 	/**
 	 * 解析所有templates
 	 * 
@@ -97,7 +109,7 @@ public class GenerateReportParNew {
 	 *
 	 */
 
-	private static void getWfTableTemplates(String realpath, String name) {
+	private static void getTemplates(String realpath, String name) {
 		try {
 			String _name = "reportInfo";
 			SAXBuilder builder = new SAXBuilder();
@@ -107,8 +119,8 @@ public class GenerateReportParNew {
 			System.out.println(path + "<--");
 			Document doc = builder.build(new File(path));
 			root = doc.getRootElement();
-			if (WfTableTemplates == null)
-				WfTableTemplates = new HashMap();
+			if (Templates == null)
+				Templates = new HashMap();
 			initTableTemplates(root, name);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -132,22 +144,24 @@ public class GenerateReportParNew {
 			Element templateEle = (Element) it.next();
 			String wtName = templateEle.getAttributeValue(TID);
 			if (f)
-				WfTableTemplates.put(wtName, initWFTableTemplateData(templateEle, wtName));
+				Templates.put(wtName, initTemplateData(templateEle, wtName));
 			else {
 				if (name.equals(wtName)) {
-					WfTableTemplates.put(wtName, initWFTableTemplateData(templateEle, wtName));
-					System.out.println("VIEWDOC已执行更新！");
+					Templates.put(wtName, initTemplateData(templateEle, wtName));
+					System.out.println("REPORTINFO已执行更新！");
 					break;
 				}
 			}
 		}
 		if (f)
-			System.out.println("VIEWDOC执行全部加载！");
+			System.out.println("REPORTINFO执行全部加载！");
 	}
 
-	private static ReportInfoData initWFTableTemplateData(Element templateEle, String wtName) {
+	private static ReportInfoData initTemplateData(Element templateEle, String wtName) {
 		ReportInfoData tData = new ReportInfoData();
 		tData.setTId(wtName);
+		tData.setTableName(templateEle.getAttributeValue(TABLENAME));
+		tData.setCanFillReport(templateEle.getAttributeValue(CANFILLREPORT));
 		tData.setIsMegreDisplay(templateEle.getAttributeValue(ISMEGREDISPLAY));
 		tData.setTemplatePath(templateEle.getAttributeValue(TEMPLATEPATH));
 		tData.setIsDynamic(templateEle.getAttributeValue(ISDYNAMIC));
@@ -166,6 +180,12 @@ public class GenerateReportParNew {
 		for (Iterator table = sectionList.iterator(); table.hasNext();) {
 			SectionData vdata = new SectionData();
 			Element tableEle = (Element) table.next();
+			vdata.setAvgHight(tableEle.getAttributeValue(AVGHIGHT));
+			vdata.setDateHasNoBoder(tableEle.getAttributeValue(DATEHASNOBODER));
+			vdata.setHeaderWidth(tableEle.getAttributeValue(HEADERWIDTH));
+			vdata.setTittleGenerRule(tableEle.getAttributeValue(TITTLEGENERRULE));
+			vdata.setConnectPoint(tableEle.getAttributeValue(CONNECTPOINT));
+			vdata.setIsGenerateLiteTittle(tableEle.getAttributeValue(ISGENERATELITETITTLE));
 			vdata.setMegrePointLose(tableEle.getAttributeValue(MEGREPOINTLOSE));
 			vdata.setIsExportHeader(tableEle.getAttributeValue(ISEXPORTHEADER));
 			vdata.setIsConvertColToRow(tableEle.getAttributeValue(ISCONVERTCOLTOROW));
@@ -225,23 +245,23 @@ public class GenerateReportParNew {
 	 * @param tableName
 	 *            创建时间：2008－11－1 创建地点：略达科技
 	 */
-	public static ReportInfoData getXMLTableDataByTemplateId(String realpath, String tid) {
+	public static ReportInfoData getXMLDataByTemplateId(String realpath, String tid) {
 		// this.realpath = realpath;
-		if (WfTableTemplates == null) {// 没有创建HashMap
-			getWfTableTemplates(realpath, null);// 根据社区缩写取得此社区配置文件中的内容，保存到HashMap中
-			return (ReportInfoData) WfTableTemplates.get(tid);
+		if (Templates == null) {// 没有创建HashMap
+			getTemplates(realpath, null);// 根据社区缩写取得此社区配置文件中的内容，保存到HashMap中
+			return (ReportInfoData) Templates.get(tid);
 		} else {// 创建了HashMap
-			if (WfTableTemplates.get(tid) == null) {// 是否存在该表
+			if (Templates.get(tid) == null) {// 是否存在该表
 				System.out.println("viewTableRecord TemplateId为：" + tid + " 不在配置文件中，请查证，或重起服务！！！");
 				return null;
 			} else {
-				return (ReportInfoData) WfTableTemplates.get(tid);
+				return (ReportInfoData) Templates.get(tid);
 			}
 		}
 	}
 
-	public static void reloadWfTableTemplates(String realpath, String name) {
-		getWfTableTemplates(realpath, name);// name=null时全部从新加载，否则只加载name节点对应的信息
+	public static void reloadTemplates(String realpath, String name) {
+		getTemplates(realpath, name);// name=null时全部从新加载，否则只加载name节点对应的信息
 	}
 
 }

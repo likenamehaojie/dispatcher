@@ -57,29 +57,32 @@
 <input type="hidden" name="dispatching_unit" value="{$WORKGROUP}">
 <input name="ZERO_TYPE" type="hidden" value="{$TABLEKEYWORD2}" />
 <div id="top">
-   <div class="haer"><span id="tans"><strong>矿井基本信息</strong></span></div>
-   <div class="bottom">&nbsp;&nbsp;{$TABLEKEYWORD1}&gt;{$TABLEKEYWORD2} &gt;列表页面</div>
+   <div class="haer"><span id="tans"><strong>矿井概况</strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; 调度档案管理>&gt;矿井概况 &gt;添加页面</div>
   </div>
-    <div class="a_box">
+ <div class="a_box">
         <table border="0" cellspacing="0" cellpadding="0" class="view_table">
           <tr>
 
 			<td class="tad" >标题：</td>
-			<td class="t_l b_cf"  colspan="3"><input name="title" readOnly="true" type="text" class="input_txt" value="矿井基本信息" style="width:500px;" tip="事故地点不能为空"check="2"/>&nbsp;*</td>
+			<td class="t_l b_cf"  colspan="1"><input name="title" readOnly="true" type="text" class="input_txt" value="矿井基本信息" style="width:500px;" tip="事故地点不能为空"check="2"/>&nbsp;*</td>
 			
 		  </tr>
 		<tr>
 			<td class="tad" width="20%">公告内容：</td>
-			<td class="t_l b_cf" colspan="3"><textarea id="Contents" name="Contents" style="width:900px;height:300px;"></textarea></td>
+			<td class="t_l b_cf" colspan="1"><textarea id="Contents" name="Contents" style="width:900px;height:300px;"></textarea></td>
 		 </tr>
 		  
     </table>
   </div>
+
+  
   <div>
 	<table width="100%">
 		<tr>                  
 			<td colspan="8" align="center">
 				<input type="submit" name="save" class="btn" onMouseOver="this.className='btn'" onMouseOut="this.className='btn'" onClick="return true" value="保 存">
+				<input type="button" value="返回" class="btn m_l15" onclick="window.history.go(-1)"/>
 				&nbsp;&nbsp;&nbsp;&nbsp;
 			</td>
 		      </tr>

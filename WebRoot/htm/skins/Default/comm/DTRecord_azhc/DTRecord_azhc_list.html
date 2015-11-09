@@ -46,15 +46,17 @@
 $(document).ready(function(){
       	if('{$combName}' =='查看本矿'){
 		$('#stair1,#stair2').css('display','none');
-		$('.YC1,#YC2,#YC3,#YC4,#YC5,.YC11').css('display','none');
+		$('.YC1,#YC2,#YC3,#YC4,.YC11').css('display','none');
 		$("#GoBack").show();
+		$("TD[ID^='CCC']").hide();
 	}
 
 
 	//改变未上报 已上报样式 隐藏已上报页面 添加 上报 批量删除 操作  
 	if ('{$TABLEKEYWORD4}'=="已上报"){
 	   document.getElementById("stair2").className="active";
-	   $('.YC1,.YC11,#YC2,#YC3').css('display','none');
+	   $('.YC1,.YC11,#YC2,#YC3,#YC4').css('display','none');
+	   $("TD[ID^='CCC']").hide();
 	   document.getElementsByName("dblclick")[0].value="true";
 	   $("#stair2").attr("href","/generictableservlet?action=recordList&ITNO=364&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|已上报|{$TABLEKEYWORD4}");
 	   if('{$TABLEKEYWORD5}'=='block'){
@@ -69,9 +71,14 @@ $(document).ready(function(){
 	
 	$("a[id^=sys_a_id]").each(function(){
 		if($(this).attr("realvalue")=='{$TABLEKEYWORD4}')$(this).attr("class","active");
-
 	})
 	
+	 if ('{$TABLEKEYWORD3}'=="全部"){
+		$("TD[ID^='AAA']").show();
+		$("TD[ID^='CCC'],#YC4,.YC1").hide();
+		$("#YC8").show();
+		
+	}
 	//如果操作列没有权限  隐藏操作列
 	hideLastCol('actor_table');
 	//初始化上下左右
@@ -85,7 +92,10 @@ $(document).ready(function(){
 
 	//默认选中安装变色
 	if ('{$TABLEKEYWORD3}'=="安装") document.getElementById("stair3").className="active";
-	else document.getElementById("stair4").className="active";
+	else if ('{$TABLEKEYWORD3}'=="回撤")
+	{ document.getElementById("stair4").className="active";
+	}  
+	else document.getElementById("stair5").className="active";
 	  
 	
 });
@@ -189,7 +199,7 @@ function isUpload_Revoke()
 	<input type="hidden" name="field2" value="class|班次|TXT|50|">
     <input type="hidden" name="field6" value="recording|记录人|TXT|50|">
 	<input type="hidden" name="field7" value="workFace|工作面|TXT|50|">
-	<input type="hidden" name="field8" value="iskeyproject|重点工程|TXT|50|">
+	
 <div id="top">
    <div class="haer"><span id="tans"><strong>生产汇报</strong></span></div>
    <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt;列表页面</div>
@@ -201,8 +211,8 @@ function isUpload_Revoke()
 				<option value="1">时间</option>
 				<option value="2">班次</option>
 				<option value="6">记录人</option>
-				<option value="7">工作面</option>
-				<option value="8">重点工程</option>
+				<option value="7">工作地点</option>
+	
 			</select>
 		</div>
 		
@@ -228,13 +238,8 @@ function isUpload_Revoke()
 			</li>
 			<li id="li_search7">
 				&nbsp;
-				<input type="checkbox" name="f_id" value="7">&nbsp;工作面：
+				<input type="checkbox" name="f_id" value="7">&nbsp;工作地点：
 				<select name="workFace" onchange="checkChange(this,'7')"><option value="" >请选择</option>{filterOptions3}</select>
-			</li>
-			<li id="li_search8">
-				&nbsp;
-				<input type="checkbox" name="f_id" value="8">&nbsp;重点工程：
-				<select name="iskeyproject" onchange="checkChange(this,'8')"><option value="" >请选择</option>{filterOptions1}</select>				
 			</li>
 			
 			<li id="li_search_btn">
@@ -246,9 +251,7 @@ function isUpload_Revoke()
 	</div>
 	
 <div class="line_list" style="display:{operate_show}">
-   <li class="YC11">{delmanyshow}</li>
-	   <li class="YC1">{addshow}</li>
-	   <li id="GoBack" style="display:none"><input type="button" value="撤销" class="btn" onclick="isUpload_Revoke()" /></li>
+
 		  <li class="pian">
                  <div id="navMenu">
                             <a id="stair1" href="/generictableservlet?action=recordList&ITNO=364&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|{$TABLEKEYWORD3}|未上报" class="">
@@ -261,26 +264,30 @@ function isUpload_Revoke()
                                     已上报
                                 </span>
                             </a>
-                        </div>
-			
-		
-           </li>
+                        </div>		
+                </li>
 
-		   <li  id="YC2"><input type="button"  value="上报" class="btn" onClick="isUpload()"/>&nbsp;<!--<input type="button"  value="一键保存" class="btn" onClick="ajax_batchSave()"/>--></li>
-		   <li id="li_id_1" style="display:none"><input id="time_start" type="text"  style="width:70px;" onclick="WdatePicker()"  class="input_txt" readonly="readonly" />至<input id="time_end"style="width:70px;" type="text" class="input_txt" onclick="WdatePicker()" readonly="readonly"/>&nbsp;&nbsp;&nbsp;</li>
-		   <li  id="YC3"><span class="f_l">请选择上报方式：</span><select id="select1" onchange="dat()"><option value="1">按勾选上报</option><option value="2">按时间上报</option></select>&nbsp;</li>
+
         </div>
 		
 <div class="line_list" id="line_list">
+   <li class="YC11">{delmanyshow}</li>
+	   <li class="YC1">{addshow}</li>
+	   <li id="GoBack" style="display:none"><input type="button" value="撤销" class="btn" onclick="isUpload_Revoke()" /></li>
 	<li class="pian">
 		<div id="navMenu">
 			<div id="navMenu1">
+			   <a id="stair5" href="/generictableservlet?action=recordList&ITNO=364&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|全部|{$TABLEKEYWORD4}|{GoBack_show}" class=""><span>全部</span>
+              </a>
 			 <a id="stair3" href="/generictableservlet?action=recordList&ITNO=364&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|安装|{$TABLEKEYWORD4}|{GoBack_show}" class=""><span> 安装</span>
               </a>
               <a id="stair4" href="/generictableservlet?action=recordList&ITNO=364&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|回撤|{$TABLEKEYWORD4}|{GoBack_show}" class=""> <span> 回撤 </span></a>
 			</div>
 		</div>
    </li>
+   		   <li  id="YC2"><input type="button"  value="上报" class="btn" onClick="isUpload()"/>&nbsp;<!--<input type="button"  value="一键保存" class="btn" onClick="ajax_batchSave()"/>--></li>
+		   <li id="li_id_1" style="display:none"><input id="time_start" type="text"  style="width:70px;" onclick="WdatePicker()"  class="input_txt" readonly="readonly" />至<input id="time_end"style="width:70px;" type="text" class="input_txt" onclick="WdatePicker()" readonly="readonly"/>&nbsp;&nbsp;&nbsp;</li>
+		   <li  id="YC3"><span class="f_l">请选择上报方式：</span><select id="select1" onchange="dat()"><option value="1">按勾选上报</option><option value="2">按时间上报</option></select>&nbsp;</li>
 </div>
 
 
@@ -291,12 +298,14 @@ function isUpload_Revoke()
 	    <th width="3%"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
 		<th width="8%">时间</th> 
         <th width="8%">班次</th>
-        <th width="15%">工作面</th>
+		<th width="8%">入井人数</th> 
+        <th width="8%">升井人数</th>
+        <th width="15%">工作地点</th>
         <th width="8%">数量</th>
 		<th width="8%">本月累计</th>
 		<th width="20%">备注</th>
 		<th width="8%">记录人</th>
-        <th width="5%">重点工程</th>
+		<th width="5%" id="YC8" style="display:none">状态</th>
         <th id="YC4" width="8%" style="display:{operate_show}">基本操作</th>
       </tr>
     </thead>
@@ -306,23 +315,22 @@ function isUpload_Revoke()
 	 <td>{id}&nbsp;</td>
 	 <td>{time}&nbsp;</td>
 	 <td >{class}&nbsp;</td>
+	 <td>{rjNum}&nbsp;</td>
+	 <td >{sjNum}&nbsp;</td>
 	 <td >{workFace_str}&nbsp;</td>
 	 <td>{number}&nbsp;</td>
 	 <td>{count}&nbsp;</td>
 	 <td  id="remark{sNo}">{remarkstring}&nbsp;</td>
 	 <td>{recording}&nbsp;</td>
-	 <td>{isKeyProject_str}&nbsp;</td>
+	 <td id="AAA{sNo}" style="display:none">{azhctype}&nbsp;</td>
 
-
-	
-	
 	 
-	 <td id="YC5">{deitshow}{delshow}</td>
+	 <td id="CCC{sNo}">{deitshow}{delshow}</td>
 	</tr>
     <script language="javascript">
 		
 		if('{sNo}'==''){
-			document.getElementById("YC5").innerHTML="&nbsp;";
+			document.getElementById("CCC").innerHTML="&nbsp;";
 		}else{
 			
 			var title='{title}'.replace(/<[^>].*?>/g,'');

@@ -58,9 +58,10 @@ public class ReportService {
 		String realPath = request.getSession().getServletContext().getRealPath("/");
 		GenerReportDao grd = new GenerReportDao(request);
 		GenerateReportParNew grp = new GenerateReportParNew();
-		ReportInfoData rif = grp.getXMLTableDataByTemplateId(realPath,
+		ReportInfoData rif = grp.getXMLDataByTemplateId(realPath,
 				reportFlag);
-
+		if(rif.getCanFillReport()!=null&&rif.getCanFillReport()!=""&&rif.getCanFillReport().trim().equals("true"))
+            root.put("canFillReportTableName", rif.getTableName());
 		if (rif == null) {
 			System.out.println("ReportInfoData:ЮЊПе");
 
@@ -222,7 +223,18 @@ public class ReportService {
 			if(sd.getIsConvertColToRow()!=null&&sd.getIsConvertColToRow().equals("true")){
 				queryDataReturnListWithOutMap = grd.queryDataReturnListWithOutMapColumnToRow(sectionSql);
 			}else{
+				if(sectionSql.contains("|")){
+					String[] split = sectionSql.split("\\|");
+					String connectPoint = sd.getConnectPoint();
+					String[] connectPointSplit = connectPoint.split(",");
+				try {
+					queryDataReturnListWithOutMap = grd.queryDateReturnConnectList(split,connectPointSplit)	;
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				}else{
 				queryDataReturnListWithOutMap=grd.queryDataReturnListWithOutMap(sectionSql);
+				}
 			}
 			
 			
@@ -267,11 +279,12 @@ public class ReportService {
 			}
 			
 			generExcleFinal = GenerExcle.generExcleFinal(reportId, 1, mColumns,
-					color, styles, flag, request, root,reportName,rowStyles,refCol,movePoint,sd,queryDataReturnListWithOutMap);
+					color, styles, flag, request, root,reportName,rowStyles,refCol,movePoint,sd,queryDataReturnListWithOutMap,rif);
 			/*	
 			generExcleFinal = GenerExcleGrooy.generExcleFinal(reportId, 1, mColumns,
 					color, styles, flag, request, root,reportName,rowStyles,refCol,movePoint,sd,queryDataReturnListWithOutMap);
 			*/
+			
 			root.put(sd.getSectionName()+"_"+"uuid", root.get("uuid").toString());
 			if(!root.containsKey("exportName"))
 			root.put("exportName", sd.getExportName());

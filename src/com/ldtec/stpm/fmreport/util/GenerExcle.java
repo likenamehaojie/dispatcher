@@ -1,5 +1,6 @@
 package com.ldtec.stpm.fmreport.util;
 
+import java.awt.Font;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -9,7 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,16 +26,19 @@ import javax.servlet.http.HttpSession;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.Region;
 
 import com.ldtec.base.DB.DBControl;
 import com.ldtec.stpm.export.dao.GenerExcelDao;
+import com.ldtec.stpm.export.data.ReportInfoData;
 import com.ldtec.stpm.export.data.SectionData;
 import com.ldtec.stpm.login.UserSession;
 
@@ -43,15 +50,48 @@ import com.ldtec.stpm.login.UserSession;
 @SuppressWarnings("deprecation")
 public class GenerExcle {
 	private  GenerExcelDao ged = null;
-	HSSFWorkbook wb = null;
+	private HSSFWorkbook wb = null;
+	private static HSSFCellStyle publicHSSFCellStyle = null;
+	private static HSSFFont publicHSSFFont = null;
+	public HSSFWorkbook getWb() {
+		return wb;
+	}
+
+	public void setWb(HSSFWorkbook wb) {
+		this.wb = wb;
+	}
+
+
+public HSSFCellStyle getHSSFCellStyle(){
+	           if(publicHSSFCellStyle == null){
+	        	   publicHSSFCellStyle=this.wb.createCellStyle();
+	           }
+	        	   return publicHSSFCellStyle;
+	           
+}
+public HSSFFont getHSSFont(){
+	if(publicHSSFFont == null){
+		
+		publicHSSFFont = wb.createFont();
+		
+	}
+	return  publicHSSFFont;
+	
+	
+}
+
+
+
 	HSSFSheet sheet = null;
 	HSSFCellStyle style = null;
 	HSSFCellStyle style2 = null;
 	HSSFCellStyle styleBold = null;
 	HSSFCellStyle reportHeaderStyle = null;
+	HSSFCellStyle hasNoBoder = null;
 	HSSFFont font = null;
 	private int maxCell = 0;
 	HSSFCellStyle st = null;
+	HSSFCellStyle pub = null;
 	HttpServletRequest request = null;
 
 	
@@ -69,10 +109,11 @@ public class GenerExcle {
 	public GenerExcle() {
 
 		wb = new HSSFWorkbook();
-		
+		pub = wb.createCellStyle();
 		HSSFFont font = wb.createFont();
-		font.setFontName("微软雅黑");
+		font.setFontName("仿宋_GB2312");
 		font.setFontHeightInPoints((short) 12);//设置字体大小
+		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 		st = wb.createCellStyle();
 		st.setFont(font);
 		st.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
@@ -97,7 +138,15 @@ public class GenerExcle {
 		style2.setBorderBottom(HSSFCellStyle.BORDER_THIN); 
 		style2.setWrapText(true);
 		
-
+		hasNoBoder = wb.createCellStyle();
+		hasNoBoder.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
+		hasNoBoder.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+		hasNoBoder.setBorderTop(HSSFCellStyle.BORDER_THIN);
+		hasNoBoder.setWrapText(true);
+		hasNoBoder.setFont(font);
+		
+		
+		
 		style.setWrapText(true);
 		
 		styleBold = wb.createCellStyle();
@@ -125,6 +174,27 @@ public class GenerExcle {
 		
 	}
 
+	
+	public   void setWidth(String widths){
+		String[] split = widths.split(",");
+		HSSFRow row = sheet.getRow(0);
+		
+		if(row!=null){
+		
+			int lastCellNum = row.getPhysicalNumberOfCells();
+			for(int i = 0;i<lastCellNum;i++){
+				if(i>split.length){
+					return;
+				}
+		    sheet.setColumnWidth(i, Integer.parseInt(split[i])*256);
+				
+			}
+	
+			
+		}
+		
+	}
+	
 	/**
 	 * 保存生成的文件
 	 *
@@ -164,6 +234,34 @@ public class GenerExcle {
 
 	}
 
+	
+	public void mergeCellUseSpecStyle(int startRow, int startCell, int endRow, int endCell,HSSFCellStyle hs,String content){
+	    Region r = new Region(startRow, (short) startCell, endRow,
+					(short) endCell);
+	       pub.cloneStyleFrom(hs);
+			sheet.addMergedRegion(r);
+			pub.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
+			pub.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框
+			pub.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
+			pub.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
+			
+			HSSFRow row = sheet.getRow(startRow);
+			if(row==null){
+				row=	sheet.createRow(startRow);
+			}
+			HSSFCell cell = row.createCell(0);
+			 this.setRegionStyle(sheet, r, reportHeaderStyle);
+	        row.setHeightInPoints(17L);
+			cell.setCellValue(content);
+			cell.setCellStyle(pub);
+
+
+		
+		
+		
+	}
+	
+	
 	/**
 	 * 合并cell并设置值
 	 *
@@ -190,9 +288,16 @@ public class GenerExcle {
 		HSSFCell cell = row.createCell(cellMove);
 		 this.setRegionStyle(sheet, r, reportHeaderStyle);
         row.setHeightInPoints(17L);
+        if(content.contains("<br/>")){
+        	content=content.replace("<br/>","\n");
+        	cell.setCellValue(content);
+        }else{
 		cell.setCellValue(content);
+        }
 		cell.setCellStyle(st);
+		
      	int length = content.getBytes().length;
+     	
 		int maxColmunSize = sheet.getColumnWidth(cellMove);
 		int currentColmunSize = (short)(length*256);
 		if(maxColmunSize<=currentColmunSize){
@@ -211,9 +316,13 @@ public class GenerExcle {
 	}
 
 	public StringBuffer excleToHtml(String color, List<String> style,
-			String flag,HashMap<String,String> rowStyles, int _temMax) {
+			String flag,HashMap<String,String> rowStyles, int _temMax,ReportInfoData rif) {
 		ExcelShower es = new ExcelShower();
-		StringBuffer excleToHtml = es.excleToHtml(this.wb, color, style, flag,rowStyles,_temMax);
+		StringBuffer excleToHtml = new StringBuffer();
+		if(rif!=null&&rif.equals("true")){
+			excleToHtml = es.excleToHtml(this.wb, color, style, flag,rowStyles,_temMax,rif);
+		}else
+		 excleToHtml = es.excleToHtml(this.wb, color, style, flag,rowStyles,_temMax);
 		//StringBuffer excleToHtml = es.excleToHtmlHasStyle(this.wb, color, style, flag);
 		return excleToHtml;
 
@@ -230,11 +339,12 @@ public class GenerExcle {
 	 * @param request
 	 * @param root
 	 * @param reportName
+	 * @param rif 
 	 */
 	public static String generExcleFinal(int reportId, int max,
 			String[] mColmuns, String color, List<String> style,
 			String flag, HttpServletRequest request, Map<String, Object> root, String reportName,
-			HashMap<String, String> rowStyles,int refCol,int movePoint,SectionData sd,List<List<String>> queryDataReturnListWithOutMap ) {
+			HashMap<String, String> rowStyles,int refCol,int movePoint,SectionData sd,List<List<String>> queryDataReturnListWithOutMap, ReportInfoData rif ) {
 
 		GenerExcle ge = new GenerExcle(request);
 		max = ge.getGed().getMaxLevel(reportId);
@@ -245,10 +355,12 @@ public class GenerExcle {
 		if(sd.getRefColmun()!=null&&sd.getRefColmun()!="")
 		refCol=Integer.parseInt(sd.getRefColmun());
 		if(queryDataReturnListWithOutMap!=null&&queryDataReturnListWithOutMap.size()>0){
-			fillDataUseList(max, queryDataReturnListWithOutMap, ge,reportId,sd.getIsUseDataBaseMegreRule());
+			//fillDataUseList(max, queryDataReturnListWithOutMap, ge,reportId,sd.getIsUseDataBaseMegreRule());
+			fillDataUseList(max, queryDataReturnListWithOutMap, ge,reportId,sd);
 		}
+		ge.setRowHeigth(sd,max);
 		
-		
+		ge.mergeCellInRowRange("-999");
 		List<Map<String,Integer>> mergeCellBySameContentInfo =null;
 		//如果存在参照列则取出参照列信息
 		if(refCol>=0){
@@ -265,28 +377,119 @@ public class GenerExcle {
 			}
 		}
    
-		ge.mergeCellInRowRange("-999");
+		
 		int _temMax = 0;
 		if(sd.getIsGenerateReportHeader()!=null&&sd.getIsGenerateReportHeader().equals("false")){
+			ge.hidenRowHeader(max);
+			
+			
 			//ge.removeHeader(max);
 			_temMax = max;
 		}
-       StringBuffer excleToHtml = ge.excleToHtml(color, style, flag,rowStyles,_temMax);
+       StringBuffer excleToHtml = ge.excleToHtml(color, style, flag,rowStyles,_temMax,rif);
 		// 保存所生成的excel
 		String uuid = UUID.randomUUID().toString();
+		int maxCell2 = ge.getMaxCell();
+		String headerWidth = sd.getHeaderWidth();
+	
+		
+		
+		
 		//如果是可以生成报表名称则加上
 		if(sd.getIsIncludeReportName()==null||sd.getIsIncludeReportName().equals("")||sd.getIsIncludeReportName().equals("true")){
-		ge.insertRowInSpecRow(0, 2);
-//		// ge.saveAaSpecName("e:/today1.xls");
-		int maxCell2 = ge.getMaxCell();
+			HSSFCellStyle hs = ge.getHSSFCellStyle();
+			HSSFFont hssFont = ge.getHSSFont();
+			hssFont.setColor(HSSFColor.RED.index);
+			hs.setFont(hssFont);
+			hs.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+			UserSession session=  SqlReplaceUseSysStrUtil.getUserSessionByRequest(request);
+			 String exportName = sd.getExportName();
+			 exportName= SqlReplaceUseSysStrUtil.replaceSql(sd.getExportName(), session);
+			 
+			 
+			
+	  if(sd.getIsGenerateLiteTittle()!=null&&
+	
+	     sd.getIsGenerateLiteTittle().trim().equals("true")&&
+	     sd.getConnect()!=null&&
+	     (sd.getConnect().trim().equals("1")||sd.getConnect().trim().equals("0"))){
+		  String tittleGenerRule = sd.getTittleGenerRule();
+			
+		  
+		  
+		  String infos ="";
+		  if(tittleGenerRule!=null&&!tittleGenerRule.equals("")){
+			// 拿到配置的参数列表，以用传来的参数值替换
+				String filedList = rif.getFiledList();
+				// 参数列表一般以逗号分隔
+				String[] params = filedList.split(",");
+
+			
+			
+				for (int i = 0; i < params.length; i++) {
+					if (params[i] == null || params[i] == "")
+						continue;
+					// 得到参数列表中的值
+					String parameter = request.getParameter(params[i]);
+					// 对头信息sql和主体信息sql进行替换
+					tittleGenerRule = tittleGenerRule.replace("$" + params[i], parameter);
+
+				}
+		  GenerExcelDao ged2 = ge.getGed();
+		  infos= ged2.queryData(tittleGenerRule);
+		  }
+		  
+		  ge.insertRowInSpecRow(0, 3);
+		  String date = request.getParameter("dayInMonth");
+		  if(date!=null&&(date.equals("当前天")||date.equals("当天"))){
+			  Date d = new Date();
+			  SimpleDateFormat sdf  = new SimpleDateFormat("yyyy年MM月dd日");
+			  date= sdf.format(d);
+			  date ="日期:"+date;
+			  sdf = null;
+			 }else if(date!=null&&(date.equals("当前月")||date.equals("当月"))){
+				  Date d = new Date();
+				  SimpleDateFormat sdf  = new SimpleDateFormat("yyyy月MM");
+				  date= sdf.format(d); 
+				  date ="日期:"+date;
+				  sdf = null;
+			 }else{
+				 if(date!=null){
+					 if(!date.contains("年")){
+						 SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd");
+						 try {
+							Date parse = sdf.parse(date);
+							date = "日期:"+(parse.getYear()+1990)+"年"+(parse.getMonth()+1)+"月"+parse.getDate()+"日";
+							
+						} catch (ParseException e) {
+						
+							e.printStackTrace();
+						}
+					 }else{
+						  date ="日期:"+date;
+					 }
+				 }
 		
-		UserSession session=  SqlReplaceUseSysStrUtil.getUserSessionByRequest(request);
-		 String exportName = sd.getExportName();
-		 exportName= SqlReplaceUseSysStrUtil.replaceSql(sd.getExportName(), session);
+			 }
+		  infos+=date;
+		  ge.mergeCellUseSpecStyle(2, 0, 2, maxCell2-1, hs, infos);
+	  }else{
+		  ge.insertRowInSpecRow(0, 2);
 		 
-		 
-		ge.mergeReportNameArea(0, 0, 1, maxCell2-1,exportName);
+	  }
+	  ge.mergeReportNameArea(0, 0, 1, maxCell2-1,exportName);
+//		// ge.saveAaSpecName("e:/today1.xls");
+		
+		
+
+		
+	
+		
+
+	
 		}
+		if(headerWidth!=null&&!headerWidth.equals(""))
+			ge.setWidth(headerWidth);
 	//	String realPath = request.getServletContext().getRealPath("/WEB-INF");
 		String realPath = request.getSession().getServletContext().getRealPath("/");
 		String downPath = realPath + "/tem/exportExcel/";
@@ -333,6 +536,46 @@ public class GenerExcle {
 	
 	
 	
+
+
+	private void hidenRowHeader(int max) {
+	      for(int i = 0;i<max;i++){
+	    	  HSSFRow row = sheet.getRow(i);
+	    	  if(row!=null){
+	    		  row.setHeight((short) 0);
+	    	  }
+	      }
+		
+	}
+
+	private void setRowHeigth(SectionData sd,int max) {
+		
+		if(sd.getAvgHight()!=null&&!sd.getAvgHight().equals("")){
+			int height = Integer.parseInt(sd.getAvgHight());
+			int avg = 0;
+			int physicalNumberOfRows = sheet.getPhysicalNumberOfRows();
+			if(physicalNumberOfRows==0){
+				return;
+			}else{
+				avg = height/physicalNumberOfRows;
+			}
+			for(int i = 0;i<physicalNumberOfRows;i++){
+				HSSFRow row = sheet.getRow(i);
+				if(row!=null){
+					if(i<max){
+						 row.setHeight((short)(40*20));
+					}else{
+					row.setHeight((short) (avg*20));
+				}
+				}
+			}
+			
+			
+			
+		}
+		
+	}
+
 	private void removeHeader(int max) {
 		for(int i  =0 ;i<max;i++){
 		sheet.removeRow(sheet.getRow(i));
@@ -593,6 +836,9 @@ public class GenerExcle {
 		    
 	        for (int i = region.getRowFrom(); i <= region.getRowTo(); i ++) {
 	            HSSFRow row = sheet.getRow(i);
+	            if(row == null){
+	            	continue;
+	            }
 	            for (int j = region.getColumnFrom(); j <= region.getColumnTo(); j++) {
 	                HSSFCell cell = row.getCell(j);
 	                if(cell == null){
@@ -606,8 +852,10 @@ public class GenerExcle {
 	 * 对报表名称做插入处理
 	 */
 	public void mergeReportNameArea(int startRow, int startCell, int endRow, int endCell,String reportName){
-		sheet.addMergedRegion(new Region(startRow, (short) startCell, endRow,
-				(short) endCell));
+		Region r = new Region(startRow, (short) startCell, endRow,
+				(short) endCell);
+		sheet.addMergedRegion(r);
+		
 
 
 		HSSFFont font = wb.createFont();
@@ -627,12 +875,34 @@ public class GenerExcle {
 		st.setWrapText(true);
 		cell.setCellValue(reportName);
 		cell.setCellStyle(st);
-
+		this.setRegionStyle(sheet, r, st);
 
 
 	}
 	
-
+	private static void fillDataUseList(int max,
+			List<List<String>> queryDataReturnListWithOutMap, GenerExcle ge,
+			int reportId, SectionData sd) {
+		
+	Map<String, Integer> hasCustomCol = ge.getHasCustomCol(reportId,sd.getIsUseDataBaseMegreRule());
+		
+		for(int i =0;i<queryDataReturnListWithOutMap.size();i++){
+			ge.insertRowAfterLastRow();
+			Map<String,Integer> realMove = new HashMap<String, Integer>();
+			realMove.put("point", 0);
+			List<String> _temList = queryDataReturnListWithOutMap.get(i);
+			for(int j = 0;j<_temList.size();j++){
+				
+				// 添加一行数据
+				ge.fillDataS(max, _temList.get(j), j,0,realMove,hasCustomCol,sd);
+				
+			}
+			max+=1;
+			
+		}
+		
+		
+	}
 	private static void fillDataUseList(int max, List<List<String>> queryDataReturnListWithOutMap, GenerExcle ge,int reportId,String isUseDataBaseMegerRule) {
 		Map<String, Integer> hasCustomCol = ge.getHasCustomCol(reportId,isUseDataBaseMegerRule);
 		
@@ -644,7 +914,7 @@ public class GenerExcle {
 			for(int j = 0;j<_temList.size();j++){
 				
 				// 添加一行数据
-				ge.fillDataS(max, _temList.get(j), j,0,realMove,hasCustomCol);
+				ge.fillDataS(max, _temList.get(j), j,0,realMove,hasCustomCol,null);
 				
 			}
 			max+=1;
@@ -679,7 +949,7 @@ public class GenerExcle {
 				
 				for (int i = 0; i < list.size(); i++) {
 					// 添加一行数据
-					ge.fillDataS(max, list.get(i), i,0,realMove,hasCustomCol);
+					ge.fillDataS(max, list.get(i), i,0,realMove,hasCustomCol,null);
 				}
 
 				list.clear();
@@ -760,7 +1030,17 @@ public class GenerExcle {
 	
 	
 	//test
-	private void fillDataS(int max, String com_name, int i,int count,Map<String,Integer> realMoveUp,	Map<String, Integer> hasCustomCol) {
+	private void fillDataS(int max, String com_name, int i,int count,Map<String,Integer> realMoveUp,	Map<String, Integer> hasCustomCol, SectionData sd) {
+		HSSFCellStyle style = this.styleBold;
+		if(sd!=null){
+			if(sd.getDateHasNoBoder()!=null&&!sd.getDateHasNoBoder().equals("")&&sd.getDateHasNoBoder().trim().equals("true")){
+				style = hasNoBoder;
+			}
+			
+			
+		}
+		
+		
 		if(com_name==null){
 			com_name="";
 		}
@@ -770,7 +1050,12 @@ public class GenerExcle {
 			com_name="-999";
 			
 		}
-
+       if(com_name.endsWith("<edit/>")){
+    	   com_name= com_name.replace("<edit/>", "\r");
+       }
+       if(com_name.endsWith("<input/>")){
+    	   com_name= com_name.replace("<input/>", "\b");
+       }
 		//拿到该列的列头信息
 		HSSFRow rowHeader = sheet.getRow(0);
 		String info  = "";
@@ -811,9 +1096,9 @@ public class GenerExcle {
 			row.createCell(realMoveUp.get("point").intValue()+m);
 		}
 		
-		this.setRegionStyle(sheet, region, styleBold);
+		this.setRegionStyle(sheet, region, style);
 		}else{
-			cell.setCellStyle(style2);
+			cell.setCellStyle(style);
 		}
 		//font2.setFontHeightInPoints((short) 9);
 		

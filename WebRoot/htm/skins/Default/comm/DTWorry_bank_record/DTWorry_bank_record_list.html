@@ -69,12 +69,15 @@ function re_setCondition(){
 		document.getElementsByName("$TABLEKEYWORD")[0].value="{$TABLEKEYWORD}";
 		setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');
 }
-function set_stpe(buzhou,id,Currentstep){
+function set_stpe(buzhou,id,Currentstep,totalStep){
 
-	if(Currentstep=='1'&&buzhou=='up'){
-		alert("当前步骤为最前：1");
+	if(Currentstep=='1' && buzhou=='down'){
+		alert("当前步骤为第一步");
+		return;
+	}else if (Currentstep==totalStep && buzhou=='up'){
+		alert("当前步骤为最后一步");
+		return;
 	}
-
 	var submitFlag=true;
 	if(submitFlag){
 		submitFlag=false;
@@ -181,11 +184,16 @@ function set_stpe(buzhou,id,Currentstep){
 	 <td >{Bigtitle}&nbsp;</td>
 	 <td >{Smalltitle}&nbsp;</td>
 	 <td >{Currentstep}&nbsp;</td>
-	 <td ><a href="javascript:void(0)" onclick="set_stpe('up','{recordId}','{Currentstep}');">上一步</a>|
+	 <td id="YC5"><a href="javascript:void(0)" onclick="set_stpe('down','{recordId}','{Currentstep}','{totalStep}');">上一步</a>|
 	 <a href="javascript:void(0)" onclick="qidong_HS('{recordId}');">查看</a>|
-	 <a href="javascript:void(0)" onclick="set_stpe('down','{recordId}','{Currentstep}');">下一步</a></td>
+	 <a href="javascript:void(0)" onclick="set_stpe('up','{recordId}','{Currentstep}','{totalStep}');">下一步</a></td>
 
-   	 
+    <script language="javascript">
+		
+		if('{sNo}'==''){
+			document.getElementById("YC5").innerHTML="&nbsp;";
+		}
+	</script>
 	{row}
 	
   </table>

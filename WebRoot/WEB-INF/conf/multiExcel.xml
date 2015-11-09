@@ -33,4 +33,50 @@
 	</multiExcel>
      <!-- 导入值班表wk 2015/10/16  end -->
 
+
+	<!-- 处置卡  wk 2015/10/29 begin -->
+	<multiExcel excelName = "DTWorry_bank" excelTitle="处置卡" titleCoordinate="0,0" beginCoordinate="0,6" paramUrl="">
+		<excelFields excelMainfields="Bigtitle|1|2|yy,Smalltitle|1|3|yy">
+		</excelFields>
+
+		<mainTable mainTableName="DTWorry_bank_main" mainFields="Bigtitle,Smalltitle" conditionMainFields="Bigtitle,Smalltitle">
+		</mainTable>
+
+		<subTable subTableName="DTWorry_bank_sub" subFields="Dispatch,StepContent" mrFields="" dateFields="" intFields="" doubleFields="" >
+		</subTable>	
+	</multiExcel>
+     <!-- 处置卡 2015/10/29  end -->
+
+
+
+	<!-- 导入生产计划  WZ 2015/11/04 begin -->
+	<multiExcel excelName = "DTPlan_produce_cj" excelTitle="" titleCoordinate="0,0" beginCoordinate="1,4" paramUrl="">
+		<excelFields excelMainfields="Title|0|0|yy,yearAndMonth|2|2|yy">
+		</excelFields>
+
+		<mainTable mainTableName="DTPlan_produce_cj_main" mainFields="Title,yearAndMonth" conditionMainFields="Title,yearAndMonth">
+		</mainTable>
+
+		<subTable subTableName="DTPlan_produce_cj_sub" subFields="Company,FaceName,Basicplan,Coalwas,Remarks" mrFields="1,3" dateFields="" intFields="" doubleFields="3" >
+		</subTable>	
+		<afterSql execAfterPar="$main_id"><![CDATA[update DTPlan_produce_cj_sub set FaceName = dbo.f_field_option_FaceName(FaceName) where main_id = '$main_id']]></afterSql>
+	</multiExcel>
+     <!-- 导入生产计划WZ 2015/11/04  end -->
+
+
+	 <!-- 导入掘进计划  WZ 2015/11/04 begin -->
+	<multiExcel excelName = "DTPlan_ktht_cj" excelTitle="" titleCoordinate="0,0" beginCoordinate="1,4" paramUrl="">
+		<excelFields excelMainfields="Title|0|0|yy,yearAndMonth|1|2|yy,Remar|6|2|yy">
+		</excelFields>
+
+		<mainTable mainTableName="DTPlan_ktht_cj_main" mainFields="Title,yearAndMonth,Remar" conditionMainFields="Title,yearAndMonth,Remar">
+		</mainTable>
+
+		<subTable subTableName="DTPlan_ktht_cj_sub" subFields="Company,Unit,FaceName,category,Specifications,Netsection,Supporting,Basicplan,Coalwas,Remarks" mrFields="" dateFields="" intFields="" doubleFields="" >
+		</subTable>	
+
+		<afterSql execAfterPar="$main_id"><![CDATA[exec [porc_DTPlan_ktht_cj] '$main_id']]></afterSql>
+	</multiExcel>
+     <!-- 导入掘进计划  2015/11/04  end -->
+
 </multiExcels>

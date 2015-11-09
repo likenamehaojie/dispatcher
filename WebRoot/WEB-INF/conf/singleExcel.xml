@@ -50,9 +50,10 @@
     <!-- 科室成员基本信息维护 2015/10/20  end --> 
 
 		<!-- 事故影响记录导入  wk 2015/10/21 begin -->
-	<singleExcel excelName = "DTAcc_record" excelTitle="事故影响记录表" titleCoordinate="0,0" beginCoordinate="0,2" >
-		<table tableName="DTAcc_record" fields="AccidentCharacter,AccidentType,AccidentSite,startTime,endTime,timeLength,RBranch,AccidentDescription,remark" excelFields="" defaultFields="" conditionFields="COMMUNITYID|$COMMUNITYID"   mrFields="" dateFields="3,4" intFields="" doubleFields="" filterOPTFields="" >
+	<singleExcel excelName = "DTAcc_record" excelTitle="事故影响记录表" titleCoordinate="0,0" beginCoordinate="0,3" >
+		<table tableName="DTAcc_record" fields="AccidentCharacter,AccidentType,AccidentSite,startTime,endTime,RBranch,AccidentDescription,remark" excelFields="" defaultFields="exceln|1" conditionFields="COMMUNITYID|$COMMUNITYID"   mrFields="" dateFields="3,4" intFields="" doubleFields="" filterOPTFields="" >
 		</table>
+		<afterSql afterSqlPar="$COMMUNITYID"><![CDATA[exec PROC_DTAcc_record_ini '$COMMUNITYID']]></afterSql>
 	</singleExcel>
     <!-- 事故影响记录导入 2015/10/21  end --> 
 
@@ -62,4 +63,18 @@
 		</table>
 	</singleExcel>
     <!-- 调度人员档案表导入 2015/10/28  end --> 
+
+	<!-- 城郊矿值班表导入  wk 2015/11/4 begin -->
+	<singleExcel excelName = "DTDuty_zbb_cj" excelTitle="城郊矿值班表" titleCoordinate="0,0" beginCoordinate="0,3" >
+		<table tableName="DTDuty_zbb_cj" fields="dateone,zbone,datetwo,zbtwo,datethree,zbthree" excelFields="" defaultFields="" conditionFields="COMMUNITYID|$COMMUNITYID"   mrFields="0,1" dateFields="0,2,4" intFields="" doubleFields="" filterOPTFields="" >
+		</table>	
+	</singleExcel>
+    <!-- 城郊矿值班表导入wk 2015/11/4  end --> 
+
+		<!-- 城郊矿带班表  wk 2015/11/4 begin -->
+	<singleExcel excelName = "DTDuty_dbb_cj" excelTitle="城郊矿带班表" titleCoordinate="0,0" beginCoordinate="0,4" >
+		<table tableName="DTDuty_dbb_cj" fields="dateone,ldb,bdb,sldb,datetwo,ldbt,bdbt,sldbt" excelFields="" defaultFields="" conditionFields="COMMUNITYID|$COMMUNITYID"   mrFields="0" dateFields="0,4" intFields="" doubleFields="" filterOPTFields="" >
+		</table>	
+	</singleExcel>
+    <!-- 城郊矿带班表wk 2015/11/4  end --> 
 </singleExcels>

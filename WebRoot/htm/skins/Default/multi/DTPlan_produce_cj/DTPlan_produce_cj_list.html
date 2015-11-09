@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+
+	<!--多选搜索 1 begin-->
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery-ui.css" />
+	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
+	<script type="text/javascript" src="js/table/jquery.tableui.js"></script>
+	
+	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
+	<!--多选搜索 1 end-->
+
+	<!--日期控件 begin-->
+	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+	<!--日期控件 end-->
+	
+	<script src="/js/ajax/superValidator.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/map.js"></script>
+	<script src="/js/ajax/mainSub.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+
+	
+
+	 <!--记忆搜索条件  第一步：引用cookie -->
+	<script src="/js/cookie.js"></script>
+
+	<script type="text/javascript" src="js/titleInfo.js"></script>
+</head>
+
+
+  <script>
+$(document).ready(function(){
+
+	if('{$combName}' =='查看'){
+		$('#YC8').css('display','none');
+	
+	}
+
+	//初始化上下左右
+	//iniFocus();
+	LoadOrder("{OrderKey}","{OrderBy}");
+
+	//记忆搜索条件  第六步：取cookie 解析cookie
+	iniCookie('{tableName}','{ITNO}','{$USERID}');
+	//初始化多选菜单
+	iniMultOptions('{tableName}','{ITNO}','{$USERID}');
+
+	
+	
+	
+});
+
+function excelIport(){ //excel导入
+   var certificate=document.getElementsByName('certificate')[0].value;
+   
+	if (certificate==''){
+		alert('请添加EXCEL附件');
+	}else{
+		
+		document.form1.action="/excelImportMultiDoServlet?action=excelImport&excelName=DTPlan_produce_cj&tableName=DTPlan_produce_cj_main&CDNO=$BO&ITNO=450&$TABLEKEYWORD=$450";
+		document.form1.encoding="multipart/form-data";
+		document.form1.submit();
+ 
+	}
+}
+
+
+function add_open(){
+	
+	var xpwidth=window.screen.width-50;
+	var xpheight=window.screen.height-350;
+	window.open("/generictableservlet?action=addRecord&ITNO={ITNO}&tableName={tableName}&$TABLEKEYWORD={$TABLEKEYWORD}" ,"FullScreen",'')
+	
+}
+function  edit(recordId){
+	var xpwidth=window.screen.width-10;
+	var xpheight=window.screen.height-35;
+	window.open("/generictableservlet?action=editRecord&recordId="+recordId+"&curPage={curPage}&tableName={tableName}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}" ,"FullScreen",'')
+} 
+
+function re_setCondition(){
+		document.getElementsByName("$TABLEKEYWORD")[0].value="{$TABLEKEYWORD}";
+		setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');
+}
+</script>
+
+  <form name="form1" action="" method="post">
+    <input type="hidden" name="tableName" value="{tableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" name="actorCount" value="{actorCount}">
+
+	<input type="hidden" name="OrderBy" value="{OrderBy}">	
+	<input type="hidden" name="OrderKey" value="{OrderKey}">
+
+	<input type="hidden" name="clickValue" value="N1">
+	<input type="hidden" name="firstUrl" value="null">
+	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+	<input type="hidden" name="field1" value="yearandmonth|年月|TXT|50|">
+	<input type="hidden" name="field2" value="Title|标题|TXT|50|">
+
+	<input name="dblclick" type="hidden" value="" /><!--已上报禁止双击编辑-->	
+
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 列表页面</div>
+  </div>
+
+		<!--多选搜索 4 begin-->
+		<div class="line_list_mulitSelect" style="display:none">
+			<select name="selSetCon" multiple="multiple">
+				<option value="1">年月</option>
+				<option value="2">标题</option>
+			</select>
+		</div>
+		
+		
+		<!--多选搜索 4 end-->
+	 <div class="line_list_left">
+		 <ul id="ul_search">
+			<li id="li_search1">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="1">&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;月 ：
+				<input name="yearandmonth" onchange="checkChange(this,'1')" class="input_txt" style = "width:220px;" onclick="WdatePicker({dateFmt:'yyyy年MM月'})"/>
+			</li>
+			
+
+			<li id="li_search2">
+				&nbsp;
+				
+				<input type="checkbox" name="f_id" value="2">&nbsp;标题：
+				<input name="Title" onchange="checkChange(this,'2')" class="input_txt" style = "width:220px;"/>
+				
+			</li>
+			
+			
+			<li id="li_search_btn">
+				&nbsp;
+				<input type="button"  value="查询" class="btn" onClick="re_setCondition();"/>
+			<!-- 	<input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','421',' 开掘巷探计划表');"/> -->
+			</li>
+		</ul>
+	</div>
+
+	<div id="YC8" class="line_list">
+   <li id="YC5" >{dellAll}</li>
+	<li  id="YC1">{addshow}</li>
+	<li id="sendMany_liId" class="pian"  style="margin-left:60%" >EXCEL导入:&nbsp;&nbsp;<input type="file" style="width:200px;" name="certificate" size="20">
+		   <input type="button" style="width:50px;" name="excel" class="btn" onClick="excelIport()" value="导入">
+		   <input type="submit" style="width:60px;" name="getTem" class="btn" value="下载模版" onClick="window.open('/downloadAppServlet?&amp;ITNO={ITNO}&amp;docName=htm\\excelTemplateDown&amp;fName=生产计划.xls','_blank','left=160,width=700,height=630,toolbar=no, menubar=no,resizable=yes,scrollbars=yes')" >
+		   <font color="red"></font></li>
+        </div>
+<div class="a_box">
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table" >
+    <thead>
+      <tr  >
+	    <th width="2%"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
+		<th  >年月</th> 
+        <th >标题</th>
+        <th id='YC4' >操作</th>
+      </tr>
+    </thead>
+	{row}
+	
+	<TR style="BACKGROUND-COLOR: #fafbfd" id=1 align=middle bgColor=#fafbfd  	onmouseout={this.style.backgroundColor='#FAFBFD';}; onmouseover= {this.style.backgroundColor='#EEF1F8';};>
+
+	 <td>{id}&nbsp;</td>
+	 <td><a href="/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTPlan_produce_cj&recordId={recordId}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}" target="_blank">{yearandmonth}</a></td>
+	 <td >{Title}&nbsp;</td>
+	 <td id="YC{sNo}">{edit}{dell}</td>
+	</tr>
+<script>
+		if('{sNo}'==''){
+		
+		document.getElementById("YC{sNo}").innerHTML = "&nbsp;";
+		
+		}
+
+
+</script>
+
+
+	{row}
+	
+  </table>
+  <table width="100%">
+	<tr>
+     {page}
+    </tr>
+   
+  </table>
+
+</div>
+</form>
+</body>
+</html>

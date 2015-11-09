@@ -40,15 +40,18 @@ function AddRow(map,addType){
 		if(document.getElementsByName("titleCount")[0]){
 			i=document.getElementsByName("titleCount")[0].value;
 		}
-		
+
 	}else{
-		i = document.getElementById("actor_table").rows.length; 
+		i = document.getElementById("actor_table").rows.length;
+		
 	}
+		
 	if(sys_j==0){
 		sys_j=i;
 	}else{
 		sys_j++;
 	} 
+
 	var objNewRow = document.getElementById("actor_table").insertRow(i); 
 	objNewRow.id = sys_j;
 	objNewRow.setAttribute("align","center");
@@ -627,10 +630,20 @@ function OperateForRealValue(btnArray,dblShow){
 
 //隐藏最后一列
 function hideLastCol(tableId){
-	var lastVal=$("#"+tableId+" tr:eq(1)").find("td:last").html();
+	var titleCount=1;//标题的行数
+	if(document.getElementsByName("titleCount")[0]){
+		titleCount=document.getElementsByName("titleCount")[0].value;
+	}
+
+	var lastVal=$("#"+tableId+" tr:eq("+titleCount+")").find("td:last").html();
 
 	if(lastVal==''){
-		$("#"+tableId+" thead tr").find('th:last').hide();
+		//当标题行数>1 的时候  只隐藏标题的第一行
+		if(titleCount>1)
+			$("#"+tableId+" thead tr:eq(0)").find('th:last').hide();
+		else
+			$("#"+tableId+" thead tr").find('th:last').hide();
+
 		$("#"+tableId+" tr").find('td:last').hide();
 	}
 }

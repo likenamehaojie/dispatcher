@@ -68,10 +68,9 @@
 	<!-- 四大体系 应急救援 矿-->
 	<condition name="$DTRecord_file" ><![CDATA[ where worry_type='$TABLEKEYWORD2' and communityId='$COMMUNITYID']]></condition>
 	<!-- 支架安装回撤记录及台账 -->
-	<condition name="$azhc" ><![CDATA[ where communityId='$COMMUNITYID' and azhctype='$TABLEKEYWORD3' and isUpload=1]]></condition>
-    <condition name="$azhc_branch" ><![CDATA[ where  azhctype='$TABLEKEYWORD3' and workGroupId='$WORKGROUPID' and (('$TABLEKEYWORD4'='已上报' and isUpload=1) or ('$TABLEKEYWORD4'='未上报' and isUpload=0)) ]]></condition>
+	<condition name="$azhc" ><![CDATA[ where communityId='$COMMUNITYID' and azhctype like '%'+replace('$TABLEKEYWORD3','全部','')+'%' and isUpload=1]]></condition>
+    <condition name="$azhc_branch" ><![CDATA[ where  azhctype like '%'+replace('$TABLEKEYWORD3','全部','')+'%' and workGroupId='$WORKGROUPID' and (('$TABLEKEYWORD4'='已上报' and isUpload=1) or ('$TABLEKEYWORD4'='未上报' and isUpload=0)) ]]></condition>
 	
- 	
   	<!-- 生产计划 -->
 	<condition name = "$DTPlan_produce_main"><![CDATA[ where communityId='$COMMUNITYID']]></condition>
 	<!-- 底抽底板 -->
@@ -84,7 +83,7 @@
 
 
 	<!-- 早调会会议调用——待办 -->
-	<condition name="$db" ><![CDATA[where ((step='1' and next_step='2' and workGroupId='$WORKGROUPID') or exists(select id from wf_pendingrequest_444 where table_name='DTBank_meeting_task' and DTBank_meeting_task.id=wf_pendingrequest_444.record_id and ((user_type='USER' and next_user='$USERID' and next_user_community='$SHORTNAME') or (user_type='ROLE' and next_user=(select role_name from admin_role where role_ad_id='$ROLEID') and next_user_community='$SHORTNAME') or (user_type='BRANCH' and next_user='$WORKGROUPID' and next_user_community='$SHORTNAME')))) and Meetingid='$TABLEKEYWORD3'  ]]></condition>
+	<condition name="$db" ><![CDATA[where ((step='1' and next_step='2' and workGroupId='$WORKGROUPID') or exists(select id from wf_pendingrequest_$COMMUNITYID where table_name='DTBank_meeting_task' and DTBank_meeting_task.id=wf_pendingrequest_$COMMUNITYID.record_id and ((user_type='USER' and next_user='$USERID' and next_user_community='$SHORTNAME') or (user_type='ROLE' and next_user=(select role_name from admin_role where role_ad_id='$ROLEID') and next_user_community='$SHORTNAME') or (user_type='BRANCH' and next_user='$WORKGROUPID' and next_user_community='$SHORTNAME')))) and Meetingid='$TABLEKEYWORD3'  ]]></condition>
 
 	<!-- 早调会会议调用——已处理 -->
 	<condition name="$ycl" ><![CDATA[where step!='end' and  exists(select id from wf_DTBank_meeting_task where DTBank_meeting_task.id=wf_DTBank_meeting_task.record_id and wf_DTBank_meeting_task.Created_by='$USERID')]]></condition>

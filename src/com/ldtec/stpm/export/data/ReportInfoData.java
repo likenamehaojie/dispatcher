@@ -8,7 +8,25 @@ public class ReportInfoData {
 	private String templatePath= "";
 	private String filedList = "";
 	private String isMegreDisplay = "";//是否合并后显示
+	private String canFillReport = "";
+	private String tableName = "";
 	
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
+
+	public String getCanFillReport() {
+		return canFillReport;
+	}
+
+	public void setCanFillReport(String canFillReport) {
+		this.canFillReport = canFillReport;
+	}
+
 	public void setIsMegreDisplay(String isMegreDisplay){
 		this.isMegreDisplay = isMegreDisplay;
 	}

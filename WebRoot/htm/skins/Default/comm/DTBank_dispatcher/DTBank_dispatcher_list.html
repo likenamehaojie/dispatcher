@@ -45,15 +45,7 @@
   <script>
 $(document).ready(function(){
 
-	/*<li id="sendMany_liId" class="pian"  style="margin-left:60%" >EXCEL导入:&nbsp;&nbsp;<input type="file" style="width:200px;" name="certificate" size="20">
-		   <input type="button" style="width:50px;" name="excel" class="btn" onClick="excelIport()" value="导入">
-		   <input type="submit" style="width:60px;" name="getTem" class="btn" value="下载模版" onClick="window.open('/downloadAppServlet?&amp;ITNO={ITNO}&amp;docName=htm\\excelTemplateDown&amp;fName=调度人员档案表.xls','_blank','left=160,width=700,height=630,toolbar=no, menubar=no,resizable=yes,scrollbars=yes')" >
-		   <font color="red"></font>
-		   </li>
-			<input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','347',' 调度人员档案表');"/>
-
-		   </li>
-*/
+// <li><a href="#" onclick="add_open();" ><span><img src="images/index/listAdd.gif"   class="f_l"/></span><span class="f_l">添加</span></a></li>
 	//如果操作列没有权限  隐藏操作列
 	hideLastCol('actor_table');
 
@@ -69,19 +61,6 @@ $(document).ready(function(){
 
 	
 });
-
-function excelIport(){ //excel导入
-   var certificate=document.getElementsByName('certificate')[0].value;
-	if (certificate==''){
-		alert('请添加EXCEL附件');
-	}else{
-		
-		document.form1.action="/excelImportSingleDoServlet?action=excelImport&excelName=DTBank_dispatcher&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}";
-		document.form1.encoding="multipart/form-data";
-		document.form1.submit();
-
-	}
-}
 
 function add_open(){
 	
@@ -122,10 +101,8 @@ function re_setCondition(){
 
 	<input name="dblclick" type="hidden" value="" /><!--已上报禁止双击编辑-->	
 	<input type="hidden" name="field1" value="name|姓名|TXT|50|">
-	<input type="hidden" name="field2" value="sex|性别|OPT|50|">
 	<input type="hidden" name="field3" value="Cid|身份证号|TXT|50|">
-	<input type="hidden" name="field4" value="Place|籍贯|TXT|50|">
-	<input type="hidden" name="field5" value="BirthDate|出生时间|DAT|50|">
+
 
 <div id="top">
    <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1}</strong></span></div>
@@ -136,10 +113,9 @@ function re_setCondition(){
 		<div class="line_list_mulitSelect" style="display:none">
 			<select name="selSetCon" multiple="multiple">
 				<option value="1">姓名</option>
-				<option value="2">性别</option>
 				<option value="3">身份证号</option>
-				<option value="4">籍贯</option>
-				<option value="5">出生时间</option>
+
+>
 
 			</select>
 		</div>
@@ -154,27 +130,13 @@ function re_setCondition(){
 				<input name="name" onkeyup="checkChange(this,'1')" class="input_txt" style="width:156px;"/>
 			</li>
 			
-
-			<li id="li_search2">
-				&nbsp;
-				<input type="checkbox" name="f_id" value="2">&nbsp;性别：<select name="sex" onchange="checkChange(this,'2')"><option value="">--请选择--</option><option value="男">男</option><option value="女">女</option></select>
-				
-			</li>
 			<li id="li_search3">
 				&nbsp;
 				<input type="checkbox" name="f_id" value="3">&nbsp;身份证号：
 				<input name="Cid" onkeyup="checkChange(this,'3')" class="input_txt"/>
 			</li>
-			<li id="li_search4">
-				&nbsp;
-				<input type="checkbox" name="f_id" value="4">&nbsp;籍贯：
-				<input name="Place" onkeyup="checkChange(this,'4')" class="input_txt"/>
-			</li>
-			 <li id="li_search5">
-				&nbsp;
-				<input type="checkbox" name="f_id" value="5">&nbsp;出生时间：
-				<input name="BirthDate_start" style="width:70px;" onchange="checkChange(this,'5')"  class="input_txt" onclick="WdatePicker()"/>至<input name="BirthDate_end" style="width:70px;" onchange="checkChange(this,'5')" class="input_txt" onclick="WdatePicker()"/>
-			</li>
+
+	
 			<li id="li_search_btn">
 				&nbsp;
 				<input type="button"  value="查询" class="btn" onClick="re_setCondition();"/>
@@ -186,8 +148,8 @@ function re_setCondition(){
 	
      <div class="line_list" id="YC">
   	      <li>{delmanyshow}</li>
-		 <li><a href="#" onclick="add_open();" ><span><img src="images/index/listAdd.gif"   class="f_l"/></span><span class="f_l">添加</span></a></li>
-			
+		  <li>{addshow}</li>
+		
      </div>
 
 <div class="a_box">
@@ -197,19 +159,11 @@ function re_setCondition(){
 	    <th width="2%"><input type="checkbox" name="recordId" value="checkbox" onClick="selectAllBranch(form1);"></th>
 		<th width="5%">姓名</th> 
         <th width="5%" style="cursor:hand;" onClick="orderByInfo_new('sex','{OrderKey}','{OrderBy}')">性别<span id="workGroupNameOrder" class="orderNo"></span></th>
-		<th width="5%" id="YC1" style="cursor:hand;" onClick="orderByInfo_new('BirthDate','{OrderKey}','{OrderBy}')">出生日期<span id="rangeOrder" class="orderNo"></span></th>	
-        <th width="5%" style="cursor:hand;" onClick="orderByInfo_new('Nation','{OrderKey}','{OrderBy}')">民族<span id="dispatching_typeOrder" class="orderNo"></span></th>
-		<th width="5%">出生地址</th>
-		<th width="5%" style="cursor:hand;" onClick="orderByInfo_new('Place','{OrderKey}','{OrderBy}')">籍贯<span id="date_created_typeOrder" class="orderNo"></span></th>
-		<th width="5%">入党时间</th>
-		<th width="5%">参加工作时间</th>
-		<th width="5%">入职时间</th>
-		<th width="5%">工作性质</th>
-		<th width="5%">健康情况</th>
-		<th width="8%">家庭地址</th>
+		<th width="5%">工龄</th>
+	
+
 		<th width="10%">身份证</th>
-		<th width="7%">手机号码</th>
-		<th width="10%">附件</>
+		<th width="10%"   align="center">附件</th>
         <th id='YC4' width="8%">操作</th>
 
       </tr>
@@ -218,21 +172,12 @@ function re_setCondition(){
 	<TR style="BACKGROUND-COLOR: #fafbfd" id=1 align=middle bgColor=#fafbfd  	onmouseout={this.style.backgroundColor='#FAFBFD';}; onmouseover= {this.style.backgroundColor='#EEF1F8';};>
 
 	 <td >{id}&nbsp;</td>
-	 <td><a href="/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTBank_dispatcher_resume&recordId={recordId}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}" target="_blank">{name}&nbsp;</td>
+	 <td>{name}&nbsp;</td>
 	 <td >{sex}&nbsp;</td>
-	 <td >{BirthDate}&nbsp;</td>
-	 <td >{Nation}&nbsp;</td>
-	 <td >{Addres}&nbsp;</td>
-	 <td >{Place}&nbsp;</td>
-   	 <td >{partyDate}&nbsp;</td>
+
 	 <td >{workDate}&nbsp;</td>
-	 <td >{EntryDate}&nbsp;</td>
-	 <td >{Nature}&nbsp;</td>
-	 <td >{Healthy}&nbsp;</td>
-	 <td >{Family}&nbsp;</td>
 	 <td >{Cid}&nbsp;</td>
-	 <td >{phone}</td>
-	 <td id="realFileName{sNo}">{realFileName}</td>
+	 <td id="realFileName{sNo}" align="center">{realFileName}&nbsp;</td>
 
 
 

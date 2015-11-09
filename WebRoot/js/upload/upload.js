@@ -1,7 +1,7 @@
 
 document.write("<script type='text/javascript' src='/dwr/engine.js'></script>"); 
 document.write("<script type='text/javascript' src='/dwr/interface/JDelFile.js'></script>"); 
-document.write('<script type="text/javascript" src="js/main/jquery-1.8.1.min.js"></script>'); 
+document.write('<script type="text/javascript" src="js/layer/jquery.js"></script>'); 
 document.write('<script src="js/layer/layer.min.js"></script>'); 
 
 

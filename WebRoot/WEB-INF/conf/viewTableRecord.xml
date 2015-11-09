@@ -63,8 +63,18 @@
 	 <!-- 带班表 -->
 	  <table tableName="DTDuty_dbb_ks" attList="" rowName="row_dbb"  fields="AzdbA,AzdbB,AfdbA,MzdbA,MzdbB,MfdbA,EzdbA,EzdbB,EfdbA,yearAndMonth"><![CDATA[select AzdbA, AzdbB, AfdbA, MzdbA, MzdbB, MfdbA, EzdbA, EzdbB, EfdbA, (case yearAndMonth when CONVERT(nvarchar(10),GETDATE(),120) then yearAndMonth+'<font color="red">(今天)</font>' else yearAndMonth end) as yearAndMonth from dbo.DTDuty_dbb_ks where communityId='$COMMUNITYID' and DATEDIFF(DD,GETDATE(),yearAndMonth)>=-1 and DATEDIFF(DD,GETDATE(),yearAndMonth)<=1 order by yearAndMonth]]></table> 
 
+	 <!-- 带班表 城郊 -->
+	  <table tableName="DTDuty_dbb_cj" attList="" rowName="row_dbb_cj"  fields="zdate,ldb,bdb,sldb"><![CDATA[select (case dateone when CONVERT(nvarchar(10),GETDATE(),120) then '<font color="red">(今天)</font>' else dateone end) as zdate,ldb,bdb,sldb from dbo.[f_DTDuty_dbb_cj_toNormal]('$COMMUNITYID') order by dateone]]></table> 
+
+
+
 	<!-- 值班表 -->
 	  <table tableName="DTDuty_zbb_sub" attList="" rowName="row_zbb"  fields="tDate,zzb,kldfzb,ksfzb"><![CDATA[select (case tDate when CONVERT(nvarchar(10),GETDATE(),120) then tDate+'<font color="red">(今天)</font>' else tDate end) as tDate, zzb, kldfzb, ksfzb from dbo.DTDuty_zbb_sub where main_id in(select id from DTDuty_zbb_main where communityId='$COMMUNITYID') and DATEDIFF(DD,GETDATE(),tDate)>=-1 and DATEDIFF(DD,GETDATE(),tDate)<=1 order by tDate]]></table> 
+
+
+	  <!-- 值班表 城郊 -->
+	  <table tableName="DTDuty_zbb_cj" attList="" rowName="row_zbb_cj"  fields="dateone,zbone,datetwo,zbtwo,datethree,zbthree"><![CDATA[select dateone,zbone,datetwo,zbtwo,datethree,zbthree from DTDuty_zbb_cj where
+communityId='$COMMUNITYID' and ((DATEDIFF(DD,GETDATE(),dateone)>=-3 and DATEDIFF(DD,GETDATE(),dateone)<=3) or (DATEDIFF(DD,GETDATE(),datethree)>=-3 and DATEDIFF(DD,GETDATE(),datethree)<=3)) order by dateone]]></table> 
 
 	<!-- 生产日报 -->
 	  <table tableName="DTRecord" attList="" rowName="row_record"  fields="workDes,dateDes,date_created"><![CDATA[exec proc_DTRecord_view '$COMMUNITYID']]></table> 
@@ -193,8 +203,8 @@
 
 	<!--早调会会议纪要2015/10/08-->
 	<viewTableRecordTemplate tid="DTBank_meeting_task" singleness="skins\Default\comm\DTBank_meeting_task/DTBank_meeting_task_list.html">
-	  <table tableName="DTBank_meeting_task" attList="" rowName=""  fields="id,Meetingid,Leader,Leader_str,ArrangeWork,ResponsibilityId,ResponsibilityName,wf_status">
-	  <![CDATA[select id,Meetingid,Leader,dbo.f_field_option_Leader(Leader) as Leader_str,ArrangeWork,ResponsibilityId,ResponsibilityName,wf_status from DTBank_meeting_task where id='$RECORDID']]></table>
+	  <table tableName="DTBank_meeting_task" attList="" rowName=""  fields="id,Meetingid,Leader,ArrangeWork,ResponsibilityId,ResponsibilityName,wf_status">
+	  <![CDATA[select id,Meetingid,Leader,ArrangeWork,ResponsibilityId,ResponsibilityName,wf_status from DTBank_meeting_task where id='$RECORDID']]></table>
 
 	  <table tableName="" attList="" rowName="wf" fields="id,realName,create_time,content,processStatus,created_by"><![CDATA[select w.id,w.realName,CONVERT(varchar(16),w.create_time,120) as create_time,w.content,w.processStatus,w.created_by from wf_DTBank_meeting_task w,DTBank_meeting_task t where w.record_id=t.id and t.id='$RECORDID'  order by w.id]]></table>
 
@@ -203,8 +213,8 @@
 
 	<!--早调会会议纪要2015/10/08-->
 	<viewTableRecordTemplate tid="DTBank_meeting_task1" singleness="skins\Default\comm\DTBank_meeting_task/DTBank_meeting_task_list1.html">
-	  <table tableName="DTBank_meeting_task" attList="" rowName=""  fields="id,Meetingid,Leader,Leader_str,ArrangeWork,ResponsibilityId,ResponsibilityName,wf_status">
-	  <![CDATA[select id,Meetingid,Leader,dbo.f_field_option_Leader(Leader) as Leader_str,ArrangeWork,ResponsibilityId,ResponsibilityName,wf_status from DTBank_meeting_task where id='$RECORDID']]></table>
+	  <table tableName="DTBank_meeting_task" attList="" rowName=""  fields="id,Meetingid,Leader,ArrangeWork,ResponsibilityId,ResponsibilityName,wf_status">
+	  <![CDATA[select id,Meetingid,Leader,ArrangeWork,ResponsibilityId,ResponsibilityName,wf_status from DTBank_meeting_task where id='$RECORDID']]></table>
 	
 
 	  <table tableName="" attList="" rowName="wf" fields="id,realName,create_time,content,processStatus,created_by"><![CDATA[select w.id,w.realName,CONVERT(varchar(16),w.create_time,120) as create_time,w.content,w.processStatus,w.created_by from wf_DTBank_meeting_task w,DTBank_meeting_task t where w.record_id=t.id and t.id='$RECORDID'  order by w.id]]></table>
@@ -217,7 +227,7 @@
 	<!--打钻异常情况台账 2015/09/29-->
 	<viewTableRecordTemplate tid="DTRecord_cfd" downFileTitle="打钻异常台账表" singleness="skins\Default\comm\DTTaizhang_abnormal\DTTaizhang_abnormal_list.html">
 	  <table tableName="DTRecord_cfd" attList="" rowName="row"  fields="id,workPlace,Shift,BirthDate,Exceptions,created_by,Exceptionsstring">
-	  <![CDATA[select id,workPlace,Shift,BirthDate,Exceptions,dbo.getShortFieldIfLong(Exceptions,40) as Exceptionsstring,(select realname from admin where id=451 and communityId=444) AS created_by from DTRecord_cfd where communityId='$COMMUNITYID' and BirthDate=(case '$KEYWORD1' when '当前日' then convert(nvarchar(10),getdate(),120) else '$KEYWORD1' end) AND Exceptions IS  NOT NULL and  Exceptions!='' ]]></table>
+	  <![CDATA[select id,workPlace,Shift,BirthDate,Exceptions,dbo.getShortFieldIfLong(Exceptions,40) as Exceptionsstring,dbo.f_field_opcreate_realname(created_by) AS created_by from DTRecord_cfd where communityId='$COMMUNITYID' and BirthDate=(case '$KEYWORD1' when '当前日' then convert(nvarchar(10),getdate(),120) else '$KEYWORD1' end) AND Exceptions IS  NOT NULL and  Exceptions!='' ]]></table>
 	   <table tableName="DTRecord_cfd" attList="" rowName="" fields="dattime"><![CDATA[select  (case '$KEYWORD1' when '当前日' then convert(nvarchar(10),getdate(),120) else '$KEYWORD1' end) as dattime]]></table>
 	</viewTableRecordTemplate>
 	<!--打钻异常情况台账 2015/09/29-->
@@ -242,14 +252,27 @@
 	<!--月度生产计划完成情况 2015/10/8-->
 
 
-	<!--基本档案2015/10/08-->
+
+	<!--月度生产计划完成情况 2015/10/12-->
+	<viewTableRecordTemplate tid="DTTaizhang_rj_sj"  downFileTitle="$KEYWORD1入井升井台帐"
+	singleness="skins\Default\comm\DTTaizhang_rj_sj\DTTaizhang_rj_sj_list.html"> 
+		<table tableName="" attList="" rowName="" fields="curDay"><![CDATA[select (case '$KEYWORD1' when '当前日' then CONVERT(nvarchar(10),getdate(),120) else '$KEYWORD1' end) as curDay]]></table>
+	    <table tableName="" attList="" rowName="row" fields="id,branch1,branch2,branch3,rjNum1,sjNum1,rjNum2,sjNum2,rjNum3,sjNum3"><![CDATA[exec proc_DTTaizhang_getRjNum_sjNumByDay '$COMMUNITYID', '$KEYWORD1']]></table>
+	 </viewTableRecordTemplate>
+	<!--月度生产计划完成情况 2015/10/8-->
+	
+
+
+
+    <!--
+	<基本档案2015/10/08>
 	<viewTableRecordTemplate tid="DTBank_dispatcher_resume" singleness="skins\Default\comm\DTBank_dispatcher\DTBank_dispatcher_resume.html">
 	  <table tableName="DTBank_dispatcher" attList="" rowName=""  fields="name,cid">
 	  <![CDATA[select name,cid from DTBank_dispatcher where id='$RECORDID']]></table>
 	  <table tableName="" attList="" rowName="row" fields="id,Startdate,Enddate,Workunit,Postoffice,Witnes"><![CDATA[ select id,Startdate,Enddate,Workunit,Postoffice,Witnes from DTBank_dispatcher_resume where dispid='$RECORDID' ]]></table>
 	</viewTableRecordTemplate>
-	<!--基本档案2015/10/08-->
-
+	<基本档案>
+    -->
 	
 	<!--应急处置卡2015/10/18-->
 	<viewTableRecordTemplate tid="DTWorry_bank_main_sub" singleness="skins\Default\comm\DTWorry_bank\DTWorry_bank_view.html">
@@ -257,7 +280,7 @@
 	  <![CDATA[select id,Bigtitle,Smalltitle from DTWorry_bank_main where id='$RECORDID']]></table>
 	
 
-	  <table tableName="DTWorry_bank_sub" attList="" rowName="row" fields="id,sub_id,Dispatch,Step,StepContent"><![CDATA[ select id,id as sub_id,Dispatch,Step,StepContent from DTWorry_bank_sub where main_id='$RECORDID' ]]></table>
+	  <table tableName="DTWorry_bank_sub" attList="" rowName="row" fields="id,sub_id,Dispatch,flag,StepContent"><![CDATA[ select id,id as sub_id,Dispatch,flag,StepContent from DTWorry_bank_sub where main_id='$RECORDID' ]]></table>
 
 	</viewTableRecordTemplate>
 	<!--应急处置卡2015/10/08-->
@@ -279,7 +302,7 @@
 	  <table tableName="DTWorry_bank_record_main" attList="" rowName=""  fields="id,Bigtitle,Smalltitle,Currentstep">
 	  <![CDATA[select id,Bigtitle,Smalltitle,Currentstep from DTWorry_bank_record_main ]]></table>
 
-	  <table tableName="DTWorry_bank_record_sub" attList="" rowName="row" fields="id,sub_id,main_id,Step,StepContent,Dispatch,Sending"><![CDATA[ select id,id as sub_id,main_id,Step,StepContent,Dispatch,Sending from DTWorry_bank_record_sub where main_id='$RECORDID' ]]></table>
+	  <table tableName="DTWorry_bank_record_sub" attList="" rowName="row" fields="id,sub_id,main_id,flag,StepContent,Dispatch,Sending"><![CDATA[ select id,id as sub_id,main_id,flag,StepContent,Dispatch,Sending from DTWorry_bank_record_sub where main_id='$RECORDID' ]]></table>
 	
 	</viewTableRecordTemplate>
 	<!--应急记录——启动2015/10/08-->
@@ -294,8 +317,51 @@
 	</viewTableRecordTemplate>
 	<!--应急记录——回执信息2015/10/08-->
 
+	<!--基本档案2015/10/08-->
+	<viewTableRecordTemplate tid="DTWorry_bank_record_chakan" singleness="skins/Default/comm/DTWorry_bank/DTWorry_bank_view1.html">
+	  <table tableName="DTWorry_bank_main" attList="" rowName=""  fields="id,Bigtitle,Smalltitle">
+	  <![CDATA[select id,Bigtitle,Smalltitle from DTWorry_bank_main where id='$RECORDID']]></table>
+
+	  <table tableName="DTWorry_bank_sub" attList="" rowName="row" fields="id,sub_id,main_id,flag,StepContent,Dispatch"><![CDATA[ select id,id as sub_id,main_id,flag,StepContent,Dispatch from DTWorry_bank_sub where main_id='$RECORDID'  ]]></table>
+	</viewTableRecordTemplate>
+	<!--基本档案2015/10/08-->.
+
+	    <!-- 安全事故统计表-->
+    <viewTableRecordTemplate tid="DTAcc_record_cj_main" downFileTitle="" singleness="skins\Default\comm\DTAcc_record\DTAcc_record_cj_view_list.html">
+	 	<table tableName="DTAcc_record_cj_sub" attList="" rowName="row"  fields="flag,tDate,taddress,tcontenet,hurtman,reportman,reporttime,remark"><![CDATA[select distinct flag,tDate,taddress,tcontenet,hurtman,reportman,reporttime,remark from  DTAcc_record_cj_sub where main_id='$RECORDID' ]]></table> 
+	 	<table tableName="DTAcc_record_cj_main" attList="" rowName=""  fields="id,yearAndMonth"><![CDATA[select id,yearAndMonth from DTAcc_record_cj_main where id='$RECORDID']]></table> 
+	</viewTableRecordTemplate>
 
 
+	 <!-- 生产计划 -->
+    <viewTableRecordTemplate tid="DTPlan_produce_cj" downFileTitle="$TABLEKEYWORD2生产计划" singleness="skins/Default/multi/DTPlan_produce_cj/DTPlan_produce_cj_view_list.html">
+	 	<table tableName="DTPlan_produce_cj_main" attList="" rowName=""  fields="id,yearandmonth,Title">
+		<![CDATA[select id,yearandmonth,Title from DTPlan_produce_cj_main where id='$RECORDID' ]]></table> 
 
+	 	<table tableName="DTPlan_produce_cj_sub" attList="" rowName="row"  fields="flag,Company,FaceName,Basicplan,Coalwas,Remarks,FaceName_str">
+		<![CDATA[select flag,Company,FaceName,Basicplan,Coalwas,Remarks,dbo.f_field_option_workPlace(FaceName) as FaceName_str from DTPlan_produce_cj_sub where main_id='$RECORDID' order by Date_created,flag ]]></table> 
+	</viewTableRecordTemplate>
+	<!-- 生产计划 end -->
+	 <!-- 掘进计划 -->
+    <viewTableRecordTemplate tid="DTPlan_ktht_cj" downFileTitle="$TABLEKEYWORD3掘进计划" singleness="skins/Default/multi/DTPlan_ktht_cj/DTPlan_ktht_cj_view_list.html">
+	 	<table tableName="DTPlan_ktht_cj_main" attList="" rowName=""  fields="id,yearandmonth,Title,Remar">
+
+		<![CDATA[select id,yearandmonth,Title,Remar from DTPlan_ktht_cj_main where id='$RECORDID' ]]></table> 
+
+	 	<table tableName="DTPlan_ktht_cj_sub" attList="" rowName="row"  fields="flag,Company,Unit,FaceName,category,Specifications,Netsection,Supporting,Basicplan,Coalwas,Remarks">
+		<![CDATA[select flag,Company,Unit,FaceName,category,Specifications,Netsection,Supporting,Basicplan,Coalwas,Remarks from DTPlan_ktht_cj_sub where main_id='$RECORDID' order by Date_created,flag ]]></table> 
+	</viewTableRecordTemplate>
+	<!-- 掘进计划 end -->
+
+	 <!-- 安全事故统计 -->
+    <viewTableRecordTemplate tid="DTAcc_record_cj_sub_main" downFileTitle="" singleness="skins/Default/multi/DTPlan_ktht_cj/DTPlan_ktht_cj_view_list.html">
+	 	<table tableName="DTAcc_record_cj_main" attList="" rowName=""  fields="yearAndMonth">
+
+		<![CDATA[select yearandmonth from DTAcc_record_cj_main where id='$RECORDID' ]]></table> 
+
+	 	<table tableName="DTAcc_record_cj_sub" attList="" rowName="row"  fields="flag,tDate,taddress,tcontenet,hurtman,reportman,reporttime,remark">
+		<![CDATA[select flag,tDate,taddress,tcontenet,hurtman,reportman,reporttime,remark from DTAcc_record_cj_sub where main_id='$RECORDID' order by Date_created,flag ]]></table> 
+	</viewTableRecordTemplate>
+	<!-- 安全事故统计 end -->
 	
 </viewTableRecordTemplates>

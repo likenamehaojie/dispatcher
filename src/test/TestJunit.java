@@ -12,7 +12,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -173,10 +176,38 @@ public class TestJunit
 		
 	}
 	
+	@Test public void TestSplit(){
+		String tem = "exec [dbo].[proc_chengjiao_day_report_STATISTICS] '$dayInMonth' ,'$COMMUNITYID'|exec [dbo].[proc_chengjiao_juejin_day_report_STATISTICS] '$dayInMonth' ,'$COMMUNITYID' ";
+		String[] split = tem.split("\\|");
+		System.out.println();
+		
+	}
 	
+	@Test public void testConnectList(){
+		String right = "proc_chengjiao_day_report_STATISTICS '2015-10-28' ,'646'";
+		String left = "proc_chengjiao_juejin_day_report_STATISTICS '2015-10-28' ,'646'";
+		GenerReportDao grd = new GenerReportDao(null);
+		try {
+			grd.queryDateReturnConnectList(new String[]{right,left},new String []{"8","8"});
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
 	
-	
-	
+	@Test public void testDate() throws ParseException{
+		String d = "2015年10月";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年mm月");
+		Date parse = sdf.parse(d);
+		System.out.println(parse);
+		
+	}
+	@Test public void w(){
+		String _tem = "like";
+		System.out.println(_tem.getBytes().length);
+	}
 	
 	
 	public  void genTop(String name){
@@ -277,7 +308,7 @@ public class TestJunit
 	   ge.mergeCellBySameContent(0, max,0,mergeCellBySameContentInfo,0);
 		int maxCell2 = ge.getMaxCell();
 		System.out.println(maxCell2);
-		String string = ge.excleToHtml("red", null, "id='test'",null,0).toString();
+		String string = ge.excleToHtml("red", null, "id='test'",null,0,null).toString();
 		System.out.println(string);
 		ge.saveAaSpecName(name);
 		 ge.excleToHtml();
@@ -423,7 +454,7 @@ public class TestJunit
 	//	ge.mergeReportNameArea(0, 0, 1, maxCell2-1, "车集煤矿调度日报表");
 		System.out.println(maxCell2);
 
-		String string = ge.excleToHtml("red", null, "id='test'",null,0).toString();
+		String string = ge.excleToHtml("red", null, "id='test'",null,0,null).toString();
 		System.out.println(string);
 
 		ge.saveAaSpecName("f:/like11.xls");

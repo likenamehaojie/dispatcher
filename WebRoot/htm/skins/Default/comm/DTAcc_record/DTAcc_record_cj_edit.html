@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+  <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+  <script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+  <script src="/js/ajax1.js"></script>
+  <script src="/js/ajaxCheckUnique.js"></script>
+  <SCRIPT src="/js/checkout.js"></SCRIPT>
+ <SCRIPT src="/js/checkout_subTable.js"></SCRIPT>
+  <script src="/js/ajaxGetOptions.js"></script>
+  <script src="/js/jQuery.js"></script>
+  <script src="/js/expandJs/jQuery.setAvg-min.js"></script>
+  
+  <script type="text/javascript" src="/js/baiduAutoComplete.js" charset="utf-8"></script>
+  <script src="/js/map.js"></script>
+  <script src="/js/mainSub.js"></script>
+  <script src="/js/ajaxMod.js"></script>
+ 
+  <script src="/js/ajaxSearchInfo.js"></script>
+
+
+  <SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+
+</head>
+<script type="text/javascript">
+//添加条件行 
+function AddRow(maxLength){ 
+	{row}
+	var map=new Map();
+	//事故发生时间
+	map.put("tDate",'<input  class=\"input_txt\" onClick="WdatePicker()" type=\"text\"  id="tDate#no#"  name=\"tDate#no#\" value=\"{tDate}\" />');
+
+	//事故发生地点
+	map.put("taddress",'<input  class=\"input_txt\"  type=\"text\" id="taddress#no#"  name=\"taddress#no#\" value=\"{taddress}\" />');	
+	
+	//事故简单经过
+	map.put("tcontenet",'<input   class=\"input_txt\"  type=\"text\" id="tcontenet#no#" name=\"tcontenet#no#\" value=\"{tcontenet}\" />');	
+
+	//受害人 
+	map.put("hurtman",'<input   class=\"input_txt\"  type=\"text\" id="hurtman#no#" name=\"hurtman#no#\" value=\"{hurtman}\" />');	
+	
+	//汇报人
+	map.put("reportman",'<input   class=\"input_txt\"  type=\"text\" id="reportman#no#" name=\"reportman#no#\" value=\"{reportman}\" />');
+	
+	//上报时间
+	map.put("reporttime",'<input  class=\"input_txt\" onClick="WdatePicker()" type=\"text\"  id="reporttime#no#"  name=\"reporttime#no#\" value=\"{reporttime}\" />');
+
+	//FK非空
+	map.put("FK:SYS_HIDDEN",'<input type=\"hidden\" name=\"FK#no#\" value=\"1\" size=\"6\">');
+
+	//备注
+	map.put("remark",'<textarea   type=\"text\"  name=\"remark#no#\" rows="2" cols="50" value=\"\" />{remark}</textarea>');
+	                 
+	//操作<a  href=\"javascript:AddRow_MR()\">添加</a><br/><a href=\"javascript:DelCurrentRow(#no#);\">删除</a>
+	map.put("operate",' <div style =\'width:40%;margin:0 auto\'><li><a href="#" style="cursor:hand" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l" >添加 &nbsp;</span></a></li>   <li><a href="#" style="cursor:hand"  onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l" style="line-height:32px">删除</span></a></li></div>'); 
+	for(var i=1;i<=maxLength;i++){  
+		AddRow_sys(map);
+	}
+	map.clear();
+	{row}
+} 
+
+$(document).ready(function(){
+	//添加三行空白记录
+	AddRow(1);
+	var yearAndMonth=new Date().format("yyyy年MM月");
+	document.getElementsByName("yearAndMonth")[0].value=yearAndMonth;
+	
+ });
+
+  function AddRow_MR(){
+	
+	AddRow(1);
+	$("#procedure_in_month"+sys_j).setAvg({setId:"avg_procedure_in_day"+sys_j});
+	
+	var alls = "procedure_in_month"+sys_j;
+	var avgs = "avg_procedure_in_day"+sys_j;
+	$("#shijitianshu").setAvg({setId:alls,pjIds:avgs});
+	
+	$("td[id^=COMPANY_td]").css('display','none')
+}
+
+function checkzz(){
+	if($("#MReport").attr("checked")==true)$("#yes").remove();
+	else $("#no").remove();	
+	
+	var yearAndMonth=document.getElementsByName("yearAndMonth")[0].value
+	var ceshi=getInfoBySqlNo_noHidden(401,yearAndMonth)
+	if (ceshi==0){
+		var h1=$("#h1").html();
+		if(h1!="")$("#empty").val(h1)
+				
+		return check_subTable();
+		
+	}
+	else{
+		alert('该月数据已保存')
+		return false;
+	}
+}
+
+
+function no_MReport(){
+	if($("#MReport").attr("checked")==true){
+		var FILL_TIME =document.getElementsByName("yearAndMonth")[0].value;
+		$("#no").show();
+		$("#yes").hide();
+		$("#h1").html(FILL_TIME+"份矿级安全正常生产，无人身伤害事故。");
+	}
+	else{
+		$("#no").hide();
+		$("#yes").show();
+	}
+   	
+}
+</script>
+
+   <form name="form1" action="/genericmultableservlet?action=saveEditRecord" method="post">
+    <input type="hidden" name="mulId" value="{mulId}">
+	<input type="hidden" name="tableName" value="{mainTableName}">
+    <input type="hidden" name="mainTableName" value="{mainTableName}">
+    <input type="hidden" name="subTableName" value="{subTableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+	
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" id="actorCount" name="actorCount" value="{actorCount}">
+    <input type="hidden" name="flag" value="1">
+    <input type="hidden" name="FINISH" value="">    
+	<input type="hidden" name="realFileName" value="">
+
+ 
+
+<input type="hidden" name="main_id" value="{main_id}">
+   <input type="hidden" name="field.validateValue" value="yearAndMonth|时间|TXT|100|1|yn|">	
+   <input type="hidden" name="field.validateValue_sub" value="tDate|事故发生时间|DAT|100|1|yn|">
+   <input type="hidden" name="field.validateValue_sub" value="taddress|事故发生地点|TXT|100|1|yn|">
+   <input type="hidden" name="field.validateValue_sub" value="tcontenet|事故简单经过|TXT|100|1|yn|">
+   <input type="hidden" name="field.validateValue_sub" value="hurtman|受害人|TXT|100|1|yn|">
+   <input type="hidden" name="field.validateValue_sub" value="reportman|汇报人|TXT|100|1|yn|">
+   <input type="hidden" name="field.validateValue_sub" value="reporttime|上报时间|DAT|100|1|yn|">
+   <input type="hidden" name="field.validateValue_sub" value="remark|备注|TXT|100|1|yn|">
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 录入页面</div>               
+  <div style = "clear:both;"></div>
+            <h1><center>{$SHORTNAME}<input name="yearAndMonth" type="text" value="{yearAndMonth}" class="input_txt"  onClick="WdatePicker({dateFmt:'yyyy年MM月'})" readonly/>安全事故统计表 </h1>
+
+
+
+
+<table width="100%" >
+  <tbody>
+
+   <div width="98%" style="margin-left:1%;">&nbsp;&nbsp;<input type="checkbox" onclick="no_MReport()" id="MReport">&nbsp;&nbsp;&nbsp;无月报</div>
+        	
+</tbody></table>
+
+
+
+  
+
+<div id="yes" >
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+    <tr  >
+    	<th  align="center" >序号</th>
+    	<th   align="center">事故发生时间</th>
+	    <th   align="center" >事故发生地点</th>
+    	<th align="center"  >事故简单经过</th>
+		<th align="center"  >受害人</th>
+    	<th   align="center" >汇报人</th>
+    	<th align="center"  >上报时间</th>
+		<th align="center"  >备注</th>
+    	<th align="center" width="10%">操作</th>
+    </tr>
+    </thead>
+	</table>
+  </div>
+  
+
+    <div class="path" style="display:none"  id="no">
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+	
+    <thead>
+	 
+      <tr>
+    	<th  align="center" >序号</th>
+    	<th   align="center">事故发生时间</th>
+	    <th   align="center" >事故发生地点</th>
+    	<th align="center"  >事故简单经过</th>
+		<th align="center"  >受害人</th>
+    	<th   align="center" >汇报人</th>
+    	<th align="center"  >上报时间</th>
+		<th align="center"  >备注</th>
+    	<th align="center" width="10%">操作</th>
+      </tr>
+	   
+   
+	</thead>
+	<tr   height="50">
+		<td  colspan="20" height="50"><span id="h1" style="font-size:20px;"></span><input name="FK1" type="hidden" value="1"></td>	
+	</tr>
+
+   </table>
+  </div>
+
+
+<div class="path">
+  
+
+
+  <table width="98%">
+    <tr>
+      <td colspan="4" align="center">
+        <input type="submit" value="保存" class="btn" onclick="return true;" />
+        <input type="button" value="返回" class="btn m_l15" onclick="window.history.go(-1)"/>
+      </td>
+    </tr>
+  </table>
+
+</form>
+</body>
+</html>

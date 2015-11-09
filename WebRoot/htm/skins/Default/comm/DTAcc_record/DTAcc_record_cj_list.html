@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+
+	<!--多选搜索 1 begin-->
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/style.css" />
+	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery-ui.css" />
+	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
+	<script type="text/javascript" src="js/table/jquery.tableui.js"></script>
+	
+	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
+	<!--多选搜索 1 end-->
+
+	<!--日期控件 begin-->
+	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+	<!--日期控件 end-->
+	
+	<script src="/js/ajax/superValidator.js"></script>
+	<script src="/js/getOneObject.js"></script>
+	<script src="/js/map.js"></script>
+	<script src="/js/ajax/mainSub.js"></script>
+	<script src="/js/ajaxMod.js"></script>
+	<script src="/js/ajaxGetOptions.js"></script>
+	<script src="/js/ListOrder.js"></script>
+	<script src="/js/search.js"></script>
+
+	
+
+	 <!--记忆搜索条件  第一步：引用cookie -->
+	<script src="/js/cookie.js"></script>
+
+	<script type="text/javascript" src="js/titleInfo.js"></script>
+</head>
+
+
+  <script>
+$(document).ready(function(){
+	//初始化上下左右
+	//iniFocus();
+	LoadOrder("{OrderKey}","{OrderBy}");
+   	//如果操作列没有权限  隐藏操作列
+	hideLastCol('actor_table');
+
+});
+
+
+
+
+
+
+function  edit(recordId){
+	var xpwidth=window.screen.width-10;
+	var xpheight=window.screen.height-35;
+	window.open("/generictableservlet?action=editRecord&recordId="+recordId+"&curPage={curPage}&tableName={tableName}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}" ,"FullScreen",'')
+} 
+
+function re_setCondition(){
+		document.getElementsByName("$TABLEKEYWORD")[0].value="{$TABLEKEYWORD}";
+		setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');
+}
+
+function excelIport(){ //excel导入
+   var certificate=document.getElementsByName('certificate')[0].value;
+   
+	if (certificate==''){
+		alert('请添加EXCEL附件');
+	}else{
+		
+		document.form1.action="/excelImportMultiDoServlet?action=excelImport&excelName=DTDuty_zbb_main_sub&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}";
+		document.form1.encoding="multipart/form-data";
+		document.form1.submit();
+
+	}
+}
+
+</script>
+
+  <form name="form1" action="" method="post">
+    <input type="hidden" name="tableName" value="{tableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" name="actorCount" value="{actorCount}">
+
+	<input type="hidden" name="OrderBy" value="{OrderBy}">	
+	<input type="hidden" name="OrderKey" value="{OrderKey}">
+
+	<input type="hidden" name="clickValue" value="N1">
+	<input type="hidden" name="firstUrl" value="null">
+	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+
+	<input name="dblclick" type="hidden" value="" /><!--已上报禁止双击编辑-->	
+	<input type="hidden" name="field1" value="yearAndMonth|值班年月|OPT|50|">
+	<input type="hidden" name="field2" value="Company|单位|OPT|50|">
+	<input type="hidden" name="field3" value="fDate|发布日期|TXT|50|">
+	<input type="hidden" name="field4" value="remark|备注|TXT|50|">
+	<input type="hidden" name="field5" value="ReBranch|发布部门|DAT|50|">
+
+  <div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 列表页面</div>
+  </div>
+	
+	 <div class="line_list">		
+		   <li>{delmanyshow}</li>
+
+		   <li><a href="#" onclick="Subadd('DTAcc_record_cj_sub_main')"> <span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l">添加</span></a></li>
+		   <li id="sendMany_liId" class="pian"  style="margin-left:60%" >EXCEL导入:&nbsp;&nbsp;<input type="file" style="width:200px;" name="certificate" size="20">
+		   <input type="button" style="width:50px;" name="excel" class="btn" onClick="excelIport()" value="导入">
+		   <input type="submit" style="width:60px;" name="getTem" class="btn" value="下载模版" onClick="window.open('/downloadAppServlet?&amp;ITNO={ITNO}&amp;docName=htm\\excelTemplateDown&amp;fName=值班表.xls','_blank','left=160,width=700,height=630,toolbar=no, menubar=no,resizable=yes,scrollbars=yes')" >
+		   <font color="red"></font>
+		   </li>
+        </div>
+
+<div class="a_box">
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+      <tr>
+	    <th width="2%"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
+		<th >时间</th>
+		<th >发布人</th>
+		<th >创建时间</th>
+        <th id='YC4' >操作</th>
+      </tr>
+    </thead>
+	{row}
+	<TR style="BACKGROUND-COLOR: #fafbfd" id=1 align=middle bgColor=#fafbfd  	onmouseout={this.style.backgroundColor='#FAFBFD';}; onmouseover= {this.style.backgroundColor='#EEF1F8';};>
+        <td>{id}&nbsp;</td>
+        <td><a href="/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTAcc_record_cj_main&recordId={recordId}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}" target="_blank">{yearAndMonth}</a>&nbsp;</td>
+        <td>{created_by}&nbsp;</td>
+        <td>{date_created}&nbsp;</td>
+	 <td id="YC{sNo}"><img src="images/zTree/treeEdit.gif" width="16" height="16" /><a href="#" onClick="multiEditRecord('DTAcc_record_cj_sub_main','{recordId}');">编辑  </a>{delshow}&nbsp;</td>
+
+	
+	</tr>
+    <script language="javascript">
+		
+		if('{sNo}'==''){
+			document.getElementById("YC{sNo}").innerHTML="&nbsp;";
+		}else{
+		    var title='{title}'.replace(/<[^>].*?>/g,'');
+			$("#title{sNo}").attr('title',title)
+
+			var remark='{remark}'.replace(/<[^>].*?>/g,'');
+			$("#remark{sNo}").attr('title',remark)
+		}
+	</script>
+	{row}
+	
+  </table>
+  <table width="100%">
+
+	<tr>
+     {page}
+    </tr>
+  </table>
+
+</div>
+</form>
+</body>
+</html>

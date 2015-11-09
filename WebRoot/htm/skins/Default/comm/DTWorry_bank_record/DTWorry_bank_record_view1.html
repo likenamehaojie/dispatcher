@@ -45,7 +45,6 @@ function save_bc(){
 	var j =parseInt(i)-1
 //	var Sending	= document.getElementsByName("Sending")[j].value;
 	var Step =  document.getElementById("Step"+i).innerHTML;
-	alert(Step)
 	var sub_id='{id}';
 
 	var submitFlag=true;
@@ -127,7 +126,7 @@ function save_bc(){
 	<tr>
 	<td style="display:none" id="id_td{sNo}">{main_id}</td>
 	 <td >{Dispatch}&nbsp;</td>
-	 <td id="Step{sNo}">{Step}</td>
+	 <td id="Step{sNo}">{flag}&nbsp;</td>
 	 <td  id="Sending{sNo}" >{Sending}&nbsp;</td>
 	 <td >{StepContent}&nbsp;</td>
 	 <td id="huizhi{sNo}">&nbsp;</td>
@@ -135,19 +134,19 @@ function save_bc(){
 		<script>
 		if('{Sending}'=='')
 		{
-			if('{Currentstep}'=='{Step}')
+			if('{Currentstep}'=='{flag}')
 			{
 				$("#Sending{sNo}").html("<a href='javascript:void(0)'  onclick =\"winOpenWH('{recordId}','{sNo}')\">选择</a>");
-				$("#huizhi{sNo}").html("<a href='javascript:void(0)' onclick=\"qidong_HS('{recordId}','{Step}')\">回执信息</a>");
+				$("#huizhi{sNo}").html("<a href='javascript:void(0)' onclick=\"qidong_HS('{recordId}','{flag}')\">回执信息</a>");
 			}
 		}else{
-			if('{Currentstep}'=='{Step}')
+			if('{Currentstep}'=='{flag}')
 			{
 				$("#Sending{sNo}").html("{Sending}<br><a href='javascript:void(0)' onclick =\"winOpenWH('{recordId}','{sNo}')\" >选择</a>");
-				$("#huizhi{sNo}").html("<a href='javascript:void(0)' onclick=\"qidong_HS('{recordId}','{Step}')\">回执信息</a>");
+				$("#huizhi{sNo}").html("<a href='javascript:void(0)' onclick=\"qidong_HS('{recordId}','{flag}')\">回执信息</a>");
 			}else{
 				$("#Sending{sNo}").html("{Sending}");
-				$("#huizhi{sNo}").html("<a href='javascript:void(0)' onclick=\"qidong_HS('{recordId}','{Step}');\">回执信息</a>");
+				$("#huizhi{sNo}").html("<a href='javascript:void(0)' onclick=\"qidong_HS('{recordId}','{flag}');\">回执信息</a>");
 			}
 		}
 	  </script>
@@ -156,7 +155,6 @@ function save_bc(){
 
   </div>
 
-<div class="path">
   
   <table width="98%">
     <tr>

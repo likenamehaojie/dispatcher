@@ -8,28 +8,31 @@
 
   <table border="1" style=" font:font-family:'微软雅黑';" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
     <thead>
-	  <td colspan="8" align="center"  class=vwTitleName2><h3>支架{$TABLEKEYWORD3}记录台账</h3></td>
+	  <td colspan="7" align="center"  class=vwTitleName2><h3>支架{$TABLEKEYWORD3}记录台账</h3></td>
       <tr>	    
 		<th width="3%" style="font-size:20px;vnd.ms-excel.numberformat:@">时间</th>	
 		<th width="4%" style="font-size:20px;vnd.ms-excel.numberformat:@" ">班次</th> 
-		<th width="5%" style="font-size:20px;vnd.ms-excel.numberformat:@" ">工作面</th>
+		<th width="5%" style="font-size:20px;vnd.ms-excel.numberformat:@" ">入井人数</th>
+		<th width="5%" style="font-size:20px;vnd.ms-excel.numberformat:@" ">升井人数</th> 
+		<th width="5%" style="font-size:20px;vnd.ms-excel.numberformat:@" ">工作地点</th>
 		<th width="5%" style="font-size:20px;vnd.ms-excel.numberformat:@" ">数量</th> 
 		<th width="5%" style="font-size:20px;vnd.ms-excel.numberformat:@" ">本月累计</th> 
 		<th width="4%" style="font-size:20px;vnd.ms-excel.numberformat:@" ">备注</th> 
 		<th width="5%" style="font-size:20px;vnd.ms-excel.numberformat:@" ">记录人</th>
-		<th width="5%" style="font-size:20px;vnd.ms-excel.numberformat:@" ">重点工程</th> 
+
       </tr>
     </thead>
 	{row}
 	<TR align=middle>
 	 <td >{time}&nbsp;</td>
 	 <td >{class}&nbsp;</td>
+	 <td >{rjNum}&nbsp;</td>
+	 <td >{sjNum}&nbsp;</td>
 	 <td >{workFace_str}&nbsp;</td>
 	 <td >{number}&nbsp;</td>
 	 <td >{count}&nbsp;</td>
 	 <td >{remarkstring}&nbsp;</td>
 	 <td >{recording}&nbsp;</td>
-	 <td >{isKeyProject_str}&nbsp;</td>
 	</tr>
 	{row}
   </table>

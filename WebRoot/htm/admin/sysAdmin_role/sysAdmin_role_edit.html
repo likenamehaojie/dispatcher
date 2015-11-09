@@ -230,7 +230,7 @@ function setSelfChecked(checkObj,operateId){
 		
           <tr>
 			<td class="tad" style="width:7%">角色名称：</td>
-			<td class="t_l b_cf" style="width:100%"><input name="role_name" type="text" class="input_txt" value="{role_name}" tip="角色名称不能为空,且唯一" check="2"/>&nbsp;*</td>
+			<td class="t_l b_cf" ><input name="role_name" type="text" class="input_txt" value="{role_name}" tip="角色名称不能为空,且唯一" check="2"/>&nbsp;*</td>
 			
 			<td class="tad" style="width:7%">所属单位：</td>
 			<td class="t_l b_cf"><select name="community" class="select">{community}</select>&nbsp;*</td>
@@ -246,7 +246,7 @@ function setSelfChecked(checkObj,operateId){
 		  </tr>
 
 		  <tr class="tad" >                  
-			<td colspan="4"  align="center"><input type="submit" name="save" class="btn" onMouseOver="this.className='btn'"
+			<td colspan="4" width="100%" align="center"><input type="submit" name="save" class="btn" onMouseOver="this.className='btn'"
 			onMouseOut="this.className='btn'" onClick="return setRoleUnique()" value="保 存">
 			&nbsp;&nbsp;&nbsp;<input type="button" name="back" class="btn" onMouseOver="this.className='btn'"
 			onMouseOut="this.className='btn'" onClick="javascript:history.back();return false;"

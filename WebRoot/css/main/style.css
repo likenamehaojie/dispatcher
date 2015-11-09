@@ -75,11 +75,11 @@ h2{font-weight:normal;}
     font-size:13px;
     color:#5d5c5c;}
 .mainleft{padding-right:0px;}
-.mainMiddle1{border:#d3dbde solid 1px;width:50%; float:left;height:240px;overflow:hidden;}
-.mainMiddle2{border:#d3dbde solid 1px; float:right;height:240px;overflow:hidden;}
+.mainMiddle1{border:#d3dbde solid 1px;width:50%; float:left;height:240px;overflow:hidden;display:none;}
+.mainMiddle2{border:#d3dbde solid 1px; float:right;height:240px;overflow:hidden;display:none;}
 .leftinfos{height:238px;margin-top:8px;}
-.infoleft{border:#d3dbde solid 1px;width:50%; float:left;height:240px;overflow:hidden;margin-top:8px;}
-.inforight{border:#d3dbde solid 1px; float:right;height:240px; overflow:hidden;margin-top:8px;}
+.infoleft{border:#d3dbde solid 1px;width:50%; float:left;height:240px;overflow:hidden;margin-top:8px;display:none;}
+.inforight{border:#d3dbde solid 1px; float:right;height:240px; overflow:hidden;margin-top:8px;display:none;}
 .demri{ text-align:center; font-weight:bold; background:#99CC00;}
 
 

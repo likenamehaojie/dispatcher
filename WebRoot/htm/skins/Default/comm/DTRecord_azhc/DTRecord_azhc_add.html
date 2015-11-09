@@ -72,19 +72,24 @@ $(document).ready(function(){
     <td class="tad">&nbsp;本月累计&nbsp;:</td>
      <td colspan="3"><input type="text" class="input_txt"  name="count" tip="[本月累计]必须为整数" check="2"/></td>
     </tr>
+
+	<tr>
+	<td class="tad">&nbsp;入井人数&nbsp;:</td>
+     <td ><input type="text" class="input_txt"  name="rjNum" /></td>
+    <td class="tad">&nbsp;升井人数&nbsp;:</td>
+     <td colspan="3"><input type="text" class="input_txt"  name="sjNum" /></td>
+    </tr>
+
+	<tr>
 	<td class="tad">&nbsp;记录人&nbsp;:</td>
      <td ><input type="text" class="input_txt"  name="recording" tip="[记录人]不能为空" check="2"/></td>
-    <td class="tad">&nbsp;工作面&nbsp;:</td>
-     <td colspan="3"><select name="workFace" tip="工作面不能为空" check="2"><option value="" >请选择</option>{workFace}</select>&nbsp;</td>
+    <td class="tad">&nbsp;工作地点&nbsp;:</td>
+     <td colspan="3"><select name="workFace" tip="工作地点不能为空" check="2"><option value="" >请选择</option>{workFace}</select>&nbsp;</td>
     </tr>
+
 	<tr>
-	<td class="tad">&nbsp;是否为重点工程&nbsp;:
-     <td colspan="3"><select name="iskeyproject" tip="班次不能为空" check="2"><option value="" >请选择</option>{iskeyproject}</select>&nbsp;</td>
-	</tr>
     <td class="tad" >备注：</td>
      <td class="t_l b_cf" colspan="3"><textarea name="remark" rows="5" cols="110" tip="[备注]不能为空" check="2"/></textarea>&nbsp;</td>
-
-	
    </tr>
   
 </tbody></table>

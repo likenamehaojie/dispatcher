@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+
+	<!--日期控件 begin-->
+	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+	<!--日期控件 end-->
+	
+
+</head>
+
+
+<script>
+
+  
+	function setSysNav(value){	
+		window.location="/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTTaizhang_rj_sj&ITNO={ITNO}&$TABLEKEYWORD=$453&$KEYWORD="+value;
+	}
+
+	function Dexcel(){
+		 var curDay=document.getElementsByName("curDay")[0].value;
+
+		window.open("/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTTaizhang_rj_sj&ITNO=1_excel&xiazaiwenjian=y&$TABLEKEYWORD={$TABLEKEYWORD}&$KEYWORD="+curDay);
+
+	
+	}
+</script>
+
+  <form name="form1" action="" method="post">
+    <input type="hidden" name="tableName" value="{tableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" name="actorCount" value="{actorCount}">
+
+	<input type="hidden" name="OrderBy" value="{OrderBy}">	
+	<input type="hidden" name="OrderKey" value="{OrderKey}">
+
+	<input type="hidden" name="clickValue" value="N1">
+	<input type="hidden" name="firstUrl" value="null">
+	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
+
+	<input name="dblclick" type="hidden" value="" /><!--已上报禁止双击编辑-->	
+
+  <div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 列表页面</div>
+  </div>
+
+    
+
+<div class="line_list_left">
+<li style="float:left">
+			&nbsp;&nbsp;&nbsp;&nbsp;查&nbsp;询&nbsp;日&nbsp;期：&nbsp;&nbsp;<input name="curDay"  onclick="WdatePicker({onpicked:function(){setSysNav(this.value);}})" value='{curDay}' class="input_txt" style="width:80px;"/>&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="button"  value="导出excel" class="btn" onClick="Dexcel()"/>
+	</li>	
+</div>
+<div class="a_box">
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+      
+        <tr>
+		<th width="" rowspan="2">序号</th>
+		<th width="" colspan="3">零点班</th>
+		<th width="" colspan="3">八点班</th>
+		<th width="" colspan="3">八点班</th>
+		</tr>
+		<tr>
+		<th width="">单  位</th>
+		<th width="">入井人数</th>
+		<th width="">升井人数</th>
+		
+		<th width="">单  位</th>
+		<th width="">入井人数</th>
+		<th width="">升井人数</th>
+
+		
+		<th width="">单  位</th>
+		<th width="">入井人数</th>
+		<th width="">升井人数</th>
+		</tr>
+      </tr>
+    </thead>
+{row}
+	<TR style="BACKGROUND-COLOR: #fafbfd" id=1 align=middle bgColor=#fafbfd  	onmouseout={this.style.backgroundColor='#FAFBFD';}; onmouseover= {this.style.backgroundColor='#EEF1F8';};>
+
+        
+		<td>{sNo}&nbsp;</td>
+        <td>{branch1}&nbsp;</td>
+        <td>{rjNum1}&nbsp;</td>
+        <td>{sjNum1}&nbsp;</td>     
+		
+		<td>{branch2}&nbsp;</td>
+        <td>{rjNum2}&nbsp;</td>
+        <td>{sjNum2}&nbsp;</td> 
+
+		<td>{branch3}&nbsp;</td>
+        <td>{rjNum3}&nbsp;</td>
+        <td>{sjNum3}&nbsp;</td> 
+	</tr>
+
+{row}
+  </table>
+
+
+</div>
+</form>
+</body>
+</html>

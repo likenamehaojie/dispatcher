@@ -195,7 +195,7 @@ a,img{border:0;}
         </div>   
  <div class="inforight">
       <div class="listtitle">跟值班情况</div>
-       
+       <!--  车集  注释
 			<table width="100%" style=" margin-left:0px; margin-right:0px;"  border="0" cellspacing="0" cellpadding="0">
 				<tr>
 				<td colspan="2" align="center">带班-日期</td> 
@@ -220,7 +220,32 @@ a,img{border:0;}
 				  </tr>
 				 {row_dbb}
 			</table>
+
+			-->
+
+			<table width="100%" style=" margin-left:0px; margin-right:0px;"  border="0" cellspacing="0" cellpadding="0">
+				<tr>
+				<td colspan="2" width="30%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;带班-日期</td> 
+				<td align="center" width="23%">早班</td> 
+				<td align="center" width="23%">中班</td> 
+				<td align="center" width="23%">夜班</td>	
+			  </tr>
+			  
+				{row_dbb_cj}
+				  <tr>
+					<td align="center" width="5%" onMouseOver="on(this);" onMouseOut="out(this);">&nbsp;<img src="images/main/dot_right2.gif"></td>
+					<td>&nbsp;<b>{zdate}</b></td>
+					<td align="center">&nbsp;{ldb}</td>
+					<td align="center">&nbsp;{bdb}</td>
+					<td align="center">&nbsp;{sldb}</td>
+				  </tr>
+				 {row_dbb_cj}
+			</table>
 <br>
+<br>
+
+  <!--  车集  注释
+
 				<table width="100%" style=" margin-left:0px; margin-right:0px;"  border="0" cellspacing="0" cellpadding="0">
 				<tr>
 				<td colspan="2" align="center">值班-日期</td> 
@@ -239,7 +264,29 @@ a,img{border:0;}
 				  </tr>
 				 {row_zbb}
 			</table>
- 
+ 	-->
+
+			<table width="100%" style=" margin-left:0px; margin-right:0px;"  border="0" cellspacing="0" cellpadding="0">
+				<tr>
+				<td align="center">值班日期</td> 
+				<td align="center">值班人员</td> 
+				<td align="center">值班日期</td> 
+				<td align="center">值班人员</td> 
+				<td align="center">值班日期</td> 
+				<td align="center">值班人员</td> 
+			  </tr>
+			  
+				{row_zbb_cj}
+				  <tr>
+					<td align="center"><b>{dateone}<b></td>
+					<td align="center">{zbone}</td>
+					<td align="center"><b>{datetwo}<b></td>
+					<td align="center">{zbtwo}</td>
+					<td align="center"><b>{datethree}<b></td>
+					<td align="center">{zbthree}</td>
+				  </tr>
+				 {row_zbb_cj}
+			</table>
     </div>
     
      
@@ -449,6 +496,14 @@ $(function(){
 
 	//初始化屏幕宽度 高度
 	setWH();
+
+	//显示首页四个区域
+	$(".mainMiddle1").show();
+	$(".mainMiddle2").show();
+
+	$(".infoleft").show();
+	$(".inforight").show();
+
 
 	//重大隐患滚动
 	

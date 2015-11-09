@@ -1,3 +1,4 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -44,7 +45,7 @@
 	$(document).ready(function(){
 		var filterOptions='{filterOptions1}';
 		if(filterOptions==''){
-		$("#edit_td").html('<input type="button" name="edit" class="btn" onClick="add_DTBank_mineInfo()" value="添加">')
+		$("#edit_td").html('{addshow}')
 		}
 		
 
@@ -71,18 +72,18 @@
   <input type="hidden" name="curPage" value="{curPage}">
   <input name="curTreeId" id="curTreeId" type="hidden" value=""/>
 <div id="top">
-   <div class="haer"><span id="tans"><strong>矿井基本信息</strong></span></div>
+   <div class="haer"><span id="tans"><strong>矿井概况</strong></span></div>
    <div class="bottom">&nbsp;&nbsp;{$TABLEKEYWORD1}&gt;{$TABLEKEYWORD2} &gt;列表页面</div>
   </div>
-<table cellspacing="0" cellpadding="0" width="100%" height="100%" style="margin:0 auto;border:0px;">			
+<table style="width:90%;border:solid 0px #353636; margin:auto;">			
 	{row}
 	<tr>
-		<td  align="center"><h1 >矿井基本信息</h1></td>
+		<td ><div style="text-align:center; font-size:30px; padding-bottom:10PX; padding-top:10PX;">矿井基本信息</div></td>
 		
-		<td id="edit_td"><input type="button" name="edit" class="btn" onClick="ready({recordId})" value="编辑"><td>
+		<td  id="edit_td" ><span style="float:right;display:inline-block">{editshow}</span><td>
 	</tr>
 	<tr>
-		<td  style="padding-left:75px">{Contents}</td>
+		<td width="97%"  style=" text-align:center; line-height:25px; color:#050505; font-size:14px;text-align:center;border-right:solid 0px #353636;border-bottom:solid 0px #353636;border-left:solid 0px #353636;border-top:solid 0px #353636;">{Contents}</td>
 	</tr>
 	{row}
  </table>

@@ -129,16 +129,16 @@ function   Dexcel(){
 
 <div class="line_list_left">
 <li style="float:left">
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;工&nbsp;作&nbsp;面&nbsp;名&nbsp;称&nbsp;：<input name="jobcut_name" id='jobcut_name'  value='{jobcut_namea}' class="input_txt" style="width:140px;" readonly/>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;工&nbsp;作&nbsp;面&nbsp;名&nbsp;称&nbsp;：<span  id='jobcut_name'  >{jobcut_namea}  </span>
 	</li>	
 	<li style="float:left">
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;规&nbsp;格&nbsp;：&nbsp;&nbsp;<input name="Specifications" class="input_txt"  value='{Specifications}' style="width:80px;" readonly/>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;规&nbsp;格&nbsp;：&nbsp;&nbsp;<span id="Specifications">{Specifications}</span>
 	</li>
 		<li style="float:left">
-			&nbsp;&nbsp;&nbsp;&nbsp;净&nbsp;断&nbsp;面&nbsp;：&nbsp;&nbsp;<input name="NetSection" class="input_txt"  value='{NetSection}' style="width:80px;" readonly/>
+			&nbsp;&nbsp;&nbsp;&nbsp;净&nbsp;断&nbsp;面&nbsp;：&nbsp;&nbsp;<span id="NetSection">{NetSection}</span>
 	</li>
 		<li style="float:left">
-			&nbsp;&nbsp;&nbsp;设&nbsp;计&nbsp;长&nbsp;度&nbsp;：&nbsp;&nbsp;<input name="length" id="lengthid" class="input_txt"  value='{length}' style="width:80px;" readonly/>
+			&nbsp;&nbsp;&nbsp;设&nbsp;计&nbsp;长&nbsp;度&nbsp;：&nbsp;&nbsp;<span id="lengthid"  >{length}</span>
 	</li>
 </div>
 
@@ -157,7 +157,7 @@ function   Dexcel(){
     </thead>
 {row}
 	<TR style="BACKGROUND-COLOR: #fafbfd" id=1 align=middle bgColor=#fafbfd  	onmouseout={this.style.backgroundColor='#FAFBFD';}; onmouseover= {this.style.backgroundColor='#EEF1F8';};>
-        <td>{sNo}</td>		
+        <td>{sNo}&nbsp;</td>		
         <td>{BirthDate}&nbsp;</td>
         <td>{ActualFootage}&nbsp;</td>
         <td >{yj}&nbsp;</td>

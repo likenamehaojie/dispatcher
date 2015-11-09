@@ -16,9 +16,67 @@ public class SectionData {
 	  
 	  private String isIncludeReportName;//导出excel报表时 是否包含 报表名称
 	  
+	  private String isGenerateLiteTittle;//
+	  
+	  private String connectPoint;
+	  
+      private String tittleGenerRule;
+      
+      private String headerWidth;
+      
+      private String dateHasNoBoder;
+      
+      private String avgHight;
 	 
 	  
-	  private String isMegreBody;//该section是否是合并主体
+	  public String getAvgHight() {
+		return avgHight;
+	}
+
+	public void setAvgHight(String avgHight) {
+		this.avgHight = avgHight;
+	}
+
+	public String getDateHasNoBoder() {
+		return dateHasNoBoder;
+	}
+
+	public void setDateHasNoBoder(String dateHasNoBoder) {
+		this.dateHasNoBoder = dateHasNoBoder;
+	}
+
+	public String getHeaderWidth() {
+		return headerWidth;
+	}
+
+	public void setHeaderWidth(String headerWidth) {
+		this.headerWidth = headerWidth;
+	}
+
+	public String getTittleGenerRule() {
+		return tittleGenerRule;
+	}
+
+	public void setTittleGenerRule(String tittleGenerRule) {
+		this.tittleGenerRule = tittleGenerRule;
+	}
+
+	public String getConnectPoint() {
+		return connectPoint;
+	}
+
+	public void setConnectPoint(String connectPoint) {
+		this.connectPoint = connectPoint;
+	}
+
+	public String getIsGenerateLiteTittle() {
+		return isGenerateLiteTittle;
+	}
+
+	public void setIsGenerateLiteTittle(String isGenerateLiteTittle) {
+		this.isGenerateLiteTittle = isGenerateLiteTittle;
+	}
+	private String isMegreBody;//该section是否是合并主体
 	  
 	  private String isConvertColToRow;
 	  

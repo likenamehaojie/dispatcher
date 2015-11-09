@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+</head>
+  <form name="form1" action="" method="post">
+
+  <table border="1" style=" font:font-family:'微软雅黑';" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+	  <td colspan="9" align="center"  class=vwTitleName2><h3>事故影响记录表</h3></td>
+      <tr>	    
+		<th width="3%" style="font-size:20px;vnd.ms-excel.numberformat:@">事故性质</th>	
+		<th width="4%" style="font-size:20px;vnd.ms-excel.numberformat:@" ">事故类型</th> 
+		<th width="5%" style="font-size:20px;vnd.ms-excel.numberformat:@" ">事故地点</th>
+		<th width="5%" style="font-size:20px;vnd.ms-excel.numberformat:@" ">发生时间</th>    
+		<th width="3%" style="font-size:20px;vnd.ms-excel.numberformat:@">结束时间</th>	
+		<th width="4%" style="font-size:20px;vnd.ms-excel.numberformat:@" ">影响时长/min</th> 
+		<th width="5%" style="font-size:20px;vnd.ms-excel.numberformat:@" ">责任单位</th>
+		<th width="5%" style="font-size:20px;vnd.ms-excel.numberformat:@" ">事故描述</th> 
+		<th width="5%" style="font-size:20px;vnd.ms-excel.numberformat:@" ">备注</th> 
+      </tr>
+    </thead>
+	{row}
+	<TR align=middle>
+	 <td >{AccidentCharacter}&nbsp;</td>
+	 <td >{AccidentType}&nbsp;</td>
+	 <td >{AccidentSite}&nbsp;</td>
+	 <td >{startTime}&nbsp;</td>
+	 <td >{endTime}&nbsp;</td>
+	 <td >{timeLength}&nbsp;</td>
+	 <td >{RBranch}&nbsp;</td>
+	 <td >{AccidentDescription}&nbsp;</td>
+	 <td >{remark}&nbsp;</td>
+	</tr>
+	{row}
+  </table>
+</form>
+</body>
+
+</html>

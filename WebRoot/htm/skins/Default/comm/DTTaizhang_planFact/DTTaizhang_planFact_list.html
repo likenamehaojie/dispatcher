@@ -8,53 +8,16 @@
   <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
    <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
-  <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
-
-	<!--多选搜索 1 begin-->
-	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
-	<link rel="stylesheet" type="text/css" href="css/multiSelect/style.css" />
-	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery-ui.css" />
-	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
-	<script type="text/javascript" src="js/table/jquery.tableui.js"></script>
-	
-	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
-	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
-	<!--多选搜索 1 end-->
 
 	<!--日期控件 begin-->
 	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
-	<!--日期控件 end-->
-	
-	<script src="/js/ajax/superValidator.js"></script>
-	<script src="/js/getOneObject.js"></script>
-	<script src="/js/map.js"></script>
-	<script src="/js/ajax/mainSub.js"></script>
-	<script src="/js/ajaxMod.js"></script>
-	<script src="/js/ajaxGetOptions.js"></script>
-	<script src="/js/ListOrder.js"></script>
-	<script src="/js/search.js"></script>
+	<!--日期控件 end-->	
 
-	
-
-	 <!--记忆搜索条件  第一步：引用cookie -->
-	<script src="/js/cookie.js"></script>
-
-	<script type="text/javascript" src="js/titleInfo.js"></script>
 </head>
 
 
   <script>
-$(document).ready(function(){
-	//初始化上下左右
-	//iniFocus();
-	LoadOrder("{OrderKey}","{OrderBy}");
-	//记忆搜索条件  第六步：取cookie 解析cookie
-	iniCookie('{tableName}','{ITNO}','{$USERID}');
-	//初始化多选菜单
-	iniMultOptions('{tableName}','{ITNO}','{$USERID}');	
 
-
-});
   
 function setSysNav(value){	
 		window.location="/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTTaizhang_planFact&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}&$KEYWORD="+value;
@@ -91,13 +54,6 @@ function Dexcel(){
    <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 列表页面</div>
   </div>
 
-    		<!--多选搜索 4 begin-->
-		<div class="line_list_mulitSelect" style="display:none">
-			<select name="selSetCon" multiple="multiple">
-				<option value="1">日期</option>
-			
-			</select>
-		</div>
 
 <div class="line_list_left">
 <li style="float:left">

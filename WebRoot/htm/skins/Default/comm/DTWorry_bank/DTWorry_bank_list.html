@@ -44,6 +44,8 @@
 
   <script>
 $(document).ready(function(){
+
+
 	//如果操作列没有权限  隐藏操作列
 	hideLastCol('actor_table');
 
@@ -59,6 +61,18 @@ $(document).ready(function(){
 
 	
 });
+function excelIport(){ //excel导入
+   var certificate=document.getElementsByName('certificate')[0].value;
+	if (certificate==''){
+		alert('请添加EXCEL附件');
+	}else{
+		
+		document.form1.action="/excelImportMultiDoServlet?action=excelImport&excelName=DTWorry_bank&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}";
+		document.form1.encoding="multipart/form-data";
+		document.form1.submit();
+
+	}
+}
 
 
 function begin_HS(id){
@@ -139,6 +153,8 @@ function re_setCondition(){
      <div class="line_list" id="YC">
   	      <li>{delmanyshow}</li>
 		 <li>{addshow}</li>
+		  <li id="sendMany_liId" class="pian"  style="margin-left:60%" >EXCEL导入:&nbsp;&nbsp;<input type="file" style="width:200px;" name="certificate" size="20">
+		   <input type="button" style="width:50px;" name="excel" class="btn" onClick="excelIport()" value="导入">
      </div>
 
 <div class="a_box">
@@ -158,9 +174,9 @@ function re_setCondition(){
 	<TR style="BACKGROUND-COLOR: #fafbfd" id=1 align=middle bgColor=#fafbfd  	onmouseout={this.style.backgroundColor='#FAFBFD';}; onmouseover= {this.style.backgroundColor='#EEF1F8';};>
 
 	 <td >{id}&nbsp;</td>
-	 <td >{Bigtitle}&nbsp;</td>
-	 <td >{Smalltitle}&nbsp;</td>
-	 <td ><a href="javascript:void(0)" onclick="begin_HS('{recordId}');">启动</a></td>
+	 <td><a href="/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTWorry_bank_record_chakan&recordId={recordId}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}" target="_blank">{Bigtitle}&nbsp;</td>
+	  <td><a href="/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTWorry_bank_record_chakan&recordId={recordId}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}" target="_blank">{Smalltitle}&nbsp;</td>
+	 <td id="YC6"><a href="javascript:void(0)" onclick="begin_HS('{recordId}');">启动</a></td>
    	 
 
 
@@ -175,6 +191,7 @@ function re_setCondition(){
 		
 		if('{sNo}'==''){
 			document.getElementById("YC5").innerHTML="&nbsp;";
+			document.getElementById("YC6").innerHTML="&nbsp;";
 		}else{
 			
 			var title='{title}'.replace(/<[^>].*?>/g,'');

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.ldtec.base.DB.DBControl;
 import com.ldtec.stpm.fmreport.util.DBUtil;
 import com.ldtec.stpm.fmreport.util.DataModel;
+import com.ldtec.stpm.fmreport.util.SqlReplaceUseSysStrUtil;
 
 public class GenerExcelDao extends BaseDao {
 
@@ -297,5 +298,30 @@ public class GenerExcelDao extends BaseDao {
 		}
 
 		return _map;
+	}
+
+	public String queryData(String tittleGenerRule) {
+		
+		tittleGenerRule=SqlReplaceUseSysStrUtil.replaceSql(tittleGenerRule, SqlReplaceUseSysStrUtil.getUserSessionByRequest(request));
+	DBControl dbControl = new DBControl(request);
+	ResultSet selectDB = dbControl.SelectDB(tittleGenerRule);
+	try {
+		String string ="";
+		while(selectDB.next()){
+			string= selectDB.getString(1);
+			
+			
+			
+		}
+		return string;
+	} catch (SQLException e) {
+	
+		e.printStackTrace();
+	}finally{
+		dbControl.closeResultSet(selectDB);
+		dbControl.close();
+		dbControl = null;
+	}
+		return null;
 	}
 }

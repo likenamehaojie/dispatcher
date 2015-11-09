@@ -54,6 +54,9 @@ $(document).ready(function(){
 	iniCookie('{tableName}','{ITNO}','{$USERID}');
 	//初始化多选菜单
 	iniMultOptions('{tableName}','{ITNO}','{$USERID}');
+      var d1=$("#startTime").val()
+
+
 });
 
 
@@ -90,7 +93,7 @@ function iniList(){
 	map.put("AccidentSite:SYS_FIELDS",'<span id="AccidentSite_sysEdit_spanId#no#"><input type=\"text\" value="{AccidentSite}" name=\"AccidentSite#no#\"   size=\"13\" /></span><span id="AccidentSite_sysView_spanId#no#">{AccidentSite}</span>');
     
 	//发生时间
-	map.put("startTime:SYS_FIELDS",'<span id="startTime_sysEdit_spanId#no#"><input type=\"text\" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd HH:mm\',onpicked:function(){calMinus(#no#,1)}})" name=\"startTime#no#\" value="{startTime}" ></span><span id="startTime_sysView_spanId#no#">{startTime}</span>');
+	map.put("startTime:SYS_FIELDS",'<span id="startTime_sysEdit_spanId#no#"><input type=\"text\" id="startTime" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd HH:mm\',onpicked:function(){calMinus(#no#,1)}})" name=\"startTime#no#\" value="{startTime}" ></span><span id="startTime_sysView_spanId#no#">{startTime}</span>');
 
 	//结束时间
 	map.put("endTime:SYS_FIELDS",'<span id="endTime_sysEdit_spanId#no#"><input type=\"text\" onclick="WdatePicker({dateFmt:\'yyyy-MM-dd HH:mm\',onpicked:function(){calMinus(#no#,2)}})" name=\"endTime#no#\" value="{endTime}" ></span><span id="endTime_sysView_spanId#no#">{endTime}</span>');
@@ -124,8 +127,7 @@ function iniList(){
 	
 }
  //计算时间的分钟差
- function calMinus(no,nameType){
-	
+ function calMinus(no,nameType){	
 	var minutes = 1000*60;//分钟
 	var hours = minutes*60;//小时
 	var days = hours*24;//天
@@ -238,7 +240,7 @@ function iniList(){
 			<li id="li_search_btn">
 				&nbsp;
 				<input type="button"  value="查询" class="btn" onClick="setCondition('searchInfo','{tableName}','{ITNO}','{$USERID}');"/>
-				<input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','347',' 事故影响记录表');"/>
+				<input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','401','事故影响记录表');"/>
 		  </li>
 	   </ul>
    </div>
@@ -259,14 +261,14 @@ function iniList(){
       <tr>
 		 <th width="2%"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
 		<th >事故性质</th> 
-		<th >事故类型</td>
-		<th >事故地点</td>
-		<th width="10%">发生时间</td>
-		<th width="10%">结束时间</td>
-		<th >影响时长/min</td>
-		<th >责任单位</td>
-		<th >事故描述</td>
-		<th width="15%">备注</td>
+		<th >事故类型</th>
+		<th >事故地点</th>
+		<th width="10%">发生时间</th>
+		<th width="10%">结束时间</th>
+		<th >影响时长/min</th>
+		<th >责任单位</th>
+		<th >事故描述</th>
+		<th width="15%">备注</th>
 		<th id="oprear_th" width="12%">操作</th>
       </tr>
     </thead>

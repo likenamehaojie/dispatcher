@@ -46,14 +46,21 @@ public class SecurityAop {
 				return null;
 			}
 			PubFunction pf = new PubFunction();
-			out = response.getWriter();
+	
 			if (pf.hasPurview(info, ITNO, 2, request)) {
 				  String parameter = request.getParameter("urlMapping");
 		    	obj = 	pjp.proceed();
 			} else {
+				out = response.getWriter();
 				out.println("<script language='javascript'>location.href='adminlogin.do?action=noPurview';</script>");
 				return null;
 			}
+		}try{}finally{
+			
+			if(out!=null){
+				out.close();
+			}
+			
 		}
 		
 		

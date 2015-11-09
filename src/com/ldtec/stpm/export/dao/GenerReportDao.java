@@ -58,6 +58,76 @@ public class GenerReportDao extends BaseDao {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param viewSql
+	 * @param connectPointSplit 
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<List<String>> queryDateReturnConnectList(String []viewSql, String[] connectPointSplit) throws SQLException{
+		 List<List<String>> out = new ArrayList<List<String>>();
+		 DBControl db = new DBControl(request);
+		 int temLength = 0;
+		 List<List<List<String>>> allList = new ArrayList<List<List<String>>>();
+		 for(int i = 0;i<viewSql.length;i++){
+			 allList.add(this.queryDataReturnListWithOutMap(viewSql[i]));
+		 }
+		 //遍历拿到组合的最高高度
+		 int maxLength = 0;
+		 for(int i = 0;i<allList.size();i++){
+			 List<List<String>> list = allList.get(i);
+			 if(list==null||list.size()<1){
+				 continue;
+			 }
+			int  currentLength = list.size();
+			if(maxLength<currentLength){
+				maxLength = currentLength;
+			}	 
+		 }
+			//开始对齐高度
+		 for(int i = 0;i<allList.size();i++){
+			 List<List<String>> list = allList.get(i);
+		     int temSize = list.size();
+			 if(temSize<maxLength){
+				 //决定加几行
+				 for (int j = 0;j<maxLength-temSize;j++){
+					 int currentHeaderInfo = Integer.parseInt(connectPointSplit[i]);
+					 List<String> in = new ArrayList<String>();
+					 for(int m = 0;m<currentHeaderInfo;m++){
+						in.add("-999");
+					 }
+					 list.add(in);
+					 
+					 
+				 }
+			 }
+			 
+		 } 
+			 
+		 List<List<String>> firstList = allList.get(0);
+			//开始组装数据
+		 for(int i = 1;i<allList.size();i++){
+			 List<List<String>> other         = allList.get(i);
+		    //遍历第一个
+			 for(int j = 0;j<firstList.size();j++){
+				firstList.get(j).addAll(other.get(j));
+				 
+				 
+			 }  
+			 
+		 } 
+			 
+			 
+			 return firstList;
+			 
+			 
+			 
+			 
+			 
+		
+		
+	}
 	public List<List<String>> queryDataReturnListWithOutMap(String viewSql){
 		viewSql = this.replaceSql(viewSql, null);
 		DBControl db = new DBControl(request);

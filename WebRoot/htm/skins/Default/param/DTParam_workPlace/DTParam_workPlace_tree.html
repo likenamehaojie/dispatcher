@@ -198,9 +198,9 @@ border:0px;
 				var currentCount=(newCount++);
 				var MaxId=getInfoBySqlNo_noHidden(272,'')
 				var NewId=parseInt(MaxId)+1
-				var currenntId=getInfoBySqlNo_noHidden(378,'add|'+NewId+'|新工作面'+currentCount+'|' + treeNode.id);
+				var currenntId=getInfoBySqlNo_noHidden(378,'add|'+NewId+'|新工作面地点'+currentCount+'|' + treeNode.id);
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-				zTree.addNodes(treeNode, {id:currenntId, pId:treeNode.id, name:"新工作面" + currentCount,isParent:false,haschild:0});
+				zTree.addNodes(treeNode, {id:currenntId, pId:treeNode.id, name:"新工作地点" + currentCount,isParent:false,haschild:0});
 				var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
 				var defaultNode = treeObj.getNodeByParam("id",currenntId);
 				defaultNode.getParentNode().haschild = 1;
@@ -238,43 +238,54 @@ border:0px;
 			var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
 			var defaultNode = treeObj.getNodeByParam("id",'0');
 			treeObj.expandNode(defaultNode,true)
-			$("#Details").autoTextarea({maxHeight:2200,minHeight:10});
-			$("#remark").autoTextarea({maxHeight:2200,minHeight:10})
+			$("#Details").autoTextarea({maxHeight:2200,minHeight:50});
+			$("#remark").autoTextarea({maxHeight:2200,minHeight:50})
+			$("#hideBtn").attr("style","display:none");
+				$("#actor_table").attr("style","display:none");
 		
 		});
 
 
 		function zTreeOnClick(event, treeId, treeNode) {
 			document.getElementsByName("curTreeId")[0].value=treeNode.id;
-			
 			//判断是否有子节点
-			
-			
+
+       
+			//隐藏工作面父节点中的table
 			$("#hideId").val(treeNode.id);
-			if(treeNode.isJobCut==0||treeNode.haschild==0){
-			$("#hideBtn").attr("style","display:block");
+			if( treeNode.haschild==0 || treeNode.isJobCut==0){
+			if(treeNode.id==0){
+			      $("#hideBtn").attr("style","display:none");
+				  $("#actor_table").attr("style","display:none");
+			}
+			else{
+			    $("#hideBtn").attr("style","display:block");
+			    $("#actor_table").attr("style","display:block");
+			}
+			
 			}else{
 				$("#hideBtn").attr("style","display:none");
+				$("#actor_table").attr("style","display:none");
 				//$("#info").html("         ");
 				return;
 			}
 			
 			
 			if(treeNode.isHide ==1){
-				$("#info").val("工作面屏蔽中......");
-			$("#hideBtn").text("显示工作面");
+				$("#info").val("工作地点屏蔽中......");
+			$("#hideBtn").text("显示工作地点");
 			}
 			else{
 				$("#info").val("     ");
 			
-			$("#hideBtn").text("屏蔽工作面");
+			$("#hideBtn").text("屏蔽工作地点");
 			}
 			//alert(treeNode.tId + ", " + treeNode.name);		
 			//alert(treeNode.level)	
 
 		
-	$("#Specifications,#NetSection,#Details,#length,#remark").val('');
-     //通过json获获取工作面参数
+	$("#Specifications,#NetSection,#Details,#length,#remark,#dun").val('');
+     //通过json获取工作面参数
 	var treeId=document.getElementById("curTreeId").value;
 	var json=getJsonBySqlNo(47,treeId);
 	
@@ -286,6 +297,7 @@ border:0px;
 		$("#length").val(json[0].length);
 		$("#Details").val(json[0].Details);
 		$("#remark").val(json[0].remark);
+		$("#dun").val(json[0].dun);
 		recordId=json[0].id;
 	   }
 	
@@ -320,16 +332,16 @@ border:0px;
 			
 		
 			
-			if(statu =="屏蔽工作面"){
+			if(statu =="屏蔽工作地点"){
 				statu ="hide";
-				$("#hideBtn").text("显示工作面");
-				$("#info").val("工作面屏蔽中......");
+				$("#hideBtn").text("显示工作地点");
+				$("#info").val("工作地点屏蔽中......");
 				defaultNode.isHide = 1;
 				
 				
 			}else{
 				statu = "other";
-				$("#hideBtn").text("屏蔽工作面");
+				$("#hideBtn").text("屏蔽工作地点");
 				$("#info").val("         ");
 				defaultNode.isHide = 0;
 			}
@@ -483,8 +495,9 @@ border:0px;
 	var NetSection=$("#NetSection").val();
 	var length=$("#length").val();
 	var Details=$("#Details").val();
+	var dun=$("#dun").val();
 	var remark=$("#remark").val();
-	var valStr=treeId+'b62a'+Specifications+'b62a'+NetSection+'b62a'+length+'b62a'+Details+'b62a'+remark+'b62ac62b';
+	var valStr=treeId+'b62a'+Specifications+'b62a'+NetSection+'b62a'+length+'b62a'+Details+'b62a'+remark+'b62a'+dun+'b62ac62b';
 
 	var alertStr='';
 	if(Specifications=='')alertStr=alertStr+'规格不能为空!\n'
@@ -500,14 +513,14 @@ border:0px;
 
   if (isExists==0){ 
      //添加	    
-		ajax_pro_updateRecords(96,'DTParam_workPlaceInfo|add;|tree_id,Specifications,NetSection,length,Details,remark,|'+valStr+'|保存');
+		ajax_pro_updateRecords(96,'DTParam_workPlaceInfo|add;|tree_id,Specifications,NetSection,length,Details,remark,dun,|'+valStr+'|保存');
 		
 		
   }else{
 
 	 //修改
 		var type=recordId+':edit;'
-		ajax_pro_updateRecords(96,'DTParam_workPlaceInfo|'+type+'|tree_id,Specifications,NetSection,length,Details,remark,|'+valStr+'|保存');	
+		ajax_pro_updateRecords(96,'DTParam_workPlaceInfo|'+type+'|tree_id,Specifications,NetSection,length,Details,remark,dun,|'+valStr+'|保存');	
 	
 	   }
 	}
@@ -524,7 +537,7 @@ border:0px;
   <input type="hidden" name="CDNO" value="{CDNO}">
   <input type="hidden" name="ITNO" value="{ITNO}">
   <input type="hidden" name="curPage" value="{curPage}">
-  <input type="hidden" name="curTreeypeId" id="curTreeId"  value=""/>
+  <input type="hidden" name="curTreeId" id="curTreeId"  value=""/>
   <input name="$TABLEKEYWORD" type="hidden" value="{$TABLEKEYWORD}"/>
   <input name="$KEYWORD" type="hidden" value="1"/>
   <input type="hidden" name="id" id="id"  value=""/>
@@ -553,8 +566,8 @@ border:0px;
 	                <div class="a_box">	
 					<table width="100%" class="tabtap" id="actor_table" style="border-collapse:collapse;" cellspacing="0" cellpadding="0">
 					   <tr>
-						<td class="t_l b_cf" colspan="2">
-							工作面详情：<span id="addSpanTip_Id"></span>
+						<td class="t_l b_cf" colspan="1" >
+							工作地点详情：<span id="addSpanTip_Id"></span><input  name="Details" id="info" size="5" type="text" class="input_txt"/></input>
 						</td>
 					 </tr>
 					  <tr>
@@ -570,35 +583,33 @@ border:0px;
 						<td class="tad" width="20%">设计长度：</td>
 						<td class="t_l b_cf" width="60%"><input name="length" id="length" size="5" type="text" class="input_txt"/></input></td>
 					  </tr>	
+					  <tr>
+						<td class="tad" width="20%">吨/刀：</td>
+						<td class="t_l b_cf" width="60%"><input name="dun" id="dun" size="5" type="text" class="input_txt"/></input></td>
+					  </tr>	
 					<tr>
 						<td class="tad" width="20%">构造详情：</td>
-						<td class="t_l b_cf" width="60%"><textarea  name="Details" id="Details" size="5" type="text" class="input_txt"/></textarea></td>
+						<td class="t_l b_cf" width="60%"><textarea  name="Details" id="Details" size="5" type="text" rows="3" cols="60"/></textarea></td>
 					  </tr>	
-					  	<tr>
-						<td class="tad" width="20%">工作面状态：</td>
-						<td class="t_l b_cf" width="60%"><input name="Details" id="info" size="5" type="text" class="input_txt"/></input></td>
-					  </tr>	
-					<tr>
+					  
 						<td class="tad" width="20%">备注：</td>
-						<td class="t_l b_cf" width="60%"><textarea name="remark" id="remark" size="5" type="text" class="input_txt"/></textarea></td>
+						<td class="t_l b_cf" width="60%"><textarea  name="remark" id="remark" size="5" type="text" rows="3" cols="60"/></textarea></td>
 					  </tr>	
 					  <tr class="tad">
 						  <td class="t_l b_cf" width="60%" colspan="2" style="text-align:center">
 							 {saveshow}
 						  </td>
-						  <tr>
-
-						  <button id = "hideBtn" onClick ="hideNode(this)" class="btn" style="display:none"></button>
-						   <span id = "info1" style="color:red;font-size:18px"></span> 
+            
+					 <button id = "hideBtn" onClick ="hideNode(this)"  class="btnx" style="width:100px" ></button>
+						   <span id = "info1"  style="color:red;font-size:18px;"></span> 
 						 <input  type="hidden" id= "hideId"/>
-
-						 </tr>
+       
 					  </tr>		
 					  
       <td class="t_l b_cf" id="wxts_tdId" align="left" colspan="4">
           <span class="font3" >&nbsp 温馨提示：</span>
           <br>
-          &nbsp 拖拽单位即可实现排序（只能拖拽直属单位）。
+          &nbsp 拖拽工作地点即可实现排序。
 		  <br>
       </td>
     </tr>

@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+</head>
+  <form name="form1" action="" method="post">
+
+  <table border="1" style=" font:font-family:'微软雅黑';" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+	  <td colspan="8" align="center"  class=vwTitleName2><h3>城郊矿带班表</h3></td>
+      <tr>	    
+		<th width="3%" rowspan="2" style="font-size:20px;vnd.ms-excel.numberformat:@">日期</th>	
+		<th width="4%" colspan="3" style="font-size:20px;vnd.ms-excel.numberformat:@">带班人员</th> 
+		<th width="5%" rowspan="2" style="font-size:20px;vnd.ms-excel.numberformat:@">日期</th>
+		<th width="5%" colspan="3" style="font-size:20px;vnd.ms-excel.numberformat:@">带班人员</th>    
+      </tr>
+	  <tr>
+	  <th   align="center" >零点班</th>
+	  <th   align="center" >八点班</th>
+	  <th   align="center" >十六点班</th>
+	  <th   align="center" >零点班</th>
+	  <th   align="center" >八点班</th>
+	  <th   align="center" >十六点班</th> 
+	  </tr>
+    </thead>
+	{row}
+	<TR align=middle>
+	 <td >{dateone}&nbsp;</td>
+	 <td >{ldb}&nbsp;</td>
+	 <td >{bdb}&nbsp;</td>
+	 <td >{sldb}&nbsp;</td>
+
+	 <td >{datetwo}&nbsp;</td>
+	 <td >{ldbt}&nbsp;</td>
+	 <td >{bdbt}&nbsp;</td>
+	 <td >{sldbt}&nbsp;</td>
+	</tr>
+	{row}
+  </table>
+</form>
+</body>
+
+</html>

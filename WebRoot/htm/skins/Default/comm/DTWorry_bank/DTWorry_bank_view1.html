@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+  <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+  <script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+  <script src="/js/ajax1.js"></script>
+  <script src="/js/ajaxCheckUnique.js"></script>
+  <SCRIPT src="/js/checkout.js"></SCRIPT>
+ <SCRIPT src="/js/checkout_subTable.js"></SCRIPT>
+  <script src="/js/ajaxGetOptions.js"></script>
+  <script src="/js/jQuery.js"></script>
+  <script src="/js/expandJs/jQuery.setAvg-min.js"></script>
+  
+  <script type="text/javascript" src="/js/baiduAutoComplete.js" charset="utf-8"></script>
+  <script src="/js/map.js"></script>
+  <script src="/js/mainSub.js"></script>
+  <script src="/js/ajaxMod.js"></script>
+ 
+  <script src="/js/ajaxSearchInfo.js"></script>
+
+
+  <SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
+
+</head>
+<script type="text/javascript"></script>
+<script>
+function winOpenWH(id,no){
+	$("#DTWorry_bank_main_id").val(id)
+	$("#sNo").val(no);
+	window.open("/loadAdminServlet.do?action=getUserList&listUrl=YB","newwindow","width=850,height=400,location=yes,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no");
+	
+}
+
+function save_bc(){
+	
+	var Sending	= document.getElementsByName("Sending")[0].value;
+	var branch_realId	= document.getElementsByName("branch_realId")[0].value;
+	if(Sending.length==0){
+		alert("请选择发送人员！");
+		return false;
+	}
+	var sub_id='{recordId}';
+
+	var submitFlag=true;
+	if(submitFlag){
+		submitFlag=false;
+	ajax_pro(391,Sending+'|'+sub_id+'|'+branch_realId);
+	window.location='/generictableservlet?action=recordList&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}';
+	}
+}
+
+
+</script>
+
+   <form name="form1" action="" method="post">
+    <input type="hidden" name="mulId" value="DTWorry_bank_main_sub">
+	<input type="hidden" name="tableName" value="{mainTableName}">
+    <input type="hidden" name="mainTableName" value="{mainTableName}">
+    <input type="hidden" name="subTableName" value="{subTableName}">
+    <input type="hidden" name="CDNO" value="{CDNO}">
+    <input type="hidden" name="ITNO" value="{ITNO}">
+	<input type="hidden" name="id" value="{id}">
+	
+    <input type="hidden" name="listUrl" value="{listUrl}">
+    <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
+    <input type="hidden" name="curPage" value="{curPage}">
+    <input type="hidden" id="actorCount" name="actorCount" value="{actorCount}">
+    <input type="hidden" name="flag" value="1">
+    <input type="hidden" name="FINISH" value="">    
+	<input type="hidden" name="realFileName" value="">
+	<input type="hidden" id="DTWorry_bank_main_id" value="">
+	<input type="hidden" id="sNo" value="">
+	<input type="hidden" name="branch_realId" value="">
+
+ 
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 录入页面</div>
+
+  <div style = "clear:both;"></div>
+  
+
+<div class='toolbar'>
+<table width="100%" class="tabtap" style="border-collapse:collapse;" cellspacing="0" cellpadding="0">
+  <tbody>
+
+  <tr>
+  
+        <td class="tad">&nbsp;大标题&nbsp;:</td>
+		<td>{Bigtitle}</td>
+        <td class="tad">&nbsp;小标题&nbsp;:</td>
+		<td>{Smalltitle}</td>
+  </tr>
+</tbody></table>
+
+
+</div>
+  
+
+<div >
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+	  <tr  >
+	    <th align="center" width="15%" >责任主体</th>
+    	<th align="center" width="15%" >步骤</th>
+		<th align="center" width="30%" >步骤内容</th>
+    </tr>
+	{row}
+	<tr>
+	 <td style="display:none" id="id_td{sNo}">{sub_id}</td>
+	 <td >{Dispatch}&nbsp;</td>
+	 <td >{flag}&nbsp;</td>
+	 <td >{StepContent}&nbsp;</td>
+	 </tr>
+	 <script>
+		if('{Step}'!=1)
+		{
+			$("#Sending{sNo}").html("<textarea name='Sending' rows='2' cols='50' value='' style='display:none'></textarea>&nbsp;");
+		}
+	  </script>
+	 {row}
+    </thead>
+
+  </div>
+
+
+  <table width="98%">
+    <tr>
+      <td colspan="4" align="center">
+        <input type="button" value="关闭" class="btn m_l15" onclick="window.close();"/>
+      </td>
+    </tr>
+  </table>
+
+
+</form>
+</body>
+</html>

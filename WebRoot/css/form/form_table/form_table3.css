@@ -53,7 +53,7 @@ input{ vertical-align:middle;}
 
 .btn{ width:76px; height:26px;line-height:26px; border:none; color:#fff;cursor:pointer;overflow:visible;background:url(../../../images/index/btn.gif) no-repeat;}
 .f_btn{ padding:0px 10px; height:23px; line-height:23px; border:none; border:1px solid #c7c7c7; cursor:pointer;overflow:visible;background:url(../../../images/index/input_txt_bg.jpg) repeat-x;}
-
+.btnx{ width:85px; height:26px;line-height:26px; border:none; color:#fff;cursor:pointer;overflow:visible;background:url(../../../images/index/btnx.gif) no-repeat;}
 /*top*/
 .head{ width:100%; height:69px; background:url(../../../images/index/top_bg.jpg) repeat-x;}
 .top{ width:100%; height:69px; background:url(../../../images/index/logo.jpg) no-repeat;}
@@ -80,7 +80,7 @@ input{ vertical-align:middle;}
 .set_action li span a:hover{color:#b2b2b2;}
 .set_action img{ vertical-align:middle; margin-top:4px;}
 
-.path{  text-align:left; text-indent:12px;padding-top:10px;  border:1px solid #FF0000;}
+.path{  text-align:left; text-indent:12px;padding-top:10px; }
 .path img{ padding-right:10px;}
 
 .leftbar{ float:left; width:197px; overflow:auto;background:url(../../../images/index/leftbar_bg.jpg) repeat-y;}
@@ -147,7 +147,7 @@ input{ vertical-align:middle;}
 
 .line_list_left{margin:10px auto 0;overflow:hidden; padding-top:2px; margin-top:6px;width:97%; padding-right:10px;padding-bottom:5px; font-size:12px;text-align:left; border:1px solid #D5DADE; background:#fff;}
 .line_list_left ul{ margin-left:0px;}
-.line_list_left li{ float:left;list-style-type:none; padding-left:5px; height:28px; margin-top:5px;width:24%; }
+.line_list_left li{ float:left;list-style-type:none; padding-left:5px; height:28px; margin-top:5px;width:33%; }
 .line_list_left li a:hover{ display:block;color:#c50018; cursor:pointer;}
 
 

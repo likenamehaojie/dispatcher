@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+     <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  
+  
+   
+</head>
+
+
+
+
+
+
+<div id="top">
+   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp;  {$TABLEKEYWORD2} &gt; 详情页面</div>
+     <div style = "clear:both;"></div>
+<div class='toolbar'>
+<table width="100%" class="tabtap" style="border-collapse:collapse;" cellspacing="0" cellpadding="0">
+  <tbody>
+  <tr>
+    <td class="tad"><img src="images/form/mi.GIF">&nbsp;年月&nbsp;:</td>
+    <td> {yearandmonth}</td>
+	<td class="tad"><img src="images/form/mi.GIF">&nbsp;标题&nbsp;:</td>
+    <td> {Title}</td>
+  </tr>
+   <tr>
+	<td class="tad"><img src="images/form/mi.GIF">&nbsp;掘进总进尺&nbsp;:</td>
+    <td> {Remar}</td>
+  </tr>
+
+</tbody></table>
+
+
+</div>
+
+
+  <div>
+  <table border="0"width="100%" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+     <tr>
+        <th align="center">&nbsp;序号&nbsp;</th>
+		<th align="center">&nbsp;单位&nbsp;</th>
+		<th align="center">&nbsp;分队&nbsp;</th>
+		<th align="center">&nbsp;工程名称&nbsp;</th>
+		<th align="center">&nbsp;类别&nbsp;</th>
+		<th align="center">&nbsp;规格&nbsp;</th>
+        <th align="center">&nbsp;净断面&nbsp;</th>
+		<th align="center">&nbsp;支护形式&nbsp;</th>
+		<th align="center">&nbsp;计划量&nbsp;</th>
+		<th align="center">&nbsp;块煤率(%)&nbsp;</th>
+		<th align="center">&nbsp;备注&nbsp;</th>
+		
+      </tr>
+    </thead>
+    <tbody>
+	{row}
+	<script>
+	//添加一行新数据获取option值
+		var UNIT;
+		if('{flag}'==1){
+			UNIT='{UNIT}';
+			
+		}
+		  
+		   </script>
+	<tr id="{flag}">
+    <td id="xuhao{flag}" align="center">&nbsp;{flag}&nbsp;</td>
+    <td align="center">&nbsp;{Company}&nbsp;</td>
+	<td align="center">&nbsp;{Unit}&nbsp;</td>
+	<td align="center">&nbsp;{FaceName}&nbsp;</td>
+	<td align="center">&nbsp;{category}&nbsp;</td>
+	<td align="center">&nbsp;{Specifications}&nbsp;</td>
+	<td align="center">&nbsp;{Netsection}&nbsp;</td>
+	<td align="center">&nbsp;{Supporting}&nbsp;</td>
+	<td align="center">&nbsp;{Basicplan}&nbsp;</td>
+	<td align="center">&nbsp;{Coalwas}&nbsp;</td>
+	<td align="center">&nbsp;{Remarks}&nbsp;</td>
+    
+	
+  </tr>
+
+
+{row}
+       
+    </tbody>
+  </table>
+</div>
+  <table width="98%">
+    <tr>
+      <td colspan="4" align="center">'
+       <input type="button"  value="导出excel" class="btn" onClick="exportMuitlExcel('{yearandmonth}');"/>
+        <input type="submit" value="关闭" class="btn" onclick="javascript:window.close();" />
+       
+      
+      </td>
+    </tr>
+  </table>
+<script>
+
+function exportMuitlExcel(yearandmonth){
+
+window.location = "/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTPlan_ktht_cj&recordId={recordId}&ITNO=1_excel&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|"+yearandmonth+"&listUrl=excel&xiazaiwenjian=y";
+
+}
+
+
+</script>
+
+
+</script>
+</form>
+</body>
+</html>
