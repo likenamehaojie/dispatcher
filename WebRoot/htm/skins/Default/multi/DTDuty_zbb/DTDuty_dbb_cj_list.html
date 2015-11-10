@@ -11,6 +11,7 @@
 	 <!--table-->
 <script type="text/javascript" src="js/table/jquery.js"></script>
 <script type="text/javascript" src="js/table/jquery.tableui.js"></script>
+<script type="text/javascript" src="js/jQuery.js"></script>
 
 	<!--多选搜索 1 begin-->
 	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
@@ -54,8 +55,31 @@ $(document).ready(function(){
    if('{$combName}'=='查看'){
        document.getElementById("sendMany_liId").style.display="none";
 	    document.getElementById("oprear_th").style.display="none";
-
    }
+
+          //获取当前月份
+ var day ; 
+	if('{$TABLEKEYWORD3}'=='当前月'){
+	  day = new Date(); 
+	  var Year = day.getFullYear(); 
+	  var Month = day.getMonth()+1;
+	if(Month<10){
+		var Month='0'+Month;
+		day=Year+'年'+Month+'月'; 
+	   }
+	else
+		day=Year+'年'+Month+'月'
+	}else
+		day='{$TABLEKEYWORD3}'
+									  
+		$('#yearAndMonth').val(day);
+
+	$("[id^=sys_a_id]").each(function(index){ 
+	 if($(this).attr("realValue")==day){
+	 $(this).attr("class","active");
+	}
+}); 
+
 });
 
 
@@ -133,6 +157,16 @@ function excelIport(){ //excel导入
 		document.form1.submit();
 	     }
 }
+
+function setSysNav(hrefId){	
+	$("input[name=yearAndMonth]").val($("#"+hrefId).attr("realValue"));
+		execute();	
+}
+
+function execute(){
+	var yearAndMonth=$("input[name=yearAndMonth]").val();
+	window.location="/generictableservlet?action=recordList&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|"+yearAndMonth
+}
 </script>
 
   <form name="form1" action="" method="post">
@@ -157,7 +191,22 @@ function excelIport(){ //excel导入
    <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
    <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 列表页面</div>
   </div>
+<div class="line_list">
+	<li style="float:left;">
+	 <div id="navMenu">
+			<div id="navMenu1">
+			<script language="javascript" >
+				document.write(getJsonNavBySqlNo(4,'当前月',''))
+			</script>
+			</div>
+		</div>
+	</li>
+	<li style="float:left;">	
+	<span id="span2">
+	&nbsp;&nbsp;&nbsp;年月：&nbsp; <input name="yearAndMonth" value="" id="yearAndMonth" style="width:70px" onclick="WdatePicker({dateFmt:'yyyy年MM月'})" readonly class="input_txt" />
+    &nbsp;<input type="button" value="查 看" class="btn" onclick="execute()"/></span></li>
 
+</div>
 
 
 	 <div class="line_list">

@@ -120,7 +120,7 @@
 	<mulTable mulId ="DTPlan_ktht_cj_sub" 
 	addHtml = "skins/Default/multi/DTPlan_ktht_cj/DTPlan_ktht_cj_add.html" 
 	editHtml = "skins/Default/multi/DTPlan_ktht_cj/DTPlan_ktht_cj_edit.html" realDel="y" isHaveWf="n">
-	    <mainTable mainTableName="DTPlan_ktht_cj_main" fields="yearandmonth,Title,Remar" unique=""></mainTable>
+	    <mainTable mainTableName="DTPlan_ktht_cj_main" fields="id,yearandmonth,Title,Remar" unique=""></mainTable>
 		<subTable subTableName="DTPlan_ktht_cj_sub" fields="Company,Unit,FaceName,category,Specifications,Netsection,Supporting,Basicplan,Coalwas,Remarks" subRecordIsSaveByField="Basicplan"></subTable>
 		<defValueList>
        <defaultValue field="FaceName|OPT|1"><![CDATA[select d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></defaultValue>

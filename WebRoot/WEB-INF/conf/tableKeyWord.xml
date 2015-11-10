@@ -77,8 +77,8 @@
 	<tableKeyWord name="$410"><![CDATA[应急预案管理|应急记录]]></tableKeyWord>
 	<tableKeyWord name="$450"><![CDATA[生产计划|生产计划]]></tableKeyWord>
 	<tableKeyWord name="$451"><![CDATA[掘进计划|掘进计划]]></tableKeyWord>
-	<tableKeyWord name="$448"><![CDATA[下井跟值班管理|值班表]]></tableKeyWord>
-	<tableKeyWord name="$449"><![CDATA[下井跟值班管理|带班表]]></tableKeyWord>
+	<tableKeyWord name="$448"><![CDATA[下井跟值班管理|值班表|当前月]]></tableKeyWord>
+	<tableKeyWord name="$449"><![CDATA[下井跟值班管理|带班表|当前月]]></tableKeyWord>
     <tableKeyWord name="$452"><![CDATA[事故信息管理|安全事故统计表]]></tableKeyWord>
 	<tableKeyWord name="$453"><![CDATA[生产台账|入井升井台帐]]></tableKeyWord>
 

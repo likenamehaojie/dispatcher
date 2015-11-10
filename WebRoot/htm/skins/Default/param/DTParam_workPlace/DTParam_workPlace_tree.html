@@ -158,9 +158,13 @@ border:0px;
 			return true;
 		}
 		function onRename(e, treeId, treeNode, isCancel) {
-			ajax_pro_noInfo(378,'edit|'+treeNode.id+'|'+treeNode.name+'|-1');
+			var newname=getInfoBySqlNo_noHidden(378,'edit|'+treeNode.id+'|'+treeNode.name+'|-1');
+			 if(newname =="重复"){	
+			 alert("新增工作面名称重复！")
+			 return false;
+			   }
 			showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" onRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
-		}
+			}   
 		function showRemoveBtn(treeId, treeNode) {
 			return treeNode.id!=0;
 		}
@@ -196,9 +200,10 @@ border:0px;
 			var btn = $("#addBtn_"+treeNode.tId);
 			if (btn) btn.bind("click", function(){
 				var currentCount=(newCount++);
-				var MaxId=getInfoBySqlNo_noHidden(272,'')
-				var NewId=parseInt(MaxId)+1
-				var currenntId=getInfoBySqlNo_noHidden(378,'add|'+NewId+'|新工作面地点'+currentCount+'|' + treeNode.id);
+			//	var MaxId=getInfoBySqlNo_noHidden(272,'')
+			//	var NewId=parseInt(MaxId)+1
+				var currenntId=getInfoBySqlNo_noHidden(378,'add|空|新工作面地点'+currentCount+'|' + treeNode.id);
+                
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 				zTree.addNodes(treeNode, {id:currenntId, pId:treeNode.id, name:"新工作地点" + currentCount,isParent:false,haschild:0});
 				var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
@@ -240,9 +245,9 @@ border:0px;
 			treeObj.expandNode(defaultNode,true)
 			$("#Details").autoTextarea({maxHeight:2200,minHeight:50});
 			$("#remark").autoTextarea({maxHeight:2200,minHeight:50})
-			$("#hideBtn").attr("style","display:none");
-				$("#actor_table").attr("style","display:none");
-		
+
+			$("#actor_table").attr("style","display:none");
+
 		});
 
 
@@ -274,10 +279,11 @@ border:0px;
 			if(treeNode.isHide ==1){
 				$("#info").val("工作地点屏蔽中......");
 			$("#hideBtn").text("显示工作地点");
+			
 			}
 			else{
-				$("#info").val("     ");
-			
+				$("#info").val("工作地点显示中......");
+
 			$("#hideBtn").text("屏蔽工作地点");
 			}
 			//alert(treeNode.tId + ", " + treeNode.name);		
@@ -566,8 +572,8 @@ border:0px;
 	                <div class="a_box">	
 					<table width="100%" class="tabtap" id="actor_table" style="border-collapse:collapse;" cellspacing="0" cellpadding="0">
 					   <tr>
-						<td class="t_l b_cf" colspan="1" >
-							工作地点详情：<span id="addSpanTip_Id"></span><input  name="Details" id="info" size="5" type="text" class="input_txt"/></input>
+						<td class="t_l b_cf" colspan="2" id="infos">
+							<input  name="Details" id="info" size="5" type="text" class="input_txt"/></input>
 						</td>
 					 </tr>
 					  <tr>

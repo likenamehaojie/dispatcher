@@ -358,9 +358,10 @@ public HSSFFont getHSSFont(){
 			//fillDataUseList(max, queryDataReturnListWithOutMap, ge,reportId,sd.getIsUseDataBaseMegreRule());
 			fillDataUseList(max, queryDataReturnListWithOutMap, ge,reportId,sd);
 		}
+		ge.mergeCellInRowRange("-999");
 		ge.setRowHeigth(sd,max);
 		
-		ge.mergeCellInRowRange("-999");
+		
 		List<Map<String,Integer>> mergeCellBySameContentInfo =null;
 		//如果存在参照列则取出参照列信息
 		if(refCol>=0){

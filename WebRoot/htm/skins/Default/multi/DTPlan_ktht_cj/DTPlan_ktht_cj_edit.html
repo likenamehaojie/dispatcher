@@ -131,22 +131,21 @@ function AddRow_MR(){
 		obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); 
 
 	}
-/* 	function checkzz(){
-		var main_name=document.getElementsByName("MAIN_NAME")[0].value
-		var plan_time=document.getElementsByName("PLAN_TIME")[0].value
-		var main_id=document.getElementsByName("main_id")[0].value
-		var ceshi=getInfoBySqlNo_noHidden(280,main_name+'|'+plan_time+'|'+main_id)
+function checkzz(){
+		var yearandmonth=document.getElementsByName("yearandmonth")[0].value;
+		var id=document.getElementsByName("main_id")[0].value;
+		var communityId=document.getElementsByName("communityId")[0].value;
+		var ceshi=getInfoBySqlNo_noHidden(404,yearandmonth+'|'+id+'|'+communityId);
 		if (ceshi==0)
 		{
 			return check_subTable();
 		}
 		else
 		{
-		alert('项目名称和年份必须唯一')
+		alert('本月月报已存在，请核实后在保存')
 		return false;
 		}
-		<td align="center"> <div style ="width:55%;margin:0 auto"><li style="float:left"><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif" />添加 &nbsp;</span></a></li>   <li style="float:left"><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif" />删除</span></a></li></div></td>
-	} */
+	} 
 </script>
 
 
@@ -163,7 +162,7 @@ function AddRow_MR(){
 <input type="hidden" name="mulId" value="{mulId}">
 <input type="hidden" id="actorCount" name="actorCount" value="{actorCount}">
 <input type="hidden" name="flag" value="{flag}">
-
+<input type="hidden" name="communityId" value="{$COMMUNITYID}">
 <input type="hidden" name="realFileName" value="{realFileName}">
 
 
@@ -187,7 +186,7 @@ function AddRow_MR(){
     <td> <input name="Title" type="text" value="{Title}" class="input_txt" style = "width:220px;"/></td>
   </tr>
   <tr>
-	<td class="tad">&nbsp;掘进总进尺&nbsp;:</td>
+	<td class="tad">&nbsp;掘进总进尺其中开拓进尺&nbsp;:</td>
     <td> <input name="Remar" type="text" value="{Remar}" class="input_txt" style = "width:220px;"/></td>
   </tr>
   
@@ -230,7 +229,7 @@ function AddRow_MR(){
 	<td align="center"><input  class="input_txt" type="text" name="Supporting{flag}" value="{Supporting}"/></td>
 	<td align="center"><input  class="input_txt" type="text" name="Basicplan{flag}" value="{Basicplan}"/></td>
 	<td align="center"><input  class="input_txt" type="text" name="Coalwas{flag}" value="{Coalwas}"/></td>
-	<td align="center"><textarea   type="text"  name="Remarks{flag}" rows="2" cols="50" value="{Remarks}" /></textarea></td>
+	<td align="center"><textarea   type="text"  name="Remarks{flag}" rows="2" cols="50" value="{Remarks}" />{Remarks}</textarea></td>
     
 	
   </tr>
@@ -243,7 +242,7 @@ function AddRow_MR(){
   <table width="98%">
     <tr>
       <td colspan="4" align="center">
-        <input type="submit" value="保存" class="btn" onclick="return check_subTable();" />
+        <input type="submit" value="保存" class="btn" onclick="return checkzz();" />
         <input type="button" value="返回" class="btn m_l15" onclick="window.history.go(-1)"/>
       </td>
     </tr>

@@ -348,8 +348,8 @@ communityId='$COMMUNITYID' and ((DATEDIFF(DD,GETDATE(),dateone)>=-3 and DATEDIFF
 
 		<![CDATA[select id,yearandmonth,Title,Remar from DTPlan_ktht_cj_main where id='$RECORDID' ]]></table> 
 
-	 	<table tableName="DTPlan_ktht_cj_sub" attList="" rowName="row"  fields="flag,Company,Unit,FaceName,category,Specifications,Netsection,Supporting,Basicplan,Coalwas,Remarks">
-		<![CDATA[select flag,Company,Unit,FaceName,category,Specifications,Netsection,Supporting,Basicplan,Coalwas,Remarks from DTPlan_ktht_cj_sub where main_id='$RECORDID' order by Date_created,flag ]]></table> 
+	 	<table tableName="DTPlan_ktht_cj_sub" attList="" rowName="row"  fields="flag,Company,Unit,FaceName,category,Specifications,Netsection,Supporting,Basicplan,Coalwas,Remarks,FaceName_str">
+		<![CDATA[select flag,Company,Unit,FaceName,category,Specifications,Netsection,Supporting,Basicplan,Coalwas,Remarks,dbo.f_field_option_workPlace(FaceName) as FaceName_str from DTPlan_ktht_cj_sub where main_id='$RECORDID' order by Date_created,flag ]]></table> 
 	</viewTableRecordTemplate>
 	<!-- ¾ò½ø¼Æ»® end -->
 

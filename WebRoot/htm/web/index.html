@@ -55,12 +55,12 @@ a,img{border:0;}
   <div class="dl-title" style="line-height:30px">
     <!--<img src="/chinapost/Public/assets/img/top.png">-->
     <div class="top-right"> <img src="images/login/pin.png"  alt="" /> </div>
-    <div class="top-left"><a id="mint" title="您有 {smsNum} 未读短信" class="topall">消息</a><a href="javascript:sysUpdateXML()" title="帮助" class="topala">帮助</a>
+    <div class="top-left"><a id="mint" title="您有 {smsNum} 未读短信" class="topall">消息</a><a href="javascript:getHelp()" title="帮助" class="topala">帮助</a>
      <a href="javascript:logout()" title="退出系统" class="topalb">[退出]</a>
      </div>
 	 <br>
 	 <div style="float:right;font-size:12px;">
-	 <select name="loginNames" onchange="changeLoginName(this)">
+	 <select name="loginNames" style="display:none" onchange="changeLoginName(this)">
 		<option value="">---请选择用户---</option>
 		{row_login}
 			<option value="{admin_pwd}">{admin_name}</option>
@@ -125,7 +125,7 @@ a,img{border:0;}
 					}
 					
 					if(json.length==0){
-						htmlStr=htmlStr+'<tr><td align="center" width="5%" onMouseOver="on(this);" onMouseOut="out(this);">&nbsp;<img src="images/main/dot_right2.gif"></td><td width="40%" align="left" title="" id="title_tdId{sNo}">无</td><td width="30%">&nbsp;</td><td width="20%" align="right">&nbsp;</td></tr>';
+						htmlStr=htmlStr+'<tr><td align="center" width="5%" >&nbsp;<img src="images/main/dot_right2.gif"></td><td width="40%" align="left" title="" id="title_tdId{sNo}">无</td><td width="30%">&nbsp;</td><td width="20%" align="right">&nbsp;</td></tr>';
 						
 					}else{
 						for(var i=0; i<json.length; i++){
@@ -166,14 +166,14 @@ a,img{border:0;}
 			  
 				{row_record}
 				  <tr>
-					<td align="center" width="5%" onMouseOver="on(this);" onMouseOut="out(this);">&nbsp;<img src="images/main/dot_right2.gif"></td>
+					<td align="center" width="5%" >&nbsp;<img src="images/main/dot_right2.gif"></td>
 					<td >&nbsp;{workDes}</td>
 					<td align="center">&nbsp;{dateDes}</td>
 					<td align="center">&nbsp;{date_created}</td>
 				  </tr>
 				 {row_record}
 				 <tr>
-					 <td align="center" width="5%" onMouseOver="on(this);" onMouseOut="out(this);">&nbsp;<img src="images/main/dot_right2.gif"></td>
+					 <td align="center" width="5%" >&nbsp;<img src="images/main/dot_right2.gif"></td>
 					<td colspan="3">&nbsp;最多显示100条...</td>
 				  </tr>
 			</table>
@@ -183,7 +183,7 @@ a,img{border:0;}
 	   	<table width="100%" style=" margin-left:0px; margin-right:0px;" id='table1' border="0" cellspacing="0" cellpadding="0">
 				{row_wf}
 				  <tr>
-					<td align="center" width="5%" onMouseOver="on(this);" onMouseOut="out(this);">&nbsp;<img src="images/main/dot_right2.gif"></td>
+					<td align="center" width="5%" >&nbsp;<img src="images/main/dot_right2.gif"></td>
 					<td width="90%" id="wf_title_tdId{sNo}">&nbsp;{wf_pStr}</td>
 				  </tr>
 				  <script>
@@ -206,7 +206,7 @@ a,img{border:0;}
 			  
 				{row_dbb}
 				  <tr>
-					<td align="center" width="5%" onMouseOver="on(this);" onMouseOut="out(this);">&nbsp;<img src="images/main/dot_right2.gif"></td>
+					<td align="center" width="5%">&nbsp;<img src="images/main/dot_right2.gif"></td>
 					<td >&nbsp;{yearAndMonth}</td>
 					<td >&nbsp;<b>{AzdbA}</b></td>
 					<td >&nbsp;{AzdbB}</td>
@@ -233,7 +233,7 @@ a,img{border:0;}
 			  
 				{row_dbb_cj}
 				  <tr>
-					<td align="center" width="5%" onMouseOver="on(this);" onMouseOut="out(this);">&nbsp;<img src="images/main/dot_right2.gif"></td>
+					<td align="center" width="5%">&nbsp;<img src="images/main/dot_right2.gif"></td>
 					<td>&nbsp;<b>{zdate}</b></td>
 					<td align="center">&nbsp;{ldb}</td>
 					<td align="center">&nbsp;{bdb}</td>
@@ -256,7 +256,7 @@ a,img{border:0;}
 			  
 				{row_zbb}
 				  <tr>
-					<td align="center" width="5%" onMouseOver="on(this);" onMouseOut="out(this);">&nbsp;<img src="images/main/dot_right2.gif"></td>
+					<td align="center" width="5%">&nbsp;<img src="images/main/dot_right2.gif"></td>
 					<td >&nbsp;{tDate}</td>
 					<td align="center" >&nbsp;<b>{zzb}</b></td>
 					<td align="center" >&nbsp;{kldfzb}</td>
@@ -358,10 +358,12 @@ function changeLoginName(selObj){
 
 
 //帮助  更新配置文件
+
+function getHelp(){
+	window.open('http://yun.baidu.com/share/link?shareid=3444941737&uk=1411143373')
+}
 var pageii;
 function sysUpdateXML(){
-
-
 
 
 	pageii = $.layer({
@@ -388,11 +390,32 @@ function sysUpdateXML(){
 		//alert(ITNO);
 		$('input[name="txtITNO"]').val(ITNO);
 	}
-	
-	
-
 	//window.open('http://yun.baidu.com/share/link?shareid=3444941737&uk=1411143373')
 }
+var xmlHelp=true;
+//ctrl alt  h 组合键调出开发者模式
+document.onkeydown=function(){
+	$("select[name=loginNames]").show();
+	var e=e||event;
+	if(e && e.ctrlKey && e.altKey && e.keyCode==72){ // enter 键
+		if(xmlHelp){
+			sysUpdateXML();
+			xmlHelp=false;
+			
+		}else{
+			pageClose();
+			xmlHelp=true;
+		}
+
+	}
+
+}
+//自设关闭
+function pageClose(){
+    layer.close(pageii);
+	xmlHelp=true;
+}
+
 
 function openModuleTree(){
 	winOpenWH('/roleZTreeServlet?action=iniZTree&ITNO=28','1300','700');
@@ -468,10 +491,7 @@ function pageNoNodeBtn(){
 	winOpenWH('/generictableservlet?action=recordList&ITNO='+realITNO+'&$TABLEKEYWORD=系统设置|无节点模块设置|'+txtITNO,'1300','700');
 }
 
-//自设关闭
-function pageClose(){
-    layer.close(pageii);
-}
+
 
 //短消息提示框重大
 function setMsgBox(){

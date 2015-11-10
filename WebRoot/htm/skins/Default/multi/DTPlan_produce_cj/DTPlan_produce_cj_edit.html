@@ -3,11 +3,13 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
   <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
-  <title>{$TABLEKEYWORD1}-{$TABLEKEYWORD2}</title>
+  <title>生产计划-生产计划</title>
   <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
      <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+    <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
+	    <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
   
   <script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
   <script src="/js/ajax1.js"></script>
@@ -21,7 +23,7 @@
   <script src="/js/ajaxMod.js"></script>
   <script src="/js/map.js"></script>
   <SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
-  
+
    <script>
   
    (function($){
@@ -106,6 +108,8 @@ $(document).ready(function(){
 	$(this).autoTextarea({maxHeight:2200,minHeight:30});
   
   });
+
+
 })
 function AddRow_MR(){
 	
@@ -131,25 +135,25 @@ function AddRow_MR(){
 		obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); 
 
 	}
-/* 	function checkzz(){
-		var main_name=document.getElementsByName("MAIN_NAME")[0].value
-		var plan_time=document.getElementsByName("PLAN_TIME")[0].value
-		var main_id=document.getElementsByName("main_id")[0].value
-		var ceshi=getInfoBySqlNo_noHidden(280,main_name+'|'+plan_time+'|'+main_id)
+	function checkzz(){
+		var yearandmonth=document.getElementsByName("yearandmonth")[0].value;
+		var id=document.getElementsByName("main_id")[0].value;
+		var communityId=document.getElementsByName("communityId")[0].value;
+		var ceshi=getInfoBySqlNo_noHidden(403,yearandmonth+'|'+id+'|'+communityId);
 		if (ceshi==0)
 		{
 			return check_subTable();
 		}
 		else
 		{
-		alert('项目名称和年份必须唯一')
+		alert('本月月报已存在，请核实后在保存')
 		return false;
 		}
-		<td align="center"> <div style ="width:55%;margin:0 auto"><li style="float:left"><a href="#" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif" />添加 &nbsp;</span></a></li>   <li style="float:left"><a href="#" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif" />删除</span></a></li></div></td>
-	} */
+	} 
+
 </script>
 
-
+<body style="padding-bottom:0px;">
 <form name="form1" action="/genericmultableservlet?action=saveEditRecord" method="post">
 <input type="hidden" name="tableName" value="{mulId}">
 
@@ -162,7 +166,8 @@ function AddRow_MR(){
 <input type="hidden" name="curPage" value="{curPage}">
 <input type="hidden" name="mulId" value="{mulId}">
 <input type="hidden" id="actorCount" name="actorCount" value="{actorCount}">
-<input type="hidden" name="flag" value="{flag}">
+<input type="hidden" name="flag" value="{flag}">   
+<input type="hidden" name="communityId" value="{$COMMUNITYID}">
 
 <input type="hidden" name="realFileName" value="{realFileName}">
 
@@ -173,8 +178,8 @@ function AddRow_MR(){
 
 
 <div id="top">
-   <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
-   <div class="bottom">&nbsp;&nbsp;  {$TABLEKEYWORD2} &gt; 修改页面</div>
+   <div class="haer"><span id="tans"><strong>生产计划 </strong></span></div>
+   <div class="bottom">&nbsp;&nbsp;  生产计划 &gt; 修改页面</div>
      <div style = "clear:both;"></div>
 <div class='toolbar'>
 <table width="100%" class="tabtap" style="border-collapse:collapse;" cellspacing="0" cellpadding="0">
@@ -216,7 +221,7 @@ function AddRow_MR(){
 	<td align="center"><span ><select name="FaceName{flag}"> <option value="" >{FaceName}</option></select></span></td>
 	<td align="center"><input  class="input_txt" type="text" name="Basicplan{flag}" value="{Basicplan}"/></td>
 	<td align="center"><input  class="input_txt" type="text" name="Coalwas{flag}" value="{Coalwas}"/></td>
-	<td align="center"><textarea   type="text"  name="Remarks{flag}" rows="2" cols="50" value="{Remarks}" /></textarea></td>
+	<td align="center"><textarea   type="text"  name="Remarks{flag}" rows="2" cols="50" value="{Remarks}" />{Remarks}</textarea></td>
 
 	<td style="display:none"><input name="FINISH{flag}" type="text" value="{FINISH}" size="5"/></td>
 	<td style="display:none"><input name="REMARK_F{flag}" type="text" value="{REMARK_F}" size="5"/></td>
@@ -235,9 +240,9 @@ function AddRow_MR(){
   </table>
 </div>
   <table width="98%">
-    <tr>
-      <td colspan="4" align="center">
-        <input type="submit" value="保存" class="btn" onclick="return check_subTable();" />
+    <tr class="tad">
+      <td colspan="4" width="100%" align="center">
+        <input type="submit" value="保存" class="btn" onclick="return checkzz()" />
         <input type="button" value="返回" class="btn m_l15" onclick="window.history.go(-1)"/>
       </td>
     </tr>

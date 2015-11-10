@@ -124,4 +124,6 @@
 	<condition name="$QYSB" ><![CDATA[ where communityId='$COMMUNITYID' and isUpload = '1' and jc_type = '$TABLEKEYWORD2' ]]></condition>
 	<!-- 查看已上报 end-->
 
+	<!-- 城郊 带班表  begin-->
+	<condition name="$ZBB_cj" ><![CDATA[ where communityId='$COMMUNITYID' and replace('$TABLEKEYWORD3','当前月',replace(convert(nvarchar(7),GETDATE(),120),'-','年')+'月')=replace(convert(nvarchar(7),dateone,120),'-','年')+'月']]></condition>
 </tableConditions>

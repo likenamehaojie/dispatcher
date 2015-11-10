@@ -384,6 +384,9 @@ public class ExcelShower {
 	     if(cell==null){
 	    	 return value;
 	     }
+	     if(cell.getRichStringCellValue().toString().equals("掘进总进尺")){
+	    	 System.out.println(cell.getRichStringCellValue());
+	     }
 		if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
 			value = cell.getRichStringCellValue().toString().replace("\n", "<br/>");
 			if(value.toString().contains("\r")){
@@ -422,9 +425,10 @@ public class ExcelShower {
 				 */
 			}
 		}
-		if (cell.getCellType() == HSSFCell.CELL_TYPE_BLANK) {
+		if (cell.getCellType() == HSSFCell.CELL_TYPE_BLANK  ) {
 			value = "";
 		}
+		
 	
 		return value;
 	}

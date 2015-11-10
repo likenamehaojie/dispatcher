@@ -19,6 +19,8 @@
 	<script type="text/javascript" src="js/multiSelect/jquery.js"></script>
 	<script type="text/javascript" src="js/multiSelect/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="js/multiSelect/jquery.multiselect.js"></script>
+	<script type="text/javascript" src="js/ajaxGetOptions.js"></script>
+
 	<!--多选搜索 1 end-->
 
 	<!--日期控件 begin-->
@@ -40,7 +42,11 @@
 </head>
 
   <script>
+
+
+
 $(document).ready(function(){
+
 	//初始化row数据
 	iniList();
 	//如果操作列没有权限  隐藏操作列
@@ -54,6 +60,29 @@ $(document).ready(function(){
  
    }
 
+//获取当前月份
+  	var day ; 
+	if('{$TABLEKEYWORD3}'=='当前月'){
+		 day = new Date(); 
+		var Year = day.getFullYear(); 
+		var Month = day.getMonth()+1;
+		if(Month<10){
+			var Month='0'+Month;
+			day=Year+'年'+Month+'月'; 
+		}
+		else
+			day=Year+'年'+Month+'月'
+	}else
+		day='{$TABLEKEYWORD3}'
+	
+  
+   $('#yearAndMonth').val(day);
+
+	$("[id^=sys_a_id]").each(function(index){ 
+		if($(this).attr("realValue")==day){
+			$(this).attr("class","active");
+		}
+	}); 
 
 });
 
@@ -133,9 +162,18 @@ function   Dexcel(){
       var dattimevalue=$("#time").val();
 
  
-	//window.open("/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTTaizhang_emphasis_zdgctz&recordId=&ITNO=1_excel&$TABLEKEYWORD=生产台账|重点工程台账|"+dattimevalue+"|"+name+"|{$TABLEKEYWORD5}&xiazaiwenjian=y&$KEYWORD="+dattimevalue+"|"+optionvalue);
+	window.open("
 }
 
+function setSysNav(hrefId){	
+	$("input[name=yearAndMonth]").val($("#"+hrefId).attr("realValue"));
+		execute();	
+}
+
+function execute(){
+	var yearAndMonth=$("input[name=yearAndMonth]").val();
+	window.location="/generictableservlet?action=recordList&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|"+yearAndMonth
+}
 </script>
 
   <form name="form1" action="" method="post">
@@ -159,7 +197,22 @@ function   Dexcel(){
    <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
    <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 列表页面</div>
   </div>
+<div class="line_list">
+	<li style="float:left;">
+	 <div id="navMenu">
+			<div id="navMenu1">
+			<script language="javascript" >
+				document.write(getJsonNavBySqlNo(4,'当前月',''))
+			</script>
+			</div>
+		</div>
+	</li>
+	<li style="float:left;">	
+	<span id="span2">
+	&nbsp;&nbsp;&nbsp;年月：&nbsp; <input name="yearAndMonth" value="" id="yearAndMonth" style="width:70px" onclick="WdatePicker({dateFmt:'yyyy年MM月'})" readonly class="input_txt" />
+    &nbsp;<input type="button" value="查 看" class="btn" onclick="execute()"/></span></li>
 
+</div>
 
 
 	 <div class="line_list">
