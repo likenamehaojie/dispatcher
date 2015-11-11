@@ -8,8 +8,6 @@
     <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
      <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
-    <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
-	    <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
   
   <script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
   <script src="/js/ajax1.js"></script>
@@ -72,7 +70,7 @@ function AddRow(maxLength){
 	map.put("Company",'<input  class=\"input_txt\"  type=\"text\"  name=\"Company#no#\" value=\"\" />');	
 
 	//工作面名称
-	map.put("FaceName:SYS_FIELDS",'<span id="FaceName_sysEdit_spanId#no#"><select name=\"FaceName#no#\" realValue=\"{FaceName}\"  check=\"2"\ > <option value="" ></option>{filterOptions1}</select></span>');
+	map.put("FaceName:SYS_FIELDS",'<span id="FaceName_sysEdit_spanId#no#"><select name=\"FaceName#no#\"  check=\"2"\ >  <option value ="-1"></option>{FaceName}</select></span>');
 
 	//基本计划
 	map.put("Basicplan",'<input  class=\"input_txt\"  type=\"text\"  name=\"Basicplan#no#\" value=\"\" />');	
@@ -153,14 +151,11 @@ function AddRow_MR(){
 
 </script>
 
-<body style="padding-bottom:0px;">
 <form name="form1" action="/genericmultableservlet?action=saveEditRecord" method="post">
 <input type="hidden" name="tableName" value="{mulId}">
-
 <input type="hidden" name="recordId" value="{recordId}">
 <input type="hidden" name="CDNO" value="{CDNO}">
 <input type="hidden" name="ITNO" value="{ITNO}">
-
 <input type="hidden" name="listUrl" value="{listUrl}">
 <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
 <input type="hidden" name="curPage" value="{curPage}">
@@ -168,12 +163,9 @@ function AddRow_MR(){
 <input type="hidden" id="actorCount" name="actorCount" value="{actorCount}">
 <input type="hidden" name="flag" value="{flag}">   
 <input type="hidden" name="communityId" value="{$COMMUNITYID}">
-
 <input type="hidden" name="realFileName" value="{realFileName}">
-
-
 <input type="hidden" name="main_id" value="{main_id}">
-
+<input type="hidden" name="field.validateValue_sub" value="Basicplan|基本计划|TXT|100|1|yn|">
 
 
 
@@ -218,8 +210,8 @@ function AddRow_MR(){
 	<tr id="{flag}">
     <td id="xuhao{flag}" align="center">{flag}</td>
     <td align="center"><input  class="input_txt" type="text" name="Company{flag}" value="{Company}"/></td>
-	<td align="center"><span ><select name="FaceName{flag}"> <option value="" >{FaceName}</option></select></span></td>
-	<td align="center"><input  class="input_txt" type="text" name="Basicplan{flag}" value="{Basicplan}"/></td>
+	<td align="center"><span ><select name="FaceName{flag}">{FaceName}</select></span></td>
+	<td align="center"><input  class="input_txt" type="text" name="Basicplan{flag}" value="{Basicplan}" onkeyup="clearNoNum(this)" /></td>
 	<td align="center"><input  class="input_txt" type="text" name="Coalwas{flag}" value="{Coalwas}"/></td>
 	<td align="center"><textarea   type="text"  name="Remarks{flag}" rows="2" cols="50" value="{Remarks}" />{Remarks}</textarea></td>
 
@@ -239,15 +231,14 @@ function AddRow_MR(){
     </tbody>
   </table>
 </div>
-  <table width="98%">
-    <tr class="tad">
-      <td colspan="4" width="100%" align="center">
-        <input type="submit" value="保存" class="btn" onclick="return checkzz()" />
+  <table width="98%" style="height:80px">
+    <tr>
+        <td  align="center">
+		<input type="submit" value="保存" class="btn" onclick="return checkzz();" />
         <input type="button" value="返回" class="btn m_l15" onclick="window.history.go(-1)"/>
       </td>
     </tr>
   </table>
-
 </form>
 </body>
 </html>

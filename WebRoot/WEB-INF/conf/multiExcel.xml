@@ -75,7 +75,7 @@
 		<mainTable mainTableName="DTPlan_ktht_cj_main" mainFields="Title,yearAndMonth,Remar" conditionMainFields="yearAndMonth,communityId|$COMMUNITYID">
 		</mainTable>
 
-		<subTable subTableName="DTPlan_ktht_cj_sub" subFields="Company,Unit,NameFace,category,Specifications,Netsection,Supporting,Basicplan,Coalwas,Remarks" mrFields="" dateFields="" intFields="" doubleFields="" filterOPTFields="NameFace|3">
+		<subTable subTableName="DTPlan_ktht_cj_sub" subFields="Company,Unit,NameFace,category,Specifications,Netsection,Supporting,Basicplan,Coalwas,Remarks" mrFields="" dateFields="" intFields="" doubleFields="8" filterOPTFields="NameFace|3">
 		</subTable>	
 
 		<afterSql execAfterPar="$main_id"><![CDATA[exec [porc_DTPlan_ktht_cj] '$main_id']]></afterSql>

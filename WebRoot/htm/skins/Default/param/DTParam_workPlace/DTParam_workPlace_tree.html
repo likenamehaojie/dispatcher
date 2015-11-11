@@ -11,6 +11,7 @@
 <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css"> <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
 <script type="text/javascript" src="js/main/jquery-1.4.2.min.js"></script>
 <script src="js/layer/layer.min.js"></script>
+<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
 
 <script src="/js/ajaxGetOptions.js"></script>
 <script src="/js/ajaxMod.js"></script>
@@ -238,6 +239,8 @@ border:0px;
 		}
 		
 		$(document).ready(function(){
+			setNumCheck("dun:length");
+
 			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
 			$("#selectAll").bind("click", selectAll);
 			var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
@@ -245,8 +248,8 @@ border:0px;
 			treeObj.expandNode(defaultNode,true)
 			$("#Details").autoTextarea({maxHeight:2200,minHeight:50});
 			$("#remark").autoTextarea({maxHeight:2200,minHeight:50})
-
 			$("#actor_table").attr("style","display:none");
+	
 
 		});
 
@@ -503,6 +506,8 @@ border:0px;
 	var Details=$("#Details").val();
 	var dun=$("#dun").val();
 	var remark=$("#remark").val();
+	var aaa=$("#dun").attr("reg","^[0-9]+(.[0-9]{1,3})?$");
+	alert(aaa)
 	var valStr=treeId+'b62a'+Specifications+'b62a'+NetSection+'b62a'+length+'b62a'+Details+'b62a'+remark+'b62a'+dun+'b62ac62b';
 
 	var alertStr='';
@@ -591,7 +596,7 @@ border:0px;
 					  </tr>	
 					  <tr>
 						<td class="tad" width="20%">吨/刀：</td>
-						<td class="t_l b_cf" width="60%"><input name="dun" id="dun" size="5" type="text" class="input_txt"/></input></td>
+						<td class="t_l b_cf" width="60%"><input name="dun" id="dun" size="5" type="text" class="input_txt" tip="[吨/刀]必须为整数" check="2"/></input></td>
 					  </tr>	
 					<tr>
 						<td class="tad" width="20%">构造详情：</td>
@@ -608,7 +613,7 @@ border:0px;
             
 					 <button id = "hideBtn" onClick ="hideNode(this)"  class="btnx" style="width:100px" ></button>
 						   <span id = "info1"  style="color:red;font-size:18px;"></span> 
-						 <input  type="hidden" id= "hideId"/>
+						 <span  type="hidden" id= "hideId"></span>
        
 					  </tr>		
 					  

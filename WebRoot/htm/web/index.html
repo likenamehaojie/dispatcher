@@ -395,16 +395,18 @@ function sysUpdateXML(){
 var xmlHelp=true;
 //ctrl alt  h 组合键调出开发者模式
 document.onkeydown=function(){
-	$("select[name=loginNames]").show();
 	var e=e||event;
-	if(e && e.ctrlKey && e.altKey && e.keyCode==72){ // enter 键
-		if(xmlHelp){
-			sysUpdateXML();
-			xmlHelp=false;
-			
-		}else{
-			pageClose();
-			xmlHelp=true;
+	if(e && e.ctrlKey && e.altKey){ // enter 键
+		$("select[name=loginNames]").show();
+		if(e.keyCode==72){
+			if(xmlHelp){
+				sysUpdateXML();
+				xmlHelp=false;
+				
+			}else{
+				pageClose();
+				xmlHelp=true;
+			}
 		}
 
 	}

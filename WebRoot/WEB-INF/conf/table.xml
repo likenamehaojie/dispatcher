@@ -37,10 +37,10 @@
 
 		   <!-- 自由组合 begin-->
 		  <table tableName = "admin_purview_sub_comb" isMulCt="$COMMUNITYTYPE" attList = "" addHtml = "admin/sysBase/admin_purview_sub/admin_purview_sub_comb_singleAdd.html" editHtml = "admin/sysBase/admin_purview_sub/admin_purview_sub_comb_edit.html" viewHtml = "">
-			<addRecord fields="identify_id,combName,cdnoValue,listUrlValue,btnIds,remark" unique="">
+			<addRecord fields="identify_id,combName,cdnoValue,listUrlValue,btnIds,seqNo,remark" unique="">
 				<defaultValue field="btnIds|OPT|3"><![CDATA[select id,btnName from admin_purview_sub_btn_$COMMUNITYTYPE where identify_id='$SPKEY' order by btnStr]]></defaultValue>
 			</addRecord>
-			<editRecord fields="combName,cdnoValue,listUrlValue,btnIds,remark">
+			<editRecord fields="combName,cdnoValue,listUrlValue,btnIds,seqNo,remark">
 			</editRecord>
 		  </table>
 		  <!-- 自由组合 end -->
@@ -306,8 +306,8 @@
 		<filterSql><![CDATA[select VALUE from FIELD_OPTION where description_sub = '班次'and communityId='$COMMUNITYID' ORDER BY orderId ]]></filterSql>
 		<filterSql><![CDATA[select value,name from FIELD_OPTION where description = '参数设置' and description_sub='生产计划-重点工程' and communityId='$COMMUNITYID' ]]></filterSql>
 		<filterSql><![CDATA[select distinct d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></filterSql>
-		<recordList fields="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanDigital,ActualDigital,SAdvance,Xdvance,Dayproduction,iskeyproject,Other,isKeyProject_str,workPlace_str,rjNum,sjNum"
-					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanDigital,ActualDigital,SAdvance,Xdvance,Dayproduction,iskeyproject,Other,dbo.f_field_option_isKeyProject(iskeyproject,$COMMUNITYID) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str,rjNum,sjNum" sqlTables="DTRecord_cmd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_cmd]]></recordList>
+		<recordList fields="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanDigital,ActualDigital,SAdvance,Xdvance,Dayproduction,iskeyproject,Other,isKeyProject_str,workPlace_str,rjNum,sjNum,Other_Str"
+		sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanDigital,ActualDigital,SAdvance,Xdvance,Dayproduction,iskeyproject,Other,dbo.f_field_option_isKeyProject(iskeyproject,$COMMUNITYID) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str,rjNum,sjNum,dbo.getShortFieldIfLong(Other,15) as Other_Str" sqlTables="DTRecord_cmd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_cmd]]></recordList>
 	
 	</table>
 	<!-- 生产汇报 采煤工作面  2015/09/22 end -->
@@ -318,8 +318,8 @@
 		<filterSql><![CDATA[select VALUE from FIELD_OPTION where description_sub = '班次'and communityId='$COMMUNITYID' ORDER BY orderId ]]></filterSql>
 		<filterSql><![CDATA[select value,name from FIELD_OPTION where description = '参数设置' and description_sub='生产计划-重点工程' and communityId='$COMMUNITYID' ]]></filterSql>
 		<filterSql><![CDATA[select d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></filterSql>
-		<recordList fields="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,EffectiveFootage,iskeyproject,Other,isKeyProject_str,workPlace_str,rjNum,sjNum"
-					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,EffectiveFootage,iskeyproject,Other,dbo.f_field_option_isKeyProject(iskeyproject,$COMMUNITYID) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str,rjNum,sjNum" sqlTables="DTRecord_jjd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_jjd]]></recordList>
+		<recordList fields="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,EffectiveFootage,iskeyproject,Other,isKeyProject_str,workPlace_str,rjNum,sjNum,Other_Str"
+					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,EffectiveFootage,iskeyproject,Other,dbo.f_field_option_isKeyProject(iskeyproject,$COMMUNITYID) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str,rjNum,sjNum,dbo.getShortFieldIfLong(Other,15) as Other_Str" sqlTables="DTRecord_jjd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_jjd]]></recordList>
 	</table>
 	<!-- 生产汇报 掘进进尺  2015/09/23 end -->
 	
@@ -329,8 +329,8 @@
 		<filterSql><![CDATA[select VALUE from FIELD_OPTION where description_sub = '班次'and communityId='$COMMUNITYID' ORDER BY orderId ]]></filterSql>
 		<filterSql><![CDATA[select value,name from FIELD_OPTION where description = '参数设置' and description_sub='生产计划-重点工程' and communityId='$COMMUNITYID' ]]></filterSql>
 		<filterSql><![CDATA[select d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></filterSql>
-		<recordList fields="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,iskeyproject,jc_type,Other,isKeyProject_str,workPlace_str,rjNum,sjNum"
-					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,iskeyproject,jc_type,Other,dbo.f_field_option_isKeyProject(iskeyproject,$COMMUNITYID) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str,rjNum,sjNum" sqlTables="DTRecord_dch" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_dch]]></recordList>
+		<recordList fields="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,iskeyproject,jc_type,Other,isKeyProject_str,workPlace_str,rjNum,sjNum,Other_Str"
+					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,iskeyproject,jc_type,Other,dbo.f_field_option_isKeyProject(iskeyproject,$COMMUNITYID) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str,rjNum,sjNum,dbo.getShortFieldIfLong(Other,15) as Other_Str" sqlTables="DTRecord_dch" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_dch]]></recordList>
 	</table>
 	<!-- 生产汇报 底抽巷进尺  2015/09/23 end -->
 
@@ -340,8 +340,8 @@
 		<filterSql><![CDATA[select VALUE from FIELD_OPTION where description_sub = '班次'and communityId='$COMMUNITYID' ORDER BY orderId ]]></filterSql>
 		<filterSql><![CDATA[select value,name from FIELD_OPTION where description = '参数设置' and description_sub='生产计划-重点工程' and communityId='$COMMUNITYID' ]]></filterSql>
 		<filterSql><![CDATA[select d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></filterSql>
-		<recordList fields="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,EffectiveFootage,AnchorBarMeasure,AnchorCableMeasure,RockMeasure,SprayMeasure,iskeyproject,jc_type,Other,isKeyProject_str,workPlace_str,rjNum,sjNum"
-					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,EffectiveFootage,AnchorBarMeasure,AnchorCableMeasure,RockMeasure,SprayMeasure,iskeyproject,jc_type,Other,dbo.f_field_option_isKeyProject(iskeyproject,$COMMUNITYID) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str,rjNum,sjNum" sqlTables="DTRecord_ktd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_ktd]]></recordList>
+		<recordList fields="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,EffectiveFootage,AnchorBarMeasure,AnchorCableMeasure,RockMeasure,SprayMeasure,iskeyproject,jc_type,Other,isKeyProject_str,workPlace_str,rjNum,sjNum,Other_Str"
+					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,PlanFootage,ActualFootage,EffectiveFootage,AnchorBarMeasure,AnchorCableMeasure,RockMeasure,SprayMeasure,iskeyproject,jc_type,Other,dbo.f_field_option_isKeyProject(iskeyproject,$COMMUNITYID) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str,rjNum,sjNum,dbo.getShortFieldIfLong(Other,15) as Other_Str" sqlTables="DTRecord_ktd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_ktd]]></recordList>
 	</table>
 	<!-- 生产汇报 开拓进尺  2015/09/23 end -->
 
@@ -365,8 +365,8 @@
 		<filterSql><![CDATA[select value,name from FIELD_OPTION where description = '参数设置' and description_sub='生产计划-重点工程' and communityId='$COMMUNITYID' ]]></filterSql>
 		<filterSql><![CDATA[select VALUE,NAME from FIELD_OPTION where description_sub = '车类' and communityId = '$COMMUNITYID' ]]></filterSql>
 		<filterSql><![CDATA[select d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></filterSql>
-		<recordList fields="id,branchName,workPlace,BirthDate,Shift,Attendance,Category,Number,iskeyproject,Other,isKeyProject_str,workPlace_str,rjNum,sjNum"
-					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,Category,Number,iskeyproject,Other,dbo.f_field_option_isKeyProject(iskeyproject,$COMMUNITYID) as isKeyProject_str,dbo.f_field_option_workPlace(workPlace) as workPlace_str,rjNum,sjNum" sqlTables="DTRecord_ysd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_ysd]]></recordList>
+		<recordList fields="id,branchName,workPlace,BirthDate,Shift,Attendance,Category,Number,iskeyproject,Other,isKeyProject_str,rjNum,sjNum,Other_Str"
+					sqlClos="id,branchName,workPlace,BirthDate,Shift,Attendance,Category,Number,iskeyproject,Other,dbo.f_field_option_isKeyProject(iskeyproject,$COMMUNITYID) as isKeyProject_str,rjNum,sjNum,dbo.getShortFieldIfLong(Other,15) as Other_Str" sqlTables="DTRecord_ysd" pageSize="15" IKey="id" OKey="id" OType="desc" ><![CDATA[select count(id) from DTRecord_ysd]]></recordList>
 	</table>
 	<!-- 生产汇报 运输队  2015/09/23 end -->
 

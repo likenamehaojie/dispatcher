@@ -66,9 +66,7 @@ public class GenerReportDao extends BaseDao {
 	 * @throws SQLException
 	 */
 	public List<List<String>> queryDateReturnConnectList(String []viewSql, String[] connectPointSplit) throws SQLException{
-		 List<List<String>> out = new ArrayList<List<String>>();
-		 DBControl db = new DBControl(request);
-		 int temLength = 0;
+	
 		 List<List<List<String>>> allList = new ArrayList<List<List<String>>>();
 		 for(int i = 0;i<viewSql.length;i++){
 			 allList.add(this.queryDataReturnListWithOutMap(viewSql[i]));
@@ -139,6 +137,7 @@ public class GenerReportDao extends BaseDao {
 				int mm = 1;
 				int columnCount = rs.getMetaData().getColumnCount();
 				while (mm <= columnCount) {
+					System.out.println(rs.getString(mm));
 					innerList.add(rs.getString(mm));
 					mm++;
 				}

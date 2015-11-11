@@ -222,7 +222,7 @@ function checkzz(){
     <td id="xuhao{flag}" align="center">{flag}</td>
     <td align="center"><input  class="input_txt" type="text" name="Company{flag}" value="{Company}"/></td>
 	<td align="center"><input  style = "width:30px;" class="input_txt" type="text" name="Unit{flag}" value="{Unit}"/></td>
-	<td align="center"><span ><select name="FaceName{flag}"> <option value="" >{FaceName}</option></select></span></td>
+	<td align="center"><span ><select name="FaceName{flag}"> {FaceName}</select></span></td>
 	<td align="center"><input  class="input_txt" type="text" name="category{flag}" value="{category}"/></td>
 	<td align="center"><input  class="input_txt" type="text" name="Specifications{flag}" value="{Specifications}"/></td>
 	<td align="center"><input  class="input_txt" type="text" name="Netsection{flag}" value="{Netsection}"/></td>
@@ -239,10 +239,9 @@ function checkzz(){
     </tbody>
   </table>
 </div>
-  <table width="98%">
+  <table width="98%" style="height:80px">
     <tr>
-      <td colspan="4" align="center">
-        <input type="submit" value="±£´æ" class="btn" onclick="return checkzz();" />
+        <td  align="center"><input type="submit" value="±£´æ" class="btn" onclick="return checkzz();" />
         <input type="button" value="·µ»Ø" class="btn m_l15" onclick="window.history.go(-1)"/>
       </td>
     </tr>

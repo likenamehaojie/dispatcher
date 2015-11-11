@@ -10,7 +10,10 @@
 <script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="js/multiSelect/jquery.js"></script>
 <link rel="stylesheet" type="text/css" href="css/index_htrecordAdd.css" />
+<link rel="stylesheet" type="text/css" href="js/artDialog/css/ui-dialog.css" />
+<link rel="stylesheet" type="text/css" href="js/artDialog/css/magula.css" />
 <script src="js/layer/layer.min.js"></script>
+<script src="js/artDialog/dialog-min.js"></script>
 <style>
 .noedit{  
     border:0;  
@@ -79,7 +82,7 @@ $(this).bind("click", function(){
   });
     var obtval = $that.text();
   if(obtval=="编辑"){
-  $that.text("锁定");
+  $that.text("取消");
   }else{
     $that.text("编辑");
   }
@@ -141,7 +144,8 @@ var valueCol  = "";
 						   	alert("保存成功！")
 						   	getDataByDate();
 						   }else{
-						   alert("保存失败!")
+						   alert('您还没有登陆或帐号闲置过久！请重新登陆');parent.parent.location.href='/adminlogin.do?action=loginForm';
+						   //alert("保存失败!")
 						   }
 							
 						}
@@ -170,7 +174,7 @@ function getDataByDate(){
 	var year=document.getElementsByName("year")[0].value;
 	if(year=="")return
 	//showMessage();
-    window.location="/report.mv?flag=${flag}&ITNO=${ITNO}&action=getReport&dateformat=${dateformat}&dayInMonth="+year+"&tablekeyword=${tablekeyword}";
+    window.location="/report.mv?flag=${flag}&ITNO=${ITNO}&action=getReport&dateformat=${dateformat}&dayInMonth="+year+"&tablekeyword=${tablekeyword}"+"&flags=0";
     //window.close();
 }
 
@@ -179,11 +183,54 @@ function getDataByDate(){
 function getExcel(){
 	window.location="/report.mv?ITNO=1&action=exportAllReport&exportName=${exportName}&uuids=${uuids}&exportModel=allInOne";
 }
+function generNew(){
+
+   /* var d = dialog({
+    title: '提示',
+    content: '请谨慎操作,该操作会删除已经编辑好的数据',
+    okValue: '确定',
+    ok: function () {
+        this.title('提交中…');
+        postCMD()
+        return true;
+        
+        
+    },
+    cancelValue: '取消',
+    cancel: function () {
+    	return true;
+    }
+});
+d.showModal();
+ */
+var r=confirm("请谨慎操作,该操作会删除已经编辑好的数据");
+if (r==true)
+  {
+ postCMD();
+  }
+else
+  {
+ 
+  }
+
+
+
+}
+function postCMD(){
+
+		layer.load('数据加载中,请稍等...',-1); //风格二
+	var year=document.getElementsByName("year")[0].value;
+	if(year=="")return
+	//showMessage();
+    window.location="/report.mv?flag=${flag}&ITNO=${ITNO}&action=getReport&dateformat=${dateformat}&dayInMonth="+year+"&tablekeyword=${tablekeyword}"+"&flags=1";
+    //window.close();
+
+}
 </script>
 
 
 <body>
-${canFillReportTableName}
+
 <div id="top">
    <div class="haer"><span id="tans"><strong>${TABLEKEYWORD1}</strong></span></div>
    <div class="bottom">&nbsp;&nbsp; ${TABLEKEYWORD2} &gt;${TABLEKEYWORD3}</div>
@@ -198,7 +245,7 @@ ${canFillReportTableName}
       <td>
 		<div class="line_list_center">
           <li><b>日期：<input name="year" type="text" value="${dayinmonth}" class="input_txt" style="width:70px"  onClick="WdatePicker({dateFmt:'${dateformat}',onpicked:function(){getDataByDate()}})"/>&nbsp;&nbsp;&nbsp;&nbsp;</b>
-		 <input type="button"  value="导出excel" class="btn" onClick="getExcel()"/></li>
+		 <input type="button"  value="重新生成" class="btn" onClick="generNew()"/> <input type="button"  value="导出excel" class="btn" onClick="getExcel()"/></li>
         </div>
 	   </td>
     </tr>

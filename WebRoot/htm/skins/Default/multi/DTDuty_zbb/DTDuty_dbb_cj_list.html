@@ -167,6 +167,12 @@ function execute(){
 	var yearAndMonth=$("input[name=yearAndMonth]").val();
 	window.location="/generictableservlet?action=recordList&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|"+yearAndMonth
 }
+
+//导出
+function execout(){
+    var yearandMonth=$("#yearAndMonth").val();
+	exportExcel('{tableName}','{CDNO}','{ITNO}&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|'+yearandMonth,yearandMonth+'城郊矿副总及以上管理人员带班计划表');
+}
 </script>
 
   <form name="form1" action="" method="post">
@@ -216,7 +222,7 @@ function execute(){
 		   <input type="button" style="width:50px;" name="excel" class="btn" onClick="excelIport()" value="导入">
 		   <input type="submit" style="width:70px;" name="getTem" class="btn" value="下载模版" onClick="window.open('/downloadAppServlet?&amp;ITNO={ITNO}&amp;docName=htm\\excelTemplateDown&amp;fName=城郊矿带班表.xls','_blank','left=160,width=700,height=630,toolbar=no, menubar=no,resizable=yes,scrollbars=yes')" >
 		   <font color="red"></font></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<li class="pian" style="margin-left:18%" ><input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','449','城郊矿带班表');"/></li>
+				<li class="pian" style="margin-left:18%" ><input type="button"  value="导出excel" class="btn" onClick="execout();"/></li>
 		  </li>	   
      </div>
 

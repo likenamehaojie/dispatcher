@@ -332,13 +332,13 @@ var combineStr="";
 
 //对所有需要数字验证的标签进行设置正则表达式
 function setNumCheck(validatorString)
-{
+{   
 	var validatorStrings="";
 	if(validatorString!="")
 	{
 		validatorStrings=validatorString.split(":");
 		for(i=0;i<validatorStrings.length;i++)
-		{
+		{   
 			$("[name="+validatorStrings[i]+"]").attr("reg","^[0-9]+(.[0-9]{1,3})?$");
 		}
 	}

@@ -23,6 +23,11 @@
 	  }
    }
 
+
+	function exportMuitlExcel(yearAndMonth){
+window.location = "/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTAcc_record_cj_sub_main&recordId={recordId}&ITNO=1_excel&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|"+yearAndMonth+"&listUrl=excel&xiazaiwenjian=y";
+ 
+}
 </script>
 <div id="top">
    <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
@@ -63,8 +68,9 @@
 		}
 		unit_id_optstr='{unit_id}';
 			aaa='{tDate}'
-		   //procedure_in_month,avg_procedure_in_day,target_procedure_in_month,leap_in_month,valid_leap_in_month,avg_leap_in_day,unit_id
-		   </script>
+		   //procedure_in_month,avg_procedure_in_day,target_procedure_in_month,leap_in_month,valid_leap_in_month,avg_leap_in_day,unit_id		   
+		   
+ </script>
 		   
 	<tr id="{flag}">
     <td id="xuhao{flag}" align="center">{flag}</td>
@@ -114,7 +120,7 @@
     <tr>
       <td colspan="4" align="center">
           <input type="submit" value="¹Ø±Õ" class="btn" onclick="javascript:window.close();" />
-
+         <input type="button"  value="µ¼³öexcel" class="btn" onClick="exportMuitlExcel('{yearAndMonth}');"/>
       </td>
     </tr>
   </table>

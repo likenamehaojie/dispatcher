@@ -71,10 +71,10 @@ function AddRow(maxLength){
 	//工作面名称 FaceName
 	//map.put("FaceName",'<input  class=\"input_txt\"  type=\"text\"  name=\"FaceName#no#\" value=\"\" />');	
 	 //作业地点
-	map.put("FaceName:SYS_FIELDS",'<span id="FaceName_sysEdit_spanId#no#"><select name=\"FaceName#no#\" realValue=\"{FaceName}\"  check=\"2"\ >                                       <option value="请选择" ></option>{filterOptions1}</select></span>');
+	map.put("FaceName:SYS_FIELDS",'<span id="FaceName_sysEdit_spanId#no#"><select name=\"FaceName#no#\"check=\"2"\ >{FaceName}</select></span>');
 
 	//基本计划
-	map.put("Basicplan",'<input  class=\"input_txt\"  type=\"text\"  name=\"Basicplan#no#\" value=\"\" />');	
+	map.put("Basicplan",'<input  class=\"input_txt\"  type=\"text\"  name=\"Basicplan#no#\" onkeyup=\"clearNoNum(this)\"valFun=\"setEmptyCheck\"  tip=\"基本计划不能为空\" value=\"\" />');	
 
 	//块煤率
 	map.put("Coalwas",'<input  class=\"input_txt\"  type=\"text\"  name=\"Coalwas#no#\" valFun=\"setNumCheck\" value=\"\" />');	
@@ -178,8 +178,6 @@ function AddRow_MR(){
     <input type="hidden" name="CDNO" value="{CDNO}">
     <input type="hidden" name="ITNO" value="{ITNO}">
 	<input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
-	<input type="hidden" name="combinationUnique" value="yearandmonth,communityId;年月">
-   <input type="hidden" name="yearandmonth,communityId,Title" value="">
    <input type="hidden" name="communityId" value="{$COMMUNITYID}">
     <input type="hidden" name="listUrl" value="{listUrl}">
     <input type="hidden" name="curPage" value="{curPage}">
@@ -189,6 +187,7 @@ function AddRow_MR(){
 	<input type="hidden" name="realFileName" value="">
 	<input type="hidden" name="todo" value="1">
 	<input type="hidden" name="id" value="0">
+	<input type="hidden" name="field.validateValue_sub" value="Basicplan|基本计划|TXT|100|1|yn|">
 
 <div id="top">
    <div class="haer"><span id="tans"><strong>生产计划</strong></span></div>

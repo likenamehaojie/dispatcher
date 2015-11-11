@@ -115,35 +115,35 @@ function iniList(){
 
 
 	//日期  BirthDate
-	map.put("BirthDate:SYS_FIELDS",'<span id="BirthDate_sysEdit_spanId#no#"><input type=\"text\" id="time#no#" name=\"BirthDate#no#\" value=\"{BirthDate}\"  size=\"14\" check=\"2"\ tip=\"[日期]不能重复\" valFun=\"setCombineUnique\" combineFields=\"BirthDate#no#\" onclick=WdatePicker()></span><span id="BirthDate_sysView_spanId#no#">'+BirthDate_Str+'</span>');	
+	map.put("BirthDate:SYS_FIELDS",'<span id="BirthDate_sysEdit_spanId#no#"><input type=\"text\" id="time#no#" name=\"BirthDate#no#\" value=\"{BirthDate}\"  size=\"14\" check=\"2"\ tip=\"[日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"BirthDate#no#:Shift#no#\" onclick=WdatePicker()></span><span id="BirthDate_sysView_spanId#no#">'+BirthDate_Str+'</span>');	
 	//班次
-	map.put("Shift:SYS_FIELDS",'<span id="Shift_sysEdit_spanId#no#"><select name=\"Shift#no#\" realValue=\"{Shift}\"  check=\"2"\ valFun=\"setEmptyCheck\">{filterOptions1}</select></span><span id="Shift_sysView_spanId#no#">'+Shift_Str+'</span>');
+	map.put("Shift:SYS_FIELDS",'<span id="Shift_sysEdit_spanId#no#"><select name=\"Shift#no#\" realValue=\"{Shift}\"  check=\"2"\ tip=\"[日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"BirthDate#no#:Shift#no#\" valFun=\"setEmptyCheck\">{filterOptions1}</select></span><span id="Shift_sysView_spanId#no#">'+Shift_Str+'</span>');
 	 //毛煤量  MaoMei	
-	map.put("MaoMei:SYS_FIELDS",'<span id="MaoMei_sysEdit_spanId#no#"><input type=\"text\" name=\"MaoMei#no#\" value=\"{MaoMei}\" size=\"8\"   check=\"2"\ onkeyup=\"clearNoNum(this)\"></span><span id="MaoMei_sysView_spanId#no#">{MaoMei}</span>');
+	map.put("MaoMei:SYS_FIELDS",'<span id="MaoMei_sysEdit_spanId#no#"><input type=\"text\" name=\"MaoMei#no#\" value=\"{MaoMei}\"defaultValue=\"0\" size=\"8\"   check=\"2"\ onkeyup=\"clearNoNum(this)\"></span><span id="MaoMei_sysView_spanId#no#">{MaoMei}</span>');
 	 //矸石量  Waste
-	map.put("Waste:SYS_FIELDS",'<span id="Waste_sysEdit_spanId#no#"><input type=\"text\" name=\"Waste#no#\" value=\"{Waste}\" size=\"8\"   check=\"2"\  onkeyup=\"clearNoNum(this)\"></span><span id="Waste_sysView_spanId#no#">{Waste}</span>');
+	map.put("Waste:SYS_FIELDS",'<span id="Waste_sysEdit_spanId#no#"><input type=\"text\" name=\"Waste#no#\" value=\"{Waste}\"defaultValue=\"0\" size=\"8\"   check=\"2"\  onkeyup=\"clearNoNum(this)\"></span><span id="Waste_sysView_spanId#no#">{Waste}</span>');
 	 //含矸率  Refuserate
-	map.put("Refuserate:SYS_FIELDS",'<span id="Refuserate_sysEdit_spanId#no#"><input type=\"text\" name=\"Refuserate#no#\" value=\"{Refuserate}\" size=\"8\"   check=\"2"\  onkeyup=\"clearNoNum(this)\"></span><span id="Refuserate_sysView_spanId#no#">{Refuserate}</span>');
+	map.put("Refuserate:SYS_FIELDS",'<span id="Refuserate_sysEdit_spanId#no#"><input type=\"text\" name=\"Refuserate#no#\" value=\"{Refuserate}\"defaultValue=\"0\" size=\"8\"   check=\"2"\  onkeyup=\"clearNoNum(this)\"></span><span id="Refuserate_sysView_spanId#no#">{Refuserate}</span>');
     //原煤  Rawcoal
-	map.put("Rawcoal:SYS_FIELDS",'<span id="Rawcoal_sysEdit_spanId#no#"><input type=\"text\" name=\"Rawcoal#no#\" value=\"{Rawcoal}\" size=\"8\"   check=\"2"\ onkeyup=\"clearNoNum(this)\"></span><span id="Rawcoal_sysView_spanId#no#">{Rawcoal}</span>');
+	map.put("Rawcoal:SYS_FIELDS",'<span id="Rawcoal_sysEdit_spanId#no#"><input type=\"text\" name=\"Rawcoal#no#\" value=\"{Rawcoal}\"defaultValue=\"0\" size=\"8\"   check=\"2"\ onkeyup=\"clearNoNum(this)\"></span><span id="Rawcoal_sysView_spanId#no#">{Rawcoal}</span>');
 	//核子称  Nuclearsay
-	map.put("Nuclearsay:SYS_FIELDS",'<span id="Nuclearsay_sysEdit_spanId#no#"><input type=\"text\" name=\"Nuclearsay#no#\" value=\"{Nuclearsay}\" size=\"8\"   check=\"2"\ onkeyup=\"clearNoNum(this)\"></span><span id="Nuclearsay_sysView_spanId#no#">{Nuclearsay}</span>');	
+	map.put("Nuclearsay:SYS_FIELDS",'<span id="Nuclearsay_sysEdit_spanId#no#"><input type=\"text\" name=\"Nuclearsay#no#\" value=\"{Nuclearsay}\" defaultValue=\"0\"size=\"8\"   check=\"2"\ onkeyup=\"clearNoNum(this)\"></span><span id="Nuclearsay_sysView_spanId#no#">{Nuclearsay}</span>');	
 	//灰分  GreyBranch
-	map.put("GreyBranch:SYS_FIELDS",'<span id="GreyBranch_sysEdit_spanId#no#"><input type=\"text\" name=\"GreyBranch#no#\" value=\"{GreyBranch}\" size=\"8\"   check=\"2"\  onkeyup=\"clearNoNum(this)\"></span><span id="GreyBranch_sysView_spanId#no#">{GreyBranch}</span>');
+	map.put("GreyBranch:SYS_FIELDS",'<span id="GreyBranch_sysEdit_spanId#no#"><input type=\"text\" name=\"GreyBranch#no#\" value=\"{GreyBranch}\" defaultValue=\"0\"size=\"8\"   check=\"2"\  onkeyup=\"clearNoNum(this)\"></span><span id="GreyBranch_sysView_spanId#no#">{GreyBranch}</span>');
     //水分  WaterBranch
-	map.put("WaterBranch:SYS_FIELDS",'<span id="WaterBranch_sysEdit_spanId#no#"><input type=\"text\" name=\"WaterBranch#no#\" value=\"{WaterBranch}\" size=\"8\"   check=\"2"\ onkeyup=\"clearNoNum(this)\"></span><span id="WaterBranch_sysView_spanId#no#">{WaterBranch}</span>');
+	map.put("WaterBranch:SYS_FIELDS",'<span id="WaterBranch_sysEdit_spanId#no#"><input type=\"text\" name=\"WaterBranch#no#\" value=\"{WaterBranch}\" defaultValue=\"0\"size=\"8\"   check=\"2"\ onkeyup=\"clearNoNum(this)\"></span><span id="WaterBranch_sysView_spanId#no#">{WaterBranch}</span>');
 	//煤块率  Lumpcoal 
-	map.put("Lumpcoal:SYS_FIELDS",'<span id="Lumpcoal_sysEdit_spanId#no#"><input type=\"text\" name=\"Lumpcoal#no#\" value=\"{Lumpcoal}\" size=\"8\"   check=\"2"\  onkeyup=\"clearNoNum(this)\"></span><span id="Lumpcoal_sysView_spanId#no#">{Lumpcoal}</span>');
+	map.put("Lumpcoal:SYS_FIELDS",'<span id="Lumpcoal_sysEdit_spanId#no#"><input type=\"text\" name=\"Lumpcoal#no#\" value=\"{Lumpcoal}\" defaultValue=\"0\"size=\"8\"   check=\"2"\  onkeyup=\"clearNoNum(this)\"></span><span id="Lumpcoal_sysView_spanId#no#">{Lumpcoal}</span>');
 	//发热量  Calorific
-	map.put("Calorific:SYS_FIELDS",'<span id="Calorific_sysEdit_spanId#no#"><input type=\"text\" name=\"Calorific#no#\" value=\"{Calorific}\" size=\"8\"   check=\"2"\  onkeyup=\"clearNoNum(this)\"></span><span id="Calorific_sysView_spanId#no#">{Calorific}</span>');
+	map.put("Calorific:SYS_FIELDS",'<span id="Calorific_sysEdit_spanId#no#"><input type=\"text\" name=\"Calorific#no#\" value=\"{Calorific}\" size=\"8\" defaultValue=\"0\"  check=\"2"\  onkeyup=\"clearNoNum(this)\"></span><span id="Calorific_sysView_spanId#no#">{Calorific}</span>');
 	//标煤量  Standardcoal
-	map.put("Standardcoal:SYS_FIELDS",'<span id="Standardcoal_sysEdit_spanId#no#"><input type=\"text\" name=\"Standardcoal#no#\" value=\"{Standardcoal}\" size=\"8\"   check=\"2"\   onkeyup=\"clearNoNum(this)\"></span><span id="Standardcoal_sysView_spanId#no#">{Standardcoal}</span>');
+	map.put("Standardcoal:SYS_FIELDS",'<span id="Standardcoal_sysEdit_spanId#no#"><input type=\"text\" name=\"Standardcoal#no#\" value=\"{Standardcoal}\"defaultValue=\"0\" size=\"8\"   check=\"2"\   onkeyup=\"clearNoNum(this)\"></span><span id="Standardcoal_sysView_spanId#no#">{Standardcoal}</span>');
 	//灰分量  GreyBranchmeasure
-	map.put("GreyBranchmeasure:SYS_FIELDS",'<span id="GreyBranchmeasure_sysEdit_spanId#no#"><input type=\"text\" name=\"GreyBranchmeasure#no#\" value=\"{GreyBranchmeasure}\" size=\"8\"   check=\"2"\ onkeyup=\"clearNoNum(this)\"></span><span id="GreyBranchmeasure_sysView_spanId#no#">{GreyBranchmeasure}</span>');
+	map.put("GreyBranchmeasure:SYS_FIELDS",'<span id="GreyBranchmeasure_sysEdit_spanId#no#"><input type=\"text\" name=\"GreyBranchmeasure#no#\" value=\"{GreyBranchmeasure}\" defaultValue=\"0\"size=\"8\"   check=\"2"\ onkeyup=\"clearNoNum(this)\"></span><span id="GreyBranchmeasure_sysView_spanId#no#">{GreyBranchmeasure}</span>');
 	//水分量  WaterBranchmeasure
-	map.put("WaterBranchmeasure:SYS_FIELDS",'<span id="WaterBranchmeasure_sysEdit_spanId#no#"><input type=\"text\" name=\"WaterBranchmeasure#no#\" value=\"{WaterBranchmeasure}\" size=\"8\"   check=\"2"\ onkeyup=\"clearNoNum(this)\"></span><span id="WaterBranchmeasure_sysView_spanId#no#">{WaterBranchmeasure}</span>');
+	map.put("WaterBranchmeasure:SYS_FIELDS",'<span id="WaterBranchmeasure_sysEdit_spanId#no#"><input type=\"text\" name=\"WaterBranchmeasure#no#\" value=\"{WaterBranchmeasure}\"defaultValue=\"0\" size=\"8\"   check=\"2"\ onkeyup=\"clearNoNum(this)\"></span><span id="WaterBranchmeasure_sysView_spanId#no#">{WaterBranchmeasure}</span>');
 	//块煤量  Lumpcoalmeasure
-	map.put("Lumpcoalmeasure:SYS_FIELDS",'<span id="Lumpcoalmeasure_sysEdit_spanId#no#"><input type=\"text\" name=\"Lumpcoalmeasure#no#\" value=\"{Lumpcoalmeasure}\" size=\"8\"   check=\"2"\  onkeyup=\"clearNoNum(this)\"></span><span id="Lumpcoalmeasure_sysView_spanId#no#">{Lumpcoalmeasure}</span>');
+	map.put("Lumpcoalmeasure:SYS_FIELDS",'<span id="Lumpcoalmeasure_sysEdit_spanId#no#"><input type=\"text\" name=\"Lumpcoalmeasure#no#\" value=\"{Lumpcoalmeasure}\" defaultValue=\"0\"size=\"8\"   check=\"2"\  onkeyup=\"clearNoNum(this)\"></span><span id="Lumpcoalmeasure_sysView_spanId#no#">{Lumpcoalmeasure}</span>');
 
 
 
@@ -251,6 +251,29 @@ function isUpload_Revoke()
 				}
 		}
 	  
+}
+function ajax_saveForNum(no){
+	var MaoMei=document.getElementsByName("MaoMei"+no)[0].value;
+	var Waste=document.getElementsByName("Waste"+no)[0].value;
+	var Refuserate=document.getElementsByName("Refuserate"+no)[0].value;
+	var Rawcoal=document.getElementsByName("Rawcoal"+no)[0].value;
+	var Nuclearsay=document.getElementsByName("Nuclearsay"+no)[0].value;
+	var GreyBranch=document.getElementsByName("GreyBranch"+no)[0].value;
+	var WaterBranch=document.getElementsByName("WaterBranch"+no)[0].value;
+	var Lumpcoal=document.getElementsByName("Lumpcoal"+no)[0].value;
+	var Calorific=document.getElementsByName("Calorific"+no)[0].value;
+	var Standardcoal=document.getElementsByName("Standardcoal"+no)[0].value;
+	var GreyBranchmeasure=document.getElementsByName("GreyBranchmeasure"+no)[0].value;
+	var WaterBranchmeasure=document.getElementsByName("WaterBranchmeasure"+no)[0].value;
+	var Lumpcoalmeasure=document.getElementsByName("Lumpcoalmeasure"+no)[0].value;
+
+	var fieldArray=['MaoMei','Waste','Refuserate','Rawcoal','Nuclearsay','GreyBranch','WaterBranch','Lumpcoal','Calorific','Standardcoal','GreyBranchmeasure','WaterBranchmeasure','Lumpcoalmeasure'];
+	for(var i=0;i<fieldArray.length;i++){
+		var fieldObj=document.getElementsByName(fieldArray[i]+no)[0];
+		if(fieldObj && fieldObj.value=="")
+			fieldObj.value='0';
+	}
+	ajax_save(no);
 }
 
 

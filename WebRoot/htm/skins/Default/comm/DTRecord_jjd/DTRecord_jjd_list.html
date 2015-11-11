@@ -46,7 +46,9 @@ $(document).ready(function(){
 		$('#stair1,#stair2').css('display','none');
 		$('#YC,.YC1,#YC2,#YC3,#YC4,#TS').css('display','none');
 		$("#GoBack").show();
-		
+		$("#YC11").show();
+		$("#YC12").show();
+		$("#YC13").show();
 	}
 	if('{editshow_show}'=="none"){
 		document.getElementsByName("dblclick")[0].value="true";
@@ -106,7 +108,7 @@ function iniList(){
 
 	var branchName_Str='{branchName}'.replace(/<[^>].*?>/g,'');
 
-	var workPlace_Str='{workPlace_str}'.replace(/<[^>].*?>/g,'');
+	var workPlace_Str='{workPlace}'.replace(/<[^>].*?>/g,'');
 
 	var Shift_Str='{Shift}'.replace(/<[^>].*?>/g,'');
 
@@ -123,38 +125,39 @@ function iniList(){
 
 
 	//区队
-		if('{editshow_show}'=="block")map.put("branchName:SYS_FIELDS",'<span id="branchName_sysEdit_spanId#no#"><input type=\"text\"  name=\"branchName#no#\" value=\"{branchName}\" defaultValue=\"{$WORKGROUP}\"size=\"8\" check=\"2\" tip=\"[区队、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:BirthDate#no#:Shift#no#\"></span><span id="branchName_sysView_spanId#no#">{$WORKGROUP}</span>');	
+		if('{editshow_show}'=="block")map.put("branchName:SYS_FIELDS",'<span id="branchName_sysEdit_spanId#no#"><input type=\"text\"  name=\"branchName#no#\" value=\"{branchName}\" defaultValue=\"{$WORKGROUP}\"size=\"8\" check=\"2\" tip=\"[区队、作业地点、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:workPlace#no#:BirthDate#no#:Shift#no#\"></span><span id="branchName_sysView_spanId#no#">{$WORKGROUP}</span>');	
 	else{
 		map.put("branchName:SYS_FIELDS",'<span id="branchName_sysEdit_spanId#no#"><input type=\"text\"  name=\"branchName#no#\" value=\"{branchName}\" defaultValue=\"{$WORKGROUP}\"size=\"8\" check=\"2\ "></span><span id="branchName_sysView_spanId#no#">{branchName}</span>');	
 	}
 
+   //作业地点
+	map.put("workPlace:SYS_FIELDS",'<span id="workPlace_sysEdit_spanId#no#"><select name=\"workPlace#no#\" realValue=\"'+workPlace_Str+'\"  check=\"2"\  tip=\"[区队、作业地点、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:workPlace#no#:BirthDate#no#:Shift#no#\">{filterOptions4}</select></span><span id="workPlace_sysView_spanId#no#">'+workPlace_Str+'</span>');
 
-    //作业地点
-	map.put("workPlace:SYS_FIELDS",'<span id="workPlace_sysEdit_spanId#no#"><select name=\"workPlace#no#\" realValue=\"'+workPlace_Str+'\"  check=\"2"\   onchange="\calMinus(#no#)"\><option value="" >'+workPlace_Str+'</option>{filterOptions4}</select></span><span id="workPlace_sysView_spanId#no#">'+workPlace_Str+'</span>');
+
 	//日期
-	map.put("BirthDate:SYS_FIELDS",'<span id="BirthDate_sysEdit_spanId#no#"><input type=\"text\" id="time#no#" name=\"BirthDate#no#\" value=\"{BirthDate}\"  size=\"14\" check=\"2"\ tip=\"[区队、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:BirthDate#no#:Shift#no#\" onclick=WdatePicker()></span><span id="BirthDate_sysView_spanId#no#">'+BirthDate_Str+'</span>');	
+	map.put("BirthDate:SYS_FIELDS",'<span id="BirthDate_sysEdit_spanId#no#"><input type=\"text\" id="time#no#" name=\"BirthDate#no#\" value=\"{BirthDate}\"  size=\"14\" check=\"2"\ tip=\"[区队、作业地点、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:workPlace#no#:BirthDate#no#:Shift#no#\" onclick=WdatePicker()></span><span id="BirthDate_sysView_spanId#no#">'+BirthDate_Str+'</span>');	
 	//班次
-	map.put("Shift:SYS_FIELDS",'<span id="Shift_sysEdit_spanId#no#"><select name=\"Shift#no#\" realValue=\"{Shift}\"  check=\"2"\  tip=\"[区队、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:BirthDate#no#:Shift#no#\">{filterOptions2}</select></span><span id="Shift_sysView_spanId#no#">'+Shift_Str+'</span>');
+	map.put("Shift:SYS_FIELDS",'<span id="Shift_sysEdit_spanId#no#"><select name=\"Shift#no#\" realValue=\"{Shift}\"  check=\"2"\ tip=\"[区队、作业地点、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:workPlace#no#:BirthDate#no#:Shift#no#\">{filterOptions2}</select></span><span id="Shift_sysView_spanId#no#">'+Shift_Str+'</span>');
 
 	 //入井人数
-	map.put("rjNum:SYS_FIELDS",'<span id="rjNum_sysEdit_spanId#no#"><input type=\"text\" name=\"rjNum#no#\" value=\"{rjNum}\" size=\"8\" onkeyup=\"clearNoNum(this)\"></span><span id="rjNum_sysView_spanId#no#">{rjNum}</span>');
+	map.put("rjNum:SYS_FIELDS",'<span id="rjNum_sysEdit_spanId#no#"><input type=\"text\" name=\"rjNum#no#\" value=\"{rjNum}\" defaultValue=\"0\"size=\"8\" onkeyup=\"clearNoNum(this)\"></span><span id="rjNum_sysView_spanId#no#">{rjNum}</span>');
 
     //升井人数
-	map.put("sjNum:SYS_FIELDS",'<span id="sjNum_sysEdit_spanId#no#"><input type=\"text\" name=\"sjNum#no#\" value=\"{sjNum}\" size=\"8\" onkeyup=\"clearNoNum(this)\"></span><span id="sjNum_sysView_spanId#no#">{sjNum}</span>');
+	map.put("sjNum:SYS_FIELDS",'<span id="sjNum_sysEdit_spanId#no#"><input type=\"text\" name=\"sjNum#no#\" value=\"{sjNum}\" defaultValue=\"0\"size=\"8\" onkeyup=\"clearNoNum(this)\"></span><span id="sjNum_sysView_spanId#no#">{sjNum}</span>');
 
     //出勤人数
-	map.put("Attendance:SYS_FIELDS",'<span id="Attendance_sysEdit_spanId#no#"><input type=\"text\" name=\"Attendance#no#\" value=\"{Attendance}\" size=\"8\"   check=\"2"\  onkeyup=\"clearNoNum(this)\"></span><span id="Attendance_sysView_spanId#no#">{Attendance}</span>');
+	map.put("Attendance:SYS_FIELDS",'<span id="Attendance_sysEdit_spanId#no#"><input type=\"text\" name=\"Attendance#no#\" defaultValue=\"0\"value=\"{Attendance}\" size=\"8\"   check=\"2"\  onkeyup=\"clearNoNum(this)\"></span><span id="Attendance_sysView_spanId#no#">{Attendance}</span>');
 
 	//计划进尺 PlanFootage
-	map.put("PlanFootage:SYS_FIELDS",'<span id="PlanFootage_sysEdit_spanId#no#"><input type=\"text\" name=\"PlanFootage#no#\" value=\"{PlanFootage}\" size=\"8\" check=\"2"\ onkeyup=\"clearNoNum(this)\"></span><span id="PlanFootage_sysView_spanId#no#">{PlanFootage}</span>');
+	map.put("PlanFootage:SYS_FIELDS",'<span id="PlanFootage_sysEdit_spanId#no#"><input type=\"text\" name=\"PlanFootage#no#\" value=\"{PlanFootage}\" defaultValue=\"0\"size=\"8\" check=\"2"\ onkeyup=\"clearNoNum(this)\"></span><span id="PlanFootage_sysView_spanId#no#">{PlanFootage}</span>');
 	//实际进尺 ActualFootage
-	map.put("ActualFootage:SYS_FIELDS",'<span id="ActualFootage_sysEdit_spanId#no#"><input type=\"text\" name=\"ActualFootage#no#\" value=\"{ActualFootage}\" size=\"8\" check=\"2"\ tip=\"实际进尺不能为空\" valFun=\"setEmptyCheck\"onkeyup=\"clearNoNum(this)\"></span><span id="ActualFootage_sysView_spanId#no#">{ActualFootage}</span>');
+	map.put("ActualFootage:SYS_FIELDS",'<span id="ActualFootage_sysEdit_spanId#no#"><input type=\"text\" name=\"ActualFootage#no#\" value=\"{ActualFootage}\" defaultValue=\"0\"size=\"8\" check=\"2"\ tip=\"实际进尺不能为空\" valFun=\"setEmptyCheck\"onkeyup=\"clearNoNum(this)\"></span><span id="ActualFootage_sysView_spanId#no#">{ActualFootage}</span>');
 	//有效进尺 EffectiveFootage
-	map.put("EffectiveFootage:SYS_FIELDS",'<span id="EffectiveFootage_sysEdit_spanId#no#"><input type=\"text\" name=\"EffectiveFootage#no#\" value=\"{EffectiveFootage}\" size=\"8\" check=\"2"\ tip=\"有效进尺不能为空\" valFun=\"setEmptyCheck\"onkeyup=\"clearNoNum(this)\"></span><span id="EffectiveFootage_sysView_spanId#no#">{EffectiveFootage}</span>');
+	map.put("EffectiveFootage:SYS_FIELDS",'<span id="EffectiveFootage_sysEdit_spanId#no#"><input type=\"text\" name=\"EffectiveFootage#no#\" value=\"{EffectiveFootage}\" defaultValue=\"0\"size=\"8\" check=\"2"\ tip=\"有效进尺不能为空\" valFun=\"setEmptyCheck\"onkeyup=\"clearNoNum(this)\"></span><span id="EffectiveFootage_sysView_spanId#no#">{EffectiveFootage}</span>');
 	//是否重点工程
 	//map.put("iskeyproject:SYS_FIELDS",'<span id="iskeyproject_sysEdit_spanId#no#"><select name=\"iskeyproject#no#\" realValue=\"{iskeyproject}\"  check=\"2"\ valFun=\"setEmptyCheck\">{filterOptions3}</select></span><span id="iskeyproject_sysView_spanId#no#">{iskeyproject}</span>');
 	//其他工作量及生产等信息
-	map.put("Other:SYS_FIELDS",'<span id="Other_sysEdit_spanId#no#"><textarea name=\"Other#no#\" value=\"{Other}\" size=\"8\" check=\"2"\ tip=\"其他工作量及生产等信息不能为空\" ></textarea></span><span id="Other_sysView_spanId#no#">{Other}</span>');
+	map.put("Other:SYS_FIELDS",'<span id="Other_sysEdit_spanId#no#"><textarea name=\"Other#no#\" value=\"{Other}\" size=\"8\" check=\"2"\ >{Other}</textarea></span><span id="Other_sysView_spanId#no#">{Other_Str}</span>');
 	
 	//map.put("Other:SYS_FIELDS",'<span id="Other_sysEdit_spanId#no#"><input type=\"text\" name=\"Other#no#\" value=\"{Other}\" size=\"8\" check=\"2"\ tip=\"名称不能为空\" valFun=\"setEmptyCheck\"></span><span id="Other_sysView_spanId#no#">{Other}</span>');
 	
@@ -264,6 +267,25 @@ function isUpload_Revoke()
 		}
 	  
 }
+
+function ajax_saveForNum(no){
+	
+	var rjNum=document.getElementsByName("rjNum"+no)[0].value;
+	var sjNum=document.getElementsByName("sjNum"+no)[0].value;
+	var Attendance=document.getElementsByName("Attendance"+no)[0].value;
+	var PlanFootage=document.getElementsByName("PlanFootage"+no)[0].value;
+	var ActualFootage=document.getElementsByName("ActualFootage"+no)[0].value;
+	var EffectiveFootage=document.getElementsByName("EffectiveFootage"+no)[0].value;
+
+	var fieldArray=['rjNum','sjNum','Attendance','PlanFootage','ActualFootage','EffectiveFootage'];
+	for(var i=0;i<fieldArray.length;i++){
+		var fieldObj=document.getElementsByName(fieldArray[i]+no)[0];
+		if(fieldObj && fieldObj.value=="")
+			fieldObj.value='0';
+	}
+	ajax_save(no);
+}
+
 </script>
 <body >
   <form name="form1" action="" method="post">
@@ -288,6 +310,7 @@ function isUpload_Revoke()
 	<input type="hidden" name="field1" value="workPlace|作业地点|TXT|50|">
 	<input type="hidden" name="field2" value="BirthDate|日期|DAT|50|">
     <input type="hidden" name="field3" value="Shift|班次|TXT|50|">
+	<input type="hidden" name="field4" value="branchName|班次|TXT|50|">
 
 
 	<input type="hidden" name="j" value="">
@@ -302,6 +325,8 @@ function isUpload_Revoke()
 				<option value="1">作业地点：</option>
 				<option value="2">日期：</option>
 				<option value="3">班次：</option>
+				<option value="4">区队：</option>
+
 				
 			</select>
 		</div>
@@ -310,7 +335,7 @@ function isUpload_Revoke()
 		 <ul id="ul_search">
 			<li id="li_search1">
 				&nbsp;
-				<input type="checkbox" name="f_id" value="1">&nbsp;作业地点:<select name="workPlace" onchange="checkChange(this,'1')">{filterOptions4}</select>
+				<input type="checkbox" name="f_id" value="1">&nbsp;作业地点：<select name="workPlace" onchange="checkChange(this,'1')">{filterOptions4}</select>
 			</li>
 		    <li id="li_search2">
 				&nbsp;
@@ -322,6 +347,11 @@ function isUpload_Revoke()
 				<!--<input type="checkbox" name="f_id" value="4" >班次&nbsp;：
 				<input name="Shift" onkeyup="checkChange(this,'4')" value="" class="input_txt"/>-->
 				<input type="checkbox" name="f_id" value="3">&nbsp;班次：<select name="Shift" onchange="checkChange(this,'3')">{filterOptions2}</select>
+			</li>
+			<li id="lisearch4">
+				&nbsp;
+				<input type="checkbox" name="f_id" value="4" style="display:none" id = "YC13"><span id = "YC12" style="display:none">区&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;队&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;：</span>
+				<input name="branchName" onkeyup="checkChange(this,'4')" style="width:195px; display:none"value="" class="input_txt" id = "YC11"/>
 			</li>
 		   <li id="li_search_btn">
 				&nbsp;

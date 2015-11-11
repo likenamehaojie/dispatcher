@@ -64,7 +64,7 @@
 	  <table tableName="DTDuty_dbb_ks" attList="" rowName="row_dbb"  fields="AzdbA,AzdbB,AfdbA,MzdbA,MzdbB,MfdbA,EzdbA,EzdbB,EfdbA,yearAndMonth"><![CDATA[select AzdbA, AzdbB, AfdbA, MzdbA, MzdbB, MfdbA, EzdbA, EzdbB, EfdbA, (case yearAndMonth when CONVERT(nvarchar(10),GETDATE(),120) then yearAndMonth+'<font color="red">(今天)</font>' else yearAndMonth end) as yearAndMonth from dbo.DTDuty_dbb_ks where communityId='$COMMUNITYID' and DATEDIFF(DD,GETDATE(),yearAndMonth)>=-1 and DATEDIFF(DD,GETDATE(),yearAndMonth)<=1 order by yearAndMonth]]></table> 
 
 	 <!-- 带班表 城郊 -->
-	  <table tableName="DTDuty_dbb_cj" attList="" rowName="row_dbb_cj"  fields="zdate,ldb,bdb,sldb"><![CDATA[select (case dateone when CONVERT(nvarchar(10),GETDATE(),120) then '<font color="red">(今天)</font>' else dateone end) as zdate,ldb,bdb,sldb from dbo.[f_DTDuty_dbb_cj_toNormal]('$COMMUNITYID') order by dateone]]></table> 
+	  <table tableName="DTDuty_dbb_cj" attList="" rowName="row_dbb_cj"  fields="zdate,ldb,bdb,sldb"><![CDATA[select (case dateone when CONVERT(nvarchar(10),GETDATE(),120) then dateone+'<font color="red">(今天)</font>' else dateone end) as zdate,ldb,bdb,sldb from dbo.[f_DTDuty_dbb_cj_toNormal]('$COMMUNITYID') order by dateone]]></table> 
 
 
 
@@ -73,8 +73,7 @@
 
 
 	  <!-- 值班表 城郊 -->
-	  <table tableName="DTDuty_zbb_cj" attList="" rowName="row_zbb_cj"  fields="dateone,zbone,datetwo,zbtwo,datethree,zbthree"><![CDATA[select dateone,zbone,datetwo,zbtwo,datethree,zbthree from DTDuty_zbb_cj where
-communityId='$COMMUNITYID' and ((DATEDIFF(DD,GETDATE(),dateone)>=-3 and DATEDIFF(DD,GETDATE(),dateone)<=3) or (DATEDIFF(DD,GETDATE(),datethree)>=-3 and DATEDIFF(DD,GETDATE(),datethree)<=3)) order by dateone]]></table> 
+	  <table tableName="DTDuty_zbb_cj" attList="" rowName="row_zbb_cj"  fields="id,dateone,zbone,datetwo,zbtwo,datethree,zbthree"><![CDATA[exec proc_DTDuty_zbb_cj_format '$COMMUNITYID']]></table> 
 
 	<!-- 生产日报 -->
 	  <table tableName="DTRecord" attList="" rowName="row_record"  fields="workDes,dateDes,date_created"><![CDATA[exec proc_DTRecord_view '$COMMUNITYID']]></table> 
@@ -350,12 +349,15 @@ communityId='$COMMUNITYID' and ((DATEDIFF(DD,GETDATE(),dateone)>=-3 and DATEDIFF
 
 	 	<table tableName="DTPlan_ktht_cj_sub" attList="" rowName="row"  fields="flag,Company,Unit,FaceName,category,Specifications,Netsection,Supporting,Basicplan,Coalwas,Remarks,FaceName_str">
 		<![CDATA[select flag,Company,Unit,FaceName,category,Specifications,Netsection,Supporting,Basicplan,Coalwas,Remarks,dbo.f_field_option_workPlace(FaceName) as FaceName_str from DTPlan_ktht_cj_sub where main_id='$RECORDID' order by Date_created,flag ]]></table> 
+		
+		<table tableName="DTPlan_ktht_cj_sub" attList="" rowName=""  fields="sumBasicplan">
+		<![CDATA[select SUM(Basicplan) as sumBasicplan from DTPlan_ktht_cj_sub where main_id = '$RECORDID']]></table> 
 	</viewTableRecordTemplate>
 	<!-- 掘进计划 end -->
 
 	 <!-- 安全事故统计 -->
-    <viewTableRecordTemplate tid="DTAcc_record_cj_sub_main" downFileTitle="" singleness="skins/Default/multi/DTPlan_ktht_cj/DTPlan_ktht_cj_view_list.html">
-	 	<table tableName="DTAcc_record_cj_main" attList="" rowName=""  fields="yearAndMonth">
+    <viewTableRecordTemplate tid="DTAcc_record_cj_sub_main" downFileTitle="$TABLEKEYWORD3安全事故统计表" singleness="skins\Default\comm\DTAcc_record\DTAcc_record_cj_view_list.html">
+	 	<table tableName="DTAcc_record_cj_main" attList="" rowName=""  fields="id,yearAndMonth">
 
 		<![CDATA[select yearandmonth from DTAcc_record_cj_main where id='$RECORDID' ]]></table> 
 
@@ -363,5 +365,6 @@ communityId='$COMMUNITYID' and ((DATEDIFF(DD,GETDATE(),dateone)>=-3 and DATEDIFF
 		<![CDATA[select flag,tDate,taddress,tcontenet,hurtman,reportman,reporttime,remark from DTAcc_record_cj_sub where main_id='$RECORDID' order by Date_created,flag ]]></table> 
 	</viewTableRecordTemplate>
 	<!-- 安全事故统计 end -->
+
 	
 </viewTableRecordTemplates>

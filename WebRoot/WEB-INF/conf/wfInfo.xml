@@ -17,7 +17,7 @@
 	  <step number="3" title="发送" firstStatus="处理中" nextStatus="已处理" updateFields="next_role,ispass,content,created_by,realName,ITNO,realName,communityName" attList="" htmUrl="skins/Default/comm/DTBank_meeting_task/DTBank_meeting_task_step3.html">
 		<todoList todoNum="2" cantodo="exec proc_wf_cantodo '$COMMUNITYID','$SHORTNAME','$WORKGROUPID','$ROLEID','$USERID','$RECORDID','DTBank_meeting_task'">
 		 <todo id="1"><![CDATA[insert into wf_DTBank_meeting_task(record_id,step,content,realName,processStatus,created_by,create_time,workGroupId,workGroupName,communityId,communityName) values('$RECORDID','3','$content','$REALNAME','$REALNAME处理结束','$USERID',getdate(),'$WORKGROUPID','$WORKGROUP','$COMMUNITYID','$COMMUNITYNAME')]]></todo>
-		<todo id="2"><![CDATA[exec porc_UPDATE '$realName','$RECORDID','$COMMUNITYID','$USERID','$REALNAME','$created_by','$WORKGROUPID']]></todo>    
+		<todo id="2"><![CDATA[exec porc_UPDATE '$realName','$RECORDID','$COMMUNITYID','$USERID','$REALNAME','$created_by','$WORKGROUPID','$SHORTNAME']]></todo>    
 		</todoList>
 	  </step>
 

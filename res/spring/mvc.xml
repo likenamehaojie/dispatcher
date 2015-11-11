@@ -17,6 +17,8 @@
 			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 <mvc:annotation-driven/>
+
+
  <mvc:resources mapping="/static/**" location="/static/" />  
 <!--   
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">    

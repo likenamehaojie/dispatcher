@@ -566,6 +566,7 @@ public HSSFFont getHSSFont(){
 					if(i<max){
 						 row.setHeight((short)(40*20));
 					}else{
+					short height2 = row.getHeight();
 					row.setHeight((short) (avg*20));
 				}
 				}
@@ -1056,6 +1057,9 @@ public HSSFFont getHSSFont(){
        }
        if(com_name.endsWith("<input/>")){
     	   com_name= com_name.replace("<input/>", "\b");
+       }
+       if(com_name.contains("/n")){
+    	   com_name=  com_name.replaceAll("/n", "\n");
        }
 		//拿到该列的列头信息
 		HSSFRow rowHeader = sheet.getRow(0);
