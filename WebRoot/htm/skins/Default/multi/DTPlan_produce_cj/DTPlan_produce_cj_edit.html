@@ -165,7 +165,7 @@ function AddRow_MR(){
 <input type="hidden" name="communityId" value="{$COMMUNITYID}">
 <input type="hidden" name="realFileName" value="{realFileName}">
 <input type="hidden" name="main_id" value="{main_id}">
-<input type="hidden" name="field.validateValue_sub" value="Basicplan|基本计划|TXT|100|1|yn|">
+<input type="hidden" name="field.validateValue_sub" value="Basicplan|计划产量|TXT|100|1|yn|">
 
 
 
@@ -180,8 +180,8 @@ function AddRow_MR(){
   <tr>
     <td class="tad">&nbsp;年月&nbsp;:</td>
     <td> <input name="yearandmonth" type="text" value="{yearandmonth}" class="input_txt"  onClick="WdatePicker({dateFmt:'yyyy年MM月'})" style = "width:220px;" readonly/></td>
-	<td class="tad">&nbsp;标题&nbsp;:</td>
-    <td> <input name="Title" type="text" value="{Title}" class="input_txt" style = "width:220px;"/></td>
+	<!--<td class="tad">&nbsp;标题&nbsp;:</td>
+    <td> <input name="Title" type="text" value="{Title}" class="input_txt" style = "width:220px;"/></td>-->
   </tr>
   
 </tbody></table>
@@ -196,6 +196,7 @@ function AddRow_MR(){
       <tr>
         <th align="center">序号</th>
 		<th align="center">单位</th>
+		<th align="center">小队</th>
         <th align="center">工作面名称</th>
 		<th align="center">产量计划（万吨）</th>
 		<th align="center">块煤率(%)</th>
@@ -210,11 +211,11 @@ function AddRow_MR(){
 	<tr id="{flag}">
     <td id="xuhao{flag}" align="center">{flag}</td>
     <td align="center"><input  class="input_txt" type="text" name="Company{flag}" value="{Company}"/></td>
+	<td align="center"><span ><select name="Unit{flag}"> {Unit}</select></span></td>
 	<td align="center"><span ><select name="FaceName{flag}">{FaceName}</select></span></td>
 	<td align="center"><input  class="input_txt" type="text" name="Basicplan{flag}" value="{Basicplan}" onkeyup="clearNoNum(this)" /></td>
 	<td align="center"><input  class="input_txt" type="text" name="Coalwas{flag}" value="{Coalwas}"/></td>
 	<td align="center"><textarea   type="text"  name="Remarks{flag}" rows="2" cols="50" value="{Remarks}" />{Remarks}</textarea></td>
-
 	<td style="display:none"><input name="FINISH{flag}" type="text" value="{FINISH}" size="5"/></td>
 	<td style="display:none"><input name="REMARK_F{flag}" type="text" value="{REMARK_F}" size="5"/></td>
 	<td style="display:none"><input name="COMPANY{flag}" type="text" value="{COMPANY}" size="5"/></td>

@@ -6,7 +6,7 @@
 //有问题希望跟我交流下,谢谢支持 QQ6997467
 //***********************************************************
 //获得所有需要验证的标签
-var combineStr="";
+
 (function($){
 	$(document).ready(function(){
 		//$('select[check],input[check],textarea[check]').tooltip();
@@ -91,7 +91,7 @@ var combineStr="";
 							
 								if($(this).attr('reg')=="yy"){
 									var returnUniqueValue="";
-									if(id){
+									if(id && id.value!=""){
 										returnUniqueValue=checkUnique_sub(tableName,this.name,this.value,id.value);
 									}else{
 										returnUniqueValue=checkUnique(tableName,this.name,this.value);
@@ -109,7 +109,8 @@ var combineStr="";
 									
 								}else if($(this).attr('reg')=="cy"){
 									
-									if(combineStr!=""){
+									var combineStr=$(obj).attr('combinefields');
+									if(combineStr && combineStr!=""){
 										
 										combineStr=combineStr.replaceAll(":",",");
 										var combineStrArray=combineStr.split(",");
@@ -128,7 +129,8 @@ var combineStr="";
 									}
 								
 									var returnUniqueValue="";
-									if(id){
+									if(id && id.value!=''){
+									//	alert(id)
 										returnUniqueValue=checkUnique_sub(tableName,combineStr,combineStrValues,id.value);
 									}else{
 										returnUniqueValue=checkUnique(tableName,combineStr,combineStrValues);
@@ -275,8 +277,8 @@ function superValidate_checkValue(obj,sNo){
 					}
 				
 				}else if($(obj).attr('reg')=="cy"){
-					
-					if(combineStr!=""){
+					var combineStr=$(obj).attr('combinefields');
+					if(combineStr && combineStr!=""){
 							
 						combineStr=combineStr.replaceAll(":",",");
 						var combineStrArray=combineStr.split(",");
@@ -588,7 +590,7 @@ function setUnique(validatorString)
 //数据库 联合校验唯一 
 function setCombineUnique(validatorString)
 {
-	combineStr=validatorString;
+	//combineStr=validatorString;
 
 	var validatorStrings="";
 	if(validatorString!="")
@@ -625,6 +627,8 @@ function checkUnique(tableName,fieldName,fieldValue) {
 //alert(parentSpanObj.attr("id").substring(0,parentSpanObj.attr("id").indexOf("_")));
 				realFieldName=realFieldName+parentSpanObj.attr("id").substring(0,parentSpanObj.attr("id").indexOf("_sysEdit"))+',';
 				
+			}else{
+				realFieldName=realFieldName+fieldName[i]+',';
 			}
 		}
 		realFieldName=realFieldName.substring(0,realFieldName.length-1);
@@ -638,15 +642,29 @@ function checkUnique(tableName,fieldName,fieldValue) {
 	}
 	req = newXMLHttpRequest();
 
-	var url="/ajaxcheckunique?tableName="+tableName+"&fieldName="+realFieldName+"&fieldValue="+fieldValue+"&time="+ Math.random();
+	var url="/ajaxcheckunique?tableName="+tableName+"&fieldName="+realFieldName+"&time="+ Math.random();
 
 	req.onreadystatechange = getUniqueInfo;
 
-	req.open("GET",url, false);
 
-	req.send();
+	req.open("POST",url, false);
+	req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+	req.send("parSendPost=y&fieldValue="+encodeURIComponent(fieldValue));
 	return returnUniqueStr;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 //修改页面的唯一性验证
 function checkUnique_sub(tableName,fieldName,fieldValue,id) {
   // alert("tableName = "+tableName+" fieldName = "+fieldName+" fieldValue = "+fieldValue);
@@ -662,6 +680,8 @@ function checkUnique_sub(tableName,fieldName,fieldValue,id) {
 //alert(parentSpanObj.attr("id").substring(0,parentSpanObj.attr("id").indexOf("_")));
 				realFieldName=realFieldName+parentSpanObj.attr("id").substring(0,parentSpanObj.attr("id").indexOf("_sysEdit"))+',';
 				
+			}else{
+				realFieldName=realFieldName+fieldName[i]+',';
 			}
 		}
 		realFieldName=realFieldName.substring(0,realFieldName.length-1);

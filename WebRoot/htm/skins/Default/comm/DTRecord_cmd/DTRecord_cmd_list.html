@@ -20,7 +20,8 @@
 	  <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
 	<!--多选搜索 1 end-->
 
-
+	<LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+	 <script type="text/javascript" src="/js/baiduAutoComplete.js" charset="utf-8"></script>
 	<!--日期控件 begin-->
 	<script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
 	<!--日期控件 end-->
@@ -36,6 +37,9 @@
 
 	 <!--记忆搜索条件  第一步：引用cookie -->
 	<script src="/js/cookie.js"></script>
+	<script type="text/javascript" src="js/titleInfo.js"></script>
+
+	  
 
 
 </head>
@@ -43,7 +47,6 @@
 
   <script>
 $(document).ready(function(){
-
 
 	if('{$combName}' =='查看本矿'){
 		$('#stair1,#stair2').css('display','none');
@@ -91,10 +94,31 @@ if('{editshow_show}'=="none"){
 	iniCookie('{tableName}','{ITNO}','{$USERID}');
 	//初始化多选菜单
 	iniMultOptions('{tableName}','{ITNO}','{$USERID}');
-
+	
+	baidu.ui.suggestion.create(baidu.g("workPlace"), options)
+	
 });
 	
+ var options = {
+		getData: function(word){
+		var abcStr=getInfoBySqlNo_noHidden(398,word).split(",");
+		
+		//var abcStr=document.all("abc").value.split(",");
+		var abcStrLength=abcStr.length;
+		
+		
+		var suggestionData;
+		if(abcStrLength==0){
+			suggestionData = ["暂无匹配数据"];	
+		}
+		if(abcStrLength>=1){
+			suggestionData = abcStr;	
+		}
 
+		suggestionData.unshift(word);
+		this.setData(word, suggestionData);
+	}
+};
 var map=new Map();
 //初始化row数据
 function iniList(){
@@ -116,6 +140,7 @@ function iniList(){
 		map.put("recordId",'&nbsp;<input type="checkbox" name="id" value="">');
 	}else{
 		map.put("recordId",'&nbsp;{id}');
+		
 	}
 	map.put("xuhao:SYS_HIDDEN",'{sNo}');
 
@@ -127,17 +152,20 @@ function iniList(){
 	else{
 		map.put("branchName:SYS_FIELDS",'<span id="branchName_sysEdit_spanId#no#"><input type=\"text\"  name=\"branchName#no#\" value=\"{branchName}\"  defaultValue=\"{$WORKGROUP}\"size=\"8\" check=\"2\ "></span><span id="branchName_sysView_spanId#no#">{branchName}</span>');	
 	}
-
-	//map.put("branchName:SYS_FIELDS",'<span id="branchName_sysEdit_spanId#no#"><select name=\"branchName#no#\" realValue=\"{branchName}\"  check=\"2"\ valFun=\"setEmptyCheck\">{$WORKGROUPID}</select></span><span id="branchName_sysView_spanId#no#">'+branchName_Str+'</span>');
+	
+	//小队
+	map.put("Unit:SYS_FIELDS",'<span id="Unit_sysEdit_spanId#no#"><select name=\"Unit#no#\" realValue=\"{Unit}\"  check=\"2"\  tip=\"[区队、作业地点、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:workPlace#no#:BirthDate#no#:Shift#no#\">{filterOptions5}</select></span><span id="Unit_sysView_spanId#no#">{Unit}</span>');
 
     //作业地点
-	map.put("workPlace:SYS_FIELDS",'<span id="workPlace_sysEdit_spanId#no#"><select name=\"workPlace#no#\" realValue=\"'+workPlace_Str+'\"  check=\"2"\  tip=\"[区队、作业地点、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:workPlace#no#:BirthDate#no#:Shift#no#\">{filterOptions4}</select></span><span id="workPlace_sysView_spanId#no#">'+workPlace_Str+'</span>');
+
+	map.put("workPlace:SYS_FIELDS",'<span id="workPlace_sysEdit_spanId#no#"><select name=\"workPlace#no#\" realValue=\"{workPlace_str}\" check=\"2"\  tip=\"[区队、作业地点、小队、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:workPlace#no#:BirthDate#no#:Shift#no#:Unit#no#\">{filterOptions4}</select></span><span id="workPlace_sysView_spanId#no#">{workPlace_str}</span>');
+
 
 	//map.put("workPlace:SYS_FIELDS",'<span id="workPlace_sysEdit_spanId#no#"><input type=\"text\" name=\"workPlace#no#\" value=\"'+workPlace_Str+'\" size=\"14\"   check=\"2"\  valFun=\"setEmptyCheck\" ></span><span id="workPlace_sysView_spanId#no#">'+workPlace_Str+'</span>');
 	//日期
-	map.put("BirthDate:SYS_FIELDS",'<span id="BirthDate_sysEdit_spanId#no#"><input type=\"text\" id="time#no#" name=\"BirthDate#no#\" value=\"{BirthDate}\"  size=\"14\" check=\"2"\ tip=\"[区队、作业地点、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:workPlace#no#:BirthDate#no#:Shift#no#\" onclick=WdatePicker()></span><span id="BirthDate_sysView_spanId#no#">'+BirthDate_Str+'</span>');	
+	map.put("BirthDate:SYS_FIELDS",'<span id="BirthDate_sysEdit_spanId#no#"><input type=\"text\" id="time#no#" name=\"BirthDate#no#\" value=\"{BirthDate}\"  size=\"14\" check=\"2"\  tip=\"[区队、作业地点、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:workPlace#no#:BirthDate#no#:Shift#no#\" onclick=WdatePicker()></span><span id="BirthDate_sysView_spanId#no#">'+BirthDate_Str+'</span>');	
 	//班次
-	map.put("Shift:SYS_FIELDS",'<span id="Shift_sysEdit_spanId#no#"><select name=\"Shift#no#\" realValue=\"{Shift}\"  check=\"2"\ tip=\"[区队、作业地点、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:workPlace#no#:BirthDate#no#:Shift#no#\">{filterOptions2}</select></span><span id="Shift_sysView_spanId#no#">'+Shift_Str+'</span>');
+	map.put("Shift:SYS_FIELDS",'<span id="Shift_sysEdit_spanId#no#"><select name=\"Shift#no#\" realValue=\"{Shift}\"  check=\"2"\  tip=\"[区队、作业地点、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:workPlace#no#:BirthDate#no#:Shift#no#\">{filterOptions2}</select></span><span id="Shift_sysView_spanId#no#">'+Shift_Str+'</span>');
 
 //入井人数
 	map.put("rjNum:SYS_FIELDS",'<span id="rjNum_sysEdit_spanId#no#"><input type=\"text\" name=\"rjNum#no#\" value=\"{rjNum}\" defaultValue=\"0\" size=\"8\" onkeyup=\"clearNoNum(this)\"></span><span id="rjNum_sysView_spanId#no#">{rjNum}</span>');
@@ -161,7 +189,7 @@ function iniList(){
 	//是否重点工程
 	//map.put("iskeyproject:SYS_FIELDS",'<span id="iskeyproject_sysEdit_spanId#no#"><select name=\"iskeyproject#no#\" realValue=\"{iskeyproject}\"  check=\"2"\ valFun=\"setEmptyCheck\"><option value="" >请选择</option>{filterOptions3}</select></span><span id="iskeyproject_sysView_spanId#no#">{iskeyproject}</span>');
 	//其他工作量及生产等信息
-	map.put("Other:SYS_FIELDS",'<span id="Other_sysEdit_spanId#no#"><textarea name=\"Other#no#\" value=\"{Other}\" size=\"8\" check=\"2"\ >{Other}</textarea></span><span id="Other_sysView_spanId#no#">{Other_Str}</span>');
+	map.put("Other:SYS_FIELDS",'<span id="Other_sysEdit_spanId#no#"><textarea name=\"Other#no#\" value=\"{Other}\" size=\"8\" check=\"2"\ >{Other}</textarea></span><span id="Other_sysView_spanId#no#"title=\"{Other}\">{Other_Str}</span>');
 	
 	//map.put("Other:SYS_FIELDS",'<span id="Other_sysEdit_spanId#no#"><input type=\"text\" name=\"Other#no#\" value=\"{Other}\" size=\"8\" check=\"2"\ tip=\"名称不能为空\" valFun=\"setEmptyCheck\"></span><span id="Other_sysView_spanId#no#">{Other}</span>');
 	
@@ -324,7 +352,7 @@ function ajax_saveForNum(no){
     <input type="hidden" name="listUrl" value="{listUrl}">
     <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
     <input type="hidden" name="curPage" value="{curPage}">
-    <input type="hidden" name="actorCount" value="{actorCount}">
+    <input type="hidden" id="actorCount" name="actorCount" value="{actorCount}">
 	<input type="hidden" name="worry_type" value="{$TABLEKEYWORD2}">
 
 
@@ -364,7 +392,7 @@ function ajax_saveForNum(no){
 		 <ul id="ul_search">
 			<li id="li_search1">
 				&nbsp;
-				<input type="checkbox" name="f_id" value="1">&nbsp;作业地点：<select name="workPlace" onchange="checkChange(this,'1')">{filterOptions4}</select>
+				<input type="checkbox" name="f_id" value="1">&nbsp;作业地点：<input id="workPlace" name="workPlace" onkeyup="checkChange(this,'1')" style="width:195px;"value="" class="input_txt" />
 			</li>
 		    <li id="li_search2">
 				&nbsp;
@@ -377,7 +405,7 @@ function ajax_saveForNum(no){
 			</li>
 			<li id="lisearch4">
 				&nbsp;
-				<input type="checkbox" name="f_id" value="4" style="display:none" id = "YC13"><span id = "YC12" style="display:none">区&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;队&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;：</span>
+				<input type="checkbox" name="f_id" value="4" style="display:none" id = "YC13"><span id = "YC12" style="display:none">&nbsp;区&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;队：</span>
 				<input name="branchName" onkeyup="checkChange(this,'4')" style="width:195px; display:none"value="" class="input_txt" id = "YC11"/>
 			</li>
 		   <li id="li_search_btn">
@@ -419,7 +447,8 @@ function ajax_saveForNum(no){
       <tr>
 	    <th width="1%"><input type="checkbox" name="roleCheck" value="" onClick="selectAllRole(form1);"></th>
             <th width="3%" style="cursor:hand;"  onClick="orderByInfo_new('branchName','{OrderKey}','{OrderBy}')">区队<span id="timeOrder" class="orderNo"></th> 
-            <th width="5%">作业地点</th> 
+            <th width="2%">小队</th> 
+			<th width="5%">作业地点</th> 
 			<th width="3%">日期</th>
 			<th width="3%">班次</th> 
 			<th width="3%">入井人数</th> 

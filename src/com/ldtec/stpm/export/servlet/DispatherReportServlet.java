@@ -99,6 +99,8 @@ public class DispatherReportServlet extends HttpServlet {
 				wbt= Excel_Sheet.copyRowsInSameSheet(wb, wbt,_caFont,_caHSSFCellStyle);
 			
 		}
+		   
+		    Excel_Sheet.setPrintStyle(wbt);
 			FileOutputStream fileOut = new FileOutputStream(downPath+uuids+".xls");
 			wbt.write(fileOut);
 			fileOut.flush();

@@ -67,14 +67,19 @@ function AddRow(maxLength){
 
 	//单位
 	map.put("Company",'<input  class=\"input_txt\"  type=\"text\"  readOnly="true"  name=\"Company#no#\" value=\"\" />');	
-
-	//工作面名称 FaceName
+	//小队
+	map.put("Unit:SYS_FIELDS",'<span id="Unit_sysEdit_spanId#no#"><select name=\"Unit#no#\"check=\"2"\ >{Unit}</select></span>');
+	// FaceName
 	//map.put("FaceName",'<input  class=\"input_txt\"  type=\"text\"  name=\"FaceName#no#\" value=\"\" />');	
-	 //作业地点
-	map.put("FaceName:SYS_FIELDS",'<span id="FaceName_sysEdit_spanId#no#"><select name=\"FaceName#no#\"check=\"2"\ >{FaceName}</select></span>');
+	
+	 //小队
+	map.put("Unit:SYS_FIELDS",'<span id="Unit_sysEdit_spanId#no#"><select name=\"Unit#no#\"check=\"2"\ >{Unit}</select></span>');
+	//map.put("Unit:SYS_FIELDS",'<span id="Unit_sysEdit_spanId#no#"><select name=\"Unit#no#\" realValue=\"{Unit}\" ></select></span>');
+	//工作面名称
+	map.put("Face",'<input  class=\"input_txt\"  type=\"text\"  name=\"Face#no#\" onkeyup=\"clearNoNum(this)\"valFun=\"setEmptyCheck\"  tip=\"工作面不能为空" value=\"\" />');	
 
 	//基本计划
-	map.put("Basicplan",'<input  class=\"input_txt\"  type=\"text\"  name=\"Basicplan#no#\" onkeyup=\"clearNoNum(this)\"valFun=\"setEmptyCheck\"  tip=\"基本计划不能为空\" value=\"\" />');	
+	map.put("Basicplan",'<input  class=\"input_txt\"  type=\"text\"  name=\"Basicplan#no#\" onkeyup=\"clearNoNum(this)\"valFun=\"setEmptyCheck\"  tip=\"计划产量不能为空\" value=\"\" />');	
 
 	//块煤率
 	map.put("Coalwas",'<input  class=\"input_txt\"  type=\"text\"  name=\"Coalwas#no#\" valFun=\"setNumCheck\" value=\"\" />');	
@@ -187,7 +192,8 @@ function AddRow_MR(){
 	<input type="hidden" name="realFileName" value="">
 	<input type="hidden" name="todo" value="1">
 	<input type="hidden" name="id" value="0">
-	<input type="hidden" name="field.validateValue_sub" value="Basicplan|基本计划|TXT|100|1|yn|">
+	<input type="hidden" name="field.validateValue" value="yearandmonth|年月|TXT|100|1|yn|">
+	<input type="hidden" name="field.validateValue_sub" value="Basicplan|计划产量|TXT|100|1|yn|">
 
 <div id="top">
    <div class="haer"><span id="tans"><strong>生产计划</strong></span></div>
@@ -203,8 +209,8 @@ function AddRow_MR(){
   <tr>
      <td class="tad"><img src="images/form/mi.GIF">&nbsp;年月&nbsp;:</td>
     <td> <input name="yearandmonth" type="text" value="" class="input_txt"  onClick="WdatePicker({dateFmt:'yyyy年MM月'})" style = "width:220px;" readonly/></td>
-	<td class="tad"><img src="images/form/mi.GIF">&nbsp;标题&nbsp;:</td>
-    <td> <input name="Title" type="text" value="" class="input_txt"  style = "width:220px;"/></td>
+	<!---<td class="tad"><img src="images/form/mi.GIF">&nbsp;标题&nbsp;:</td>
+    <td> <input name="Title" type="text" value="" class="input_txt"  style = "width:220px;"/></td>-->
   </tr>
   
 </tbody></table>
@@ -219,6 +225,7 @@ function AddRow_MR(){
       <tr>
         <th align="center">序号</th>
 		<th align="center">单位</th>
+		<th align="center">小队</th>
         <th align="center">工作面名称</th>
 		<th align="center">产量计划（万吨）</th>
 		<th align="center">块煤率(%)</th>

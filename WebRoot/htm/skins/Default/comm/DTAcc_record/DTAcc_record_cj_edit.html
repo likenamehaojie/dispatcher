@@ -30,9 +30,11 @@
 
 </head>
 <script type="text/javascript">
+  		  var aaa;
 //添加条件行 
 function AddRow(maxLength){ 
 	{row}
+	aaa='{tDate}'
 	var map=new Map();
 	//事故发生时间
 	map.put("tDate",'<input  class=\"input_txt\" onClick="WdatePicker()" type=\"text\"  id="tDate#no#"  name=\"tDate#no#\" value=\"{tDate}\" />');
@@ -59,7 +61,7 @@ function AddRow(maxLength){
 	map.put("remark",'<textarea   type=\"text\"  name=\"remark#no#\" rows="2" cols="50" value=\"\" />{remark}</textarea>');
 	                 
 	//操作<a  href=\"javascript:AddRow_MR()\">添加</a><br/><a href=\"javascript:DelCurrentRow(#no#);\">删除</a>
-	map.put("operate",' <div style =\'width:40%;margin:0 auto\'><li><a href="#" style="cursor:hand" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l" >添加 &nbsp;</span></a></li>   <li><a href="#" style="cursor:hand"  onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l" style="line-height:32px">删除</span></a></li></div>'); 
+	map.put("operate",' <div  style =\'width:30%;margin:0 auto\'><li><a href="#" style="cursor:hand"  onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l" >添加 &nbsp;</span></a></li>   <li><a href="#" style="cursor:hand"  onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l" style="line-height:32px">删除</span></a></li></div>'); 
 	for(var i=1;i<=maxLength;i++){  
 		AddRow_sys(map);
 	}
@@ -70,8 +72,18 @@ function AddRow(maxLength){
 $(document).ready(function(){
 	//添加三行空白记录
 	AddRow(1);
-	var yearAndMonth=new Date().format("yyyy年MM月");
-	document.getElementsByName("yearAndMonth")[0].value=yearAndMonth;
+
+     
+    //判断是否有月报
+	if (aaa==""){    
+		  document.getElementById("actor_table").style.display="none"
+		  document.getElementById("no").style.display="block"
+		 document.getElementById("MReport").checked=true
+
+      }
+	  else{
+	  }
+
 	
  });
 
@@ -88,17 +100,21 @@ $(document).ready(function(){
 }
 
 function checkzz(){
-	if($("#MReport").attr("checked")==true)$("#yes").remove();
-	else $("#no").remove();	
-	
+	var checkeds=document.getElementById("MReport").checked
 	var yearAndMonth=document.getElementsByName("yearAndMonth")[0].value
-	var ceshi=getInfoBySqlNo_noHidden(401,yearAndMonth)
-	if (ceshi==0){
-		var h1=$("#h1").html();
-		if(h1!="")$("#empty").val(h1)
-				
-		return check_subTable();
-		
+	var ceshi=getInfoBySqlNo_noHidden(401,yearAndMonth);	
+	if (ceshi<2){		
+		if(checkeds){
+			$("#yes").remove();
+			return true;
+		}else{
+			if(check_subTable()){
+				$("#no").remove();
+				return true;
+			}else{
+				return false;
+			}
+		}		
 	}
 	else{
 		alert('该月数据已保存')
@@ -108,15 +124,15 @@ function checkzz(){
 
 
 function no_MReport(){
-	if($("#MReport").attr("checked")==true){
-		var FILL_TIME =document.getElementsByName("yearAndMonth")[0].value;
+	if($("#MReport").attr("checked")==true){		
 		$("#no").show();
 		$("#yes").hide();
-		$("#h1").html(FILL_TIME+"份矿级安全正常生产，无人身伤害事故。");
+		
 	}
 	else{
 		$("#no").hide();
-		$("#yes").show();
+		$("#actor_table").show();
+        $("#yes").show();
 	}
    	
 }
@@ -135,8 +151,10 @@ function no_MReport(){
     <input type="hidden" name="curPage" value="{curPage}">
     <input type="hidden" id="actorCount" name="actorCount" value="{actorCount}">
     <input type="hidden" name="flag" value="1">
+	<input type="hidden" name="FK1" value="1">
     <input type="hidden" name="FINISH" value="">    
 	<input type="hidden" name="realFileName" value="">
+
 
  
 
@@ -145,14 +163,14 @@ function no_MReport(){
    <input type="hidden" name="field.validateValue_sub" value="tDate|事故发生时间|DAT|100|1|yn|">
    <input type="hidden" name="field.validateValue_sub" value="taddress|事故发生地点|TXT|100|1|yn|">
    <input type="hidden" name="field.validateValue_sub" value="tcontenet|事故简单经过|TXT|100|1|yn|">
-   <input type="hidden" name="field.validateValue_sub" value="hurtman|受害人|TXT|100|1|yn|">
-   <input type="hidden" name="field.validateValue_sub" value="reportman|汇报人|TXT|100|1|yn|">
-   <input type="hidden" name="field.validateValue_sub" value="reporttime|上报时间|DAT|100|1|yn|">
-   <input type="hidden" name="field.validateValue_sub" value="remark|备注|TXT|100|1|yn|">
+   <input type="hidden" name="field.validateValue_sub" value="hurtman|受害人|TXT|100|1|nn|">
+   <input type="hidden" name="field.validateValue_sub" value="reportman|汇报人|TXT|100|1|nn|">
+   <input type="hidden" name="field.validateValue_sub" value="reporttime|上报时间|DAT|100|1|nn|">
+   <input type="hidden" name="field.validateValue_sub" value="remark|备注|TXT|100|1|nn|">
 
 <div id="top">
    <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
-   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 录入页面</div>               
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 编辑页面</div>               
   <div style = "clear:both;"></div>
             <h1><center>{$SHORTNAME}<input name="yearAndMonth" type="text" value="{yearAndMonth}" class="input_txt"  onClick="WdatePicker({dateFmt:'yyyy年MM月'})" readonly/>安全事故统计表 </h1>
 
@@ -162,7 +180,7 @@ function no_MReport(){
 <table width="100%" >
   <tbody>
 
-   <div width="98%" style="margin-left:1%;">&nbsp;&nbsp;<input type="checkbox" onclick="no_MReport()" id="MReport">&nbsp;&nbsp;&nbsp;无月报</div>
+   <div width="98%" style="margin-left:1%;">&nbsp;&nbsp;<input type="checkbox"  onclick="no_MReport()" id="MReport">&nbsp;&nbsp;&nbsp;无月报</div>
         	
 </tbody></table>
 
@@ -170,47 +188,46 @@ function no_MReport(){
 
   
 
-<div id="yes" >
-  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+<div class="toolbar_azhc" id="yes" >
+  <table border="0"width="100%" cellspacing="0" cellpadding="0"  class="table_list"  id="actor_table">
     <thead>
     <tr  >
-    	<th  align="center" >序号</th>
-    	<th   align="center">事故发生时间</th>
-	    <th   align="center" >事故发生地点</th>
-    	<th align="center"  >事故简单经过</th>
-		<th align="center"  >受害人</th>
-    	<th   align="center" >汇报人</th>
-    	<th align="center"  >上报时间</th>
-		<th align="center"  >备注</th>
-    	<th align="center" width="10%">操作</th>
+    	<th  align="center" width="2%">序号</th>
+    	<th   align="center" width="10%">事故发生时间</th>
+	    <th   align="center" width="10%">事故发生地点</th>
+    	<th align="center"  width="10%">事故简单经过</th>
+		<th align="center"  width="10%">受害人</th>
+    	<th   align="center" width="10%">汇报人</th>
+    	<th align="center"  width="10%">上报时间</th>
+		<th align="center" width="25%">备注</th>
+    	<th align="center" width="13%">操作</th>
     </tr>
     </thead>
 	</table>
   </div>
   
 
-    <div class="path" style="display:none"  id="no">
-  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <div class="toolbar_azhc" style="display:none" id="no">
+  <table border="0"width="100%" cellspacing="0" cellpadding="0"  class="table_list" >
 	
     <thead>
 	 
       <tr>
-    	<th  align="center" >序号</th>
-    	<th   align="center">事故发生时间</th>
-	    <th   align="center" >事故发生地点</th>
-    	<th align="center"  >事故简单经过</th>
-		<th align="center"  >受害人</th>
-    	<th   align="center" >汇报人</th>
-    	<th align="center"  >上报时间</th>
-		<th align="center"  >备注</th>
-    	<th align="center" width="10%">操作</th>
+    	<th  align="center" width="2%">序号</th>
+    	<th   align="center" width="10%">事故发生时间</th>
+	    <th   align="center" width="10%">事故发生地点</th>
+    	<th align="center"  width="10%">事故简单经过</th>
+		<th align="center"  width="10%">受害人</th>
+    	<th   align="center" width="10%">汇报人</th>
+    	<th align="center" width="10%">上报时间</th>
+		<th align="center" width="25%">备注</th>
+    	<th align="center" width="13%">操作</th>
       </tr>
 	   
-   
-	</thead>
-	<tr   height="50">
-		<td  colspan="20" height="50"><span id="h1" style="font-size:20px;"></span><input name="FK1" type="hidden" value="1"></td>	
-	</tr>
+  	</thead>
+	<tr   height="50">		
+<td  colspan="20" height="50"><span id="h1" style="font-size:20px;float:left">{yearAndMonth}份矿级安全正常生产，无人身伤害事故。</span></td>
+		</tr>
 
    </table>
   </div>
@@ -221,9 +238,9 @@ function no_MReport(){
 
 
   <table width="98%">
-    <tr>
+    <tr >
       <td colspan="4" align="center">
-        <input type="submit" value="保存" class="btn" onclick="return true;" />
+        <input type="submit" value="保存" class="btn" onclick="return checkzz();" />
         <input type="button" value="返回" class="btn m_l15" onclick="window.history.go(-1)"/>
       </td>
     </tr>

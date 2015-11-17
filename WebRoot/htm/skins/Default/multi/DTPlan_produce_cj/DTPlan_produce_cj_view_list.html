@@ -24,8 +24,8 @@
   <tr>
     <td class="tad"><img src="images/form/mi.GIF">&nbsp;年月&nbsp;:</td>
     <td> {yearandmonth}</td>
-	<td class="tad"><img src="images/form/mi.GIF">&nbsp;标题&nbsp;:</td>
-    <td> {Title}</td>
+	<!--<td class="tad"><img src="images/form/mi.GIF">&nbsp;标题&nbsp;:</td>
+    <td> {Title}</td>-->
   </tr>
 </tbody></table>
 
@@ -39,6 +39,7 @@
       <tr>
         <th align="center">&nbsp;序号&nbsp;</th>
 		<th align="center">&nbsp;单位&nbsp;</th>
+		<th align="center">&nbsp;小队&nbsp;</th>
         <th align="center">&nbsp;工作面名称&nbsp;</th>
 		<th align="center">&nbsp;产量计划（万吨）&nbsp;</th>
 		<th align="center">&nbsp;块煤率(%)&nbsp;</th>
@@ -58,7 +59,9 @@
 		   </script>
 	<tr id="{flag}">
     <td id="xuhao{flag}" align="center">&nbsp;{flag}&nbsp;</td>
-    <td align="center">&nbsp;{Company}&nbsp;</td>
+    
+	<td align="center">&nbsp;{Company}&nbsp;</td>
+	<td align="center">&nbsp;{Unit}&nbsp;</td>
 	<td align="center">&nbsp;{FaceName_str}&nbsp;</td>
 	<td align="center">&nbsp;{Basicplan}&nbsp;</td>
 	<td align="center">&nbsp;{Coalwas}&nbsp;</td>

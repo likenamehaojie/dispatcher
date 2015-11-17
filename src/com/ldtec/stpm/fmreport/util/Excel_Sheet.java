@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -101,10 +102,12 @@ public class Excel_Sheet {
 		if (pTargetWb.getSheet(pTargetSheetName) != null) {
 			pTargetSheetName = pTargetSheetName + pTargetSheetNumber;
 		}
-		pTargetWb.createSheet(pTargetSheetName);
+		pTargetWb.createSheet(pTargetSheetName).setActive(true);
 		sourceSheet = wb.getSheet(pSourceSheetName);
 		// targetSheet = pTargetWb.getSheet(pTargetSheetName);
 		targetSheet = pTargetWb.getSheetAt(0);
+		targetSheet.setActive(true);
+		
 		pPosition = targetSheet.getPhysicalNumberOfRows();
 		pEndRow = sourceSheet.getPhysicalNumberOfRows();
 		HSSFFont font = pTargetWb.createFont();
@@ -159,7 +162,7 @@ public class Excel_Sheet {
 			targetRow.setHeight(sourceRow.getHeight());
 			short firstCellNum = sourceRow.getFirstCellNum();
 			int physicalNumberOfCells = sourceRow.getPhysicalNumberOfCells();
-			System.out.println(firstCellNum + "----->" + physicalNumberOfCells);
+		
 			for (j = sourceRow.getFirstCellNum(); j < sourceRow.getPhysicalNumberOfCells() + firstCellNum; j++) {
 				int _j = j;
 				sourceCell = sourceRow.getCell(j);
@@ -172,7 +175,7 @@ public class Excel_Sheet {
 					sourceCell = sourceRow.getCell(j);
 					// continue;
 				}
-				System.out.println("源文件中的值:" + sourceCell.getStringCellValue());
+				
 				targetCell = targetRow.createCell(j);
 				// targetCell.setEncoding(sourceCell);
 				// targetCell.setCellStyle(sourceCell.getCellStyle());
@@ -350,7 +353,7 @@ public class Excel_Sheet {
 					sourceCell = sourceRow.getCell(j);
 					// continue;
 				}
-				System.out.println("源文件中的值:" + sourceCell.getStringCellValue());
+				
 				targetCell = targetRow.createCell(j);
 				// targetCell.setEncoding(sourceCell);
 				// targetCell.setCellStyle(sourceCell.getCellStyle());
@@ -660,6 +663,34 @@ public class Excel_Sheet {
 		sb.append( style.getFont(wb).getFontName() );
 		return sb.toString();
 		//return temp;
+	}
+
+
+
+
+
+	public static void setPrintStyle(HSSFWorkbook wbt) {
+		HSSFSheet sheetAt = wbt.getSheetAt(0);
+		HSSFPrintSetup printSetup = sheetAt.getPrintSetup();
+		/*sheetAt.setMargin(HSSFSheet.TopMargin,sheetAt.getMargin(HSSFSheet.TopMargin));// 页边距（上  ）        
+		sheetAt.setMargin(HSSFSheet.BottomMargin,sheetAt.getMargin(HSSFSheet.BottomMargin));// 页边距（下）    
+		sheetAt.setMargin(HSSFSheet.LeftMargin,sheetAt.getMargin(HSSFSheet.LeftMargin) );// 页边距（左）    
+		sheetAt.setMargin(HSSFSheet.RightMargin,sheetAt.getMargin(HSSFSheet.RightMargin));// 页边距（右  
+*/		
+		sheetAt.setMargin(HSSFSheet.TopMargin,0.76);// 页边距（上  ）        
+		sheetAt.setMargin(HSSFSheet.BottomMargin,0.76);// 页边距（下）    
+		sheetAt.setMargin(HSSFSheet.LeftMargin,0.7);// 页边距（左）    
+		sheetAt.setMargin(HSSFSheet.RightMargin,0.7);// 页边距（右  
+		sheetAt.setMargin(HSSFSheet.HeaderMargin,0.4);// 页眉边距 
+		sheetAt.setMargin(HSSFSheet.FooterMargin, 0.4);// 页脚边距 
+		
+		
+		printSetup.setLandscape(true); 
+		printSetup.setLandscape(true);;
+		printSetup.setScale((short)70);
+		short scale = printSetup.getScale();
+		printSetup.setPaperSize(HSSFPrintSetup.A4_PAPERSIZE); //纸张类型       
+		
 	}
 
 }

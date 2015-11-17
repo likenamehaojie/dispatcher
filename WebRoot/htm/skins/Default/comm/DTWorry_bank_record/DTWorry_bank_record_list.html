@@ -44,6 +44,10 @@
 
   <script>
 $(document).ready(function(){
+
+		if('{$combName}' =='查看'){
+		$('.yc').css('display','none');
+	}
 	//如果操作列没有权限  隐藏操作列
 	hideLastCol('actor_table');
 
@@ -98,6 +102,7 @@ function set_stpe(buzhou,id,Currentstep,totalStep){
     <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
     <input type="hidden" name="curPage" value="{curPage}">
     <input type="hidden" name="actorCount" value="{actorCount}">
+	<input type="hidden" id="$combName" name="$combName" value="{$combName}">
 
 	<input type="hidden" name="OrderBy" value="{OrderBy}">	
 	<input type="hidden" name="OrderKey" value="{OrderKey}">
@@ -134,6 +139,7 @@ function set_stpe(buzhou,id,Currentstep,totalStep){
 	 <div class="line_list_left">
 		 <ul id="ul_search">
 			<li id="li_search1">
+				&nbsp;
 				<input type="checkbox" name="f_id" value="1">&nbsp;时间&nbsp;：
 				<input name="Currentdate_start" style="width:70px;" onchange="checkChange(this,'1')"  class="input_txt" onclick="WdatePicker()"/>至<input name="Currentdate_end" style="width:70px;" onchange="checkChange(this,'1')" class="input_txt" onclick="WdatePicker()"/>
 			</li>
@@ -141,18 +147,18 @@ function set_stpe(buzhou,id,Currentstep,totalStep){
 
 			<li id="li_search2">
 				&nbsp;
-				<input type="checkbox" name="f_id" value="2">&nbsp;应急处置卡：<select name="Bigtitle" onchange="checkChange(this,'2')">{filterOptions1}</select>
+				<input type="checkbox" name="f_id" value="2">&nbsp;应急处置卡&nbsp;：<select name="Bigtitle" onchange="checkChange(this,'2')">{filterOptions1}</select>
 				
 			</li>
 			<li id="li_search3">
 				&nbsp;
-				<input type="checkbox" name="f_id" value="3">&nbsp;应急救援分类：
+				<input type="checkbox" name="f_id" value="3">&nbsp;应急救援分类&nbsp;：
 				<input name="Smalltitle" onkeyup="checkChange(this,'3')" class="input_txt"/>
 			</li>
 			<li id="li_search4">
 				&nbsp;
-				<input type="checkbox" name="f_id" value="4">&nbsp;步骤：
-				<input name="Currentstep" onkeyup="checkChange(this,'4')" class="input_txt"/>
+				<input type="checkbox" name="f_id" value="4">&nbsp;步骤&nbsp;：
+				<input name="Currentstep" onkeyup="checkChange(this,'4')" style = "width:156px;" class="input_txt"/>
 			</li>
 			<li id="li_search_btn">
 				&nbsp;
@@ -172,7 +178,7 @@ function set_stpe(buzhou,id,Currentstep,totalStep){
 		<th width="20%"  style="cursor:hand;" onClick="orderByInfo_new('Bigtitle','{OrderKey}','{OrderBy}')">应急处置卡<span id="workGroupNameOrder" class="orderNo"></span></th> 
         <th width="20%" style="cursor:hand;" onClick="orderByInfo_new('Smalltitle','{OrderKey}','{OrderBy}')">应急救援分类<span id="workGroupNameOrder" class="orderNo"></span></th>
 		<th width="8%"  style="cursor:hand;" >步骤</th>
-		<th width="8%" >下一步</th>
+		<th width="8%" >操作</th>
 
       </tr>
     </thead>
@@ -184,9 +190,9 @@ function set_stpe(buzhou,id,Currentstep,totalStep){
 	 <td >{Bigtitle}&nbsp;</td>
 	 <td >{Smalltitle}&nbsp;</td>
 	 <td >{Currentstep}&nbsp;</td>
-	 <td id="YC5"><a href="javascript:void(0)" onclick="set_stpe('down','{recordId}','{Currentstep}','{totalStep}');">上一步</a>|
+	 <td id="YC5"><a href="javascript:void(0)" class="yc" onclick="set_stpe('down','{recordId}','{Currentstep}','{totalStep}');">上一步</a>|
 	 <a href="javascript:void(0)" onclick="qidong_HS('{recordId}');">查看</a>|
-	 <a href="javascript:void(0)" onclick="set_stpe('up','{recordId}','{Currentstep}','{totalStep}');">下一步</a></td>
+	 <a href="javascript:void(0)" class="yc" onclick="set_stpe('up','{recordId}','{Currentstep}','{totalStep}');">下一步</a></td>
 
     <script language="javascript">
 		

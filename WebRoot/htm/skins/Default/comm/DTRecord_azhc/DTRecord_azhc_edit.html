@@ -11,7 +11,11 @@
   <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
   <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
   <script language="javascript" type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+      <script src="/js/ajaxGetOptions.js"></script>
 
+	<!--智能提示 -->
+  <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+   <script type="text/javascript" src="/js/baiduAutoComplete.js" charset="utf-8"></script>
 
  <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
 <SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
@@ -20,11 +24,74 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	setEmptyCheck("time:class:number:count:remark:recording");
-	
-	
+	setIntegeCheck("number:rjNum:sjNum");
+	setCombineUnique("time:class:workFace");
+
+	 var sys_j=document.getElementById("actorCount").value ;
+	baidu.ui.suggestion.create(baidu.g("workFace"), options)
+
+
+
+	var work = getInfoBySqlNo_noHidden(409,'{workFace}')
+	document.getElementById("workFace").value = work;
+
 })
 
+//计算本月累计
+function calMinus(){
+ var numbers=document.getElementById("number").value;
+ var times=document.getElementById("time").value;
+ var azhctypes=document.getElementById("azhctype").value;
+ var ceshi=getInfoBySqlNo_noHidden(407,numbers+'|'+times+'|'+azhctypes);
+ document.getElementById("count").value=ceshi
+}
 
+ var options = {
+		getData: function(word){
+		var abcStr=getInfoBySqlNo_noHidden(398,word).split(",");
+		
+		//var abcStr=document.all("abc").value.split(",");
+		var abcStrLength=abcStr.length;
+		
+		
+		var suggestionData;
+		if(abcStrLength==0){
+			suggestionData = ["暂无匹配数据"];	
+		}
+		if(abcStrLength>=1){
+			suggestionData = abcStr;	
+		}
+
+		suggestionData.unshift(word);
+		this.setData(word, suggestionData);
+	}
+}
+
+function adds(){
+    var workPlace=document.getElementById("workFace").value;
+	var times=document.getElementById("time").value;
+    var classs=document.getElementById("class").value;
+    var communityid="{$COMMUNITYID}";
+	var work = getInfoBySqlNo_noHidden(406,workPlace)
+	
+	//验证关联性唯一
+   var workPlace_id = getInfoBySqlNo_noHidden(410,workPlace+"|"+communityid);
+   var numbers = getInfoBySqlNo_noHidden(411,times+"|"+workPlace_id+"|"+classs+"|"+communityid);
+
+	if(numbers<=1 ){
+	  if(work>0){
+     	return true
+	  }
+	  else{
+		alert("该工作面不存在，请重新输入");
+		return false
+	  }
+	}
+	else{
+	   alert("该时间、班次、工作地点已录入，请勿重复录入！")
+              return false
+	}
+}
 </script>
 
    <form name="form1" action="/generictableservlet?action=saveEditRecord&tableName={tableName}&CDNO={CDNO}&ITNO={ITNO}&recordId={recordId}" method="post">
@@ -40,8 +107,11 @@ $(document).ready(function(){
     <input type="hidden" id="actorCount" name="actorCount" value="{actorCount}">
     <input type="hidden" name="flag" value="1">
     <input type="hidden" name="FINISH" value="">    
-	<input type="hidden" name="azhctype" value="{$TABLEKEYWORD3}">
-
+	<input type="hidden" id="azhctype" name="azhctype" value="{$TABLEKEYWORD3}">
+ 
+	<input type="hidden" name="id" value="{recordId}">
+	<input type="hidden" name="tmp_workFaceId" value="{workFace}">
+	
 
 
 	
@@ -61,34 +131,40 @@ $(document).ready(function(){
   <tbody>
 
   <tr>
-   <td class="tad" >时间：</td>
-	<td class="t_l b_cf" ><input name="time" type="text" class="input_txt" value="{time}"  onclick="WdatePicker({maxDate:'%y-%M-%d'})" tip="[时间]不能为空" check="2"/>&nbsp;</td>
-    <td class="tad" >班次：</td>
-		<td class="t_l b_cf"><select name="class" tip="班次不能为空" check="2"><option value="" >请选择</option>{class}</select>&nbsp;</td>
+   <td class="tad" >&nbsp;时间&nbsp;:</td>
+	<td class="t_l b_cf" ><input id="time" name="time" type="text" class="input_txt" value="{time}"  onclick="WdatePicker({onpicked:function(){calMinus(this)},maxDate:'(%y-%M-%d)'})" tip="[时间]不能为空，且[时间][班次][工作地点]必须唯一" check="2"/>&nbsp;</td>
+    <td class="tad" >&nbsp;班次&nbsp;:</td>
+		<td class="t_l b_cf"><select name="class" tip="班次不能为空，且[时间][班次][工作地点]必须唯一" check="2"><option value="" >请选择</option>{class}</select>&nbsp;</td>
     </tr>
+	
 	<tr>
 	<td class="tad">&nbsp;数量&nbsp;:</td>
-     <td> <input name="number" type="text" value="{number}" class="input_txt"  tip="[数量]不能为空" check="2"/>&nbsp;</td>
-    <td class="tad">&nbsp;本月累计&nbsp;:</td>
-     <td colspan="3"><input type="text" class="input_txt" value="{count}" name="count" tip="[本月累计]不能为空" check="2"/>&nbsp;</td>
-    </tr>
-	<tr>
+     <td> <input id="number" name="number" type="text" value="{number}" onkeyup="calMinus(this)" class="input_txt" tip="[数量]必须为整数" check="2"/>&nbsp;</td>
 	<td class="tad">&nbsp;入井人数&nbsp;:</td>
-     <td ><input type="text" class="input_txt"  name="rjNum" value="{rjNum}"/></td>
+     <td ><input type="text" class="input_txt"  name="rjNum" value="{rjNum}" tip="[入井人数]必须为整数" check="2"/></td>
+	 </tr>
+	
+	 <tr>
     <td class="tad">&nbsp;升井人数&nbsp;:</td>
-     <td colspan="3"><input type="text" class="input_txt"  name="sjNum" value="{sjNum}"/></td>
-    </tr>
-	<tr>
+     <td ><input type="text" class="input_txt"  name="sjNum" value="{sjNum}" tip="[升井人数]必须为整数" check="2"/></td>
 	<td class="tad">&nbsp;记录人&nbsp;:</td>
      <td ><input type="text" class="input_txt"  value="{recording}" name="recording" tip="[记录人]不能为空" check="2"/>&nbsp;</td>
-    <td class="tad">&nbsp;工作地点&nbsp;:</td>
-     <td colspan="3"><select name="workFace" tip="工作地点不能为空" check="2"><option value="" >请选择</option>{workFace}</select>&nbsp;</td>
-    </tr>
-    <td class="tad" >备注：</td>
-     <td class="t_l b_cf" colspan="3"><textarea name="remark" value="{remark}" rows="5" cols="110" tip="[备注]不能为空" check="2"/>{remark}</textarea>&nbsp;</td>
-
+	 </tr>
 	
-   </tr>
+	 <tr>
+    <td class="tad">&nbsp;工作地点&nbsp;:</td>
+     <td ><input name="workFace" id="workFace" tip="[工作地点]不能为空，且[时间][班次][工作地点]必须唯一" check="2"/></td>
+   
+	<td class="tad" >&nbsp;本月累计&nbsp;:</td>
+     <td ><input type="text" class="input_txt"  name="count" id="count" value="{count}" readonly/></td>
+	</tr>
+   
+   <tr>
+	<td class="tad" >&nbsp;备注&nbsp;:</td>
+     <td class="t_l b_cf" colspan="3"><textarea name="remark" value="{remark}" rows="5" cols="110" />{remark}</textarea>&nbsp;</td>
+    </tr>
+	
+
   
 </tbody></table>
 
@@ -99,7 +175,7 @@ $(document).ready(function(){
   <table width="98%">
     <tr>
       <td colspan="4" align="center">
-        <input type="submit" value="保存" class="btn" name="save" onclick="return true" />
+        <input type="submit" value="保存" class="btn" name="save" onclick="return adds()" />
 				&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="button" name="back" class="btn" onClick="window.close();"
 				value="关 闭">	

@@ -92,7 +92,7 @@ public class DispatherReportServlet{
 	}
 
 	private void generateExcelAllInOne(String uuids,String humanCanRead,HttpServletResponse response) {
-		//拿到各个uuid
+		//拿到各个uuid    
 		String[] uuidArray = uuids.split("_");
 		HSSFWorkbook wbt = new  HSSFWorkbook();
 		String realPath = this.request.getSession().getServletContext().getRealPath("/");
@@ -112,7 +112,10 @@ public class DispatherReportServlet{
 				wbt= Excel_Sheet.copyRowsInSameSheetTest(wb, wbt,_caFont,_caHSSFCellStyle,flagExportHeader);
 				
 			}
+			 if(wbt.isWriteProtected()){
+			wbt.unwriteProtectWorkbook();
 			
+			 }
 /*		for (String fileName : uuidArray) {
 				POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(downPath+fileName+".xls"));
 				HSSFWorkbook wb = new HSSFWorkbook(fs);
@@ -122,6 +125,7 @@ public class DispatherReportServlet{
 			String _uuids = UUID.randomUUID().toString();
 			
 			FileOutputStream fileOut = new FileOutputStream(downPath+_uuids+".xls");
+		    Excel_Sheet.setPrintStyle(wbt);
 			wbt.write(fileOut);
 			fileOut.flush();
 			fileOut.close();
@@ -131,6 +135,10 @@ public class DispatherReportServlet{
 			InputStream inputStream = null;
 			UserSession session=  SqlReplaceUseSysStrUtil.getUserSessionByRequest(this.request);
 			humanCanRead = SqlReplaceUseSysStrUtil.replaceSql(humanCanRead,session);
+			String dayInMonth = request.getParameter("dayInMonth");
+			if(dayInMonth!=null){
+				humanCanRead+=" "+dayInMonth;
+			}
 			humanCanRead+=".xls";
 			response.reset();
 			response.setContentType("application/vnd.ms-excel; charset=GBK");

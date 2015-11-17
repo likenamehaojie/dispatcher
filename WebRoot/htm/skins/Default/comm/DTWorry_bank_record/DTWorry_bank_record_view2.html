@@ -28,6 +28,12 @@
 
   <SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
   <script>
+$(document).ready(function(){
+	var a1 = window.opener.window.opener.document.getElementsByName("$combName")[0].value;
+	if(a1=='查看'){
+		$('#YC11').css('display','none');
+	}
+});
 
 	function save_bc(){
 	var id=''
@@ -93,10 +99,20 @@
     </tr>
 	{row}
 	<tr>
-	 <td style="display:none" id="id_td{sNo}">{sub_id}</td>
+	 <td style="display:none" id="id_td{sNo}">{sub_id}&nbsp;</td>
 	 <td >{Dispatch}&nbsp;</td>
 	 <td >{Operation}&nbsp;</td>
-	 <td><textarea   type="text" id="Replycontent{sNo}" name="Replycontent" rows="2" cols="50" value="" />{Replycontent}</textarea></td>
+	 <td id="Replycontent{sNo}">&nbsp;</td>
+		<script>
+		var a1 = window.opener.window.opener.document.getElementsByName("$combName")[0].value;
+		if(a1=='查看'){
+			$("#Replycontent{sNo}").html("{Replycontent}");
+			
+		}else{
+			$("#Replycontent{sNo}").html("<textarea type='text' id='Replycontent{sNo}' name='Replycontent' rows='2' cols='50' value='{Replycontent}'>{Replycontent}</textarea>");
+		}
+		
+		</script>
 	</tr>
 	 {row}
     </thead>
@@ -128,7 +144,7 @@
   <table width="98%">
     <tr>
       <td colspan="4" align="center">
-        <input type="button" value="保存" class="btn" onclick="save_bc()" />
+        <input id="YC11" type="button" value="保存" class="btn" onclick="save_bc()" />
         <input type="button" value="关闭" class="btn m_l15" onclick="window.close();"/>
       </td>
     </tr>

@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+</head>
+  <form name="form1" action="" method="post">
+
+  <table border="1" style=" font:font-family:'微软雅黑';" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+    <thead>
+	  <td colspan="14" align="center"  class=vwTitleName2><h3>开拓进尺</h3></td>
+      <tr>	    
+		<th width="3%" style="font-size:20px ">区队</th>	
+		<th width="4%" style="font-size:20px ">作业地点</th> 
+		<th width="5%" style="font-size:20px ">日期</th>
+		<th width="5%" style="font-size:20px ">班次</th> 
+		
+		<th width="5%" style="font-size:20px ">入井人数</th> 
+		<th width="5%" style="font-size:20px ">升井人数</th> 
+		<th width="5%" style="font-size:20px ">出勤人数</th> 
+		<th width="5%" style="font-size:20px ">计划进尺</th> 
+		<th width="5%" style="font-size:20px ">实际进尺</th>
+
+		<th width="5%" style="font-size:20px ">有效进尺</th>
+		<th width="5%" style="font-size:20px ">打锚杆量</th>
+		<th width="5%" style="font-size:20px ">打锚索量</th>
+		<th width="5%" style="font-size:20px ">出矸量</th>
+		<th width="5%" style="font-size:20px ">喷浆量</th>
+
+		<th width="5%" style="font-size:20px ">是否重点工程</th>
+		<th width="5%" style="font-size:20px ">其他工作量及生产等信息</th>
+      </tr>
+    </thead>
+	{row}
+	<TR align=middle>
+	 <td >{branchName}&nbsp;</td>
+	 <td >{workPlace_str}&nbsp;</td>
+	 <td >{BirthDate}&nbsp;</td>
+	 <td >{Shift}&nbsp;</td>
+	 <td >{rjNum}&nbsp;</td>
+	 <td >{sjNum}&nbsp;</td>
+	 <td >{Attendance}&nbsp;</td>
+	 <td >{PlanFootage}&nbsp;</td> 
+	 <td >{ActualFootage}&nbsp;</td>
+
+     <td >{EffectiveFootage}&nbsp;</td>
+	 <td >{AnchorBarMeasure}&nbsp;</td>
+	 <td >{AnchorCableMeasure}&nbsp;</td>
+	 <td >{RockMeasure}&nbsp;</td>
+	 <td >{SprayMeasure}&nbsp;</td>
+
+	 <td >{isKeyProject_str}&nbsp;</td>
+	 <td >{Other}&nbsp;</td>
+	</tr>
+	{row}
+  </table>
+</form>
+</body>
+
+</html>

@@ -9,6 +9,7 @@
    <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
 
+
 	<!--多选搜索 1 begin-->
 	<link rel="stylesheet" type="text/css" href="css/multiSelect/jquery.multiselect.css" />
 	<link rel="stylesheet" type="text/css" href="css/multiSelect/style.css" />
@@ -39,6 +40,8 @@
 	<script src="/js/cookie.js"></script>
 
 	<script type="text/javascript" src="js/titleInfo.js"></script>
+
+
 </head>
 
 
@@ -50,6 +53,7 @@ $(document).ready(function(){
 		$("#GoBack").show();
 		$("TD[ID^='CCC']").hide();
 	}
+
 
 
 	//改变未上报 已上报样式 隐藏已上报页面 添加 上报 批量删除 操作  
@@ -175,6 +179,9 @@ function isUpload_Revoke()
 	
 	  
 }
+
+
+
 </script>
 
   <form name="form1" action="" method="post">
@@ -185,7 +192,7 @@ function isUpload_Revoke()
     <input type="hidden" name="listUrl" value="{listUrl}">
     <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
     <input type="hidden" name="curPage" value="{curPage}">
-    <input type="hidden" name="actorCount" value="{actorCount}">
+    <input type="hidden" id="actorCount" name="actorCount" value="{actorCount}">
 
 	<input type="hidden" name="OrderBy" value="{OrderBy}">	
 	<input type="hidden" name="OrderKey" value="{OrderKey}">
@@ -250,9 +257,7 @@ function isUpload_Revoke()
 		</ul>
 	</div>
 	
-<div class="line_list" style="display:{operate_show}">
-
-		  <li class="pian">
+<div class="line_list_left" style="display:{operate_show}">
                  <div id="navMenu">
                             <a id="stair1" href="/generictableservlet?action=recordList&ITNO=364&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|{$TABLEKEYWORD3}|未上报" class="">
                                 <span>
@@ -265,9 +270,7 @@ function isUpload_Revoke()
                                 </span>
                             </a>
                         </div>		
-                </li>
-
-
+          
         </div>
 		
 <div class="line_list" id="line_list">
@@ -295,9 +298,9 @@ function isUpload_Revoke()
   <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
     <thead>
       <tr >
-	    <th width="3%"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
+	    <th width="3%"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);">&nbsp;</th>
 		<th width="8%">时间</th> 
-        <th width="8%">班次</th>
+        <th width="8%" style="cursor:hand;"  onClick="orderByInfo_new('class','{OrderKey}','{OrderBy}')">班次<span id="timeOrder" class="orderNo"></th>
 		<th width="8%">入井人数</th> 
         <th width="8%">升井人数</th>
         <th width="15%">工作地点</th>

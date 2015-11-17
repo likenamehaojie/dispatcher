@@ -10,7 +10,7 @@
 						<th>备注</th>
 						<th>创建时间</th>
 						<th style="display:none">在线预览</th>
-						<th  id="GK">是否公开</th>
+					
 						<th id="CZ">操作</th>
 					</tr>
 					</thead>
@@ -23,7 +23,7 @@
 						<td id="realFileName{sNo}">{realFileName}</td>
 						<td>{remark}&nbsp;</td>
 						<td>{date_created}&nbsp;</td>
-					    <td id="isupload{sNo}" realvalue="{isupload}"><a href="#" onClick="publicFiletwo('{recordId}')">点击公开</a></td>
+					 
 					  
 						<td id="btOpterate{sNo}"><span id="addshow{sNo}"><img src="images/zTree/treeEdit.gif" width="16" height="16" /><a href="#" onClick="window.open('/generictableservlet?action=editRecord&ITNO={ITNO}&recordId={recordId}&curPage={curPage}&$TABLEKEYWORD=文件管理|文件发布','','left=160,width=700,height=630,toolbar=no, menubar=no,resizable=yes,scrollbars=yes')">编辑</a>&nbsp;</span> <span id="delsingel{sNo}">&nbsp;<img src="images/zTree/treeDel.gif" width="16" height="16" /><a href="#" onClick="listdel('1','{recordId}')">删除</a></span></td>
 					

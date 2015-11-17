@@ -10,7 +10,16 @@ public class ReportInfoData {
 	private String isMegreDisplay = "";//是否合并后显示
 	private String canFillReport = "";
 	private String tableName = "";
+	private String fontName = "";
 	
+	public String getFontName() {
+		return fontName;
+	}
+
+	public void setFontName(String fontName) {
+		this.fontName = fontName;
+	}
+
 	public String getTableName() {
 		return tableName;
 	}

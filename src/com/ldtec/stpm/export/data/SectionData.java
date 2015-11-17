@@ -9,8 +9,15 @@ public class SectionData {
 	  private String connect ="";
 	  private String megreCols="";
 	  private String rowStyle = "";
+      private String fontName = "";
+	  public String getFontName() {
+		return fontName;
+	}
 
-	  private String megrePointLose;//位移量丢失
+	public void setFontName(String fontName) {
+		this.fontName = fontName;
+	}
+	private String megrePointLose;//位移量丢失
 	  
 	  private String refColmun;//参照列
 	  

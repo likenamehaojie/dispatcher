@@ -94,11 +94,11 @@ function checkFileType() {
 	<div class="toolbar" >
        <table border="0" cellspacing="0" cellpadding="0" class="view_table" style="margin-top:-1%" >
           <tr>
-			<td class="tad" > 姓名:</td>&nbsp;
+			<td class="tad" > 姓名&nbsp;:&nbsp;</td>&nbsp;
 			<td class = "t_l b_cf"  colspan="1"><input name="name" type="text" class="input_txt" value="{name}" style="width:200px;" tip="姓名不能为空" check="2"/></td>
 			
-			<td class="tad" width="20%">性别:</td>
-			<td class = "t_l b_cf" width="200px">
+			<td class="tad" width="30%">性别&nbsp;:&nbsp;</td>
+			<td class = "t_l b_cf" width="30%">
 				<select name="sex" value="{sex}">
 					<option value="男">男</option>
 					<option value="女">女</option>
@@ -110,13 +110,13 @@ function checkFileType() {
 		  <tr>
 
 
-			<td class="tad" > 工龄:</td>
+			<td class="tad" > 工龄&nbsp;:&nbsp;</td>
 			<td class = "t_l b_cf"><input name="workDate" style="width:200px;" readonly="readonly" class="input_txt" value="{workDate}" onclick="WdatePicker()"/></td>
 			
 
 
 	
-			<td class="tad">身份证号:</td>
+			<td class="tad">身份证号&nbsp;:&nbsp;</td>
 			<td class = "t_l b_cf" colspan="1"><input name="Cid" type="text" class="input_txt" value="{Cid}" style="width:200px;" tip="身份证号不能为空" check="2"/></td>
 
 
@@ -124,7 +124,7 @@ function checkFileType() {
 		  </tr>
 
 		  <tr>
-			<td class="tad" >附件:</td>
+			<td class="tad" >附件&nbsp;:&nbsp;</td>
 			<td id="fileTdId" class="t_l b_cf" value="{file1}" colspan="3">
 			<input type="file" name="file1" size="40" maxlength="500"  onChange="checkFileType()" ></td>
 		  </tr>

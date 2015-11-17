@@ -169,7 +169,7 @@
 	</viewTableRecordTemplate>
 
 
-	<!--  基本参数设置  2015/9/17-->
+	<!--  基础参数设置  2015/9/17-->
 	<viewTableRecordTemplate tid="FIELD_OPTION" singleness="skins/Default/param/FIELD_OPTION/FIELD_OPTION_list.html">
 	<table tableName="FIELD_OPTION" attList="" rowName=""  fields="id,orderId,VALUE,NAME,FIELD,TABLE_NAME,updatable,communityId"><![CDATA[select id,orderId,VALUE,NAME,FIELD,TABLE_NAME,updatable,communityId from  FIELD_OPTION where communityId='$COMMUNITYID' ]]></table> 
 	</viewTableRecordTemplate>
@@ -337,8 +337,9 @@
 	 	<table tableName="DTPlan_produce_cj_main" attList="" rowName=""  fields="id,yearandmonth,Title">
 		<![CDATA[select id,yearandmonth,Title from DTPlan_produce_cj_main where id='$RECORDID' ]]></table> 
 
-	 	<table tableName="DTPlan_produce_cj_sub" attList="" rowName="row"  fields="flag,Company,FaceName,Basicplan,Coalwas,Remarks,FaceName_str">
-		<![CDATA[select flag,Company,FaceName,Basicplan,Coalwas,Remarks,dbo.f_field_option_workPlace(FaceName) as FaceName_str from DTPlan_produce_cj_sub where main_id='$RECORDID' order by Date_created,flag ]]></table> 
+
+	 	<table tableName="DTPlan_produce_cj_sub" attList="" rowName="row"  fields="flag,Company,Unit,FaceName,Basicplan,Coalwas,Remarks,FaceName_str">
+		<![CDATA[select flag,Company,Unit,FaceName,Basicplan,Coalwas,Remarks,dbo.f_field_option_workPlace('$COMMUNITYID',FaceName) as FaceName_str from DTPlan_produce_cj_sub where main_id='$RECORDID' order by Date_created,flag ]]></table> 
 	</viewTableRecordTemplate>
 	<!-- 生产计划 end -->
 	 <!-- 掘进计划 -->
@@ -348,7 +349,7 @@
 		<![CDATA[select id,yearandmonth,Title,Remar from DTPlan_ktht_cj_main where id='$RECORDID' ]]></table> 
 
 	 	<table tableName="DTPlan_ktht_cj_sub" attList="" rowName="row"  fields="flag,Company,Unit,FaceName,category,Specifications,Netsection,Supporting,Basicplan,Coalwas,Remarks,FaceName_str">
-		<![CDATA[select flag,Company,Unit,FaceName,category,Specifications,Netsection,Supporting,Basicplan,Coalwas,Remarks,dbo.f_field_option_workPlace(FaceName) as FaceName_str from DTPlan_ktht_cj_sub where main_id='$RECORDID' order by Date_created,flag ]]></table> 
+		<![CDATA[select flag,Company,Unit,FaceName,category,Specifications,Netsection,Supporting,Basicplan,Coalwas,Remarks,dbo.f_field_option_workPlace('$COMMUNITYID',FaceName) as FaceName_str from DTPlan_ktht_cj_sub where main_id='$RECORDID' order by Date_created,flag ]]></table> 
 		
 		<table tableName="DTPlan_ktht_cj_sub" attList="" rowName=""  fields="sumBasicplan">
 		<![CDATA[select SUM(Basicplan) as sumBasicplan from DTPlan_ktht_cj_sub where main_id = '$RECORDID']]></table> 

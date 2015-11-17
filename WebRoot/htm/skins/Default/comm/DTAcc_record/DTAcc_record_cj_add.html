@@ -58,7 +58,7 @@ function AddRow(maxLength){
 	map.put("remark",'<textarea   type=\"text\"  name=\"remark#no#\" rows="2" cols="50" value=\"\" /></textarea>');
 	                 
 	//操作<a  href=\"javascript:AddRow_MR()\">添加</a><br/><a href=\"javascript:DelCurrentRow(#no#);\">删除</a>
-	map.put("operate",' <div  style =\'width:40%;margin:0 auto\'><li><a href="#" style="cursor:hand" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l" >添加 &nbsp;</span></a></li>   <li><a href="#" style="cursor:hand" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l" style="line-height:32px">删除</span></a></li></div>'); 
+	map.put("operate",' <div  style =\'width:28%;margin:0 auto\'><li><a href="#" style="cursor:hand" onclick="AddRow_MR();"><span><img src="images/index/listAdd.gif"  class="f_l"/></span><span class="f_l" >添加 &nbsp;</span></a></li>   <li><a href="#" style="cursor:hand" onclick="DelCurrentRow(#no#);"><span><img src="images/index/listDel.gif"  class="f_l"/></span><span class="f_l" style="line-height:32px">删除</span></a></li></div>'); 
 	for(var i=1;i<=maxLength;i++){  
 		AddRow_sys(map);
 	}
@@ -86,17 +86,21 @@ $(document).ready(function(){
 }
 
 function checkzz(){
-	if($("#MReport").attr("checked")==true)$("#yes").remove();
-	else $("#no").remove();	
-	
+	var checkeds=document.getElementById("MReport").checked
 	var yearAndMonth=document.getElementsByName("yearAndMonth")[0].value
-	var ceshi=getInfoBySqlNo_noHidden(401,yearAndMonth)
-	if (ceshi==0){
-		var h1=$("#h1").html();
-		if(h1!="")$("#empty").val(h1)
-				
-		return check_subTable();
-		
+	var ceshi=getInfoBySqlNo_noHidden(401,yearAndMonth);	
+	if (ceshi==0){		
+		if(checkeds){
+			$("#yes").remove();
+			return true;
+		}else{
+			if(check_subTable()){
+				$("#no").remove();
+				return true;
+			}else{
+				return false;
+			}
+		}		
 	}
 	else{
 		alert('该月数据已保存')
@@ -135,6 +139,10 @@ function no_MReport(){
     <input type="hidden" name="flag" value="1">
     <input type="hidden" name="FINISH" value="">    
 	<input type="hidden" name="realFileName" value="">
+	<input type="hidden" name="combinationUnique" value="yearAndMonth,communityId;年月,所属煤矿">
+    <input type="hidden" name="yearAndMonth,communityId" value="">
+	<input type="hidden" name="communityId" value="{$COMMUNITYID}">
+
 
  
 
@@ -145,10 +153,10 @@ function no_MReport(){
    <input type="hidden" name="field.validateValue_sub" value="tDate|事故发生时间|DAT|100|1|yn|">
    <input type="hidden" name="field.validateValue_sub" value="taddress|事故发生地点|TXT|100|1|yn|">
    <input type="hidden" name="field.validateValue_sub" value="tcontenet|事故简单经过|TXT|100|1|yn|">
-   <input type="hidden" name="field.validateValue_sub" value="hurtman|受害人|TXT|100|1|yn|">
-   <input type="hidden" name="field.validateValue_sub" value="reportman|汇报人|TXT|100|1|yn|">
-   <input type="hidden" name="field.validateValue_sub" value="reporttime|上报时间|DAT|100|1|yn|">
-   <input type="hidden" name="field.validateValue_sub" value="remark|备注|TXT|100|1|yn|">
+   <input type="hidden" name="field.validateValue_sub" value="hurtman|受害人|TXT|100|1|nn|">
+   <input type="hidden" name="field.validateValue_sub" value="reportman|汇报人|TXT|100|1|nn|">
+   <input type="hidden" name="field.validateValue_sub" value="reporttime|上报时间|DAT|100|1|nn|">
+   <input type="hidden" name="field.validateValue_sub" value="remark|备注|TXT|100|1|nn|">
 
 <div id="top">
    <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
@@ -170,27 +178,27 @@ function no_MReport(){
 
   
 
-<div id="yes" >
-  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table">
+<div class="toolbar_azhc" id="yes" >
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table" >
     <thead>
     <tr  >
-    	<th  align="center" >序号</th>
-    	<th   align="center">事故发生时间</th>
-	    <th   align="center" >事故发生地点</th>
-    	<th align="center"  >事故简单经过</th>
-		<th align="center"  >受害人</th>
-    	<th   align="center" >汇报人</th>
-    	<th align="center"  >上报时间</th>
-		<th align="center"  >备注</th>
-    	<th align="center" width="10%">操作</th>
+    	<th  align="center" width="2%" >序号</th>
+    	<th   align="center" width="10%">事故发生时间</th>
+	    <th   align="center" width="10%">事故发生地点</th>
+    	<th align="center" width="10%">事故简单经过</th>
+		<th align="center" width="10%">受害人</th>
+    	<th   align="center" width="10%">汇报人</th>
+    	<th align="center" width="10%">上报时间</th>
+		<th align="center" width="25%">备注</th>
+    	<th align="center" width="13%">操作</th>
     </tr>
     </thead>
 	</table>
   </div>
   
 
-    <div class="path" style="display:none"  id="no">
-  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table" width="100%">
+    <div class="toolbar_azhc" style="display:none"  id="no">
+  <table border="0" cellspacing="0" cellpadding="0" class="table_list"  id="actor_table" >
 	
     <thead>
 	 
@@ -202,14 +210,14 @@ function no_MReport(){
 		<th align="center"  width="10%">受害人</th>
     	<th   align="center" width="10%">汇报人</th>
     	<th align="center"  width="10%">上报时间</th>
-		<th align="center"  width="30%">备注</th>
-    	<th align="center" width="8%">操作</th>
+		<th align="center"  width="25%">备注</th>
+    	<th align="center" width="13%">操作</th>
       </tr>
 	   
    
 	</thead >
 	<tr   height="50" >
-		<td  colspan="20" height="50" ><span id="h1"  style="font-size:20px;"></span><input  name="FK1" type="hidden" value="1"></td>	
+		<td  colspan="20" height="50" ><span id="h1"  style="font-size:20px;float:left"></span><input  name="FK1" type="hidden" value="1"></td>	
 	</tr>
 
    </table>

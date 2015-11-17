@@ -102,6 +102,7 @@ public class GenerateReportParNew {
 	///////////reportInfo 新增规则 ///////////////////
 	private static String CANFILLREPORT = "canFillReport";
 	private static String TABLENAME = "tableName";
+	private static String FONTNAME= "fontName";
 	/**
 	 * 解析所有templates
 	 * 
@@ -160,6 +161,7 @@ public class GenerateReportParNew {
 	private static ReportInfoData initTemplateData(Element templateEle, String wtName) {
 		ReportInfoData tData = new ReportInfoData();
 		tData.setTId(wtName);
+		tData.setFontName(templateEle.getAttributeValue(FONTNAME));
 		tData.setTableName(templateEle.getAttributeValue(TABLENAME));
 		tData.setCanFillReport(templateEle.getAttributeValue(CANFILLREPORT));
 		tData.setIsMegreDisplay(templateEle.getAttributeValue(ISMEGREDISPLAY));
@@ -181,6 +183,7 @@ public class GenerateReportParNew {
 			SectionData vdata = new SectionData();
 			Element tableEle = (Element) table.next();
 			vdata.setAvgHight(tableEle.getAttributeValue(AVGHIGHT));
+			vdata.setFontName(tableEle.getAttributeValue(FONTNAME));
 			vdata.setDateHasNoBoder(tableEle.getAttributeValue(DATEHASNOBODER));
 			vdata.setHeaderWidth(tableEle.getAttributeValue(HEADERWIDTH));
 			vdata.setTittleGenerRule(tableEle.getAttributeValue(TITTLEGENERRULE));

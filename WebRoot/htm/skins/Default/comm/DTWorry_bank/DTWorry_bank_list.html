@@ -45,7 +45,9 @@
   <script>
 $(document).ready(function(){
 
-
+		if('{$combName}' =='查看'){
+		$('#YC,#YC11,#YC6').css('display','none');
+	}
 	//如果操作列没有权限  隐藏操作列
 	hideLastCol('actor_table');
 
@@ -164,7 +166,7 @@ function re_setCondition(){
 	    <th width="3%"><input type="checkbox" name="recordId" value="checkbox" onClick="selectAllBranch(form1);"></th>
 		<th width="40%"  style="cursor:hand;" onClick="orderByInfo_new('Bigtitle','{OrderKey}','{OrderBy}')">应急处置卡<span id="workGroupNameOrder" class="orderNo"></span></th> 
         <th width="40%" style="cursor:hand;" onClick="orderByInfo_new('Smalltitle','{OrderKey}','{OrderBy}')">应急救援分类<span id="workGroupNameOrder" class="orderNo"></span></th>
-		<th style="cursor:hand;" >启动</th>
+		<th id="YC11" style="cursor:hand;" >启动</th>
 
         <th id='YC4' width="8%">操作</th>
 
@@ -178,14 +180,7 @@ function re_setCondition(){
 	  <td><a href="/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTWorry_bank_record_chakan&recordId={recordId}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}" target="_blank">{Smalltitle}&nbsp;</td>
 	 <td id="YC6"><a href="javascript:void(0)" onclick="begin_HS('{recordId}');">启动</a></td>
    	 
-
-
-
-	
-	
-	 
-	 <td id="YC5"><img src="images/zTree/treeEdit.gif" width="16" height="16" /><a href="#" onClick="multiEditRecord('DTWorry_bank_main_sub','{recordId}');">编辑</a>
-	 <img src="images/zTree/treeDel.gif" width="16" height="16" /><a href="#" onClick="multiDelRecord('DTWorry_bank_main_sub','{recordId}');">删除</a></td>
+	 <td id="YC5">{editshow}{delshow}</td>
 	</tr>
     <script language="javascript">
 		

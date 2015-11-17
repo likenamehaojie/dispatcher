@@ -1,6 +1,8 @@
 package com.ldtec.stpm.fmreport.util;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -18,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,12 +29,15 @@ import javax.servlet.http.HttpSession;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFPalette;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.Region;
@@ -86,13 +92,17 @@ public HSSFFont getHSSFont(){
 	HSSFCellStyle style = null;
 	HSSFCellStyle style2 = null;
 	HSSFCellStyle styleBold = null;
+	HSSFCellStyle styleBoldLeft = null;
 	HSSFCellStyle reportHeaderStyle = null;
 	HSSFCellStyle hasNoBoder = null;
 	HSSFFont font = null;
 	private int maxCell = 0;
 	HSSFCellStyle st = null;
 	HSSFCellStyle pub = null;
+	HSSFCellStyle greenBack = null;
 	HttpServletRequest request = null;
+	HSSFFont fontHeader = null;
+	HSSFFont songFong = null;
 
 	
 	public GenerExcelDao getGed(){
@@ -107,8 +117,12 @@ public HSSFFont getHSSFont(){
 		ged = new GenerExcelDao(request);
 	}
 	public GenerExcle() {
-
+	
 		wb = new HSSFWorkbook();
+		fontHeader = wb.createFont();
+		fontHeader.setFontName("黑体");
+		fontHeader.setFontHeightInPoints((short) 12);//设置字体大小
+		fontHeader.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 		pub = wb.createCellStyle();
 		HSSFFont font = wb.createFont();
 		font.setFontName("仿宋_GB2312");
@@ -119,16 +133,19 @@ public HSSFFont getHSSFont(){
 		st.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
 		st.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
 		st.setWrapText(true);
-		
+		songFong = wb.createFont();
+		songFong.setFontName("宋体");
+		songFong.setFontHeightInPoints((short) 12);//设置字体大小
 		
 		sheet = wb.createSheet("new   sheet");
 		style = wb.createCellStyle(); // 样式对象
 		style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
 		style.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+		sheet.setActive(true);//取消受保护的视图  
 
 		style2 = wb.createCellStyle(); 
 		font = wb.createFont();
-		font.setFontName("仿宋_GB2312");
+		font.setFontName("宋体");
 		font.setFontHeightInPoints((short) 9);
 		style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
 		style2.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
@@ -141,7 +158,7 @@ public HSSFFont getHSSFont(){
 		hasNoBoder = wb.createCellStyle();
 		hasNoBoder.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
 		hasNoBoder.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
-		hasNoBoder.setBorderTop(HSSFCellStyle.BORDER_THIN);
+		//hasNoBoder.setBorderTop(HSSFCellStyle.BORDER_THIN);
 		hasNoBoder.setWrapText(true);
 		hasNoBoder.setFont(font);
 		
@@ -151,12 +168,38 @@ public HSSFFont getHSSFont(){
 		
 		styleBold = wb.createCellStyle();
 		styleBold.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+		styleBold.setFont(songFong);
 		styleBold.setBorderRight(HSSFCellStyle.BORDER_THIN);
 		styleBold.setBorderTop(HSSFCellStyle.BORDER_THIN);
 		styleBold.setBorderBottom(HSSFCellStyle.BORDER_THIN);  
 		styleBold.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
 		styleBold.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
 		styleBold.setWrapText(true);
+		
+		greenBack = wb.createCellStyle();
+		greenBack.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+		greenBack.setBorderRight(HSSFCellStyle.BORDER_THIN);
+		greenBack.setBorderTop(HSSFCellStyle.BORDER_THIN);
+		greenBack.setBorderBottom(HSSFCellStyle.BORDER_THIN);  
+		greenBack.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
+		greenBack.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+		greenBack.setWrapText(true);
+		
+		
+
+		
+		
+		
+		styleBoldLeft = wb.createCellStyle();
+		styleBoldLeft.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+		styleBoldLeft.setBorderRight(HSSFCellStyle.BORDER_THIN);
+		styleBoldLeft.setBorderTop(HSSFCellStyle.BORDER_THIN);
+		styleBoldLeft.setBorderBottom(HSSFCellStyle.BORDER_THIN);  
+		styleBoldLeft.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
+		styleBoldLeft.setAlignment(HSSFCellStyle.ALIGN_LEFT);// 水平
+		styleBoldLeft.setWrapText(true);
+		styleBoldLeft.setFont(songFong);
+		
 
 		reportHeaderStyle  = wb.createCellStyle();
 		reportHeaderStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
@@ -203,6 +246,7 @@ public HSSFFont getHSSFont(){
 	public void saveAaSpecName(String name) {
 		OutputStream out;
 		try {
+			
 			out = new FileOutputStream(name);
 			wb.write(out);
 			
@@ -241,16 +285,16 @@ public HSSFFont getHSSFont(){
 	       pub.cloneStyleFrom(hs);
 			sheet.addMergedRegion(r);
 			pub.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
-			pub.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框
-			pub.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
-			pub.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
+			//pub.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框
+			//pub.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
+			//pub.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
 			
 			HSSFRow row = sheet.getRow(startRow);
 			if(row==null){
 				row=	sheet.createRow(startRow);
 			}
 			HSSFCell cell = row.createCell(0);
-			 this.setRegionStyle(sheet, r, reportHeaderStyle);
+			 this.setRegionStyle(sheet, r, pub);
 	        row.setHeightInPoints(17L);
 			cell.setCellValue(content);
 			cell.setCellStyle(pub);
@@ -272,18 +316,60 @@ public HSSFFont getHSSFont(){
 	 * @param leve
 	 * @param cellMove
 	 * @param content
+	 * @param headerColor 
 	 */
 	@SuppressWarnings("deprecation")
 	public void mergeCell(int startRow, int startCell, int endRow, int endCell,
-			int leve, int cellMove, String content) {
+			int leve, int cellMove, String content, String headerColor) {
+		HSSFCellStyle st = this.st;
 		      Region r = new Region(startRow, (short) startCell, endRow,
 				(short) endCell);
 		     
 		sheet.addMergedRegion(r);
+		
+	    if(headerColor!=null){
+	    	if(headerColor.contains("rgb")){
+	    	headerColor = "<color "+headerColor+"/>";
+	    	List<Integer> rgb = this.getRGB(headerColor, null);
+	    	st = wb.createCellStyle();
+	   		HSSFPalette customPalette = wb.getCustomPalette();  
+	     	
+     		HSSFColor findSimilarColor = customPalette.findSimilarColor(rgb.get(0), rgb.get(1), rgb.get(2));
+     		st.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
+     		st.setAlignment(HSSFCellStyle.ALIGN_LEFT);// 水平
+     		st.setWrapText(true);
+     		st.setFillForegroundColor(findSimilarColor.getIndex());
+     		
+     		st.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+	    	}else if(headerColor.contains("point")){
+	    		String rgbs = headerColor.substring(headerColor.indexOf("(")+1,headerColor.length()-1);
+	   		     
+
+	   		   short index = this.getColorIndex(rgbs);
+	   	
+	    //    String c = "<color rgb(105,255,173)/>";
+	   		   
+	       		st = wb.createCellStyle();
+	       		st.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+	       		st.setBorderRight(HSSFCellStyle.BORDER_THIN);
+	       		st.setBorderTop(HSSFCellStyle.BORDER_THIN);
+	       		st.setBorderBottom(HSSFCellStyle.BORDER_THIN);  
+	       		st.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
+	       		st.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+	       		st.setWrapText(true);
+	       		st.setFillForegroundColor(index);
+	     		st.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+	     	
+	    	}
+	    }
+		
+		
+		
 		st.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
 		st.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框
 		st.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
 		st.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
+		st.setFont(fontHeader);
 		HSSFRow row = sheet.getRow(startRow);
 		HSSFCell cell = row.createCell(cellMove);
 		 this.setRegionStyle(sheet, r, reportHeaderStyle);
@@ -340,16 +426,17 @@ public HSSFFont getHSSFont(){
 	 * @param root
 	 * @param reportName
 	 * @param rif 
+	 * @param headerColor 
 	 */
 	public static String generExcleFinal(int reportId, int max,
 			String[] mColmuns, String color, List<String> style,
 			String flag, HttpServletRequest request, Map<String, Object> root, String reportName,
-			HashMap<String, String> rowStyles,int refCol,int movePoint,SectionData sd,List<List<String>> queryDataReturnListWithOutMap, ReportInfoData rif ) {
+			HashMap<String, String> rowStyles,int refCol,int movePoint,SectionData sd,List<List<String>> queryDataReturnListWithOutMap, ReportInfoData rif, String headerColor ) {
 
 		GenerExcle ge = new GenerExcle(request);
 		max = ge.getGed().getMaxLevel(reportId);
 	
-		GenerExcle.getReportHeaderById(ge, reportId, request);
+		GenerExcle.getReportHeaderById(ge, reportId, request,headerColor);
 	/*	if (rs != null)
 			fillData(max, rs, ge);*/
 		if(sd.getRefColmun()!=null&&sd.getRefColmun()!="")
@@ -406,7 +493,7 @@ public HSSFFont getHSSFont(){
 			UserSession session=  SqlReplaceUseSysStrUtil.getUserSessionByRequest(request);
 			 String exportName = sd.getExportName();
 			 exportName= SqlReplaceUseSysStrUtil.replaceSql(sd.getExportName(), session);
-			 
+			 exportName=ge.replaceSpecInfo(exportName);
 			 
 			
 	  if(sd.getIsGenerateLiteTittle()!=null&&
@@ -460,7 +547,7 @@ public HSSFFont getHSSFont(){
 						 SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd");
 						 try {
 							Date parse = sdf.parse(date);
-							date = "日期:"+(parse.getYear()+1990)+"年"+(parse.getMonth()+1)+"月"+parse.getDate()+"日";
+							date = "日期:"+(parse.getYear()+1900)+"年"+(parse.getMonth()+1)+"月"+parse.getDate()+"日";
 							
 						} catch (ParseException e) {
 						
@@ -478,11 +565,13 @@ public HSSFFont getHSSFont(){
 		  ge.insertRowInSpecRow(0, 2);
 		 
 	  }
-	  ge.mergeReportNameArea(0, 0, 1, maxCell2-1,exportName);
+	  ge.mergeReportNameArea(0, 0, 1, maxCell2-1,exportName,rif);
 //		// ge.saveAaSpecName("e:/today1.xls");
 		
 		
-
+		if(!root.containsKey("exportName"))
+		root.put("exportName", exportName);
+	
 		
 	
 		
@@ -712,6 +801,7 @@ public HSSFFont getHSSFont(){
 	
 	@SuppressWarnings("deprecation")
 	public void mergeCellBySameContent(int colNum, int max,int referCol,List<Map<String,Integer>> mergeCellBySameContentInfo,int movePoint) {
+
 		String flagContent = "";
 		//如果当前列不是参照列
 		if(colNum!=referCol&&mergeCellBySameContentInfo!=null&&mergeCellBySameContentInfo.size()>0){
@@ -751,13 +841,17 @@ public HSSFFont getHSSFont(){
 						HSSFRow _row = sheet.getRow(mm);
 						HSSFCell _cell = _row.getCell(colNum);
 						String _tem = _cell.getStringCellValue();
+						
 						/**
 						 * 如果和下面的内容相同则向下记一行
 						 */
 						if (flagContent.trim().equals(_tem.trim())) {
-							_row.createCell(colNum);
+							HSSFCellStyle _s = _cell.getCellStyle();
+							HSSFCell createCell = _row.createCell(colNum);
+							createCell.setCellStyle(_s);
+						//	createCell.setCellStyle(green);
 							mergeRowsPoint += 1;
-
+                            
 						} else {
 							break;
 						}
@@ -768,7 +862,7 @@ public HSSFFont getHSSFont(){
 								(short) colNum);
 				
 					sheet.addMergedRegion(r);
-					setRegionStyle(sheet,r,styleBold);
+					//setRegionStyle(sheet,r,this.styleBold);
 					}
 					if (m == mergeRowsPoint)
 						m = m + 1;
@@ -811,7 +905,9 @@ public HSSFFont getHSSFont(){
 				 * 如果和下面的内容相同则向下记一行
 				 */
 				if (flagContent.trim().equals(_tem.trim())) {
-					_row.createCell(colNum);
+					HSSFCellStyle _s = _cell.getCellStyle();
+					//green.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+					_row.createCell(colNum).setCellStyle(_s);
 					mergeRowsPoint += 1;
 
 				} else {
@@ -823,7 +919,7 @@ public HSSFFont getHSSFont(){
 					(short) colNum);
 			
 			sheet.addMergedRegion(region);
-			this.setRegionStyle(sheet, region, styleBold);
+		//	this.setRegionStyle(sheet, region, green);
 			if (m == mergeRowsPoint)
 				m = m + 1;
 			m = mergeRowsPoint;
@@ -852,8 +948,9 @@ public HSSFFont getHSSFont(){
 	 }
 	/**
 	 * 对报表名称做插入处理
+	 * @param rif 
 	 */
-	public void mergeReportNameArea(int startRow, int startCell, int endRow, int endCell,String reportName){
+	public void mergeReportNameArea(int startRow, int startCell, int endRow, int endCell,String reportName, ReportInfoData rif){
 		Region r = new Region(startRow, (short) startCell, endRow,
 				(short) endCell);
 		sheet.addMergedRegion(r);
@@ -861,8 +958,11 @@ public HSSFFont getHSSFont(){
 
 
 		HSSFFont font = wb.createFont();
-		font.setFontName("微软雅黑");
-		font.setFontHeightInPoints((short) 14);//设置字体大小
+		if(rif!=null&&rif.getFontName()!=null&&rif.getFontName()!="")
+			font.setFontName(rif.getFontName());
+		else
+		font.setFontName("黑体");
+		font.setFontHeightInPoints((short) 24);//设置字体大小
 		font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 		HSSFRow row = sheet.getRow(startRow);
 		HSSFCell cell = row.createCell(startCell);
@@ -870,17 +970,66 @@ public HSSFFont getHSSFont(){
 		st.setFont(font);
 		st.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
 		st.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
-		st.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
-		st.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框
-		st.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
-		st.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
+		//st.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
+		//st.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框
+	//	st.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
+		//st.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
 		st.setWrapText(true);
-		cell.setCellValue(reportName);
+		
+		cell.setCellValue(this.replaceSpecInfo(reportName));
+		
 		cell.setCellStyle(st);
 		this.setRegionStyle(sheet, r, st);
 
 
 	}
+	
+	
+	public String replaceSpecInfo(String reportName) {
+	              if(reportName.contains("$addDate")){
+	            	  reportName =reportName.replace("$addDate", "");
+	            	  reportName+="("+this.converDateStyle()+")";
+	              }
+	              return reportName;
+
+	}
+
+	public String converDateStyle(){
+		  String date = request.getParameter("dayInMonth");
+		  if(date!=null&&(date.equals("当前天")||date.equals("当天"))){
+			  Date d = new Date();
+			  SimpleDateFormat sdf  = new SimpleDateFormat("yyyy年MM月dd日");
+			  date= sdf.format(d);
+			  date ="日期:"+date;
+			  sdf = null;
+			 }else if(date!=null&&(date.equals("当前月")||date.equals("当月"))){
+				  Date d = new Date();
+				  SimpleDateFormat sdf  = new SimpleDateFormat("yyyy月MM");
+				  date= sdf.format(d); 
+				  date ="日期:"+date;
+				  sdf = null;
+			 }else{
+				 if(date!=null){
+					 if(!date.contains("年")){
+						 SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd");
+						 try {
+							Date parse = sdf.parse(date);
+							date = "日期:"+(parse.getYear()+1900)+"年"+(parse.getMonth()+1)+"月"+parse.getDate()+"日";
+							
+						} catch (ParseException e) {
+						
+							e.printStackTrace();
+						}
+					 }else{
+						  date ="日期:"+date;
+					 }
+				 }
+		
+			 }
+		  return date.substring(3);
+	}
+	
+	
 	
 	private static void fillDataUseList(int max,
 			List<List<String>> queryDataReturnListWithOutMap, GenerExcle ge,
@@ -1034,9 +1183,11 @@ public HSSFFont getHSSFont(){
 	//test
 	private void fillDataS(int max, String com_name, int i,int count,Map<String,Integer> realMoveUp,	Map<String, Integer> hasCustomCol, SectionData sd) {
 		HSSFCellStyle style = this.styleBold;
+    
 		if(sd!=null){
 			if(sd.getDateHasNoBoder()!=null&&!sd.getDateHasNoBoder().equals("")&&sd.getDateHasNoBoder().trim().equals("true")){
 				style = hasNoBoder;
+				hasNoBoder.setFont(songFong);
 			}
 			
 			
@@ -1052,6 +1203,7 @@ public HSSFFont getHSSFont(){
 			com_name="-999";
 			
 		}
+	
        if(com_name.endsWith("<edit/>")){
     	   com_name= com_name.replace("<edit/>", "\r");
        }
@@ -1061,6 +1213,152 @@ public HSSFFont getHSSFont(){
        if(com_name.contains("/n")){
     	   com_name=  com_name.replaceAll("/n", "\n");
        }
+   	if(com_name.contains("/LEFT")){
+   		style = this.styleBoldLeft;
+		
+		com_name = com_name.replaceAll("/LEFT", "");
+	}
+
+/*   	if(com_name.contains("/green")){
+      String c = "<color rgb(105,255,173)/>";
+      List<Integer> rgb = this.getRGB(c, null);
+   		HSSFPalette customPalette = wb.getCustomPalette();  
+   	//	HSSFColor newColor = customPalette.addColor((byte) 105, (byte) 255, (byte) 173); 
+   		HSSFColor findSimilarColor = customPalette.findSimilarColor(105, 255, 173);
+   		style = this.greenBack;
+   		style.setFillForegroundColor(findSimilarColor.getIndex());
+   		//style.setFillBackgroundColor(HSSFColor.GREEN.index);
+   		style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+   		com_name = com_name.replaceAll("/green", "");
+   		//style = createCellStyle;
+   	}*/
+   	if(com_name.contains("<color rgb")){
+   		
+   		String rgbs = com_name.substring(com_name.indexOf("<color rgb"));
+   		
+    //    String c = "<color rgb(105,255,173)/>";
+   		    String c = rgbs;
+        List<Integer> rgb = this.getRGB(c, null);
+     		HSSFPalette customPalette = wb.getCustomPalette();  
+     		
+     		
+     		//findSimilarColor	    customPalette.findColor((byte)rgb.get(0).intValue(), (byte)rgb.get(1).intValue(), (byte)rgb.get(2).intValue());
+     		HSSFColor findSimilarColor = customPalette.findSimilarColor(rgb.get(0), rgb.get(1), rgb.get(2));
+       		if(style ==this.styleBoldLeft){
+       			style.cloneStyleFrom(this.styleBoldLeft);
+       		}else{
+       			style = wb.createCellStyle();
+       			style.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+       		}
+     		
+     	
+       		style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+       		style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+       		style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+       		style.setBorderBottom(HSSFCellStyle.BORDER_THIN);  
+       		style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
+       		//style.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+       		style.setWrapText(true);
+     		style.setFillForegroundColor(findSimilarColor.getIndex());
+     		
+     		style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+     		com_name = com_name.substring(0,com_name.indexOf("<color rgb"));
+     	
+     	}
+   	
+   	if(com_name.contains("<template point")){
+   		String rgbs = com_name.substring(com_name.indexOf("<template point"));
+   		     rgbs = rgbs.substring(16,rgbs.length()-2);
+
+   		   short index = this.getColorIndex(rgbs);
+   	
+    //    String c = "<color rgb(105,255,173)/>";
+    		if(style ==this.styleBoldLeft){
+       			style.cloneStyleFrom(this.styleBoldLeft);
+       		}else{
+       			style = wb.createCellStyle();
+       			style.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+       		}
+     		
+       	
+       		style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+       		style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+       		style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+       		style.setBorderBottom(HSSFCellStyle.BORDER_THIN);  
+       		style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
+       		//style.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+       		style.setWrapText(true);
+     		style.setFillForegroundColor(index);
+     		
+     		style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+     		com_name = com_name.substring(0,com_name.indexOf("<template point"));
+     	
+     	}
+
+   	 if(sd.getBackgroundColor()!=null&&(sd.getBackgroundColor().contains("rgb")||sd.getBackgroundColor().contains("point"))){
+   		 if(sd.getBackgroundColor().contains("rgb")){
+   		 String sColor ="<color "+ sd.getBackgroundColor()+"/>";
+   		 
+   	  List<Integer> rgb = this.getRGB(sColor, null);
+		HSSFPalette customPalette = wb.getCustomPalette();  
+	
+		HSSFColor findSimilarColor = customPalette.findSimilarColor(rgb.get(0), rgb.get(1), rgb.get(2));
+ 		if(style ==this.styleBoldLeft){
+   			style.cloneStyleFrom(this.styleBoldLeft);
+   		}else{
+   			style = wb.createCellStyle();
+   			style.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+   		}
+ 		
+ 		//style = wb.createCellStyle();
+ 		style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+ 		style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+ 		style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+ 		style.setBorderBottom(HSSFCellStyle.BORDER_THIN);  
+ 		style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
+ 	//	style.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+ 		style.setWrapText(true);
+		style.setFillForegroundColor(findSimilarColor.getIndex());
+		
+		style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+   		 }else if(sd.getBackgroundColor().contains("point")){
+	    		String rgbs = sd.getBackgroundColor().substring(sd.getBackgroundColor().indexOf("(")+1,sd.getBackgroundColor().length()-1);
+	   		     
+
+		   		   short index = this.getColorIndex(rgbs);
+		   	
+		    //    String c = "<color rgb(105,255,173)/>";
+		   		   
+		   		if(style ==this.styleBoldLeft){
+		   			style.cloneStyleFrom(this.styleBoldLeft);
+		   		}else{
+		   			style = wb.createCellStyle();
+		   			style.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+		   		}  
+		   		//style = wb.createCellStyle();
+		   		style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+		   		style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+		   		style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+		   		style.setBorderBottom(HSSFCellStyle.BORDER_THIN);  
+		   		style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
+		   		//style.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+		   		style.setWrapText(true);
+		   		style.setFillForegroundColor(index);
+		     		style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		     	
+		    	}
+   	 }
+   	   style.setFont(songFong);
+      	if(sd!=null&&sd.getFontName()!=null&&sd.getFontName()!=""){
+       		HSSFFont hf = wb.createFont();
+       		hf.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+       		hf.setFontName(sd.getFontName());
+       		hf.setFontHeightInPoints((short) 12);
+       		style.setFont(hf);
+       		
+       	}
+   	   
+   	   
 		//拿到该列的列头信息
 		HSSFRow rowHeader = sheet.getRow(0);
 		String info  = "";
@@ -1116,6 +1414,7 @@ public HSSFFont getHSSFont(){
 
 		
 		cell.setCellValue(com_name);
+
 		if(leftMove==0){
 			realMoveUp.put("point", realMoveUp.get("point")+1);
 			
@@ -1123,19 +1422,81 @@ public HSSFFont getHSSFont(){
 			realMoveUp.put("point", realMoveUp.get("point")+leftMove+1);
 			
 		}
+		//style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	}
+
+private short getColorIndex(String rgbs) {
+		String[] xyPoint = rgbs.split(",");
+		 int x = Integer.parseInt(xyPoint[0]);
+		 int y =  Integer.parseInt(xyPoint[1]);
+		 POIFSFileSystem fs;
+		 HSSFSheet sheetAt=null;
+		try {
+			fs = new POIFSFileSystem(new FileInputStream(Constants.COLOR_TEMPLATE_PATH+"/colorTemplate.xls"));
+			HSSFWorkbook wb = new HSSFWorkbook(fs);
+			 sheetAt = wb.getSheetAt(0);
+			HSSFRow row = sheetAt.getRow(x);
+			HSSFCell cell = row.getCell(y);
+			short fillForegroundColor = cell.getCellStyle().getFillForegroundColor();
+			return fillForegroundColor;
+		} catch (IOException e) {
+			System.out.println("error:在"+Constants.COLOR_TEMPLATE_PATH+"/colorTemplate.xls颜色模板中没有位于坐标("+x+","+y+")的颜色设定系统将默认使用白色填冲");
+			return 9;
+			
+		}
+
 	}
 
 
+	public List<Integer> getRGB(String rgb,String patterns){
+		if(patterns==null){
+			patterns ="^<color *rgb.*";
+		}
+		List<Integer> argbs = new ArrayList<Integer>();
+		for(int i = 0;i<3;i++){
+			argbs.add(0);
+		}
 
+	
+		String color = rgb;
+		Pattern pattern = Pattern.compile(patterns);
+		 Matcher matcher = pattern.matcher(color);
+		 boolean matches = matcher.matches();
+		 if(!matches){
+		return argbs;
+		 }
+		 List<Integer> _argbs = new ArrayList<Integer>();
+		 Pattern pattern1 = Pattern.compile("[( ) ,]+");
+		 String[] strs = pattern1.split(color);
+		 for (int i=0;i<strs.length;i++) {
+				
+			 Pattern pattern3 =     Pattern.compile("[0-9]{0,3}");
+			 Matcher matcher2 = pattern3.matcher(strs[i].trim());
+			 boolean matcher22 = matcher2.matches();
+			 if(matcher22){
+				 _argbs.add(Integer.parseInt(strs[i].trim()));
+			 }
+			
+		 }
+		 if(_argbs==null||_argbs.size()<3){
+			 return argbs;
+		 }else{
+			 return _argbs;
+		 }
+
+		
+		
+	}
 	/**
 	 * 根据报表ID遍历该报表的所有表头 并以主表头为原子单位进行处理
 	 *
 	 * @param ge
 	 * @param reportId
 	 * @param request
+	 * @param headerColor 
 	 */
 	public static void getReportHeaderById(GenerExcle ge, int reportId,
-			HttpServletRequest request) {
+			HttpServletRequest request, String headerColor) {
 		
 		
 		// 拿到煤报表的一级所有一级表头
@@ -1185,7 +1546,7 @@ public HSSFFont getHSSFont(){
 					leveMoveInfoMap.put(leve + "", 0);
 				}
 				generHeader(id, pid, headvalue, custom_col, max, ge, reportId, leve, currentIndex,
-						moveInfoMap, leveMoveInfoMap);
+						moveInfoMap, leveMoveInfoMap,headerColor);
 				// 当前索引自加1
 				currentIndex++;
 				index++;
@@ -1205,7 +1566,7 @@ public static int converObjToInt(Object o){
 			GenerExcle ge, int reportId, int leve, int currentIndex,
 			Map<String, Integer> moveInfoMap,
 			Map<String, Integer> leveMoveInfoMap,
-			Map<String, Map<String, Integer>> repairMovePoint, int index) {
+			Map<String, Map<String, Integer>> repairMovePoint, int index, String headerColor) {
 		boolean flag = false;
 		/**
 		 * 处理多级表头的合并
@@ -1279,7 +1640,7 @@ public static int converObjToInt(Object o){
 			int maxCurrentLeveMegreCell=ge.getGed().getMaxCurrentLeveMegreCell(_id, reportId, _pid);
 			ge.mergeCell(start, sizeMoveCount, start + _temDownMovePonit,
 					sizeMoveCount + maxCurrentLeveMegreCell - 1, _leve,
-					sizeMoveCount, _headvalue);
+					sizeMoveCount, _headvalue,headerColor);
 			leveMoveInfoMap.put(_leve + "", sizeMoveCount
 					+ maxCurrentLeveMegreCell);
 			DataModel dm = new DataModel();
@@ -1316,7 +1677,7 @@ public static int converObjToInt(Object o){
 						dModel.getReportId(), dModel.getLeve(),
 						dModel.getCurrentIndex(), dModel.getMoveInfoMap(),
 						dModel.getLeveMoveInfoMap(),
-						dModel.getRepairMoveInfo(), dModel.getIndex());
+						dModel.getRepairMoveInfo(), dModel.getIndex(),headerColor);
 
 			}
 		
@@ -1341,12 +1702,13 @@ public static int converObjToInt(Object o){
 	 * @param currentIndex
 	 * @param moveInfoMap
 	 * @param leveMoveInfoMap
+	 * @param headerColor 
 	 */
 	private static void generHeader(int id, int pid, String headvalue,
 			int customCol, int max,  GenerExcle ge, int reportId, int leve,
 			int currentIndex, Map<String, Integer> moveInfoMap,
-			Map<String, Integer> leveMoveInfoMap) {
-
+			Map<String, Integer> leveMoveInfoMap, String headerColor) {
+ 
 		// 获取当前主表头应该跨几列
 		int maxMoveCell = ge.getGed().getMaxCurrentLeveMegreCell(id, reportId, pid);
 		Map<String, Integer> _moveInfoMap = new HashMap<String, Integer>();
@@ -1389,7 +1751,7 @@ public static int converObjToInt(Object o){
 		ge.mergeCell(leve - 1, moveInfoMap.get("cellMove"), mainRowCount - 1,
 				moveInfoMap.get("cellMove") + maxMoveCell - 1,
 				leveMoveInfoMap.get(leve + ""), moveInfoMap.get("cellMove"),
-				headvalue);
+				headvalue,headerColor);
 
 		moveInfoMap.put("currentIndex", moveInfoMap.get("currentIndex")
 				+ maxMoveCell);
@@ -1415,7 +1777,7 @@ public static int converObjToInt(Object o){
 		 */
 		generAfterHeader(id, pid, headvalue, maxMoveCell, 
 				ge, reportId, leve, currentIndex, moveInfoMap, leveMoveInfoMap,
-				repairMovePoint, 0);
+				repairMovePoint, 0,headerColor);
 		// 当一个主表头以级它下面的子表头的填冲合并工作完成后记录最大移动了多少列
 		// 因为下一个主表头的所有数据填冲都会心这个为开始
 		for (int i = 1; i <= max; i++) {

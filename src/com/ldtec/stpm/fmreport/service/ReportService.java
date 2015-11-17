@@ -277,17 +277,16 @@ public class ReportService {
 				
 				
 			}
-			
+			String headerColor = bsd.getBackgroundColor();
 			generExcleFinal = GenerExcle.generExcleFinal(reportId, 1, mColumns,
-					color, styles, flag, request, root,reportName,rowStyles,refCol,movePoint,sd,queryDataReturnListWithOutMap,rif);
+					color, styles, flag, request, root,reportName,rowStyles,refCol,movePoint,sd,queryDataReturnListWithOutMap,rif, headerColor);
 			/*	
 			generExcleFinal = GenerExcleGrooy.generExcleFinal(reportId, 1, mColumns,
 					color, styles, flag, request, root,reportName,rowStyles,refCol,movePoint,sd,queryDataReturnListWithOutMap);
 			*/
 			
 			root.put(sd.getSectionName()+"_"+"uuid", root.get("uuid").toString());
-			if(!root.containsKey("exportName"))
-			root.put("exportName", sd.getExportName());
+
 			if(root.containsKey("uuid"))
 		    	root.remove("uuid");
 			

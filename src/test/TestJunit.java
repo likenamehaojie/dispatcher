@@ -214,7 +214,7 @@ public class TestJunit
 		
 		GenerExcle ge = new GenerExcle(null);
 		int reportId = 4;
-		GenerExcle.getReportHeaderById(ge, reportId, null);
+		GenerExcle.getReportHeaderById(ge, reportId, null,null);
 		int max = 2;
 
 		String sql1 =
@@ -235,7 +235,7 @@ public class TestJunit
 			int maxCell2 = ge.getMaxCell();
 			GenerExcle.fillData(max, rs, ge);
 			ge.insertRowInSpecRow(0, 2);
-			ge.mergeReportNameArea(0, 0, 1, maxCell2-1, "车集煤矿调度日报表");
+			ge.mergeReportNameArea(0, 0, 1, maxCell2-1, "车集煤矿调度日报表",null);
 			ge.saveAaSpecName(name);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -262,7 +262,7 @@ public class TestJunit
 		// ge.testAll();
 	
 		int reportId = 5;
-		GenerExcle.getReportHeaderById(ge, reportId, null);
+		GenerExcle.getReportHeaderById(ge, reportId, null,null);
 		int max = 2;
 		String sql2 = 
 
@@ -320,7 +320,7 @@ public class TestJunit
 	public  void genSecurity(String name){
 		GenerExcle ge = new GenerExcle(null);
 		int reportId = 6;
-		GenerExcle.getReportHeaderById(ge, reportId, null);
+		GenerExcle.getReportHeaderById(ge, reportId, null,null);
 		String sql3 = 
 				"select '一',  '核定生产能力(万吨)',  1380.00  ,150.00  ,450.00,  280.00,  500.00,  0  ,0,  0,  0  ,0  ,0,  0,  0,  0\n" +
 						"union all\n" + 
@@ -375,7 +375,7 @@ public class TestJunit
 		// ge.testAll();
 	
 		int reportId = 5;
-		GenerExcle.getReportHeaderById(ge, reportId, null);
+		GenerExcle.getReportHeaderById(ge, reportId, null,null);
 
 	//	ge.saveAaSpecName("f:/like.xls");
 

@@ -28,6 +28,15 @@
 
   <SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
   <script>
+$(document).ready(function(){
+		var aaa = window.opener.document.getElementById("$combName").value
+		if(aaa=='查看'){
+		$('.yc').css('display','none');
+	}
+});
+
+
+
 function qidong_HS(id,step){
 	
 	window.open('/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTWorry_bank_record_huizhi&recordId='+id+'&$KEYWORD='+step+'&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}');
@@ -67,7 +76,6 @@ function save_bc(){
     <input type="hidden" name="subTableName" value="{subTableName}">
     <input type="hidden" name="CDNO" value="{CDNO}">
     <input type="hidden" name="ITNO" value="{ITNO}">
-	
     <input type="hidden" name="listUrl" value="{listUrl}">
     <input type="hidden" name="$TABLEKEYWORD" value="{$TABLEKEYWORD}">
     <input type="hidden" name="curPage" value="{curPage}">
@@ -76,7 +84,6 @@ function save_bc(){
     <input type="hidden" name="FINISH" value="">    
 	<input type="hidden" name="realFileName" value="">
 	<input type="hidden" id="DTWorry_bank_main_id" value="">
-	
 	<input type="hidden" id="sNo" value="">
 
 
@@ -85,7 +92,7 @@ function save_bc(){
 
 <div id="top">
    <div class="haer"><span id="tans"><strong>{$TABLEKEYWORD1} </strong></span></div>
-   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 启动页面</div>
+   <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 查看页面</div>
 
   <div style = "clear:both;"></div>
   
@@ -136,13 +143,13 @@ function save_bc(){
 		{
 			if('{Currentstep}'=='{flag}')
 			{
-				$("#Sending{sNo}").html("<a href='javascript:void(0)'  onclick =\"winOpenWH('{recordId}','{sNo}')\">选择</a>");
+				$("#Sending{sNo}").html("<a href='javascript:void(0)' class='yc' onclick =\"winOpenWH('{recordId}','{sNo}')\">选择</a>");
 				$("#huizhi{sNo}").html("<a href='javascript:void(0)' onclick=\"qidong_HS('{recordId}','{flag}')\">回执信息</a>");
 			}
 		}else{
 			if('{Currentstep}'=='{flag}')
 			{
-				$("#Sending{sNo}").html("{Sending}<br><a href='javascript:void(0)' onclick =\"winOpenWH('{recordId}','{sNo}')\" >选择</a>");
+				$("#Sending{sNo}").html("{Sending}<br><a href='javascript:void(0)' class='yc' onclick =\"winOpenWH('{recordId}','{sNo}')\" >选择</a>");
 				$("#huizhi{sNo}").html("<a href='javascript:void(0)' onclick=\"qidong_HS('{recordId}','{flag}')\">回执信息</a>");
 			}else{
 				$("#Sending{sNo}").html("{Sending}");

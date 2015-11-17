@@ -99,7 +99,7 @@
 	    <mainTable mainTableName="DTWorry_bank_main" fields="Bigtitle,Smalltitle" sqlClos="Bigtitle,Smalltitle"  unique=""></mainTable>
 		<subTable subTableName="DTWorry_bank_sub" fields="Dispatch,StepContent" subRecordIsSaveByField="Dispatch"></subTable>
       	<defValueList>
-       <defaultValue field="Bigtitle|OPT|1"><![CDATA[select VALUE,NAME from FIELD_OPTION  where description_sub = '处置卡']]></defaultValue>
+       <defaultValue field="Bigtitle|OPT|1"><![CDATA[select VALUE,NAME from FIELD_OPTION  where description_sub = '处置卡' and communityId='$COMMUNITYID']]></defaultValue>
 	    </defValueList>
         </mulTable>
 	<!--应急预案—处置卡 end-->	
@@ -109,9 +109,10 @@
 	addHtml = "skins/Default/multi/DTPlan_produce_cj/DTPlan_produce_cj_add.html" 
 	editHtml = "skins/Default/multi/DTPlan_produce_cj/DTPlan_produce_cj_edit.html" realDel="y" isHaveWf="n">
 	    <mainTable mainTableName="DTPlan_produce_cj_main" fields="yearandmonth,Title" unique=""></mainTable>
-		<subTable subTableName="DTPlan_produce_cj_sub" fields="Company,FaceName,Basicplan,Coalwas,Remarks" subRecordIsSaveByField="Basicplan"></subTable>
+		<subTable subTableName="DTPlan_produce_cj_sub" fields="Company,Unit,FaceName,Basicplan,Coalwas,Remarks" subRecordIsSaveByField="Basicplan"></subTable>
 		<defValueList>
-       <defaultValue field="FaceName|OPT|1"><![CDATA[select -1,'' union all select d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></defaultValue>
+       <defaultValue field="FaceName|OPT|1"><![CDATA[select -1,'' union all select distinct d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></defaultValue>
+	   <defaultValue field="Unit|OPT|2"><![CDATA[select VALUE,NAME from FIELD_OPTION where description_sub = '小队' and communityId='$COMMUNITYID']]></defaultValue>
 	    </defValueList>
 	</mulTable>
 	<!--生产计划 end-->
@@ -123,7 +124,8 @@
 	    <mainTable mainTableName="DTPlan_ktht_cj_main" fields="id,yearandmonth,Title,Remar" unique=""></mainTable>
 		<subTable subTableName="DTPlan_ktht_cj_sub" fields="Company,Unit,FaceName,category,Specifications,Netsection,Supporting,Basicplan,Coalwas,Remarks" subRecordIsSaveByField="Basicplan"></subTable>
 		<defValueList>
-       <defaultValue field="FaceName|OPT|1"><![CDATA[select -1,'' union all select d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></defaultValue>
+		<defaultValue field="FaceName|OPT|1"><![CDATA[select -1,'' union all select distinct d.id ,d.jobcut_name from DTParam_workPlace d where d.communityId = '$COMMUNITYID' and d.isJobCut = 0]]></defaultValue>
+       <defaultValue field="Unit|OPT|2"><![CDATA[select VALUE,NAME from FIELD_OPTION where description_sub = '小队' and communityId='$COMMUNITYID']]></defaultValue>
 	    </defValueList>
 	</mulTable>
 	<!--掘进计划 end-->

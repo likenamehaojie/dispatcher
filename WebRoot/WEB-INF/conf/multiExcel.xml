@@ -51,15 +51,15 @@
 
 	<!-- 导入生产计划  WZ 2015/11/04 begin -->
 	<multiExcel excelName = "DTPlan_produce_cj" excelTitle="" titleCoordinate="0,0" beginCoordinate="1,4" paramUrl="">
-		<excelFields excelMainfields="Title|0|0|yy,yearAndMonth|2|2|yy">
+		<excelFields excelMainfields="Title|0|0|yy,yearAndMonth|2|2|yn">
 		</excelFields>
 
 		<mainTable mainTableName="DTPlan_produce_cj_main" mainFields="Title,yearAndMonth" conditionMainFields="yearAndMonth,communityId|$COMMUNITYID">
 		</mainTable>
 
-		<subTable subTableName="DTPlan_produce_cj_sub" subFields="Company,NameFace,Basicplan,Coalwas,Remarks" mrFields="1,3" dateFields="" intFields="" doubleFields="3" filterOPTFields="NameFace|2">
+		<subTable subTableName="DTPlan_produce_cj_sub" subFields="Company,Unit,NameFace,Basicplan,Coalwas,Remarks" mrFields="1,4" dateFields="" intFields="" doubleFields="4" filterOPTFields="NameFace|3">
 		</subTable>	
-		<afterSql execAfterPar="$main_id"><![CDATA[update DTPlan_produce_cj_sub set FaceName = dbo.f_field_option_FaceName(NameFace) where main_id = '$main_id']]></afterSql>
+		<afterSql execAfterPar="$main_id"><![CDATA[exec [porc_DTPlan_produce_cj] '$main_id']]></afterSql>
 		<FilterValueList>
 			<filterValue field="NameFace"><![CDATA[select jobcut_name from DTParam_workPlace where communityId ='$COMMUNITYID' ]]></filterValue>
 		</FilterValueList>
@@ -69,7 +69,7 @@
 
 	 <!-- 导入掘进计划  WZ 2015/11/04 begin -->
 	<multiExcel excelName = "DTPlan_ktht_cj" excelTitle="" titleCoordinate="0,0" beginCoordinate="1,4" paramUrl="">
-		<excelFields excelMainfields="Title|0|0|yy,yearAndMonth|1|2|yy,Remar|6|2|yy">
+		<excelFields excelMainfields="Title|0|0|yy,yearAndMonth|1|2|yn,Remar|6|2|yy">
 		</excelFields>
 
 		<mainTable mainTableName="DTPlan_ktht_cj_main" mainFields="Title,yearAndMonth,Remar" conditionMainFields="yearAndMonth,communityId|$COMMUNITYID">

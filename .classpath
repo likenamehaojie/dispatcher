@@ -34,7 +34,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/msbase.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/mssqlserver.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/msutil.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-3.9.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-3.9.jar" sourcepath="C:/Users/Administrator/.m2/repository/org/apache/poi/poi/3.9/poi-3.9-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/slf4j-simple-1.6.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/sqljdbc4.jar"/>

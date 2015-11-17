@@ -115,7 +115,7 @@ function re_setCondition(){
 	<input type="hidden" name="firstUrl" value="null">
 	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
 	<input type="hidden" name="field1" value="yearandmonth|年月|TXT|50|">
-	<input type="hidden" name="field2" value="Title|标题|TXT|50|">
+	<!--<input type="hidden" name="field2" value="Title|标题|TXT|50|">-->
 
 	<input name="dblclick" type="hidden" value="" /><!--已上报禁止双击编辑-->	
 
@@ -129,7 +129,7 @@ function re_setCondition(){
 		<div class="line_list_mulitSelect" style="display:none">
 			<select name="selSetCon" multiple="multiple">
 				<option value="1">年月</option>
-				<option value="2">标题</option>
+				<!--<option value="2">标题</option>-->
 			</select>
 		</div>
 		
@@ -144,19 +144,17 @@ function re_setCondition(){
 			</li>
 			
 
-			<li id="li_search2">
+			<!--<li id="li_search2">
 				&nbsp;
-				
 				<input type="checkbox" name="f_id" value="2">&nbsp;标题：
 				<input name="Title" onchange="checkChange(this,'2')" class="input_txt" style = "width:220px;"/>
 				
 			</li>
 			
-			
+			-->
 			<li id="li_search_btn">
 				&nbsp;
 				<input type="button"  value="查询" class="btn" onClick="re_setCondition();"/>
-			<!-- 	<input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','421',' 开掘巷探计划表');"/> -->
 			</li>
 		</ul>
 	</div>
@@ -164,7 +162,7 @@ function re_setCondition(){
 	<div id="YC8" class="line_list">
    <li id="YC5" >{dellAll}</li>
 	<li  id="YC1">{addshow}</li>
-	<li id="sendMany_liId" class="pian"  style="margin-left:60%" >EXCEL导入:&nbsp;&nbsp;<input type="file" style="width:200px;" name="certificate" size="20">
+	<li id="sendMany_liId" class="pian"  style="margin-left:60%" >EXCEL导入:&nbsp;&nbsp;<input type="file" style="width:100px;" name="certificate" size="20">
 		   <input type="button" style="width:50px;" name="excel" class="btn" onClick="excelIport()" value="导入">
 		   <input type="submit" style="width:60px;" name="getTem" class="btn" value="下载模版" onClick="window.open('/downloadAppServlet?&amp;ITNO={ITNO}&amp;docName=htm\\excelTemplateDown&amp;fName=生产计划.xls','_blank','left=160,width=700,height=630,toolbar=no, menubar=no,resizable=yes,scrollbars=yes')" >
 		   <font color="red"></font></li>
@@ -175,7 +173,9 @@ function re_setCondition(){
       <tr  >
 	    <th width="2%"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
 		<th  >年月</th> 
-        <th >标题</th>
+        <!--<th >标题</th>-->
+		<th >发布人</th>
+		<th >创建时间</th>
         <th id='YC4' >操作</th>
       </tr>
     </thead>
@@ -183,19 +183,18 @@ function re_setCondition(){
 	
 	<TR style="BACKGROUND-COLOR: #fafbfd" id=1 align=middle bgColor=#fafbfd  	onmouseout={this.style.backgroundColor='#FAFBFD';}; onmouseover= {this.style.backgroundColor='#EEF1F8';};>
 
-	 <td>{id}&nbsp;</td>
-	 <td><a href="/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTPlan_produce_cj&recordId={recordId}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}" target="_blank">{yearandmonth}</a></td>
-	 <td >{Title}&nbsp;</td>
+	 <td>{id}</td>
+	 <td id="YC11"><a href="/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTPlan_produce_cj&recordId={recordId}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}" target="_blank">{yearandmonth}生产计划</a></td>
+	<!-- <td >{Title}&nbsp;</td>-->
+	<td>{workGroupName}</td>
+	<td>{date_createds}</td>
 	 <td id="YC{sNo}">{edit}{dell}</td>
 	</tr>
 <script>
 		if('{sNo}'==''){
-		
 		document.getElementById("YC{sNo}").innerHTML = "&nbsp;";
-		
+		document.getElementById("YC11").innerHTML = "&nbsp;";
 		}
-
-
 </script>
 
 

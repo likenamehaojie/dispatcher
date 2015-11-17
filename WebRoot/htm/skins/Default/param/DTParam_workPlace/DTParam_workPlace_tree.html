@@ -9,9 +9,9 @@
 <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
 <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css"> <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+
 <script type="text/javascript" src="js/main/jquery-1.4.2.min.js"></script>
 <script src="js/layer/layer.min.js"></script>
-<SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
 
 <script src="/js/ajaxGetOptions.js"></script>
 <script src="/js/ajaxMod.js"></script>
@@ -103,11 +103,11 @@ border:0px;
 
 			}
 		};
-       var nodes = '{ id:0, pId:-1, name:"{$SHORTNAME}",isHide:0,isJobCut:1,haschild:0}';
+       var nodes = '{ id:0, pId:-1, name:"{$SHORTNAME}",isHide:0,isJobCut:1,haschild:0,childOuter:false}';
 		
 	{row}
 	if('{sNo}'!=''){
-	nodes+=',{ id:{id}, pId:{pid}, name:"{name}",isHide:{ishide},isJobCut:{isjobcut},haschild:{haschild}}';
+	nodes+=',{ id:{id}, pId:{pid}, name:"{name}",isHide:{ishide},isJobCut:{isjobcut},haschild:{haschild},childOuter:false}';
 		}
 	{row}
 	var recordId
@@ -156,14 +156,18 @@ border:0px;
 				setTimeout(function(){zTree.editName(treeNode)}, 10);
 				return false;
 			}
+			var newname=getInfoBySqlNo_noHidden(378,'edit|'+treeNode.id+'|'+newName+'|-1');
+			//alert(newname);
+			if(newname =="重复"){	
+				 alert("新增工作面名称重复,请重新填写！")
+				 treeNode.focus();
+				 return false;
+			}
 			return true;
 		}
 		function onRename(e, treeId, treeNode, isCancel) {
-			var newname=getInfoBySqlNo_noHidden(378,'edit|'+treeNode.id+'|'+treeNode.name+'|-1');
-			 if(newname =="重复"){	
-			 alert("新增工作面名称重复！")
-			 return false;
-			   }
+			
+			//ajax_pro_noInfo(378,'edit|'+treeNode.id+'|'+treeNode.name+'|-1');
 			showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" onRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
 			}   
 		function showRemoveBtn(treeId, treeNode) {
@@ -239,7 +243,6 @@ border:0px;
 		}
 		
 		$(document).ready(function(){
-			setNumCheck("dun:length");
 
 			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
 			$("#selectAll").bind("click", selectAll);
@@ -248,7 +251,7 @@ border:0px;
 			treeObj.expandNode(defaultNode,true)
 			$("#Details").autoTextarea({maxHeight:2200,minHeight:50});
 			$("#remark").autoTextarea({maxHeight:2200,minHeight:50})
-			$("#actor_table").attr("style","display:none");
+			$("#actor_table").hide();
 	
 
 		});
@@ -263,31 +266,33 @@ border:0px;
 			$("#hideId").val(treeNode.id);
 			if( treeNode.haschild==0 || treeNode.isJobCut==0){
 			if(treeNode.id==0){
-			      $("#hideBtn").attr("style","display:none");
-				  $("#actor_table").attr("style","display:none");
+			      $("#hideBtn").hide();
+				  $("#actor_table").hide();
 			}
 			else{
-			    $("#hideBtn").attr("style","display:block");
-			    $("#actor_table").attr("style","display:block");
+			    $("#hideBtn").show();
+			    $("#actor_table").show();
 			}
 			
 			}else{
-				$("#hideBtn").attr("style","display:none");
-				$("#actor_table").attr("style","display:none");
+				$("#hideBtn").hide();
+				$("#actor_table").hide();
 				//$("#info").html("         ");
 				return;
 			}
 			
 			
-			if(treeNode.isHide ==1){
+			if(treeNode.isHide ==1){			
 				$("#info").val("工作地点屏蔽中......");
-			$("#hideBtn").text("显示工作地点");
-			
+			$("#hideBtn").val("显示工作地点");
+
+			 $("#infos").attr("style","display:block");
 			}
 			else{
 				$("#info").val("工作地点显示中......");
-
-			$("#hideBtn").text("屏蔽工作地点");
+      
+			$("#hideBtn").val("屏蔽工作地点");
+			$("#infos").attr("style","display:none");
 			}
 			//alert(treeNode.tId + ", " + treeNode.name);		
 			//alert(treeNode.level)	
@@ -324,35 +329,38 @@ border:0px;
 
 
 
-
+        
 	
 		function hideNode(obj){
-			var statu = $(obj).text();
+			var statu = $(obj).val();
 			if(statu==""||statu==undefined){
 				return false;
 			}
-			
+		//	var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+
+		//	var id = $("#hideId").val();
+		//	var defaultNode = treeObj.getNodeByParam("id",id);
+		//	treeObj.selectNode(defaultNode,true);
+
 			var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-			
-		
-			var id = $("#hideId").val();
-			var defaultNode = treeObj.getNodeByParam("id",id);
-			treeObj.selectNode(defaultNode,true);
+			var defaultNode = treeObj.getSelectedNodes()[0];
+			var id=defaultNode.id;
+
 			
 		
 			
 			if(statu =="屏蔽工作地点"){
 				statu ="hide";
-				$("#hideBtn").text("显示工作地点");
-				$("#info").val("工作地点屏蔽中......");
+				$("#hideBtn").val("显示工作地点");
+				$("#info").val("工作地点屏蔽中......");			       
 				defaultNode.isHide = 1;
-				
-				
+                $("#infos").attr("style","display:block");
 			}else{
 				statu = "other";
-				$("#hideBtn").text("屏蔽工作地点");
+				$("#hideBtn").val("屏蔽工作地点");
 				$("#info").val("         ");
 				defaultNode.isHide = 0;
+			     $("#infos").attr("style","display:none");
 			}
 			
 			if(id!=""||id!=undefined)
@@ -445,10 +453,7 @@ border:0px;
 			return true;
 		}
 		function beforeDrop(treeId, treeNodes, targetNode, moveType, isCopy) {
-			
-			
-			
-			
+						
 			className = (className === "dark" ? "":"dark");
 			showLog("[ "+getTime()+" beforeDrop ]&nbsp;&nbsp;&nbsp;&nbsp; moveType:" + moveType);
 			showLog("target: " + (targetNode ? targetNode.name : "root") + "  -- is "+ (isCopy==null? "cancel" : isCopy ? "copy" : "move"));
@@ -506,21 +511,25 @@ border:0px;
 	var Details=$("#Details").val();
 	var dun=$("#dun").val();
 	var remark=$("#remark").val();
-	var aaa=$("#dun").attr("reg","^[0-9]+(.[0-9]{1,3})?$");
-	alert(aaa)
+	//验证数字类型
+	var numberc=isNaN($('#dun').val());
+    if(numberc== true){
+	    alert("[吨/刀]必须为数字！")
+		return false;
+	}
+
 	var valStr=treeId+'b62a'+Specifications+'b62a'+NetSection+'b62a'+length+'b62a'+Details+'b62a'+remark+'b62a'+dun+'b62ac62b';
 
 	var alertStr='';
-	if(Specifications=='')alertStr=alertStr+'规格不能为空!\n'
-	if(NetSection=='')alertStr=alertStr+'净断面不能为空!\n'
-	if(length=='')alertStr=alertStr+'设计长度不能为空!\n'
-	if(Details=='')alertStr=alertStr+'构造详情不能为空!\n'
+	if(Specifications=='')alertStr=alertStr+'[规格]不能为空!\n'
+	if(NetSection=='')alertStr=alertStr+'[净断面]不能为空!\n'
+	if(length=='')alertStr=alertStr+'[设计长度]不能为空!\n'
+	if(Details=='')alertStr=alertStr+'[构造详情]不能为空!\n'
 
 	if(alertStr!=''){
 			alert(alertStr);
 			return false;
 	}
-
 
   if (isExists==0){ 
      //添加	    
@@ -561,7 +570,7 @@ border:0px;
    <div class="bottom">&nbsp;&nbsp; {$TABLEKEYWORD2} &gt; 列表页面</div>
   </div>
  <div class="a_box" style="margin-top:-1%"  >	
-<table cellspacing="0" cellpadding="0" width="100%" height="100%" style="margin:0 auto;border:0px;">			
+<table cellspacing="0" cellpadding="0" width="100%" height="100%" style="margin-top:10px;border:0px;">			
 <tr>
 	<td valign="top" width="180">
 		<div class="zTreeDemoBackground left">
@@ -574,11 +583,13 @@ border:0px;
 
 
     <td  valign="top" id="aaa111">
-	                <div class="a_box">	
-					<table width="100%" class="tabtap" id="actor_table" style="border-collapse:collapse;" cellspacing="0" cellpadding="0">
-					   <tr>
-						<td class="t_l b_cf" colspan="2" id="infos">
-							<input  name="Details" id="info" size="5" type="text" class="input_txt"/></input>
+	            
+				
+					<table width="100%" class="tabtap" id="actor_table"  cellspacing="0" cellpadding="0">
+
+					   <tr id="infosaa">
+						<td class="t_l b_cf" colspan="2">
+							<input type="button" id = "hideBtn" name="hideBtn" value="屏蔽工作地点" class="btnx" onclick="hideNode(this)" /><span id="infos" style="display:none">  工作面屏蔽中.....</span>
 						</td>
 					 </tr>
 					  <tr>
@@ -611,13 +622,10 @@ border:0px;
 							 {saveshow}
 						  </td>
             
-					 <button id = "hideBtn" onClick ="hideNode(this)"  class="btnx" style="width:100px" ></button>
-						   <span id = "info1"  style="color:red;font-size:18px;"></span> 
-						 <span  type="hidden" id= "hideId"></span>
        
 					  </tr>		
-					  
-      <td class="t_l b_cf" id="wxts_tdId" align="left" colspan="4">
+		<tr>
+      <td class="t_l b_cf" id="wxts_tdId" align="left" colspan="2">
           <span class="font3" >&nbsp 温馨提示：</span>
           <br>
           &nbsp 拖拽工作地点即可实现排序。
@@ -626,7 +634,7 @@ border:0px;
     </tr>
 
 					</table>
-					</div>
+					
 			    </td>
              </tr>
              </tbody>

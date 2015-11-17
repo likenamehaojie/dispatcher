@@ -129,7 +129,7 @@ function re_setCondition(){
 		<div class="line_list_mulitSelect" style="display:none">
 			<select name="selSetCon" multiple="multiple">
 				<option value="1">年月</option>
-				<option value="2">标题</option>
+				<!--<option value="2">标题</option>-->
 			</select>
 		</div>
 		
@@ -144,19 +144,18 @@ function re_setCondition(){
 			</li>
 			
 
-			<li id="li_search2">
+			<!--<li id="li_search2">
 				&nbsp;
 				
 				<input type="checkbox" name="f_id" value="2">&nbsp;标题：
 				<input name="Title" onchange="checkChange(this,'2')" class="input_txt" style = "width:220px;"/>
 				
 			</li>
-			
+			-->
 			
 			<li id="li_search_btn">
 				&nbsp;
 				<input type="button"  value="查询" class="btn" onClick="re_setCondition();"/>
-			<!-- 	<input type="button"  value="导出excel" class="btn" onClick="exportExcel('','','421',' 开掘巷探计划表');"/> -->
 			</li>
 		</ul>
 	</div>
@@ -175,7 +174,9 @@ function re_setCondition(){
       <tr  >
 	    <th width="2%"><input type="checkbox" name="branchCheck" value="checkbox" onClick="selectAllBranch(form1);"></th>
 		<th  >年月</th> 
-        <th >标题</th>
+        <!--<th >标题</th>-->
+		<th>发布人</th>
+		<th>发布时间</th>
 		<th >掘进总进尺其中开拓进尺</th>
         <th id='YC4' >操作</th>
       </tr>
@@ -184,9 +185,11 @@ function re_setCondition(){
 	
 	<TR style="BACKGROUND-COLOR: #fafbfd" id=1 align=middle bgColor=#fafbfd  	onmouseout={this.style.backgroundColor='#FAFBFD';}; onmouseover= {this.style.backgroundColor='#EEF1F8';};>
 
-	 <td>{id}&nbsp;</td>
-	 <td><a href="/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTPlan_ktht_cj&recordId={recordId}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}" target="_blank">{yearandmonth}</a></td>
-	 <td >{Title}&nbsp;</td>
+	 <td>{id}</td>
+	 <td id="YC11"><a href="/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTPlan_ktht_cj&recordId={recordId}&ITNO={ITNO}&$TABLEKEYWORD={$TABLEKEYWORD}" target="_blank">{yearandmonth}份掘进计划</a></td>
+	 <!--<td >{Title}&nbsp;</td>-->
+	 <td>{workGroupName}</td>
+	 <td>{date_createds}</td>
 	 <td >{Remar}&nbsp;</td>
 	 <td id="YC{sNo}">{edit}{dell}</td>
 	</tr>
@@ -194,6 +197,7 @@ function re_setCondition(){
 		if('{sNo}'==''){
 		
 		document.getElementById("YC{sNo}").innerHTML = "&nbsp;";
+		document.getElementById("YC11").innerHTML = "&nbsp;";
 		
 		}
 

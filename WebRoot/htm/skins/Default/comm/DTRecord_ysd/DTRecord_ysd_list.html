@@ -35,7 +35,7 @@
 
 	 <!--记忆搜索条件  第一步：引用cookie -->
 	<script src="/js/cookie.js"></script>
-
+	<script type="text/javascript" src="js/titleInfo.js"></script>
 </head>
 
 
@@ -120,17 +120,19 @@ function iniList(){
 
 
 	//区队
-		if('{editshow_show}'=="block")map.put("branchName:SYS_FIELDS",'<span id="branchName_sysEdit_spanId#no#"><input type=\"text\"  name=\"branchName#no#\" value=\"{branchName}\" defaultValue=\"{$WORKGROUP}\"size=\"8\" check=\"2\" tip=\"[区队、类别、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:BirthDate#no#:Category#no#:Shift#no#\"></span><span id="branchName_sysView_spanId#no#">{$WORKGROUP}</span>');	
+		if('{editshow_show}'=="block")map.put("branchName:SYS_FIELDS",'<span id="branchName_sysEdit_spanId#no#"><input type=\"text\"  name=\"branchName#no#\" value=\"{branchName}\" defaultValue=\"{$WORKGROUP}\"size=\"8\" check=\"2\" tip=\"[区队、小队、类别、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:BirthDate#no#:Category#no#:Shift#no#:Unit#no#\"></span><span id="branchName_sysView_spanId#no#">{$WORKGROUP}</span>');	
 	else{
 		map.put("branchName:SYS_FIELDS",'<span id="branchName_sysEdit_spanId#no#"><input type=\"text\"  name=\"branchName#no#\" value=\"{branchName}\" defaultValue=\"{$WORKGROUP}\"size=\"8\" check=\"2\ "></span><span id="branchName_sysView_spanId#no#">{branchName}</span>');	
 	}
-
+	//小队
+	//map.put("Unit:SYS_FIELDS",'<span id="Unit_sysEdit_spanId#no#"><select name=\"Unit#no#\" realValue=\"{Unit}\"  check=\"2"\  tip=\"[区队、小队、类别、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:BirthDate#no#:Category#no#:Shift#no#:Unit#no#\">{filterOptions6}</select></span><span id="Unit_sysView_spanId#no#">{Unit}</span>');
+	
 	//日期
-	map.put("BirthDate:SYS_FIELDS",'<span id="BirthDate_sysEdit_spanId#no#"><input type=\"text\" id="time#no#" name=\"BirthDate#no#\" value=\"{BirthDate}\"  size=\"14\" check=\"2"\  tip=\"[区队、类别、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:BirthDate#no#:Category#no#:Shift#no#\"onclick=WdatePicker()></span><span id="BirthDate_sysView_spanId#no#">'+BirthDate_Str+'</span>');	
+	map.put("BirthDate:SYS_FIELDS",'<span id="BirthDate_sysEdit_spanId#no#"><input type=\"text\" id="time#no#" name=\"BirthDate#no#\" value=\"{BirthDate}\"  size=\"14\" check=\"2"\  tip=\"[区队、小队、类别、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:BirthDate#no#:Category#no#:Shift#no#:Unit#no#\"onclick=WdatePicker()></span><span id="BirthDate_sysView_spanId#no#">'+BirthDate_Str+'</span>');	
 	//班次
-	map.put("Shift:SYS_FIELDS",'<span id="Shift_sysEdit_spanId#no#"><select name=\"Shift#no#\" realValue=\"{Shift}\"  check=\"2"\  tip=\"[区队、类别、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:BirthDate#no#:Category#no#:Shift#no#\">{filterOptions2}</select></span><span id="Shift_sysView_spanId#no#">'+Shift_Str+'</span>');
+	map.put("Shift:SYS_FIELDS",'<span id="Shift_sysEdit_spanId#no#"><select name=\"Shift#no#\" realValue=\"{Shift}\"  check=\"2"\ tip=\"[区队、小队、类别、日期、班次]不能重复\" valFun=\"setCombineUnique\" combineFields=\"branchName#no#:BirthDate#no#:Category#no#:Shift#no#:Unit#no#\">{filterOptions2}</select></span><span id="Shift_sysView_spanId#no#">'+Shift_Str+'</span>');
 
-			 //入井人数
+	//入井人数
 	map.put("rjNum:SYS_FIELDS",'<span id="rjNum_sysEdit_spanId#no#"><input type=\"text\" name=\"rjNum#no#\" value=\"{rjNum}\" defaultValue=\"0\"size=\"8\" onkeyup=\"clearNoNum(this)\"></span><span id="rjNum_sysView_spanId#no#">{rjNum}</span>');
 
     //升井人数
@@ -146,7 +148,7 @@ function iniList(){
 	//是否重点工程
 	//map.put("iskeyproject:SYS_FIELDS",'<span id="iskeyproject_sysEdit_spanId#no#"><select name=\"iskeyproject#no#\" realValue=\"{iskeyproject}\"  check=\"2"\ valFun=\"setEmptyCheck\">{filterOptions3}</select></span><span id="iskeyproject_sysView_spanId#no#">{iskeyproject}</span>');
 	//其他工作量及生产等信息
-	map.put("Other:SYS_FIELDS",'<span id="Other_sysEdit_spanId#no#"><textarea name=\"Other#no#\" value=\"{Other}\" size=\"8\" check=\"2"\ >{Other}</textarea></span><span id="Other_sysView_spanId#no#">{Other_Str}</span>');
+	map.put("Other:SYS_FIELDS",'<span id="Other_sysEdit_spanId#no#"><textarea name=\"Other#no#\" value=\"{Other}\" size=\"8\" check=\"2"\ >{Other}</textarea></span><span id="Other_sysView_spanId#no#"title=\"{Other}\">{Other_Str}</span>');
 	
 	//map.put("Other:SYS_FIELDS",'<span id="Other_sysEdit_spanId#no#"><input type=\"text\" name=\"Other#no#\" value=\"{Other}\" size=\"8\" check=\"2"\ tip=\"名称不能为空\" valFun=\"setEmptyCheck\"></span><span id="Other_sysView_spanId#no#">{Other}</span>');
 	
@@ -293,7 +295,7 @@ function ajax_saveForNum(no){
 	<input type="hidden" name="searchByMoreFieldName" value="SBMFN"><!--单表高级搜索-->
 	<input name="dblclick" type="hidden" value="" /><!--已上报禁止双击编辑-->
 
-	<input type="hidden" name="field1" value="workPlace|作业地点|TXT|50|">
+	<input type="hidden" name="field1" value="Category|类别|TXT|50|">
 	<input type="hidden" name="field2" value="BirthDate|日期|DAT|50|">
     <input type="hidden" name="field3" value="Shift|班次|TXT|50|">
 	<input type="hidden" name="field4" value="branchName|班次|TXT|50|">
@@ -307,8 +309,8 @@ function ajax_saveForNum(no){
   <!--多选搜索 4 begin-->
 		<div class="line_list_mulitSelect" style="display:none">
 			<select name="selSetCon" multiple="multiple">
-				<option value="1">作业地点：</option>
-				<option value="2">日期：</option>
+				<option value="1">日期：</option>
+				<option value="2">类别：</option>
 				<option value="3">班次：</option>
 				<option value="4">区队：</option>
 				
@@ -317,14 +319,15 @@ function ajax_saveForNum(no){
 		<!--多选搜索 4 end-->
 		<div class="line_list_left">
 		 <ul id="ul_search">
-			<li id="li_search1">
+			
+		    <li id="li_search1">
 				&nbsp;
-				<input type="checkbox" name="f_id" value="1">&nbsp;类别：<select name="workPlace" onchange="checkChange(this,'1')">{filterOptions4}</select>
+				<input type="checkbox" name="f_id" value="1">&nbsp;日期&nbsp;：
+				<input name="BirthDate_start" style="width:70px;" onchange="checkChange(this,'1')"  class="input_txt" onclick="WdatePicker()"/>至<input name="BirthDate_end" style="width:70px;" onchange="checkChange(this,'1')" class="input_txt" onclick="WdatePicker()"/>
 			</li>
-		    <li id="li_search2">
+			<li id="li_search2">
 				&nbsp;
-				<input type="checkbox" name="f_id" value="2">&nbsp;日期&nbsp;：
-				<input name="BirthDate_start" style="width:70px;" onchange="checkChange(this,'2')"  class="input_txt" onclick="WdatePicker()"/>至<input name="BirthDate_end" style="width:70px;" onchange="checkChange(this,'2')" class="input_txt" onclick="WdatePicker()"/>
+				<input type="checkbox" name="f_id" value="2">&nbsp;类别：<select name="Category" onchange="checkChange(this,'2')">{filterOptions4}</select>
 			</li>
 			<li id="li_search3">
 				&nbsp;
@@ -335,7 +338,7 @@ function ajax_saveForNum(no){
 			<li id="lisearch4">
 				&nbsp;
 				<input type="checkbox" name="f_id" value="4" style="display:none" id = "YC13"><span id = "YC12" style="display:none">&nbsp;区队：</span>
-				<input name="branchName" onkeyup="checkChange(this,'4')" style="width:100px; display:none"value="" class="input_txt" id = "YC11"/>
+				<input name="branchName" onkeyup="checkChange(this,'4')" style="width:160px; display:none"value="" class="input_txt" id = "YC11"/>
 			</li>
 		   <li id="li_search_btn">
 				&nbsp;
@@ -375,6 +378,7 @@ function ajax_saveForNum(no){
       <tr>
 	    <th width="1%"><input type="checkbox" name="roleCheck" value="" onClick="selectAllRole(form1);"></th>
             <th width="3%" style="cursor:hand;"  onClick="orderByInfo_new('branchName','{OrderKey}','{OrderBy}')">区队<span id="timeOrder" class="orderNo"></th> 
+			<!--<th width="3%">小队</th>-->
 			<th width="3%">日期</th>
 			<th width="3%">班次</th> 
 			<th width="3%">入井人数</th>

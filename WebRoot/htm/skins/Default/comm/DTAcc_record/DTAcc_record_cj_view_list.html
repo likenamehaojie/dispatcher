@@ -8,15 +8,16 @@
     <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
      <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
 </head>
 <script>
  var aaa=''
 
    window.onload=function(){
     if (aaa==""){
-
 		  document.getElementById("actor_table").style.display="none"
-		  document.getElementById("wu").style.display="block"
+		
+		  $("#wu").show()
       }
 	  else{
 
@@ -25,8 +26,13 @@
 
 
 	function exportMuitlExcel(yearAndMonth){
-window.location = "/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTAcc_record_cj_sub_main&recordId={recordId}&ITNO=1_excel&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|"+yearAndMonth+"&listUrl=excel&xiazaiwenjian=y";
- 
+
+	if(aaa==""){
+	   window.location = "/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTAcc_record_cj_sub_main&recordId={recordId}&ITNO=2_excel&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|"+yearAndMonth+"&xiazaiwenjian=y";
+		}else{
+           window.location = "/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTAcc_record_cj_sub_main&recordId={recordId}&ITNO=1_excel&$TABLEKEYWORD={$TABLEKEYWORD1}|{$TABLEKEYWORD2}|"+yearAndMonth+"&xiazaiwenjian=y";
+		   }
+		
 }
 </script>
 <div id="top">
@@ -108,7 +114,7 @@ window.location = "/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTAc
     <tbody>
 
  <tr   height="50">		
-<td  colspan="20" height="50"><span id="h1" style="font-size:20px;">{yearAndMonth}份矿级安全正常生产，无人身伤害事故。</span></td>
+<td  colspan="20" height="50"><span id="h1" style="font-size:20px;float:left">{yearAndMonth}份矿级安全正常生产，无人身伤害事故。</span></td>
 		</tr>
 
     </tbody>
@@ -119,8 +125,8 @@ window.location = "/gettablerecordinfoservlet?action=viewDocInfo&templateId=DTAc
   <table width="98%">
     <tr>
       <td colspan="4" align="center">
-          <input type="submit" value="关闭" class="btn" onclick="javascript:window.close();" />
-         <input type="button"  value="导出excel" class="btn" onClick="exportMuitlExcel('{yearAndMonth}');"/>
+	     <input type="button"  value="导出excel" class="btn" onClick="exportMuitlExcel('{yearAndMonth}');"/>
+          <input type="submit" value="关闭" class="btn" onclick="javascript:window.close();" />    
       </td>
     </tr>
   </table>

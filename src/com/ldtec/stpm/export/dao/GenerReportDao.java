@@ -93,7 +93,7 @@ public class GenerReportDao extends BaseDao {
 					 int currentHeaderInfo = Integer.parseInt(connectPointSplit[i]);
 					 List<String> in = new ArrayList<String>();
 					 for(int m = 0;m<currentHeaderInfo;m++){
-						in.add("-999");
+						in.add("");
 					 }
 					 list.add(in);
 					 

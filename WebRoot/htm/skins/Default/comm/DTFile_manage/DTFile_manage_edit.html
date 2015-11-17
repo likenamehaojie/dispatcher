@@ -6,6 +6,10 @@
 <title>[{$TABLEKEYWORD1}]-[{$TABLEKEYWORD2}]</title>
 <link rel="stylesheet" type="text/css" href="css/index.css" />
 <LINK href="/css/Tooltip.css" type="text/css" rel="stylesheet">
+ <LINK href="/css/baiduAutoComplete/baiduAutoComplete.css" type="text/css" rel="stylesheet">
+   <link href="/css/navMenu/navMenu.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/form/form_table/form_table3.css" />
+  <link rel="stylesheet" type="text/css" href="css/main/basi.css" />
 
 <SCRIPT src="/js/jQuery.js" type="text/javascript"></SCRIPT>
 <SCRIPT src="/js/superValidator.js" type="text/javascript"></SCRIPT>
@@ -69,23 +73,23 @@ function checkFileType() {
   <div class="a_box">
     <table border="0" cellspacing="0" cellpadding="0" class="view_table">
       <tr>
-        <td class="t_r" width="20%">文件名称：</td>
-        <td class="t_l b_cf" width="80%"><input class="input_txt" type="text" name="fileName" value="{fileName}" size="30" tip="[文件名称]不能为空" check="2">&nbsp;*</td>
+        <td class="tad" width="20%">文件名称：</td>
+        <td class="t_l b_cf" width="80%" colspan="3"><input class="input_txt" type="text" name="fileName" value="{fileName}" size="30" tip="[文件名称]不能为空" check="2">&nbsp;*</td>
       </tr>
        <tr>
-		<td class="t_r" width="20%" >上传附件：</td>
+		<td class="tad" width="20%" >上传附件：</td>
 			<td id="fileTdId" class="t_l b_cf" id="fileTdId" width="30%" colspan="3">
 			<input type="file" name="file1" onChange="checkFileType()">*</td>
 			
 	</tr>
       <tr>
-        <td class="t_r">文件备注：</td>
-        <td class="t_l b_cf"><textarea class="textarea_txt" name="remark"  rows="5" cols="50">{remark}</textarea></td>
+        <td class="tad">文件备注：</td>
+        <td class="t_l b_cf"><textarea class="textarea_txt" name="remark"  rows="5" cols="50" colspan="3">{remark}</textarea></td>
       </tr>
 	
      
-      <tr align="center">
-         <td colspan="2"><input type="submit" value="保 存" class="btn" onclick="return true;" />
+      <tr  class="tad" colspan="3">
+         <td colspan="2" align="center"><input type="submit" value="保 存" class="btn" onclick="return true;" />
           <input type="button" value="关 闭" class="btn m_l15" onclick="window.close();"/></td>
       </tr>
     </table>
